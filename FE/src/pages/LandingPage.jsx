@@ -23,7 +23,7 @@ function LandingPage() {
   };
 
   return (
-    <>
+    <div className='w-full'>
       <div>LandingPage</div>
       {/* {isModalOpen && modalOption === 'join' && <CustomModal closeJoinModal={closeModal}><JoinModal /></CustomModal>} */}
       {isModalOpen && modalOption === "join1" && (
@@ -48,7 +48,7 @@ function LandingPage() {
       )}
       <Button text="로그인" onClick={handleClickChangeOptionLogin} />
       <Button text="회원가입" onClick={handleClickChangeOptionJoin1} />
-    </>
+    </div>
   );
 }
 
