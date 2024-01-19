@@ -7,7 +7,8 @@ import JoinModal1 from '../modal/JoinModal1';
 import LoginModal from '../modal/LoginModal';
 import JoinModal2 from '../modal/JoinModal2';
 import JoinModal3 from '../modal/JoinModal3';
-import imgLogo from ''
+import beggar from '../public/img/beggar.jpg';
+
 
 function LandingPage() {
   const isModalOpen = useSelector((state) => state.modal.isModalOpen);
@@ -47,10 +48,15 @@ function LandingPage() {
             <LoginModal />
           </CustomModal>
         )}
+        <div>
+          <img
+            src={beggar}
+            alt='3beggars'
+            style={{width: '70vw', height: 'auto', display: 'block', margin: '0 auto' }}
+          />
+        </div>
       </div>
-      <div>
-        <img src='img/삼거지.jpg' />
-      </div>
+
       <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-4 space-x-10'>
         <Button text='로그인' onClick={handleClickChangeOptionLogin} size='8' />
         <Button text='회원가입' onClick={handleClickChangeOptionJoin1} />
