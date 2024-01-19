@@ -5,6 +5,7 @@ import Button from "../components/common/Button";
 import { useDispatch } from "react-redux";
 import { modalActions } from "../store/modal";
 function JoinModal3() {
+  
   const [userInputs, setUserInputs] = useState({
     email: "",
     emailConfirm: "",
@@ -93,7 +94,7 @@ function JoinModal3() {
           onChange={(e) => handleChangeInputs("email", e.target.value)}
           error={emailIsInvalid && '이메일에 "@" 기호가 포함되어야 합니다.'}
         />
-<div className=''></div>
+
         <div className='flex justify-between'>
 
           <UserInput
