@@ -28,7 +28,6 @@ function JoinModal3() {
   const passwordIsInvalid =
     isEdited.password && !validatePassword(userInputs.password);
 
-
   const passwordConfirmIsInvalid =
     isEdited.passwordConfirm &&
     !isEqual(userInputs.password, userInputs.passwordConfirm);
@@ -74,7 +73,6 @@ function JoinModal3() {
     dispatch(modalActions.openJoinModal2());
   };
 
-
   return (
     <>
       <h1 className="font-daeam text-5xl">회원가입3333</h1>
@@ -93,9 +91,8 @@ function JoinModal3() {
           onChange={(e) => handleChangeInputs("email", e.target.value)}
           error={emailIsInvalid && '이메일에 "@" 기호가 포함되어야 합니다.'}
         />
-<div className=''></div>
-        <div className='flex justify-between'>
-
+        <div className=""></div>
+        <div className="flex justify-between">
           <UserInput
             label="이메일 인증번호"
             id="emailConfirm"
@@ -136,11 +133,11 @@ function JoinModal3() {
           }
           error={passwordConfirmIsInvalid && "비밀번호가 일치하지 않습니다."}
         />
+        <Button text="이전단계" onClick={handleClickPrevious} />
+        <Button text="완료" onClick={handleClickNext} />
       </form>
-
-        <Button text='이전단계' onClick={handleClickPrevious}/>
-        <Button text='완료' onClick={handleClickNext}/>
-
+      
+      
     </>
   );
 }

@@ -66,7 +66,7 @@ function CustomModal({ children }) {
           <stop offset="1" stopColor="#FFFBF0" stopOpacity="0" />
         </linearGradient>
       </defs>
-      <foreignObject className="w-full h-full px-8 py-10 flex-col justify-center items-center text-center">
+      <foreignObject className="w-full h-full px-8 py-10 flex flex-col justify-center items-center text-center">
           <div className="flex justify-end cursor-pointer" onClick={closeModal}>
             {/* <CloseButton onClick={closeJoinModal} /> */}
             <CloseButton />
