@@ -1,10 +1,14 @@
 import React, { useEffect, useRef } from "react";
-import CloseButton from './closeButton';
+import CloseButton from './CloseButton';
 import { useDispatch } from 'react-redux';
 import { modalActions } from '../../store/modal';
+import { authActions } from '../../store/auth';
 
 function CustomModal({ children }) {
+
   const modalRef = useRef();
+
+  // 전역 modal state의 close함수, joinData의 초기화를 위해
   const dispatch = useDispatch();
   
   // 마우스 왼쪽버튼 down 했을 때 clickOutside 함수 실행
@@ -23,12 +27,14 @@ function CustomModal({ children }) {
     if (!modalRef.current.contains(e.target)) {
       // closeJoinModal();
       dispatch(modalActions.closeModal());
+      dispatch(authActions.clearJoinData());
     }
   };
 
-  // x눌렀을 때 모달 닫기
+  // x눌렀을 때 모달 닫으면서 joinData 초기화
   const closeModal = () => {
     dispatch(modalActions.closeModal());
+    dispatch(authActions.clearJoinData());
   }
 
   return (

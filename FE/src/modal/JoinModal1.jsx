@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { isEmail, isEqual, validatePassword } from "../utils/validation";
 import UserInput from "../components/common/UserInput";
 import Button from "../components/common/Button";
@@ -8,6 +8,8 @@ import { authActions } from "../store/auth";
 function JoinModal1() {
 
   const joinData = useSelector((state) => state.auth.joinData);
+
+  const [errorMessage, setErrorMessage] = useState('');
 
   const [userInputs, setUserInputs] = useState({
     email: joinData?.email || '',
@@ -39,7 +41,7 @@ function JoinModal1() {
     isEdited.passwordConfirm &&
     !isEqual(userInputs.password, userInputs.passwordConfirm);
 
-  // input에서 focus를 다른 곳에 두었을 때 수정되었음을 표시
+    // input에서 focus를 다른 곳에 두었을 때 수정되었음을 표시
   const handleBlurFocusOffInput = (id) => {
     setIsEdited((prev) => ({
       ...prev,
@@ -63,12 +65,29 @@ function JoinModal1() {
     }));
   };
 
-  // 
+  // 전역 joinData의 update함수와 전역 modal의 close 함수를 쓰기 위해 
   const dispatch = useDispatch();
   
   // 회원가입 2페이지로 이동
   const handleSubmitNext = (e) => {
     e.preventDefault();
+    setErrorMessage('');
+    if (userInputs.email === '') {
+      setErrorMessage('이메일을 입력해주세요.');
+      return;
+    }
+    if (userInputs.emailConfirm === '') {
+      setErrorMessage('인증번호를 입력해주세요.');
+      return;
+    }
+    if (userInputs.password === '') {
+      setErrorMessage('비밀번호를 입력해주세요.');
+      return;
+    }
+    if (userInputs.passwordConfirm === '') {
+      setErrorMessage('비밀번호를 다시 확인해주세요.');
+      return;
+    }
     // 유효성 검사 중 하나라도 통과못하면 다음페이지로 못 가게
     if (emailIsInvalid || emailConfirmIsInvalid || passwordIsInvalid || passwordConfirmIsInvalid) {
       return;
@@ -81,19 +100,17 @@ function JoinModal1() {
     dispatch(modalActions.closeModal());
     dispatch(modalActions.openJoinModal2());
   }
-
+  
   return (
     <>
-      <h1 className="font-daeam text-5xl">회원가입</h1>
-      {/* <p className="my-4 font-her text-2xl">
-        같은 거지들과 절약 정보를 공유하세요
-      </p> */}
+      <h1 className="font-daeam text-5xl my-5">회원가입</h1>
       <form onSubmit={handleSubmitNext} className="px-2">
         <UserInput
           label="이메일"
           id="email"
           type="email"
           name="email"
+          isFirst={true}
           value={userInputs.email}
           onBlur={() => {
             handleBlurFocusOffInput("email");
@@ -145,8 +162,13 @@ function JoinModal1() {
           }
           error={passwordConfirmIsInvalid && "비밀번호가 일치하지 않습니다."}
         />
+        <div className='text-center font-dove text-red-600 text-xl h-2 mb-3'>
+          {errorMessage}
+        </div>
+        <div className='flex  justify-center gap-5 absolute bottom-7 w-full'>
         {/* <Button text='다음단계' type='submit' onClick={handleClickNext}/> */}
         <Button text='다음단계' type='submit' />
+        </div>
       </form>
     </>
   );

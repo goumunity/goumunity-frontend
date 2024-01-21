@@ -4,9 +4,12 @@ import { isEmail, validatePassword } from "../utils/validation";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth";
 import Button from "../components/common/Button";
+
 function LoginModal() {
 
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
+
+  const [errorMessage, setErrorMessage] = useState('');
 
   const [userInputs, setUserInputs] = useState({
     email: "",
@@ -31,18 +34,28 @@ function LoginModal() {
     }));
   };
 
-
-  // store에 액션을 주기 위함
+  // auth state의 login 함수를 쓰기 위해
   const dispatch = useDispatch();
 
   // 로그인
   const handleSubmitLogin = (e) => {
     e.preventDefault();
+    setErrorMessage('')
     console.log(`로그인 전: ${isAuth}`);
+    if (userInputs.email === '') {
+      setErrorMessage('이메일을 입력해주세요.');
+      return;
+    }
+    if (userInputs.password === '') {
+      setErrorMessage('비밀번호를 입력해주세요.');
+      return;
+    }
+    if (emailIsInvalid || passwordIsInvalid) {
+      return;
+    }
     dispatch(authActions.login());
     console.log(`로그인 후: ${isAuth}`);
   };
-
 
   // 사용자의 입력 감지
   const handleChangeInputs = (id, value) => {
@@ -58,12 +71,13 @@ function LoginModal() {
 
   return (
     <>
-      <h1 className="font-daeam text-5xl">로그인</h1>
+      <h1 className="font-daeam text-5xl my-5">로그인</h1>
       {/* <p className="my-4 font-her text-2xl">
         같은 거지들과 절약 정보를 공유하세요
       </p> */}
       <form onSubmit={handleSubmitLogin} className="px-2">
         <UserInput
+          isFirst={true}
           label="이메일"
           id="email"
           type="email"
@@ -93,8 +107,8 @@ function LoginModal() {
           로그인
         </button> */}
       </form>
-      <div className='font-dove text-red-600 text-xl m-3'>아이디를 확인해주세요.</div>
-      <div>비밀번호를 잊어버리셨나요?</div>
+      <div className='my-5 font-dove text-xl underline-offset-auto cursor-pointer underline' >비밀번호를 잊어버리셨나요?</div>
+      <div className='font-dove text-red-600 text-xl m-3'>{errorMessage}</div>
     </>
   );
 }

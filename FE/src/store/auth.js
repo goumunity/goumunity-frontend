@@ -16,6 +16,9 @@ const authSlice = createSlice({
     },
     updateJoinData(state, action) {
       state.joinData = action.payload;
+    },
+    clearJoinData(state) {
+      state.joinData = {}
     }
   },
 });
