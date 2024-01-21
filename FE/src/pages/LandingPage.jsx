@@ -1,14 +1,13 @@
-import React from 'react';
-import Button from '../components/common/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../store/modal';
-import CustomModal from '../components/common/CustomModal';
-import JoinModal1 from '../modal/JoinModal1';
-import LoginModal from '../modal/LoginModal';
-import JoinModal2 from '../modal/JoinModal2';
-import JoinModal3 from '../modal/JoinModal3';
-import beggar from '../public/img/beggar.jpg';
-
+import React from "react";
+import Button from "../components/common/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { modalActions } from "../store/modal";
+import CustomModal from "../components/common/CustomModal";
+import JoinModal1 from "../modal/JoinModal1";
+import LoginModal from "../modal/LoginModal";
+import JoinModal2 from "../modal/JoinModal2";
+import JoinModal3 from "../modal/JoinModal3";
+import beggar from "../public/img/beggar.jpg";
 
 function LandingPage() {
   const isModalOpen = useSelector((state) => state.modal.isModalOpen);
@@ -17,7 +16,7 @@ function LandingPage() {
   const dispatch = useDispatch();
 
   const handleClickChangeOptionJoin1 = () => {
-    dispatch(modalActions.openJoinModal1());
+    dispatch(modalActions.sopenJoinModal1());
   };
 
   const handleClickChangeOptionLogin = () => {
@@ -28,37 +27,50 @@ function LandingPage() {
     <div className='w-full min-h-screen flex flex-col justify-between relative'>
       <div>
         <div className='text-2xl font-bold mb-4'>LandingPage</div>
-        {isModalOpen && modalOption === 'join1' && (
+        <div className='font-daeam text-5xl flex items-center justify-center mb-10'>
+          같은 거지들 끼리 절약 정보를 공유하세요{" "}
+        </div>
+        {isModalOpen && modalOption === "join1" && (
           <CustomModal>
             <JoinModal1 />
           </CustomModal>
         )}
-        {isModalOpen && modalOption === 'join2' && (
+        {isModalOpen && modalOption === "join2" && (
           <CustomModal>
             <JoinModal2 />
           </CustomModal>
         )}
-        {isModalOpen && modalOption === 'join3' && (
+        {isModalOpen && modalOption === "join3" && (
           <CustomModal>
             <JoinModal3 />
           </CustomModal>
         )}
-        {isModalOpen && modalOption === 'login' && (
+        {isModalOpen && modalOption === "login" && (
           <CustomModal>
             <LoginModal />
           </CustomModal>
         )}
         <div>
           <img
+            className='mt-4'
             src={beggar}
             alt='3beggars'
-            style={{width: '70vw', height: 'auto', display: 'block', margin: '0 auto' }}
+            style={{
+              width: "70vw",
+              height: "auto",
+              display: "block",
+              margin: "0 auto",
+            }}
           />
+        </div>
+        <div className='font-her text-3xl flex items-center justify-center mt-4'>
+          {" "}
+          지는유, 똑똑한 그지가 될거에유
         </div>
       </div>
 
       <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-4 space-x-10'>
-        <Button text='로그인' onClick={handleClickChangeOptionLogin} size='8' />
+        <Button text='로그인' onClick={handleClickChangeOptionLogin} />
         <Button text='회원가입' onClick={handleClickChangeOptionJoin1} />
       </div>
     </div>
