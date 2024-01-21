@@ -4,8 +4,11 @@ import { isEmail, validatePassword } from "../utils/validation";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/auth";
 import Button from "../components/common/Button";
+import axios from 'axios';
 
 function LoginModal() {
+
+  const SERVER_URL = '/fake/user/'
 
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
 
@@ -38,7 +41,7 @@ function LoginModal() {
   const dispatch = useDispatch();
 
   // 로그인
-  const handleSubmitLogin = (e) => {
+  const handleSubmitLogin =  async (e) => {
     e.preventDefault();
     setErrorMessage('')
     console.log(`로그인 전: ${isAuth}`);
@@ -53,6 +56,8 @@ function LoginModal() {
     if (emailIsInvalid || passwordIsInvalid) {
       return;
     }
+    const res = await axios.post(SERVER_URL, { email: userInputs.email, password: userInputs.password })
+    console.log(res)
     dispatch(authActions.login());
     console.log(`로그인 후: ${isAuth}`);
   };

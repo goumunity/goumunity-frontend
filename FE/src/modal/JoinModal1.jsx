@@ -5,7 +5,10 @@ import Button from "../components/common/Button";
 import { useDispatch, useSelector } from 'react-redux';
 import { modalActions } from '../store/modal';
 import { authActions } from "../store/auth";
+import axios from 'axios';
 function JoinModal1() {
+
+  const SERVER_URL = '/fake/user/'
 
   const joinData = useSelector((state) => state.auth.joinData);
 
@@ -64,6 +67,18 @@ function JoinModal1() {
       [id]: false,
     }));
   };
+  
+  // 인증번호 발송
+  const handleClickSendEmailConfirm = async () => {
+    // if (userInputs.email === '') {
+    //   setErrorMessage('이메일을 입력해주세요.')
+    //   return;
+    // }
+    if (emailIsInvalid) {
+      return;
+    }
+    // const res = await axios.get(SERVER_URL, { params: userInputs.email })
+  }
 
   // 전역 joinData의 update함수와 전역 modal의 close 함수를 쓰기 위해 
   const dispatch = useDispatch();
@@ -131,7 +146,7 @@ function JoinModal1() {
             onChange={(e) => handleChangeInputs("emailConfirm", e.target.value)}
             error={emailConfirmIsInvalid && "인증코드는 6자리 숫자여야 합니다."}
           />
-          <Button text="인증번호 발송" />
+          <Button text="인증번호 발송" onClick={handleClickSendEmailConfirm} />
         </div>
         <UserInput
           label="비밀번호"

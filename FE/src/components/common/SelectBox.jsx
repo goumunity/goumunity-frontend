@@ -1,6 +1,7 @@
 import React from 'react';
 
 function SelectBox({ ...props }) {
+    
   const OPTIONS = [{ name: '광진구' }, { name: '중랑구' }, { name: '동작구' }];
 
   return (

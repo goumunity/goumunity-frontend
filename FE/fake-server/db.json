@@ -1,0 +1,14 @@
+{
+  "user": [
+    {
+      "id": "1",
+      "email": "첫 메모 제목",
+      "emailConfirm": "첫 메모 내용"
+    },
+    {
+      "id": "042d",
+      "email": "wkd940709@naver.com",
+      "password": "Ekdms9898!"
+    }
+  ]
+}
