@@ -1,9 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
 import NavBar from "./NavBar";
-import CustomModal from "./CustomModal";
-import JoinModal from "../../modal/JoinModal1";
-import LoginModal from "../../modal/LoginModal";
 
 function LayOut() {
   // const [isModal, setIsModal] = useState(false);

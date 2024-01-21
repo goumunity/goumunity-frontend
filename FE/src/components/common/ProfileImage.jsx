@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import defaultMaleIcon from '../assets/svgs/defaultMaleIcon.svg';
 
 function ProfileImage() {
@@ -18,19 +18,23 @@ function ProfileImage() {
   return (
     <>
       {profileImage ? (
-        <img
-          className='rounded-full w-20 h-20 border-2'
-          // src={profileImage}
-          src={profileImage}
-        />
+        <label htmlFor='profileImg' className='cursor-pointer'>
+          <img
+            className='rounded-full w-20 h-20 border-2'
+            // src={profileImage}
+            src={profileImage}
+          />
+        </label>
       ) : (
-        <img
-          className='rounded-full w-20 h-20 border-2'
-          // src={profileImage}
-          src={defaultMaleIcon}
-        />
+        <label htmlFor='profileImg' className='cursor-pointer'>
+          <img
+            className='rounded-full w-20 h-20 border-2'
+            // src={profileImage}
+            src={defaultMaleIcon}
+          />
+        </label>
       )}
-      <label
+      {/* <label
         htmlFor='profileImg'
         className='absolute top-1/2 left-1/2 translate-x-5 translate-y-4 cursor-pointer z-50'
       >
@@ -70,7 +74,7 @@ function ProfileImage() {
             strokeLinejoin='round'
           />
         </svg>
-      </label>
+      </label> */}
       <input
         type='file'
         accept='image/*'
