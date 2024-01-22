@@ -15,6 +15,7 @@ pipeline {
                         sh 'npm -v'
                         sh 'npm install'
 			            sh 'npm install --global yarn'
+                        sh 'yarn install'
                         sh 'yarn build'
                     }
                 }
