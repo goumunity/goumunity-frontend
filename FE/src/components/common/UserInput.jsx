@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
 function UserInput({ label, isFirst, id, error, ...props }) {
-  
   const firstRef = useRef();
 
   // 렌더링 시 첫번째 입력에 포커스
