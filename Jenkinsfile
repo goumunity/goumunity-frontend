@@ -14,7 +14,7 @@ pipeline {
                         sh 'node -v'
                         sh 'npm -v'
                         sh 'rm -rf node_modules'
-                        sh 'rm package-lock.json'
+                        // sh 'rm package-lock.json'
                         sh 'npm install'
 			            sh 'npm install --global yarn'
                         sh 'yarn install'
