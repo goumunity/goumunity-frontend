@@ -1,10 +1,15 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import CloseButton from "./closeButton";
-import { useSelector } from "react-redux";
+import CloseButton from './closeButton';
+import { useSelector } from 'react-redux';
 
 function NavBar() {
+  // LandingPage에서는 NavBar를 렌더링하지 않음
+  if (window.location.pathname === '/landing') {
+    return null;
+  }
+
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
 
   const [isMenuOpen, setIsMenuOpen] = useState(true);
@@ -14,29 +19,27 @@ function NavBar() {
   };
 
   return (
-    <nav className="w-80 h-screen bg-bg">
+    <nav className='w-80 h-screen bg-bg'>
       <div onClick={handleClickToggleMenu}>로고</div>
 
       <ul>
+        <li><Link to='/landing' >랜딩</Link></li>
         <li>
-          <Link to="/landing">랜딩</Link>
-        </li>
-        <li>
-          <Link to="/" className="flex">
+          <Link to='/' className='flex'>
             <div>
               <CloseButton />
             </div>
-            <div className={`${isMenuOpen ? "block" : "hidden"} `}>Home</div>
+            <div className={`${isMenuOpen ? 'block' : 'hidden'} `}>Home</div>
           </Link>
         </li>
         <li>
-          <Link to="/chat">거지방</Link>
+          <Link to='/chat'>거지방</Link>
         </li>
         <li>
-          <Link to="/join">회원가입</Link>
+          <Link to='/join'>회원가입</Link>
         </li>
         <li>
-          <Link to="/profile">프로필</Link>
+          <Link to='/profile'>프로필</Link>
         </li>
       </ul>
     </nav>
