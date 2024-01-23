@@ -7,9 +7,23 @@ import { authActions } from '../store/auth';
 import { isEqual } from '../utils/validation';
 import CheckBox from '../components/common/CheckBox';
 import ProfileImage from '../components/common/ProfileImage';
+import { formatBirthDate } from '../utils/formatting';
 
 function JoinModal2() {
   const joinData = useSelector((state) => state.auth.joinData);
+
+  const [profileImage, setProfileImage] = useState('');
+
+  // 이미지 업로드
+  const handleChangeUploadProfileImg = (e) => {
+    const { files } = e.target;
+    const uploadFile = files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(uploadFile);
+    reader.onloadend = () => {
+      setProfileImage(reader.result);
+    };
+  };
 
   const [userInputs, setUserInputs] = useState({
     nickname: joinData?.nickname || '',
@@ -83,6 +97,12 @@ function JoinModal2() {
     if (id === 'birthDate' && value.trim().length > 8) {
       return;
     }
+    // if (id === 'birthDate' && value.trim().length > 8) {
+    //   console.log('gdgd')
+    //   return;
+    // }
+    // if (id === 'birthDate' && value.trim().length === 8) {
+    // }
     setUserInputs((prev) => ({
       ...prev,
       [id]: value,
@@ -101,10 +121,10 @@ function JoinModal2() {
 
   return (
     <>
-      <h1 className="font-daeam text-5xl my-5">회원가입</h1>
+      <h1 className='font-daeam text-5xl my-5'>회원가입</h1>
 
       <div className='flex justify-center relative text-center m-5'>
-        <ProfileImage />
+        <ProfileImage size='20' profileImage={profileImage} onChange={handleChangeUploadProfileImg} />
       </div>
       <form
         onSubmit={handleSubmitNext}

@@ -8,7 +8,7 @@ import axios from 'axios';
 
 function LoginModal() {
 
-  const SERVER_URL = '/fake/user/'
+  const SERVER_URL = 'api/users'
 
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
 
@@ -56,7 +56,7 @@ function LoginModal() {
     if (emailIsInvalid || passwordIsInvalid) {
       return;
     }
-    const res = await axios.post(SERVER_URL, { email: userInputs.email, password: userInputs.password })
+    const res = await axios.post(`${SERVER_URL}/login`, { email: userInputs.email, password: userInputs.password })
     console.log(res)
     dispatch(authActions.login());
     console.log(`로그인 후: ${isAuth}`);

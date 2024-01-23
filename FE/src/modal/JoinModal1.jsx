@@ -6,9 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { modalActions } from '../store/modal';
 import { authActions } from "../store/auth";
 import axios from 'axios';
+import '@/styles.css'
+
 function JoinModal1() {
 
-  const SERVER_URL = '/fake/user/'
+  const SERVER_URL = 'api/users'
 
   const joinData = useSelector((state) => state.auth.joinData);
 
@@ -77,7 +79,8 @@ function JoinModal1() {
     if (emailIsInvalid) {
       return;
     }
-    // const res = await axios.get(SERVER_URL, { params: userInputs.email })
+    const res = await axios.get(`${SERVER_URL}/email/verification`, { params: {email: userInputs.email} })
+    console.log(res)
   }
 
   // 전역 joinData의 update함수와 전역 modal의 close 함수를 쓰기 위해 

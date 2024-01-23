@@ -10,5 +10,21 @@
       "email": "wkd940709@naver.com",
       "password": "Ekdms9898!"
     }
+  ],
+  "post": [
+    {
+      "id": "1",
+      "content": "아 싸탈하고 싶다..",
+      "type": "정보글",
+      "price": 2000,
+      "afterPrice": 1500,
+      "profit": 500,
+      "like": 27,
+      "user": 2,
+      "region": 2,
+      "createdAt": "2023-09-11"
+    }
   ]
+
+
 }

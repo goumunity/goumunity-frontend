@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import CloseButton from "./CloseButton";
+import CloseButton from "./closeButton";
 import { useSelector } from "react-redux";
 
 function NavBar() {

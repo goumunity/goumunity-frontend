@@ -1,26 +1,14 @@
-import React, { useRef, useState } from 'react';
-import defaultMaleIcon from '../assets/svgs/defaultMaleIcon.svg';
+import React from 'react';
+import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
 
-function ProfileImage() {
-  const [profileImage, setProfileImage] = useState('');
-
-  // 이미지 업로드
-  const handleChangeUploadProfileImg = (e) => {
-    const { files } = e.target;
-    const uploadFile = files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(uploadFile);
-    reader.onloadend = () => {
-      setProfileImage(reader.result);
-    };
-  };
-
+function ProfileImage({ size, profileImage, ...props }) {
+  
   return (
     <>
       {profileImage ? (
         <label htmlFor='profileImg' className='cursor-pointer'>
           <img
-            className='rounded-full w-20 h-20 border-2'
+            className={`rounded-full w-${size} h-${size} border-2`}
             // src={profileImage}
             src={profileImage}
           />
@@ -28,7 +16,7 @@ function ProfileImage() {
       ) : (
         <label htmlFor='profileImg' className='cursor-pointer'>
           <img
-            className='rounded-full w-20 h-20 border-2'
+            className={`rounded-full w-${size} h-${size} border-2`}
             // src={profileImage}
             src={defaultMaleIcon}
           />
@@ -79,7 +67,7 @@ function ProfileImage() {
         type='file'
         accept='image/*'
         id='profileImg'
-        onChange={handleChangeUploadProfileImg}
+        {...props}
         className='hidden'
       />
     </>
