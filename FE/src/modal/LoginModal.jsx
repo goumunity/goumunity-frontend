@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import UserInput from "../components/common/UserInput";
 import { isEmail, validatePassword } from "../utils/validation";
 import { useDispatch, useSelector } from "react-redux";

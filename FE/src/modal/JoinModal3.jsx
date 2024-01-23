@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { isEmail, isEqual, validatePassword } from '../utils/validation';
+import { useState } from 'react';
 import UserInput from '../components/common/UserInput';
 import Button from '../components/common/Button';
 import { useDispatch } from 'react-redux';

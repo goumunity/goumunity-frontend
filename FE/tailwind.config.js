@@ -22,6 +22,8 @@ export default {
       'entrance': '#B7B7A4',
       'yellow': '#fefae0',
       'button': '#DDBEA9',
+      'gray': '#e5e7eb',
+      'bright': '#FFFCF5',
     },
   },
   plugins: [],

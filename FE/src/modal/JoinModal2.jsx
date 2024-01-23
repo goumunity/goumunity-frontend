@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import UserInput from '../components/common/UserInput';
 import Button from '../components/common/Button';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +7,6 @@ import { authActions } from '../store/auth';
 import { isEqual } from '../utils/validation';
 import CheckBox from '../components/common/CheckBox';
 import ProfileImage from '../components/common/ProfileImage';
-import { formatBirthDate } from '../utils/formatting';
 
 function JoinModal2() {
   const joinData = useSelector((state) => state.auth.joinData);

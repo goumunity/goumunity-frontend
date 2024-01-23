@@ -1,4 +1,3 @@
-import React from "react";
 import Button from "../components/common/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { modalActions } from "../store/modal";

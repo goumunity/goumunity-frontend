@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { isEmail, isEqual, validatePassword } from "../utils/validation";
 import UserInput from "../components/common/UserInput";
 import Button from "../components/common/Button";

@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 function CheckBox({ text, isChecked, ...props }) {
   return (
     <div  className="flex justify-center items-center gap-6 ">

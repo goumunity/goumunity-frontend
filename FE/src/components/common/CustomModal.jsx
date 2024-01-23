@@ -37,19 +37,24 @@ function CustomModal({ children }) {
     dispatch(authActions.clearJoinData());
   }
 
+  const initailSize = { widthSize: 467, heigthSize: 575 }
+  const widthSize = '800'
+  const heigthSize = '575'
+  const widthSize2 = '800'
+  const heigthSize2 = '575'
   return (
     <svg
       className="z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-bg"
-      width="467px"
-      height="575px"
-      viewBox="0 0 467 575"
+      width={`${widthSize}px`}
+      height={`${heigthSize}px`}
+      viewBox={`0 0 ${widthSize2} ${heigthSize2}`}  
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      xmlns="http://www.w3.org/2000/svg"  
       ref={modalRef}
     >
       <rect
-        width="465"
-        height="574"
+        width={`${widthSize}`}
+        height={`${heigthSize}`}
         transform="translate(1 1)"
         fill="url(#paint0_linear_216_378)"
       />
