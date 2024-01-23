@@ -78,7 +78,7 @@ function LandingPage() {
             alt='3beggars'
             style={{
               width: '70vw',
-              height: '70vh',
+              height: 'auto',
               display: 'block',
               margin: '0 auto',
             }}

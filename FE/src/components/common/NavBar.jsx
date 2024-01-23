@@ -23,7 +23,9 @@ function NavBar() {
       <div onClick={handleClickToggleMenu}>로고</div>
 
       <ul>
-        <li><Link to='/landing' >랜딩</Link></li>
+        <li>
+          <Link to='/landing'>랜딩</Link>
+        </li>
         <li>
           <Link to='/' className='flex'>
             <div>
