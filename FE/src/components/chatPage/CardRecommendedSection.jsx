@@ -3,15 +3,41 @@ import CardItem from './Carditem';
 import './Cards.css';
 import redBoy from '@/public/img/redBoy_Ahha.jpg';
 import beggars from '@/public/img/beggar.jpg';
-import ChatSearchBar from './ChatSearchBar';
+import SearchIcon from '../common/SearchIcon';
 
-function Cards() {
+//chatPage
+
+// ChatMySection
+// ChatRecommendedSection
+// ChatTalkSection
+
+// ChatSearchBox
+
+//Page - Section ( 1. 왼쪽 2. 오른쪽) - Item (ex : ChatRecommendedItem , ChatMyItem )
+
+function CardRecommendedSection() {
   return (
     <div className='cards'>
-      
+      <div className='flex font-her justify-center bg-gray-100 p-4'>
+        <input
+          type='text'
+          placeholder='검색어를 입력해봐~'
+          className='p-4 border border-t border-b border-l -mr-px border-gray-300 rounded-md focus:outline-none focus:border-gray-500 bg-transparent text-gray-100 text-3xl w-1/3'
+          style={{
+            borderRadius: '1.3rem 0 0 1.3rem',
+            backgroundColor: 'rgba(0,0,0,0)',
+          }}
+        />
 
-      <div className='flex justify-center'>
-        <ChatSearchBar />
+        <div
+          className='p-4 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500 bg-transparent text-gray-100 text-3xl w-20'
+          style={{
+            borderRadius: '0 1.3rem  1.3rem 0',
+            backgroundColor: 'rgba(0,0,0,0)',
+          }}
+        >
+          <SearchIcon />
+        </div>
       </div>
 
       <div className='cards__container'>
@@ -68,4 +94,4 @@ function Cards() {
   );
 }
 
-export default Cards;
+export default CardRecommendedSection;

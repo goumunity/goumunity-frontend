@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import CloseButton from './closeButton';
 import { useSelector } from 'react-redux';
+import { Container } from 'postcss';
 
 function NavBar() {
   // LandingPage에서는 NavBar를 렌더링하지 않음
@@ -19,7 +20,7 @@ function NavBar() {
   };
 
   return (
-    <nav className='w-80 h-screen bg-bg'>
+    <nav className='w-80 h-screen bg-bg text-3xl font-daeam p-5'>
       <div onClick={handleClickToggleMenu}>로고</div>
 
       <ul>

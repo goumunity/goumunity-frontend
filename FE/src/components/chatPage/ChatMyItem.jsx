@@ -3,7 +3,7 @@ import geo from '@/public/img/geo1.png';
 
 // import { useSelector } from 'react-redux';
 
-function Chats() {
+function ChatMyItem() {
   // const chatLists = useSelector((state) => {
   //   return state.chatLists;
   // });
@@ -34,4 +34,4 @@ function Chats() {
   );
 }
 
-export default Chats;
+export default ChatMyItem;
