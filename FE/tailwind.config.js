@@ -24,7 +24,12 @@ export default {
       'button': '#DDBEA9',
       'gray': '#e5e7eb',
       'bright': '#FFFCF5',
+      'back': 'rgba(0, 0, 0, 0.7)',
     },
+  //   extend: {
+  //     backgroundColor: {
+        
+  //     },
   },
   plugins: [],
 };

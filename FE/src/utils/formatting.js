@@ -10,6 +10,7 @@ export function formatBirthDate(value) {
 
       const formatted = parts.join('.');
 
-    const type = typeof value
     return formatted
 }
+
+

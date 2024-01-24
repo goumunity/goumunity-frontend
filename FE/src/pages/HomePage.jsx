@@ -4,6 +4,7 @@ import axios from 'axios';
 import DetailModal from '../modal/DetailModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { modalActions } from '../store/modal';
+import CreatePostModal from '../modal/CreatePostModal';
 
 const SERVER_URL = 'fake/post/';
 
@@ -12,6 +13,11 @@ function HomePage() {
   const isDetailModalOpen = useSelector(
     (state) => state.modal.isDetailModalOpen
   );
+
+  const isCreatePostModalOpen = useSelector(
+    (state) => state.modal.isCreatePostModalOpen
+  );
+
   // const [isModalOpen, setIsModalOpen] = useState(false);
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,13 +66,20 @@ function HomePage() {
     dispatch(modalActions.openDetailModal());
   }
 
+  const handleClickOpenCreatePostModal = () => {
+    dispatch(modalActions.openCreatePostModal());
+  }
+
   return (
     <div className='px-8 flex flex-col items-center bg-bright'>
+
       {posts?.map((post, idx) => {
         return <Post post={post} key={idx} onClick={handleClickOpenDetailModal}/>;
       })}
       <div ref={observer} style={{ height: '10px' }}></div>
       {isDetailModalOpen && <DetailModal />}
+      {isCreatePostModalOpen && <CreatePostModal />}
+      <button className='fixed bottom-5 right-5 cursor-pointer' onClick={handleClickOpenCreatePostModal}>애드</button>
     </div>
   );
 }
