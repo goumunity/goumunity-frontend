@@ -1,6 +1,6 @@
 function CloseButton({ className, ...props }) {
 
-  const buttonClassName = `flex justify-end hover:bg-gray cursor-pointer ${className}`;
+  const buttonClassName = `flex justify-center items-center rounded-full w-5 h-5 hover:bg-gray cursor-pointer ${className}`;
 
   return (
     <div className={buttonClassName} {...props}>

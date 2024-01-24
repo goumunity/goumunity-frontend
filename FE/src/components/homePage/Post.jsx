@@ -3,34 +3,13 @@ import ProfileImage from '../common/ProfileImage';
 import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import commentIcon from '@/assets/svgs/commentIcon.svg';
-import camelCase from 'camelcase';
 import Option from '../common/Option';
 import { modalActions } from '../../store/modal';
 import { useDispatch } from 'react-redux';
 
 // 댓글, 답글 200자
 function Post({ post, ...props }) {
-  const convertSnakeToCamel = (data) => {
-    if (!data || typeof data !== 'object') {
-      return data;
-    }
-
-    if (Array.isArray(data)) {
-      return data.map((item) => convertSnakeToCamel(item));
-    }
-
-    const convertedData = {};
-    for (const key in data) {
-      if (Object.prototype.hasOwnProperty.call(data, key)) {
-        const camelCaseKey = camelCase(key);
-        convertedData[camelCaseKey] = convertSnakeToCamel(data[key]);
-      }
-    }
-    return convertedData;
-  };
-
-  const camelPost = convertSnakeToCamel(post);
-
+  
   const [isLike, setIsLike] = useState(false);
 
   const handleClickToggleLike = () => {
@@ -54,7 +33,7 @@ function Post({ post, ...props }) {
     user,
     region,
     createdAt,
-  } = camelPost;
+  } = post;
 
   return (
     <div className='flex flex-col w-1/3 border border-gray px-4 py-2'>

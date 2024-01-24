@@ -44,7 +44,7 @@ function CustomModal({ children }) {
   return (
     <div className='fixed top-0 left-0 bg-back right-0 bottom-0'>
       <svg
-        className='z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-bg'
+        className='z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-bg transition duration-300'
         width={`${initailSize.widthSize}px`}
         height={`${initailSize.heigthSize}px`}
         viewBox={`0 0 ${initailSize.widthSize} ${initailSize.heigthSize}`}
