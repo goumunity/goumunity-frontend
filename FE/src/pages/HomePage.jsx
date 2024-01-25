@@ -10,6 +10,8 @@ const SERVER_URL = 'fake/post/';
 
 function HomePage() {
 
+  console.log('gdgd')
+
   const isDetailModalOpen = useSelector(
     (state) => state.modal.isDetailModalOpen
   );
@@ -71,7 +73,7 @@ function HomePage() {
   }
 
   return (
-    <div className='px-8 flex flex-col items-center bg-bright'>
+    <div className='pl-64 flex flex-col items-center bg-bright'>
 
       {posts?.map((post, idx) => {
         return <Post post={post} key={idx} onClick={handleClickOpenDetailModal}/>;

@@ -1,18 +1,24 @@
 import { useState } from 'react';
 import UserInput from '../components/common/UserInput';
 import Button from '../components/common/Button';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { modalActions } from '../store/modal';
 import CheckBox from '../components/common/CheckBox';
 import { authActions } from '../store/auth';
 import SelectBox from '../components/common/SelectBox';
+import axios from 'axios';
 function JoinModal3() {
+
+  const SERVER_URL = 'api/users';
+
   const CATEGORY_OPTIONS = {
     universityStudent: '대학생',
     youngProfessional: '사회초년생',
     employee: '회사원',
     jobSeeker: '취업준비생',
   };
+
+  const joinData = useSelector((state) => state.auth.joinData);
 
   const [userInputs, setUserInputs] = useState({
     category: '',
@@ -59,10 +65,20 @@ function JoinModal3() {
     const data = Object.fromEntries(fd.entries());
     const updatedData = {
       ...joinData,
-      category: userInputs.category,
+      userCategory: userInputs.category,
       region: userInputs.region,
       monthBudget: userInputs.monthBudget,
     };
+
+    try {
+      const res = axios.post(`${SERVER_URL}/join`, updatedData)
+      console.log(res)
+
+      
+    } catch (error) {
+      console.error('api 요청 중 오류 발생 : ', error);
+      return;
+    }
     dispatch(authActions.updateJoinData(updatedData));
     dispatch(modalActions.closeModal());
   };

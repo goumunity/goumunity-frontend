@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import CloseButton from './CloseButton';
 import { useDispatch } from 'react-redux';
 import { modalActions } from '../../store/modal';
@@ -41,6 +41,7 @@ function CustomModal({ children }) {
   const heigthSize = '575';
   const widthSize2 = '800';
   const heigthSize2 = '575';
+  
   return (
     <div className='fixed top-0 left-0 bg-back right-0 bottom-0'>
       <svg

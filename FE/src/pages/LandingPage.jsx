@@ -22,7 +22,7 @@ function LandingPage() {
   };
 
   return (
-    <div className='w-full'>
+    <div className='pl-64'>
       <div>LandingPage</div>
       {/* {isModalOpen && modalOption === 'join' && <CustomModal closeJoinModal={closeModal}><JoinModal /></CustomModal>} */}
       {isModalOpen && modalOption === "join1" && (

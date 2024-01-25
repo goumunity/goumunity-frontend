@@ -11,6 +11,7 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    extend: {
     fontFamily: {
       daeam: ['"DAEAM_LEE_TAE_JOON"', "cursive"],
       her: ['"Her-Gilwonok"', "cursive"],
@@ -26,6 +27,18 @@ export default {
       'bright': '#FFFCF5',
       'back': 'rgba(0, 0, 0, 0.7)',
     },
+    transitionProperty: {
+      'width': 'width',
+      'opacity': 'opacity',
+      'spacing': 'margin, padding',
+    },
+    width: {
+      '128': '768px',
+    }
+  }
+    // spacing: {
+    //   '128': '768px',
+    // }
   //   extend: {
   //     backgroundColor: {
         

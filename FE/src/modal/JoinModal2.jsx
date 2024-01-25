@@ -7,8 +7,11 @@ import { authActions } from '../store/auth';
 import { isEqual } from '../utils/validation';
 import CheckBox from '../components/common/CheckBox';
 import ProfileImage from '../components/common/ProfileImage';
+import axios from 'axios';
 
 function JoinModal2() {
+  const SERVER_URL = 'api/users';
+
   const joinData = useSelector((state) => state.auth.joinData);
 
   const [profileImage, setProfileImage] = useState('');
@@ -38,7 +41,7 @@ function JoinModal2() {
 
   const [errorMessage, setErrorMessage] = useState('');
 
-  let nicknameIsInvalid = false;
+  let nicknameIsInvalid = false
 
   // 날짜 형식은 숫자 8자리 검증
   const birthDateIsInvalid =
@@ -52,10 +55,6 @@ function JoinModal2() {
       ...prev,
       [id]: true,
     }));
-  };
-
-  const handleClickCheckDuplicated = () => {
-    nicknameIsInvalid = true;
   };
 
   // reducer 조작을 위한 dispatch 함수 생성
@@ -77,7 +76,7 @@ function JoinModal2() {
       setErrorMessage('성별을 선택해주세요.');
       return;
     }
-    if (nicknameIsInvalid || birthDateIsInvalid) {
+    if (birthDateIsInvalid) {
       return;
     }
     const fd = new FormData(e.target);
@@ -110,6 +109,34 @@ function JoinModal2() {
       ...prev,
       [id]: false,
     }));
+  };
+
+  const handleClickCheckDuplicated = async () => {
+    if (userInputs.nickname === '') {
+      setErrorMessage('닉네임을 입력해주세요.');
+      return;
+    }
+    
+    try {
+      const res = await axios.get(`${SERVER_URL}/nickname/validation`, {params:{
+        nickname: userInputs.nickname,
+        }
+      });
+
+      if (res.statusText !== 'OK') {
+        throw new Error('데이터 요청 실패');
+      }
+
+      console.log('닉네임 중복 확인 결과 : ', res.data)
+      if (res.data.exist === true) {
+        setErrorMessage('인증번호가 틀렸습니다.')
+      } else {
+        setErrorMessage('닉네임 인증 완료')
+      }
+
+    } catch (error) {
+      console.error('api 요청 중 오류 발생 : ', error);
+    }
   };
 
   // 회원가입 1페이지(이전 단계)로 가기

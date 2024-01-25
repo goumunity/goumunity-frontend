@@ -14,7 +14,7 @@ function NavBar() {
   };
 
   return (
-    <nav className="w-80 h-screen bg-bg ">
+    <nav className="fixed w-64 h-screen bg-bg ">
       <div onClick={handleClickToggleMenu}>로고</div>
 
       <ul>

@@ -6,7 +6,7 @@ function LayOut() {
   return (
     <div className="flex bg-bg bg-opacity-10">
       <NavBar />
-      <Outlet />
+      <Outlet  />
     </div>
   );
 }
