@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { modalActions } from '../../store/modal';
 import ChatMyItem from './ChatMyItem';
 import ChatRoomModal from '../../modal/ChatRoomModal';
+import CustomModal from '../common/CustomModal';
 
 function ChatMySection() {
   const isModalOpen = useSelector((state) => state.modal.isModalOpen);
@@ -25,13 +27,13 @@ function ChatMySection() {
         <div>
           <div className='flex flex-col items-center'>
             <button
-              className='font-her text-2xl text-center text-white px-4 py-2 bg-blue-500 rounded-md'
+              className='font-her text-2xl text-center text-white px-4 py-2 bg-transparent rounded-md'
               onClick={handleClickCreateChatRoom}
             >
-              <div className='mx-auto rounded-full bg-gray-500 text-gray-800'>
+              <div className='mx-auto rounded-full bg-gray-500 text-black'>
                 ...
               </div>
-              +채팅방 개설하기
+              <span className='text-black'>+채팅방 개설하기</span>
             </button>
             {isModalOpen && modalOption === 'createChat' && (
               <CustomModal>
