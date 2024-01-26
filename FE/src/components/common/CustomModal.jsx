@@ -43,7 +43,7 @@ function CustomModal({ children }) {
   const heigthSize2 = '575';
 
   return (
-    <div className='fixed top-0 left-0 bg-back right-0 bottom-0'>
+    <div className='fixed top-0 left-0 bg-back right-0 bottom-0 z-20'>
       <svg
         className='z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-bg transition duration-300'
         width={`${initailSize.widthSize}px`}
@@ -80,7 +80,7 @@ function CustomModal({ children }) {
         </defs>
         <foreignObject className='w-full h-full px-8 py-10 flex flex-col justify-center items-center text-center'>
           {/* <CloseButton onClick={closeJoinModal} /> */}
-          <CloseButton onClick={closeModal} />
+          <CloseButton onClick={closeModal} className='absolute top-5 right-5'/>
           {children}
         </foreignObject>
       </svg>

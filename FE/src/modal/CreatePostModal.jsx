@@ -6,7 +6,7 @@ import MapModal from '@/modal/MapModal';
 import ProfileImage from '../components/common/ProfileImage';
 import Option from '../components/common/Option';
 import imageIcon from '@/assets/svgs/image.svg';
-import categoryIcon from '@/assets/svgs/category.svg';
+import categoryIcon from '@/assets/svgs/categoryIcon.svg';
 import mapIcon from '@/assets/svgs/map.svg';
 import useInput from '../hooks/useInput';
 import '@/styles.css';

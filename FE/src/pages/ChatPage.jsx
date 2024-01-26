@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { modalActions } from '../store/modal';
-import Card from '../components/chatPage/CardRecommendedSection';
-import background from '@/public/img/background.png';
+import Card from '../components/chatPage/ChatRecommendedSection';
+import background from '@/assets/images/background.png';
 import ChatMySection from '../components/chatPage/ChatMySection';
 
 function ChatPage() {
@@ -17,8 +17,8 @@ function ChatPage() {
   };
 
   return (
-    <div className='flex w-full'>
-      <div className='w-1/6 bg-yellow h-full'>
+    <div className='flex pl-64 w-full'>
+      <div className='w-1/6 bg-yellow h-screen'>
         <ChatMySection />
       </div>
       <div

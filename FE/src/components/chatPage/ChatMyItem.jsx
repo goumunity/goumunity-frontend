@@ -1,5 +1,5 @@
 import React from 'react';
-import geo from '@/public/img/geo1.png';
+import geo from '@/assets/images/logo.png';
 
 // import { useSelector } from 'react-redux';
 

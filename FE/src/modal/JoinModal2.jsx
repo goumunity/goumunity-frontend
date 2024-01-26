@@ -8,6 +8,12 @@ import { isEqual } from '../utils/validation';
 import CheckBox from '../components/common/CheckBox';
 import ProfileImage from '../components/common/ProfileImage';
 import axios from 'axios';
+import { calculateAge } from '../utils/formatting';
+
+const GENDER_OPTIONS = [
+  { id: 1, content: '남'},
+  { id: 2, content: '여'}
+]
 
 function JoinModal2() {
   const SERVER_URL = 'api/users';
@@ -80,15 +86,20 @@ function JoinModal2() {
     if (birthDateIsInvalid) {
       return;
     }
-    const fd = new FormData(e.target);
-    const data = Object.fromEntries(fd.entries());
-    const updatedData = { ...joinData, ...data, gender: userInputs.gender };
-    console.log(updatedData);
+    // const fd = new FormData(e.target);
+    // const data = Object.fromEntries(fd.entries());
+    // const updatedData = { ...joinData, ...data, gender: userInputs.gender };
+    // console.log(updatedData);
+
 
     // e.target.reset();
+    // dispatch(authActions.updateJoinData(updatedData));
+    const age = calculateAge(userInputs.birthDate)
+    const updatedData = { ...joinData, nickname: userInputs.nickname, age, gender: userInputs.gender }
     dispatch(authActions.updateJoinData(updatedData));
     dispatch(modalActions.closeModal());
     dispatch(modalActions.openJoinModal3());
+    console.log(joinData)
   };
 
   //
@@ -183,15 +194,15 @@ function JoinModal2() {
         </div>
         <UserInput
           label='나이'
-          id='age'
+          id='birthDate'
           type='text'
-          name='age'
-          value={userInputs.nickname}
+          name='birthDate'
+          value={userInputs.birthDate}
           onBlur={() => {
             handleBlurFocusOffInput('nickname');
           }}
-          onChange={(e) => handleChangeInputs('nickname', e.target.value)}
-          error={nicknameIsInvalid && '이미 사용중인 닉네임입니다.'}
+          onChange={(e) => handleChangeInputs('birthDate', e.target.value)}
+          // error={nicknameIsInvalid && '이미 사용중인 닉네임입니다.'}
         />
 
         <div className='flex flex-col mb-2'>
@@ -199,13 +210,13 @@ function JoinModal2() {
           <div className='flex gap-20 text-center justify-center'>
             <CheckBox
               text='남'
-              isChecked={userInputs.gender === '남'}
-              onClick={() => handleChangeInputs('gender', '남')}
+              isChecked={userInputs.gender === GENDER_OPTIONS[0].id}
+              onClick={() => handleChangeInputs('gender', GENDER_OPTIONS[0].id)}
             />
             <CheckBox
               text='여'
-              isChecked={userInputs.gender === '여'}
-              onClick={() => handleChangeInputs('gender', '여')}
+              isChecked={userInputs.gender === GENDER_OPTIONS[1].id}
+              onClick={() => handleChangeInputs('gender', GENDER_OPTIONS[1].id)}
             />
           </div>
         </div>
