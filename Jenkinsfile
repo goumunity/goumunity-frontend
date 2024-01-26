@@ -19,6 +19,8 @@ pipeline {
 			            sh 'npm install --global yarn'
                         sh 'yarn install'
                         sh 'yarn build'
+
+                        sh 'curl "https://www.ssafyhelper.shop/control/dev/fe"'
                     }
                 }
             }
