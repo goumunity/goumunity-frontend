@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import CloseButton from '../components/common/closeButton';
+import CloseButton from '../components/common/CloseButton';
 import { modalActions } from '../store/modal';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
