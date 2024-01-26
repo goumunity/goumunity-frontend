@@ -1,4 +1,3 @@
-import React from 'react';
 import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
 
 function ProfileImage({ size, profileImage, ...props }) {
@@ -21,7 +20,6 @@ function ProfileImage({ size, profileImage, ...props }) {
           />
         </label>
       )}
-
       <input
         type='file'
         accept='image/*'

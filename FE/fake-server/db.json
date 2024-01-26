@@ -1,0 +1,161 @@
+{
+  "user": [
+    {
+      "id": "1",
+      "email": "첫 메모 제목",
+      "emailConfirm": "첫 메모 내용"
+    },
+    {
+      "id": "042d",
+      "email": "wkd940709@naver.com",
+      "password": "Ekdms9898!"
+    }
+  ],
+  "post": [
+    {
+      "id": "1",
+      "content": "아 싸탈하고 싶다..",
+      "type": "정보글",
+      "price": 2000,
+      "afterPrice": 1500,
+      "profit": 500,
+      "like": 27,
+      "user": 2,
+      "region": 2,
+      "createdAt": "2023-09-11"
+    },
+    {
+      "id": "2",
+      "content": "아 배고프다..",
+      "type": "정보글",
+      "price": 2000,
+      "afterPrice": 1500,
+      "profit": 500,
+      "like": 27,
+      "user": 2,
+      "region": 2,
+      "createdAt": "2023-09-11"
+    },
+    {
+      "id": "3",
+      "content": "아어어어얼너일 싸탈하고 싶다..",
+      "type": "정보글",
+      "price": 2000,
+      "afterPrice": 1500,
+      "profit": 500,
+      "like": 27,
+      "user": 2,
+      "region": 2,
+      "createdAt": "2023-12-11"
+    },
+    {
+      "id": "4",
+      "content": "아 싸탈하고 싶다..",
+      "type": "정보글",
+      "price": 2000,
+      "afterPrice": 1500,
+      "profit": 500,
+      "like": 27,
+      "user": 2,
+      "region": 2,
+      "createdAt": "2023-09-11"
+    },
+    {
+      "id": "5",
+      "content": "아 싸탈하고 싶다..",
+      "type": "정보글",
+      "price": 2000,
+      "afterPrice": 1500,
+      "profit": 500,
+      "like": 27,
+      "user": 2,
+      "region": 2,
+      "createdAt": "2023-09-11"
+    },
+    {
+      "id": "6",
+      "content": "아 싸탈하고 싶다..",
+      "type": "정보글",
+      "price": 2000,
+      "afterPrice": 1500,
+      "profit": 500,
+      "like": 27,
+      "user": 2,
+      "region": 2,
+      "createdAt": "2023-09-11"
+    },
+    {
+      "id": "7",
+      "content": "아 싸탈하고 싶다..",
+      "type": "정보글",
+      "price": 2000,
+      "afterPrice": 1500,
+      "profit": 500,
+      "like": 27,
+      "user": 2,
+      "region": 2,
+      "createdAt": "2023-09-11"
+    },
+    {
+      "id": "8",
+      "content": "아 싸탈하고 싶다..",
+      "type": "정보글",
+      "price": 2000,
+      "afterPrice": 1500,
+      "profit": 500,
+      "like": 27,
+      "user": 2,
+      "region": 2,
+      "createdAt": "2023-09-11"
+    },
+    {
+      "id": "9",
+      "content": "아 싸탈하고 싶다..",
+      "type": "정보글",
+      "price": 2000,
+      "afterPrice": 1500,
+      "profit": 500,
+      "like": 27,
+      "user": 2,
+      "region": 2,
+      "createdAt": "2023-09-11"
+    },
+    {
+      "id": "10",
+      "content": "아 싸탈하고 싶다..",
+      "type": "정보글",
+      "price": 2000,
+      "afterPrice": 1500,
+      "profit": 500,
+      "like": 27,
+      "user": 2,
+      "region": 2,
+      "createdAt": "2023-09-11"
+    },
+    {
+      "id": "11",
+      "content": "ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ",
+      "type_script": "정보글",
+      "price": 1800,
+      "afterPrice": 1500,
+      "profit": 500,
+      "like": 60,
+      "user": 2,
+      "region": 2,
+      "created_at": "2023-09-11"
+    }
+  ],
+  "comment": [{
+    "id": "1",
+      "content": "재밋네여",
+      "like": 60,
+      "user": 2,
+      "created_at": "2023-09-11"
+  },{
+    "id": "11",
+      "content": "유익하네여, 근데 솔직히 너무 구질구질한 것 같기도..ㅎㅎㅎ",
+      "like": 80,
+      "user": 2,
+      "created_at": "2023-09-11"
+  }]
+}

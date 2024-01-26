@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialModalState = {
   isModalOpen: false,
+  isDetailModalOpen: false,
+  isCreatePostModalOpen: false,
   modalOption: '',
 };
 
@@ -43,6 +45,26 @@ const modalSlice = createSlice({
     closeModal(state) {
       state.isModalOpen = false;
       state.modalOption = '';
+    },
+
+    // detail 모달 열기
+    openDetailModal(state) {
+      state.isDetailModalOpen = true;
+    },
+
+    // detail 모달 닫기
+    closeDetailModal(state) {
+      state.isDetailModalOpen = false;
+    },
+
+    // createPost 모달 열기
+    openCreatePostModal(state) {
+      state.isCreatePostModalOpen = true;
+    },
+
+    // createPost 모달 닫기
+    closeCreatePostModal(state) {
+      state.isCreatePostModalOpen = false;
     },
   },
 });

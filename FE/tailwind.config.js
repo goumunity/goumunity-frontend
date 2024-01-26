@@ -29,6 +29,7 @@ export default {
     },
     transitionProperty: {
       'width': 'width',
+      'opacity': 'opacity',
       'spacing': 'margin, padding',
     },
     width: {

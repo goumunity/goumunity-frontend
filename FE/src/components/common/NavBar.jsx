@@ -20,9 +20,8 @@ function NavBar() {
   };
 
   return (
-    <nav className='w-80 h-screen bg-bg text-3xl font-daeam p-5'>
+    <nav className='fixed w-64 h-screen bg-bg text-3xl font-daeam p-5'>
       <div onClick={handleClickToggleMenu}>로고</div>
-
       <ul>
         <li>
           <Link to='/landing'>랜딩</Link>

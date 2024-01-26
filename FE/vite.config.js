@@ -16,13 +16,13 @@ export default defineConfig({
 
   server: {
     proxy: {
-        // "/api": {
-        //     target: 배포된거주소,
-        //     changeOrigin: true,
-        //     rewrite: (path) => path.replace(/^\/api/, ""),
-        //     secure: false,
-        //     ws: true,
-        // },
+        "/api": {
+            target: 'https://ssafyhelper.shop/test/api',
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/api/, ""),
+            secure: false,
+            ws: true,
+        },
         "/fake": {
           target: 'http://localhost:3001',
           changeOrigin: true,
