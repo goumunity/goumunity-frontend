@@ -11,7 +11,7 @@ function JoinModal3() {
 
   const SERVER_URL = 'api/users';
 
-  const CATEGORY_OPTIONS = {
+  const USER_CATEGORY_OPTIONS = {
     universityStudent: '대학생',
     youngProfessional: '사회초년생',
     employee: '회사원',
@@ -21,13 +21,13 @@ function JoinModal3() {
   const joinData = useSelector((state) => state.auth.joinData);
 
   const [userInputs, setUserInputs] = useState({
-    category: '',
+    userCategory: '',
     region: '',
     monthBudget: '',
   });
 
   const [isEdited, setIsEdited] = useState({
-    category: false,
+    userCategory: false,
     region: false,
     monthBudget: false,
   });
@@ -49,7 +49,7 @@ function JoinModal3() {
   const handleSubmitJoin = (e) => {
     e.preventDefault();
     setErrorMessage('');
-    if (userInputs.category === '') {
+    if (userInputs.userCategory === '') {
       setErrorMessage('신분을 선택해주세요.');
       return;
     }
@@ -61,20 +61,28 @@ function JoinModal3() {
       setErrorMessage('한달 생활비를 입력해주세요.');
       return;
     }
-    const fd = new FormData(e.target);
-    const data = Object.fromEntries(fd.entries());
-    const updatedData = {
-      ...joinData,
-      userCategory: userInputs.category,
-      region: userInputs.region,
-      monthBudget: userInputs.monthBudget,
-    };
+    // const fd = new FormData(e.target);
+    // const data = Object.fromEntries(fd.entries());
+    // const updatedData = {
+    //   ...joinData,
+    //   userCategory: userInputs.userCategory,
+    //   regionId: userInputs.region,
+    //   monthBudget: userInputs.monthBudget,
+    // };
+    const updatedData = {...joinData, userCategory: userInputs.userCategory, regionId: userInputs.region, monthBudget: userInputs.monthBudget}
+    console.log(updatedData)
+    const formData = new FormData()
 
+    for (const key in updatedData) {
+      formData.append(key, updatedData[key]);
+    }
+    // formData.append(updatedData)
     try {
-      const res = axios.post(`${SERVER_URL}/join`, updatedData)
+      const res = axios.post(`${SERVER_URL}/join`, formData, {headers: {
+        'Content-Type': 'multipart/form-data',
+      }})
       console.log(res)
 
-      
     } catch (error) {
       console.error('api 요청 중 오류 발생 : ', error);
       return;
@@ -120,43 +128,43 @@ function JoinModal3() {
           <label className='text-left text-2xl font-her'>*신분</label>
           <div className='flex gap-20 text-center justify-center my-3'>
             <CheckBox
-              text={CATEGORY_OPTIONS.universityStudent}
+              text={USER_CATEGORY_OPTIONS.universityStudent}
               isChecked={
-                userInputs.category === CATEGORY_OPTIONS.universityStudent
+                userInputs.userCategory === USER_CATEGORY_OPTIONS.universityStudent
               }
               onClick={() =>
                 handleChangeInputs(
-                  'category',
-                  CATEGORY_OPTIONS.universityStudent
+                  'userCategory',
+                  USER_CATEGORY_OPTIONS.universityStudent
                 )
               }
             />
             <CheckBox
-              text={CATEGORY_OPTIONS.youngProfessional}
+              text={USER_CATEGORY_OPTIONS.youngProfessional}
               isChecked={
-                userInputs.category === CATEGORY_OPTIONS.youngProfessional
+                userInputs.userCategory === USER_CATEGORY_OPTIONS.youngProfessional
               }
               onClick={() =>
                 handleChangeInputs(
-                  'category',
-                  CATEGORY_OPTIONS.youngProfessional
+                  'userCategory',
+                  USER_CATEGORY_OPTIONS.youngProfessional
                 )
               }
             />
           </div>
           <div className='flex gap-20 text-center justify-center'>
             <CheckBox
-              text={CATEGORY_OPTIONS.employee}
-              isChecked={userInputs.category === CATEGORY_OPTIONS.employee}
+              text={USER_CATEGORY_OPTIONS.employee}
+              isChecked={userInputs.userCategory === USER_CATEGORY_OPTIONS.employee}
               onClick={() =>
-                handleChangeInputs('category', CATEGORY_OPTIONS.employee)
+                handleChangeInputs('userCategory', USER_CATEGORY_OPTIONS.employee)
               }
             />
             <CheckBox
-              text={CATEGORY_OPTIONS.jobSeeker}
-              isChecked={userInputs.category === CATEGORY_OPTIONS.jobSeeker}
+              text={USER_CATEGORY_OPTIONS.jobSeeker}
+              isChecked={userInputs.userCategory === USER_CATEGORY_OPTIONS.jobSeeker}
               onClick={() =>
-                handleChangeInputs('category', CATEGORY_OPTIONS.jobSeeker)
+                handleChangeInputs('userCategory', USER_CATEGORY_OPTIONS.jobSeeker)
               }
             />
           </div>

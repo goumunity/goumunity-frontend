@@ -1,4 +1,4 @@
-const OPTIONS = [{ name: '광진구' }, { name: '중랑구' }, { name: '동작구' }];
+const OPTIONS = [{ id: 1, name: '광진구' }, { id: 2, name: '중랑구' }, { id: 3, name: '동작구' }];
 
 function SelectBox({ widthSize, ...props }) {
   return (
@@ -10,7 +10,7 @@ function SelectBox({ widthSize, ...props }) {
     >
       {OPTIONS.map((option) => {
         return (
-          <option key={option.name} value={option.name} defaultValue='구'>
+          <option key={option.id} value={option.id} defaultValue='구'>
             {option.name}
           </option>
         );

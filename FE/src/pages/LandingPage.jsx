@@ -6,8 +6,8 @@ import JoinModal1 from '../modal/JoinModal1';
 import LoginModal from '../modal/LoginModal';
 import JoinModal2 from '../modal/JoinModal2';
 import JoinModal3 from '../modal/JoinModal3';
-import beggar from '@/public/img/beggar.jpg';
-import geo from '../public/img/geo1.png';
+import beggar from '@/assets/images/beggar.jpg';
+import geo from '@/assets/images/logo.png';
 
 function LandingPage() {
   const isModalOpen = useSelector((state) => state.modal.isModalOpen);
@@ -16,7 +16,7 @@ function LandingPage() {
   const dispatch = useDispatch();
 
   const handleClickChangeOptionJoin1 = () => {
-    dispatch(modalActions.sopenJoinModal1());
+    dispatch(modalActions.openJoinModal1());
   };
 
   const handleClickChangeOptionLogin = () => {

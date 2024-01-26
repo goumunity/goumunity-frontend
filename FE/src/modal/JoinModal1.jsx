@@ -147,11 +147,15 @@ function JoinModal1() {
     ) {
       return;
     }
-    const fd = new FormData(e.target);
-    const data = Object.fromEntries(fd.entries());
-    console.log(data);
+    // const fd = new FormData(e.target);
+    // const data = Object.fromEntries(fd.entries());
+    // console.log(data);
+
     // e.target.reset();
+    // dispatch(authActions.updateJoinData(data));
+    const data = {email: userInputs.email, password: userInputs.password}
     dispatch(authActions.updateJoinData(data));
+    console.log(joinData)
     dispatch(modalActions.closeModal());
     dispatch(modalActions.openJoinModal2());
   };

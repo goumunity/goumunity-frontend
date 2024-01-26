@@ -1,8 +1,7 @@
-import React from 'react';
-import CardItem from './Carditem';
-import './Cards.css';
-import redBoy from '@/public/img/redBoy_Ahha.jpg';
-import beggars from '@/public/img/beggar.jpg';
+import ChatRecommendedItem from './ChatRecommendedItem';
+import './ChatRecommendedItem.css';
+import redBoy from '@/assets/images/redBoy.jpg';
+import beggars from '@/assets/images/beggar.jpg';
 import SearchIcon from '../common/SearchIcon';
 
 //chatPage
@@ -15,7 +14,7 @@ import SearchIcon from '../common/SearchIcon';
 
 //Page - Section ( 1. 왼쪽 2. 오른쪽) - Item (ex : ChatRecommendedItem , ChatMyItem )
 
-function CardRecommendedSection() {
+function ChatRecommendedSection() {
   return (
     <div className='cards'>
       <div className='flex font-her justify-center bg-gray-100 p-4'>
@@ -43,25 +42,25 @@ function CardRecommendedSection() {
       <div className='cards__container'>
         <div className='cards__wrapper'>
           <ul className='cards__items'>
-            <CardItem
+            <ChatRecommendedItem
               src={redBoy}
               text='관악구 거지들의 모임'
               label='관악구'
               path='/services'
             />
-            <CardItem
+            <ChatRecommendedItem
               src={redBoy}
               text='관악구 거지들의 모임'
               label='관악구'
               path='/services'
             />
-            <CardItem
+            <ChatRecommendedItem
               src={redBoy}
               text='관악구 거지들의 모임'
               label='관악구'
               path='/services'
             />
-            <CardItem
+            <ChatRecommendedItem
               src={redBoy}
               text='우리는 거지가 아닌 부자입니다.'
               label='30대'
@@ -69,19 +68,19 @@ function CardRecommendedSection() {
             />
           </ul>
           <ul className='cards__items'>
-            <CardItem
+            <ChatRecommendedItem
               src={beggars}
               text='돈 모으고 싶으면 어서오슈'
               label='20대'
               path='/beggars'
             />
-            <CardItem
+            <ChatRecommendedItem
               src={beggars}
               text='Global Beggars'
               label='R=VD'
               path='/beggars'
             />
-            <CardItem
+            <ChatRecommendedItem
               src={beggars}
               text='돈이 없지 가오가 없냐'
               label='가오없음'
@@ -94,4 +93,4 @@ function CardRecommendedSection() {
   );
 }
 
-export default CardRecommendedSection;
+export default ChatRecommendedSection;
