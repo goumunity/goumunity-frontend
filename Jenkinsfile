@@ -35,6 +35,7 @@ pipeline {
             steps{
                 sh 'ls -l'
                 sh 'ls -l FE/'
+                sh 'ls -l FE/dist'
                 script{
                     sshPublisher(
                             publishers: [
@@ -42,9 +43,9 @@ pipeline {
                                     configName: 'ssafyhelper',
                                     transfers: [
                                         sshTransfer(
-                                            sourceFiles: '/FE/dist',
+                                            sourceFiles: '/FE/dist/**',
                                             removePrefix: '/FE',
-                                            remoteDirectory: '/sendData',
+                                            remoteDirectory: '/sendData/dist',
                                         )
                                     ]
                                 )
