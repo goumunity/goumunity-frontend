@@ -28,7 +28,7 @@ pipeline {
                 }
             }
         }
-    }
+    
 
     stage('Send Artifact'){
             steps{
