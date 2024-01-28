@@ -17,15 +17,51 @@ pipeline {
                         // sh 'rm package-lock.json'
                         sh 'npm install'
 			            sh 'npm install --global yarn'
+                        sh 'npm install --global vite'
+                        sh 'yarn global add create-vite'
+                        sh 'yarn add vite --dev'
                         sh 'yarn install'
                         sh 'yarn build'
 
-                        sh 'curl "https://www.ssafyhelper.shop/control/dev/fe"'
+                        
                     }
                 }
             }
         }
     }
+
+    stage('Send Artifact'){
+            steps{
+                script{
+                    sshPublisher(
+                            publishers: [
+                                sshPublisherDesc(
+                                    configName: 'ssafyhelper',
+                                    transfers: [
+                                        sshTransfer(
+                                            sourceFiles: '/FE/dist',
+                                            removePrefix: '/FE',
+                                            remoteDirectory: '/sendData',
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
+                }
+            }
+            
+        }
+        stage('Auto CI By Git-lab CI-CD'){
+            steps{
+                script{
+                    sh 'echo manual Auto CI Start'
+                    sh 'curl "https://www.ssafyhelper.shop/control/dev/fe"'
+                }
+
+            }
+        }
+    }
+
 
     post {
         success {
