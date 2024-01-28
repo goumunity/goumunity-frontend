@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialAuthState = {
-  isAuthenticated: false, joinData: {}
+  isAuthenticated: false, joinData: {}, file: '',
 };
 
 const authSlice = createSlice({
@@ -19,6 +19,9 @@ const authSlice = createSlice({
     },
     clearJoinData(state) {
       state.joinData = {}
+    },
+    updateFile(state, action) {
+      state.file = action.payload
     }
   },
 });

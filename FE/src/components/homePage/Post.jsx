@@ -6,10 +6,13 @@ import commentIcon from '@/assets/svgs/commentIcon.svg';
 import Option from '../common/Option';
 import { modalActions } from '../../store/modal';
 import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
 // 댓글, 답글 200자
 function Post({ post, ...props }) {
   
+  const navigate = useNavigate();
+
   const [isLike, setIsLike] = useState(false);
 
   const handleClickToggleLike = () => {
@@ -20,6 +23,10 @@ function Post({ post, ...props }) {
 
   const handleClickOpenDetailModal = () => {
     dispatch(modalActions.openDetailModal());
+  }
+
+  const handleClickOpenDetail = () => {
+    navigate(`/${id}`)
   }
 
   const {
@@ -69,7 +76,10 @@ function Post({ post, ...props }) {
         ) : (
           <Option text={like} src={likeIcon} onClick={handleClickToggleLike} />
         )}
-        <Option text={like} src={commentIcon} {...props} />
+
+        <Link to={`/${id}`}>
+          <Option text={like} src={commentIcon}  />
+        </Link>
       </div>
       {/* <span className='font-daeam'>거추 13.7만개</span> */}
     </div>

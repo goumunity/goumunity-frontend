@@ -1,24 +1,24 @@
 import { useState } from 'react';
 import UserInput from '../components/common/UserInput';
 import Button from '../components/common/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../store/modal';
+import { useSelector } from 'react-redux';
 import CheckBox from '../components/common/CheckBox';
-import { authActions } from '../store/auth';
 import SelectBox from '../components/common/SelectBox';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+
+const USER_CATEGORY_OPTIONS = [
+  {id: 1, title: 'JOB_SEEKER', name: '대학생'},
+  {id: 2, title: 'JOB_SEEKE', name: '사회초년생'},
+  {id: 3, title: 'JOB_SEEK', name: '회사원'},
+  {id: 4, title: 'JOB_SEE', name: '취업준비생'},
+];
+
 function JoinModal3() {
 
-  const SERVER_URL = 'api/users';
-
-  const USER_CATEGORY_OPTIONS = {
-    universityStudent: '대학생',
-    youngProfessional: '사회초년생',
-    employee: '회사원',
-    jobSeeker: '취업준비생',
-  };
-
   const joinData = useSelector((state) => state.auth.joinData);
+
+  const file = useSelector((state) => state.auth.file);
 
   const [userInputs, setUserInputs] = useState({
     userCategory: '',
@@ -37,6 +37,9 @@ function JoinModal3() {
   const monthBudgetIsInvalid =
     isEdited.monthBudget && isNaN(userInputs.monthBudget);
 
+  // 모달 창 이동을 위해
+  const navigate = useNavigate();
+
   // input에서 focus를 다른 곳에 두었을 때 수정되었음을 표시
   const handleBlurFocusOffInput = (id) => {
     setIsEdited((prev) => ({
@@ -46,7 +49,7 @@ function JoinModal3() {
   };
 
   // 회원가입
-  const handleSubmitJoin = (e) => {
+  const handleSubmitJoin = async (e) => {
     e.preventDefault();
     setErrorMessage('');
     if (userInputs.userCategory === '') {
@@ -61,37 +64,37 @@ function JoinModal3() {
       setErrorMessage('한달 생활비를 입력해주세요.');
       return;
     }
-    // const fd = new FormData(e.target);
-    // const data = Object.fromEntries(fd.entries());
-    // const updatedData = {
-    //   ...joinData,
-    //   userCategory: userInputs.userCategory,
-    //   regionId: userInputs.region,
-    //   monthBudget: userInputs.monthBudget,
-    // };
-    const updatedData = {...joinData, userCategory: userInputs.userCategory, regionId: userInputs.region, monthBudget: userInputs.monthBudget}
-    console.log(updatedData)
-    const formData = new FormData()
 
-    for (const key in updatedData) {
-      formData.append(key, updatedData[key]);
-    }
-    // formData.append(updatedData)
+    const updatedData = {
+      ...joinData,
+      userCategory: userInputs.userCategory,
+      regionId: Number(userInputs.region),
+      monthBudget: Number(userInputs.monthBudget.replace(/,/g, '')),
+    };
+
+    const formData = new FormData();
+    formData.append('image', file);
+    const blob = new Blob([JSON.stringify(updatedData)], {type: "application/json"});
+    formData.append('data', blob);
+
     try {
-      const res = axios.post(`${SERVER_URL}/join`, formData, {headers: {
-        'Content-Type': 'multipart/form-data',
-      }})
-      console.log(res)
+      const res = await axios.post('/api/users/join', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
     } catch (error) {
       console.error('api 요청 중 오류 발생 : ', error);
+      if (error.response.status === 409) {
+        setErrorMessage('이미 가입된 이메일입니다.')
+      }
       return;
     }
-    dispatch(authActions.updateJoinData(updatedData));
-    dispatch(modalActions.closeModal());
+    navigate('/landing/join/4');
   };
 
-  //
+  // 유저 입력 감지
   const handleChangeInputs = (id, value) => {
     if (id === 'monthBudget' && isNaN(value)) {
       return;
@@ -113,13 +116,6 @@ function JoinModal3() {
     }));
   };
 
-  const dispatch = useDispatch();
-
-  const handleClickPrevious = () => {
-    dispatch(modalActions.closeModal());
-    dispatch(modalActions.openJoinModal2());
-  };
-
   return (
     <>
       <h1 className='font-daeam text-5xl my-5'>회원가입</h1>
@@ -128,43 +124,55 @@ function JoinModal3() {
           <label className='text-left text-2xl font-her'>*신분</label>
           <div className='flex gap-20 text-center justify-center my-3'>
             <CheckBox
-              text={USER_CATEGORY_OPTIONS.universityStudent}
+              text={USER_CATEGORY_OPTIONS[0].name}
               isChecked={
-                userInputs.userCategory === USER_CATEGORY_OPTIONS.universityStudent
+                userInputs.userCategory ===
+                USER_CATEGORY_OPTIONS[0].title
               }
               onClick={() =>
                 handleChangeInputs(
                   'userCategory',
-                  USER_CATEGORY_OPTIONS.universityStudent
+                  USER_CATEGORY_OPTIONS[0].title
                 )
               }
             />
             <CheckBox
-              text={USER_CATEGORY_OPTIONS.youngProfessional}
+              text={USER_CATEGORY_OPTIONS[1].name}
               isChecked={
-                userInputs.userCategory === USER_CATEGORY_OPTIONS.youngProfessional
+                userInputs.userCategory ===
+                USER_CATEGORY_OPTIONS[1].title
               }
               onClick={() =>
                 handleChangeInputs(
                   'userCategory',
-                  USER_CATEGORY_OPTIONS.youngProfessional
+                  USER_CATEGORY_OPTIONS[1].title
                 )
               }
             />
           </div>
           <div className='flex gap-20 text-center justify-center'>
             <CheckBox
-              text={USER_CATEGORY_OPTIONS.employee}
-              isChecked={userInputs.userCategory === USER_CATEGORY_OPTIONS.employee}
+              text={USER_CATEGORY_OPTIONS[2].name}
+              isChecked={
+                userInputs.userCategory === USER_CATEGORY_OPTIONS[2].title
+              }
               onClick={() =>
-                handleChangeInputs('userCategory', USER_CATEGORY_OPTIONS.employee)
+                handleChangeInputs(
+                  'userCategory',
+                  USER_CATEGORY_OPTIONS[2].title
+                )
               }
             />
             <CheckBox
-              text={USER_CATEGORY_OPTIONS.jobSeeker}
-              isChecked={userInputs.userCategory === USER_CATEGORY_OPTIONS.jobSeeker}
+              text={USER_CATEGORY_OPTIONS[3].name}
+              isChecked={
+                userInputs.userCategory === USER_CATEGORY_OPTIONS[3].title
+              }
               onClick={() =>
-                handleChangeInputs('userCategory', USER_CATEGORY_OPTIONS.jobSeeker)
+                handleChangeInputs(
+                  'userCategory',
+                  USER_CATEGORY_OPTIONS[3].title
+                )
               }
             />
           </div>
@@ -172,12 +180,12 @@ function JoinModal3() {
         <div className='flex flex-col mb-5 '>
           <label className='text-left text-2xl font-her'>*지역</label>
           <div className='flex gap-20 text-center justify-center'>
-            <SelectBox onChange={(e) =>
-                handleChangeInputs('region', e.target.value)
-              }/>
-            <SelectBox onChange={(e) =>
-                handleChangeInputs('region', e.target.value)
-              }/>
+            <SelectBox
+              onChange={(e) => handleChangeInputs('region', e.target.value)}
+            />
+            <SelectBox
+              onChange={(e) => handleChangeInputs('region', e.target.value)}
+            />
           </div>
         </div>
         <UserInput
@@ -194,7 +202,9 @@ function JoinModal3() {
           {errorMessage}
         </div>
         <div className='flex gap-5 justify-center absolute bottom-7 w-full'>
-          <Button text='이전단계' onClick={handleClickPrevious} />
+          <Link to='/landing/join/2'>
+            <Button text='이전단계' />
+          </Link>
           <Button text='완료' type='submit' />
         </div>
       </form>

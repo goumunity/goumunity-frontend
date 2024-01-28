@@ -17,7 +17,7 @@ function ChatPage() {
   };
 
   return (
-    <div className='flex pl-64 w-full'>
+    <div className='flex w-full'>
       <div className='w-1/6 bg-yellow h-screen'>
         <ChatMySection />
       </div>

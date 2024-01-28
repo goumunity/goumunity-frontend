@@ -1,22 +1,27 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-
 import ReactModal from 'react-modal';
 import LandingPage from './pages/LandingPage';
-import JoinPage from './pages/JoinPage';
 import LayOut from './components/common/LayOut';
 import ChatPage from './pages/ChatPage';
 import ProfilePage from './pages/ProfilePage';
 import './index.css';
 import HomePage from './pages/HomePage';
+import ErrorPage from './pages/ErrorPage';
+import { loader as postLoader } from './modal/DetailModal';
 
 const router = createBrowserRouter([
   {
     path: '/',
+    errorElement: <ErrorPage />,
     element: <LayOut />,
     children: [
-      { path: '/', element: <HomePage /> },
+      // index: true -> 부모 라우트가 활성일 경우 기본 라우트
+      { index: true, element: <HomePage /> },
+      { path: '/:postId', element: <HomePage />, loader: postLoader },
+      { path: '/:postId', element: <HomePage /> },
       { path: '/landing', element: <LandingPage /> },
-      { path: '/join', element: <JoinPage /> },
+      { path: '/landing/join/:joinId', element: <LandingPage /> },
+      { path: '/:login', element: <LandingPage /> },
       { path: '/chat', element: <ChatPage /> },
       { path: '/profile', element: <ProfilePage /> },
     ],

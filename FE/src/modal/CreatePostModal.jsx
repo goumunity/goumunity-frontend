@@ -1,19 +1,15 @@
 import CloseButton from '@/components/common/CloseButton';
-import { useDispatch } from 'react-redux';
-import { modalActions } from '../store/modal';
 import { useState } from 'react';
-import MapModal from '@/modal/MapModal';
 import ProfileImage from '../components/common/ProfileImage';
 import Option from '../components/common/Option';
 import imageIcon from '@/assets/svgs/image.svg';
-import categoryIcon from '@/assets/svgs/categoryIcon.svg';
 import mapIcon from '@/assets/svgs/map.svg';
 import useInput from '../hooks/useInput';
 import '@/styles.css';
 
 const MAX_CONTENT_LENGTH = 500;
 
-function CreatePostModal() {
+function CreatePostModal({onClose}) {
   const [input, handleChangeInput] = useInput('');
 
   const [isInfo, setIsInfo] = useState(true);
@@ -26,12 +22,6 @@ function CreatePostModal() {
   const categorySectionClassName = isSlide
     ? 'opacity-100 w-96'
     : 'opacity-0 w-0';
-
-  const dispatch = useDispatch();
-
-  const handleClickCreatePostModalClose = () => {
-    dispatch(modalActions.closeCreatePostModal());
-  };
 
   const handleClickOpenSlide = () => {
     setIsSlide(!isSlide);
@@ -137,7 +127,7 @@ function CreatePostModal() {
       <div className='fixed top-0 left-0 bg-back w-full h-full'>
         <CloseButton
           className='absolute top-5 right-5'
-          onClick={handleClickCreatePostModalClose}
+          onClick={onClose}
         />
       </div>
     </div>
