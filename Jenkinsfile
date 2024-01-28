@@ -36,6 +36,8 @@ pipeline {
                 sh 'ls -l'
                 sh 'ls -l FE/'
                 sh 'ls -l FE/dist'
+                tar -cvf febuild.tar FE/dist
+                sh 'ls -l'
                 script{
                     sshPublisher(
                             publishers: [
@@ -43,9 +45,8 @@ pipeline {
                                     configName: 'ssafyhelper',
                                     transfers: [
                                         sshTransfer(
-                                            sourceFiles: '/FE/dist/**',
-                                            removePrefix: '/FE',
-                                            remoteDirectory: '/sendData/dist',
+                                            sourceFiles: 'febuild.tar',
+                                            remoteDirectory: '/sendData',
                                         )
                                     ]
                                 )
