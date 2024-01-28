@@ -22,6 +22,7 @@ pipeline {
                         sh 'yarn add vite --dev'
                         sh 'yarn install'
                         sh 'yarn build'
+                        
 
                         
                     }
@@ -32,6 +33,8 @@ pipeline {
 
     stage('Send Artifact'){
             steps{
+                sh 'ls -l'
+                sh 'ls -l FE/'
                 script{
                     sshPublisher(
                             publishers: [
