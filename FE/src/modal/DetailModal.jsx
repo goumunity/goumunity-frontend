@@ -1,42 +1,25 @@
-import { useDispatch } from 'react-redux';
 import CloseButton from '../components/common/CloseButton';
-import { modalActions } from '../store/modal';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ProfileImage from '../components/common/ProfileImage';
 import CommentSection from '../components/detailModal/CommentSection';
+import { json, useLoaderData, useNavigate } from 'react-router-dom';
 
 function DetailModal() {
-  const [post, setPost] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const post = useLoaderData();
 
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const closeModal = () => {
-    dispatch(modalActions.closeDetailModal());
+  // 모달 닫기(홈으로 가기)
+  const handleClickGoHome = () => {
+    navigate('/');
   };
-
-  useEffect(function requestPost() {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const res = await axios.get('fake/post');
-
-        if (res.statusText !== 'OK') {
-          throw new Error('데이터 요청 실패');
-        }
-        setPost(res.data);
-      } catch (error) {
-        console.error('api 요청 중 오류 발생 : ', error);
-      }
-      setIsLoading(false);
-    };
-    fetchData();
-  }, []);
 
   return (
     <div className='fixed top-0 left-0 bg-back right-0 bottom-0'>
-      <CloseButton className='absolute top-5 right-5' onClick={closeModal} />
+      <CloseButton
+        className='absolute top-5 right-5'
+        onClick={handleClickGoHome}
+      />
       <div className='z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-4/5 w-3/5 bg-bright border border-gray'>
         <div className='h-full flex'>
           <div className='flex flex-col w-2/3 px-10 py-8 scroll-auto'>
@@ -72,3 +55,15 @@ function DetailModal() {
 }
 
 export default DetailModal;
+
+export async function loader() {
+  
+    const res = await axios.get(`fake/post`);
+
+    if (res.statusText !== 'OK') {
+      throw json({ message: '에러 발생' }, { status: 500 });
+    } else {
+      return res.data;
+    }
+  } 
+

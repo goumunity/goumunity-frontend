@@ -5,9 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../store/auth';
 import Button from '../components/common/Button';
 import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function LoginModal() {
-  const SERVER_URL = 'api/users';
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
 
@@ -36,6 +38,9 @@ function LoginModal() {
     }));
   };
 
+  // 로그인 후 메인페이지로 이동하기 위해
+  const navigate = useNavigate();
+
   // auth state의 login 함수를 쓰기 위해
   const dispatch = useDispatch();
 
@@ -43,7 +48,6 @@ function LoginModal() {
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
     setErrorMessage('');
-    console.log(`로그인 전: ${isAuth}`);
     if (userInputs.email === '') {
       setErrorMessage('이메일을 입력해주세요.');
       return;
@@ -56,21 +60,25 @@ function LoginModal() {
       return;
     }
     try {
-      const res = await axios.post(`${SERVER_URL}/login`, {
+      setIsLoading(true)
+      const res = await axios.post('/api/users/login', {
         id: userInputs.email,
         password: userInputs.password,
       });
       console.log(res);
       dispatch(authActions.login());
       console.log(`로그인 후: ${isAuth}`);
+      navigate('/');
     } catch (error) {
       console.log('에러 발생 : ', error);
       setErrorMessage('이메일과 비밀번호를 다시 확인해주세요.')
     }
+    setIsLoading(false)
   };
 
   // 사용자의 입력 감지
   const handleChangeInputs = (id, value) => {
+    setErrorMessage('')
     setUserInputs((prev) => ({
       ...prev,
       [id]: value,
@@ -114,10 +122,7 @@ function LoginModal() {
             '비밀번호는 8~20자 · 최소 1개의 소문자, 대문자, 숫자, 특수문자를 포함해야 합니다.'
           }
         />
-        <Button text='로그인' />
-        {/* <button className="w-full text-white rounded-xl font-daeam bg-button px-2 py-1">
-          로그인
-        </button> */}
+        <Button text={isLoading ? '로그인 중' : '로그인'} isActive={!isLoading}/>
       </form>
       <div className='my-5 font-dove text-xl underline-offset-auto cursor-pointer underline'>
         비밀번호를 잊어버리셨나요?
