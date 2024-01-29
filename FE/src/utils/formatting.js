@@ -35,3 +35,21 @@ export function calculateAge(birthdate) {
 
   return age;
 }
+
+export function calculateDate(timestamp) {
+  // 현재 날짜의 Unix 타임스탬프 가져오기
+  const now = new Date();
+  const nowTimestamp = Math.floor(now.getTime() / 1000);
+
+  // 주어진 타임스탬프를 현재 시간으로부터 얼마나 이전인지 계산
+  const secondsAgo = nowTimestamp - timestamp;
+  const daysAgo = Math.floor(secondsAgo / (60 * 60 * 24));
+
+  return daysAgo;
+}
+
+// // 예시: 1706074498은 2024년 1월 23일을 나타냄
+// const timestamp = 1706074498;
+// const daysAgo = daysAgoFromTimestamp(timestamp);
+
+// console.log(`${daysAgo}일 전`);
