@@ -1,13 +1,12 @@
 import CreateCommentBox from './CreateCommentBox';
-import Option from '../common/Option';
+import Option from '../../common/Option';
 import Comment from './Comment';
 import { useEffect, useState } from 'react';
-import useInput from '../../hooks/useInput';
+import useInput from '../../../hooks/useInput';
 import axios from 'axios';
 import OptionBox from './OptionBox';
 
 function CommentSection() {
-
   const [input, handleChangeInput] = useInput();
 
   const [comments, setComments] = useState([]);

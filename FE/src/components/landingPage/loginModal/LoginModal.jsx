@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import UserInput from '../components/common/UserInput';
-import { isEmail, validatePassword } from '../utils/validation';
+import UserInput from '../../common/UserInput';
+import { isEmail, validatePassword } from '../../../utils/validation';
 import { useDispatch, useSelector } from 'react-redux';
-import { authActions } from '../store/auth';
-import Button from '../components/common/Button';
+import { authActions } from '../../../store/auth';
+import Button from '../../common/Button';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 

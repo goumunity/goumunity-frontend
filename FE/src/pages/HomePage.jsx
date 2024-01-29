@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import Post from '../components/homePage/Post';
 import axios from 'axios';
-import DetailModal from '../modal/DetailModal';
+import DetailModal from '@/components/homePage/detailModal/DetailModal';
 import { useDispatch } from 'react-redux';
 import { modalActions } from '../store/modal';
-import CreatePostModal from '../modal/CreatePostModal';
+import CreatePostModal from '@/components/homePage/createPostModal/CreatePostModal';
 import { useParams } from 'react-router-dom';
 
 function HomePage() {

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { modalActions } from '../../store/modal';
 import ChatMyItem from './ChatMyItem';
-import ChatRoomModal from '../../modal/ChatRoomModal';
+import ChatRoomModal from '@/components/chatPage/chatRoomModal/ChatRoomModal';
 import CustomModal from '../common/CustomModal';
 
 function ChatMySection() {

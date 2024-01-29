@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import UserInput from '../components/common/UserInput';
+import { useState } from 'react';
+import UserInput from '../../common/UserInput';
 import { useDispatch, useSelector } from 'react-redux';
-import hashtagButtonIcon from '../assets/svgs/hashtagButtonIcon.svg';
-import SelectBox from '../components/common/SelectBox';
-import HashTag from '../components/common/HashTag';
-import ProfileImage from '../components/common/ProfileImage';
+import hashtagButtonIcon from '@/assets/svgs/hashtagButtonIcon.svg';
+import SelectBox from '../../common/SelectBox';
+import HashTag from '../../common/HashTag';
+import ProfileImage from '../../common/ProfileImage';
 
 function ChatRoomModal() {
   const [hashtag, setHashtag] = useState(['#20대', '#거지방', '#절약']);

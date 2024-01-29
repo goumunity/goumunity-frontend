@@ -11,19 +11,18 @@
       "password": "Ekdms9898!"
     }
   ],
-  "post": 
-    {
-      "id": "1",
-      "content": "아 싸탈하고 싶다..",
-      "type": "정보글",
-      "price": 2000,
-      "afterPrice": 1500,
-      "profit": 500,
-      "like": 27,
-      "user": 2,
-      "region": 2,
-      "createdAt": "2023-09-11"
-    },
+  "post": {
+    "feedId": 1,
+    "content": "테스트 게시글 더미더미 덤덤덤덤",
+    "type": 1,
+    "price": 200,
+    "afterPrice": 100,
+    "profit": 100,
+    "regionId": 1,
+    "userId": 1,
+    "createdAt": 1706074498,
+    "updatedAt": 1706074498
+  },
   "postList": [
     {
       "id": "1",
@@ -158,17 +157,20 @@
       "created_at": "2023-09-11"
     }
   ],
-  "comment": [{
-    "id": "1",
+  "commens": [
+    {
+      "id": "1",
       "content": "재밋네여",
       "like": 60,
       "user": 2,
       "created_at": "2023-09-11"
-  },{
-    "id": "11",
+    },
+    {
+      "id": "11",
       "content": "유익하네여, 근데 솔직히 너무 구질구질한 것 같기도..ㅎㅎㅎ",
       "like": 80,
       "user": 2,
       "created_at": "2023-09-11"
-  }]
+    }
+  ]
 }

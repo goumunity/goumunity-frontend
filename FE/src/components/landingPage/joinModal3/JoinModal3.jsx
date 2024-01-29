@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import UserInput from '../components/common/UserInput';
-import Button from '../components/common/Button';
+import UserInput from '../../common/UserInput';
+import Button from '../../common/Button';
 import { useSelector } from 'react-redux';
-import CheckBox from '../components/common/CheckBox';
-import SelectBox from '../components/common/SelectBox';
+import CheckBox from '../../common/CheckBox';
+import SelectBox from '../../common/SelectBox';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
