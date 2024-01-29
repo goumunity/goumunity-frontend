@@ -7,7 +7,7 @@ import ProfilePage from './pages/ProfilePage';
 import './index.css';
 import HomePage from './pages/HomePage';
 import ErrorPage from './pages/ErrorPage';
-import { loader as postLoader } from './modal/DetailModal';
+// import { loader as postLoader } from './components/homePage/detailModal/DetailModal';
 
 const router = createBrowserRouter([
   {
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     children: [
       // index: true -> 부모 라우트가 활성일 경우 기본 라우트
       { index: true, element: <HomePage /> },
-      { path: '/:postId', element: <HomePage />, loader: postLoader },
+      // { path: '/:postId', element: <HomePage />, loader: postLoader },
       { path: '/:postId', element: <HomePage /> },
       { path: '/landing', element: <LandingPage /> },
       { path: '/landing/join/:joinId', element: <LandingPage /> },

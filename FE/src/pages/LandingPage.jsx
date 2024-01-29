@@ -1,33 +1,20 @@
 import Button from '../components/common/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../store/modal';
 import CustomModal from '../components/common/CustomModal';
-import JoinModal1 from '../modal/JoinModal1';
-import LoginModal from '../modal/LoginModal';
-import JoinModal2 from '../modal/JoinModal2';
-import JoinModal3 from '../modal/JoinModal3';
+import JoinModal1 from '../components/landingPage/joinModal1/JoinModal1';
+import LoginModal from '../components/landingPage/loginModal/LoginModal';
+import JoinModal2 from '../components/landingPage/joinModal2/JoinModal2';
+import JoinModal3 from '../components/landingPage/joinModal3/JoinModal3';
 import beggar from '@/assets/images/beggar.jpg';
 import geo from '@/assets/images/logo.png';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 function LandingPage() {
-  const isModalOpen = useSelector((state) => state.modal.isModalOpen);
-  const modalOption = useSelector((state) => state.modal.modalOption);
 
   const params = useParams();
   
   const navigate = useNavigate();
 
   console.log(params)
-  const dispatch = useDispatch();
-
-  const handleClickChangeOptionJoin1 = () => {
-    dispatch(modalActions.openJoinModal1());
-  };
-
-  const handleClickChangeOptionLogin = () => {
-    dispatch(modalActions.openLoginModal());
-  };
 
   const handleClickGoJoin1 = () => {
     navigate('/landing/join/1')

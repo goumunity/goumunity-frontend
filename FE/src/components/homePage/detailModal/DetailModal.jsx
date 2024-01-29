@@ -1,11 +1,20 @@
-import CloseButton from '../components/common/CloseButton';
+import CloseButton from '../../common/CloseButton';
 import axios from 'axios';
-import ProfileImage from '../components/common/ProfileImage';
-import CommentSection from '../components/detailModal/CommentSection';
-import { json, useLoaderData, useNavigate } from 'react-router-dom';
+import ProfileImage from '../../common/ProfileImage';
+import CommentSection from './CommentSection';
+import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 function DetailModal() {
-  const post = useLoaderData();
+  // const post = useLoaderData();
+
+  const params = useParams();
+
+  const [post, setPost] = useState({});
+
+  
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -13,6 +22,23 @@ function DetailModal() {
   const handleClickGoHome = () => {
     navigate('/');
   };
+
+  // 게시글 가져오기
+  useEffect(function requestPost() {
+    const fetchData = async () => {
+      setIsLoading(true)
+      try {
+        // const res = await axios.get(`/api/feeds/${params.postId}`)
+        const res = await axios.get('/fake/post');
+        setPost(res.data)
+        console.log('post : ', post)
+      } catch (error) {
+        console.log('에러 발생 : ', error);
+      }
+      setIsLoading(false)
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className='fixed top-0 left-0 bg-back right-0 bottom-0'>
@@ -56,14 +82,13 @@ function DetailModal() {
 
 export default DetailModal;
 
-export async function loader() {
-  
-    const res = await axios.get(`fake/post`);
+// export async function loader() {
+//     console.log('gdg')
+//     const res = await axios.get(`fake/post`);
 
-    if (res.statusText !== 'OK') {
-      throw json({ message: '에러 발생' }, { status: 500 });
-    } else {
-      return res.data;
-    }
-  } 
-
+//     if (res.statusText !== 'OK') {
+//       throw json({ message: '에러 발생' }, { status: 500 });
+//     } else {
+//       return res.data;
+//     }
+//   }
