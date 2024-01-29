@@ -48,8 +48,12 @@ export function calculateDate(timestamp) {
   return daysAgo;
 }
 
-// // 예시: 1706074498은 2024년 1월 23일을 나타냄
-// const timestamp = 1706074498;
-// const daysAgo = daysAgoFromTimestamp(timestamp);
+export function addCommas(number) {
+  // 숫자를 문자열로 변환
+  let numberString = number.toString();
+  console.log(numberString)
+  // 정규표현식을 사용하여 세 자리마다 쉼표 추가
+  numberString = numberString.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-// console.log(`${daysAgo}일 전`);
+  return numberString;
+}

@@ -43,7 +43,7 @@ function Post({ post, ...props }) {
   } = post;
 
   return (
-    <div className='flex flex-col w-1/3 border border-gray px-4 py-2'>
+    <div className='flex flex-col w-post border border-gray px-4 py-2'>
       <div className='flex items-center gap-5'>
         <ProfileImage size='8' />
         <div>

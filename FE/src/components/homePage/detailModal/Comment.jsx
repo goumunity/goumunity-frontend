@@ -30,8 +30,8 @@ function Comment({ comment, inputRef }) {
 
   // 답글 달기 클릭 시 인풋 창으로 커서 이동
   const handleClickFocusInput = () => {
-    inputRef.current.focus();
-    inputRef.current.value = `@${nickname} `;
+    ref.current.focus();
+    ref.current.value = `@${nickname} `;
     
   }
 

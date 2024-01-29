@@ -6,22 +6,29 @@ import imageIcon from '@/assets/svgs/image.svg';
 import mapIcon from '@/assets/svgs/map.svg';
 import useInput from '../../../hooks/useInput';
 import '@/styles.css';
+import { addCommas } from '../../../utils/formatting';
+import useNumInput from '../../../hooks/useNumInput';
+import { imageUpload } from '../../../utils/upload';
+import MapSection from './MapSection';
 
 const MAX_CONTENT_LENGTH = 500;
 
-function CreatePostModal({onClose}) {
-  const [input, handleChangeInput] = useInput('');
+function CreatePostModal({ onClose }) {
+  const [content, handleChangeContent] = useInput('');
+
+  const [price, handleChangePrice] = useNumInput('');
+
+  const [afterPrice, handleChangeAfterPrice] = useNumInput('');
 
   const [isInfo, setIsInfo] = useState(true);
 
   const [isSlide, setIsSlide] = useState(false);
 
+  const [image, setImage] = useState('');
   // const className = isSlide ? '-translate-x-3/4' : '-translate-x-1/2';
   const modalClassName = isSlide ? 'w-128' : 'w-96';
   const mainSectionClassName = isSlide ? 'w-96' : 'w-96';
-  const categorySectionClassName = isSlide
-    ? 'opacity-100 w-96'
-    : 'opacity-0 w-0';
+  
 
   const handleClickOpenSlide = () => {
     setIsSlide(!isSlide);
@@ -30,6 +37,12 @@ function CreatePostModal({onClose}) {
   const handleClickToggleIsInfo = () => {
     setIsInfo(!isInfo);
   };
+
+  const handleChangeUploadProfileImg = (e) => {
+    imageUpload(e.target, setImage);
+  };
+
+  const activeClass = 'underline underline-offset-4 pointer-events-none';
 
   return (
     <div className=''>
@@ -48,13 +61,17 @@ function CreatePostModal({onClose}) {
 
           <div className='flex items-center'>
             <button
-              className='text-center w-1/2 border border-gray font-dove'
+              className={`text-center w-1/2 border border-gray font-dove ${
+                isInfo ? activeClass : ''
+              }`}
               onClick={handleClickToggleIsInfo}
             >
               정보글
             </button>
             <button
-              className='text-center w-1/2 border border-gray font-dove'
+              className={`text-center w-1/2 border border-gray font-dove ${
+                isInfo ? '' : activeClass
+              }`}
               onClick={handleClickToggleIsInfo}
             >
               뻘글
@@ -75,23 +92,26 @@ function CreatePostModal({onClose}) {
                 className='px-2 h-44 bg-bright placeholder:font-her outline-none'
                 type='text'
                 placeholder='문구를 입력하세요...'
-                onChange={handleChangeInput}
-                value={input}
+                onChange={handleChangeContent}
+                value={content}
                 maxLength={MAX_CONTENT_LENGTH}
               />
               <span className='text-right font-her'>
-                {input.length}/{MAX_CONTENT_LENGTH}
+                {content.length}/{MAX_CONTENT_LENGTH}
               </span>
             </div>
 
-            {/* <div className='flex p-2 justify-between'> */}
             <div className='flex gap-2 p-2'>
-              <Option text='이미지' src={imageIcon} />
-              {/* <Option
-                  text='카테고리'
-                  src={categoryIcon}
-                  onClick={handleClickOpenSlide}
-                /> */}
+              <label htmlFor='image'>
+                <Option text='이미지' src={imageIcon} />
+                <input
+                  id='image'
+                  type='file'
+                  accept='image/*'
+                  onChange={handleChangeUploadProfileImg}
+                  className='hidden'
+                />
+              </label>
               {isInfo && (
                 <Option
                   text='위치'
@@ -102,33 +122,31 @@ function CreatePostModal({onClose}) {
             </div>
             {/* </div> */}
           </div>
-          {isInfo ? <div className='flex justify-center'>
-            <input
-              className='border border-gray w-1/2 text-center font-her bg-bright outline-none'
-              type='text'
-              placeholder='정가'
-            />
-            <input
-              className='border border-gray w-1/2 text-center font-her bg-bright outline-none'
-              type='text'
-              placeholder='할인가'
-            />
-          </div> : null}
-          
+          {isInfo ? (
+            <div className='flex justify-center'>
+              <input
+                className='border border-gray w-1/2 text-center font-her bg-bright outline-none'
+                type='text'
+                placeholder='정가'
+                value={addCommas(price)}
+                onChange={handleChangePrice}
+              />
+              <input
+                className='border border-gray w-1/2 text-center font-her bg-bright outline-none'
+                type='text'
+                placeholder='할인가'
+                value={addCommas(afterPrice)}
+                onChange={handleChangeAfterPrice}
+              />
+            </div>
+          ) : null}
         </div>
-
-        <div
-          className={`bg-bg transition-width delay-700 duration-300  ${categorySectionClassName} `}
-        >
-          gdgd
-        </div>
+          <MapSection isSlide={isSlide}/>
+        
       </div>
       {/* {isSlide && <MapModal isSlide={isSlide} />} */}
       <div className='fixed top-0 left-0 bg-back w-full h-full'>
-        <CloseButton
-          className='absolute top-5 right-5'
-          onClick={onClose}
-        />
+        <CloseButton className='absolute top-5 right-5' onClick={onClose} />
       </div>
     </div>
   );

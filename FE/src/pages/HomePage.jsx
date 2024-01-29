@@ -71,7 +71,7 @@ function HomePage() {
     <div className='flex flex-col items-center bg-bright'>
       {posts?.map((post, idx) => {
         return (
-          <Post post={post} key={idx}   />
+          <Post post={post} key={idx} />
         );
       })}
       <div ref={observer} style={{ height: '10px' }}></div>

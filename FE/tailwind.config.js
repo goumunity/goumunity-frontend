@@ -34,6 +34,7 @@ export default {
     },
     width: {
       '128': '768px',
+      'post': '390px',
     }
   }
     // spacing: {

@@ -9,6 +9,7 @@ import ProfileImage from '../../common/ProfileImage';
 import { calculateAge } from '../../../utils/formatting';
 import { Link, useNavigate } from 'react-router-dom';
 import NicknameConfirmButton from '@/components/landingPage/joinModal2/NicknameConfirmButton';
+import { imageUpload } from '../../../utils/upload';
 
 const GENDER_OPTIONS = [
   { id: 1, content: '남' },
@@ -117,15 +118,7 @@ function JoinModal2() {
 
   // 이미지 업로드
   const handleChangeUploadProfileImg = (e) => {
-    const { files } = e.target;
-    console.log(files)
-    const uploadFile = files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(uploadFile);
-    reader.onloadend = () => {
-      setProfileImage(reader.result);
-    };
-    // dispatch(authActions.updateFile(uploadFile));
+    const uploadFile = imageUpload(e.target, setProfileImage)
     dispatch(authActions.updateFile(uploadFile));
   };
 
