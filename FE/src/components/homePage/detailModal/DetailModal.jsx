@@ -3,7 +3,8 @@ import axios from 'axios';
 import ProfileImage from '../../common/ProfileImage';
 import CommentSection from './CommentSection';
 import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { calculateDate } from '../../../utils/formatting';
 
 function DetailModal() {
   // const post = useLoaderData();
@@ -12,9 +13,8 @@ function DetailModal() {
 
   const [post, setPost] = useState({});
 
-  
-
   const [isLoading, setIsLoading] = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -23,22 +23,38 @@ function DetailModal() {
     navigate('/');
   };
 
-  // 게시글 가져오기
+  // 게시글 불러오기
   useEffect(function requestPost() {
+
     const fetchData = async () => {
-      setIsLoading(true)
+      setIsLoading(true);
       try {
         // const res = await axios.get(`/api/feeds/${params.postId}`)
         const res = await axios.get('/fake/post');
-        setPost(res.data)
-        console.log('post : ', post)
+        setPost(res.data);
+
+        console.log('post : ', post);
       } catch (error) {
         console.log('에러 발생 : ', error);
       }
-      setIsLoading(false)
+      setIsLoading(false);
     };
     fetchData();
   }, []);
+
+  const {
+    feedId,
+    content,
+    type,
+    price,
+    afterPrice,
+    profit,
+    regionId,
+    userId,
+    updatedAt,
+  } = post;
+
+  const daysAgo = calculateDate(updatedAt)
 
   return (
     <div className='fixed top-0 left-0 bg-back right-0 bottom-0'>
@@ -53,19 +69,13 @@ function DetailModal() {
               <ProfileImage size='8' />
               <div>
                 {/* <span className='font-daeam'>CheongRyeong</span>{' '} */}
-                <span className='font-daeam'>cheryong</span>
+                <span className='font-daeam'>{userId}</span>
                 {' * '}
-                <span className='font-her'>2일 전</span>
+                <span className='font-her'>{daysAgo}일 전</span>
               </div>
             </div>
             <p className='my-4 px-3'>
-              멀티탭에 와이파이 tv 등 모든 콘센트 몰빵하고(냉장고 세탁기 제외)
-              출근할때 멀티탭 선 뽑고 퇴근 후 다시 꼽고 주말동안은 계속 사용
-              하는데 관리명세표에 평균 전기료가 다른집보다 전기료 7% 덜썼대 ㄷ
-              ㄷ 왜 진작 이렇게 안했을까 싶더라 내가 늦게 실천 하는거 일수도
-              있는데 혹시나 별차이 없을꺼라고 생각하는 덬도 있을까바 실제
-              경험해서 적어봤어~~ 요즘 이것 저것 너무 많이 오르는데 조금이라도
-              아껴보자~~!!
+              {content}
             </p>
             <img
               className='w-full h-50 rounded'
