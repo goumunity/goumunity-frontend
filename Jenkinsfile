@@ -42,7 +42,7 @@ pipeline {
                     sshPublisher(
                             publishers: [
                                 sshPublisherDesc(
-                                    configName: 'ssafyhelper',
+                                    configName: 'ssafycontrol',
                                     transfers: [
                                         sshTransfer(
                                             sourceFiles: 'febuild.tar',
@@ -60,7 +60,7 @@ pipeline {
             steps{
                 script{
                     sh 'echo manual Auto CI Start'
-                    sh 'curl "https://www.ssafyhelper.shop/control/dev/fe"'
+                    sh 'curl "https://ssafycontrol.shop/control/dev/fe"'
                 }
 
             }
