@@ -20,9 +20,6 @@ const authSlice = createSlice({
     clearJoinData(state) {
       state.joinData = {}
     },
-    updateFile(state, action) {
-      state.file = action.payload
-    },
     createUser(state, action) {
       state.user = action.payload
     }

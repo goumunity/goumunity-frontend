@@ -13,7 +13,7 @@ function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
 
   const handleChangeUploadProfileImg = (e) => {
     setImageSrcList(imageUpload(e.target, setImageList));
-    console.log('결과 : ', imageSrcList);
+    console.log('얘를 보내야 함 : ', imageSrcList);
   };
 
   const settings = {

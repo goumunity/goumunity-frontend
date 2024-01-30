@@ -6,6 +6,8 @@ import CheckBox from '../../common/CheckBox';
 import SelectBox from '../../common/SelectBox';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import ProfileImage from '../../common/ProfileImage';
+import { imageUpload } from '../../../utils/upload';
 
 const USER_CATEGORY_OPTIONS = [
   {id: 1, title: 'JOB_SEEKER', name: '대학생'},
@@ -17,9 +19,24 @@ const USER_CATEGORY_OPTIONS = [
 function JoinModal3() {
 
   const joinData = useSelector((state) => state.auth.joinData);
-
+  const [profileImage, setProfileImage] = useState('');
+  const [resultImage, setResultImage] = useState(null);
+   // 이미지 업로드
+   const handleChangeUploadProfileImg = (e) => {
+    const uploadFile = imageUpload(e.target, setProfileImage)
+    setResultImage(uploadFile)
+    console.log('얘를 보내야 함', uploadFile)
+    // setProfileImageTest(uploadFile)
+    // e.preventDefault();
+    // console.log(e.target.files[0])
+    // console.log(e.target.files.length)
+    // const file = e.target.files[0];
+    // setFiles([...files, { uploadedFile: file }]);
+    // dispatch(authActions.updateFile(e.target));
+    
+  };
   const file = useSelector((state) => state.auth.file);
-
+  console.log(file)
   const [userInputs, setUserInputs] = useState({
     userCategory: '',
     region: '',
@@ -73,7 +90,12 @@ function JoinModal3() {
     };
 
     const formData = new FormData();
-    formData.append('image', file);
+    console.log(resultImage)
+    for (const image of resultImage) {
+      formData.append('image', image);
+      console.log('순회 결과 : ', image)
+    }
+    
     const blob = new Blob([JSON.stringify(updatedData)], {type: "application/json"});
     formData.append('data', blob);
 
@@ -150,6 +172,14 @@ function JoinModal3() {
               }
             />
           </div>
+          <div className='flex justify-center relative text-center m-5'>
+        <ProfileImage
+          size={6}
+          // profileImage={profileImage}
+          profileImage={profileImage}
+          onChange={handleChangeUploadProfileImg}
+        />
+      </div>
           <div className='flex gap-20 text-center justify-center'>
             <CheckBox
               text={USER_CATEGORY_OPTIONS[2].name}

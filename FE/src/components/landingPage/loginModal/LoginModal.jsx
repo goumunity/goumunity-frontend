@@ -71,6 +71,7 @@ function LoginModal() {
       try {
         const res = await axios.get(`/api/users/${userInputs.email}`)
         console.log(res)
+        dispatch(authActions.createUser(res.data))
       } catch (error) {
         console.log(error)
       } 

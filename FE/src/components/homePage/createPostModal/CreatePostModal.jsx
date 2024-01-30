@@ -62,10 +62,11 @@ function CreatePostModal({ onClose }) {
     console.log(data)
     const blob = new Blob([JSON.stringify(data)], {type: "application/json"});
     const formData = new FormData();
-    formData.append('images', imageSrcList)
-    console.log(imageSrcList)
+    for (const image of imageSrcList) {
+      formData.append('images', image)
+      console.log('순회 결과 : ', image)
+    }
     formData.append('data', blob)
-    console.log('formData : ', formData)
     try {
       setIsLoading(true)
       const res = await axios.post('/api/feeds', formData, {

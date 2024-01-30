@@ -19,7 +19,8 @@ const GENDER_OPTIONS = [
 function JoinModal2() {
   const joinData = useSelector((state) => state.auth.joinData);
 
-  const [profileImage, setProfileImage] = useState('');
+  const [profileImageTest, setProfileImageTest] = useState('');
+  const [files, setFiles] = useState('');
 
   const [userInputs, setUserInputs] = useState({
     nickname: joinData?.nickname || '',
@@ -116,22 +117,12 @@ function JoinModal2() {
     }));
   };
 
-  // 이미지 업로드
-  const handleChangeUploadProfileImg = (e) => {
-    const uploadFile = imageUpload(e.target, setProfileImage)
-    dispatch(authActions.updateFile(uploadFile));
-  };
+ 
 
   return (
     <>
       <h1 className='font-daeam text-5xl my-5'>회원가입</h1>
-      <div className='flex justify-center relative text-center m-5'>
-        <ProfileImage
-          size={6}
-          profileImage={profileImage}
-          onChange={handleChangeUploadProfileImg}
-        />
-      </div>
+      
       <form
         onSubmit={handleSubmitNext}
         className='px-2 flexflex-col items-center'

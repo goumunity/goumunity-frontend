@@ -40,12 +40,13 @@ function HomePage() {
       const fetchData = async () => {
         setIsLoading(true);
         try {
-          const res = await axios.get('fake/postList');
-
-          if (res.statusText !== 'OK') {
-            throw new Error('데이터 요청 실패');
-          }
-          setPosts(res.data)
+          // const res = await axios.get('fake/postList')
+          const res = await axios.get('/api/feeds', {
+            params: {page: 0, size: 1, time: 50}
+          });
+          console.log(res)
+       
+          setPosts(res.data.contents)
           // return res.data;
         } catch (error) {
           console.error('api 요청 중 오류 발생 : ', error);

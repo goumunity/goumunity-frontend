@@ -14,6 +14,8 @@ function NavBar() {
 
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
 
+  const user = useSelector((state) => state.auth.user);
+
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   // 로그아웃 후 로그인 모달로 이동하기 위해
@@ -104,7 +106,7 @@ function NavBar() {
           </NavLink>
         </li>
         <li>
-          {/* <ProfileImage profileImage={}/> */}
+          {isAuth && <ProfileImage profileImage={user.imgSrc}/> }
         </li>
 
         <li>{isAuth && <button onClick={handleClickLogout}>로그아웃</button>}</li>
