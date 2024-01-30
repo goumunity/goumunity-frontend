@@ -3,8 +3,8 @@ import useInput from '../../../hooks/useInput';
 import Button from '../../common/Button';
 import { useEffect, useState } from 'react';
 
-function CreateCommentBox({setComments, inputRef}) {
-  const [input, handleChangeInput] = useInput('');
+function CreateCommentBox({setCommentList, inputRef}) {
+  const [comment, handleChangeComment] = useInput('');
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -32,14 +32,14 @@ function CreateCommentBox({setComments, inputRef}) {
     <form onSubmit={handleSubmitCreateComment} className='flex justify-between items-center px-1'>
       <input
         ref={inputRef}
-        onChange={handleChangeInput}
-        value={input}
+        onChange={handleChangeComment}
+        value={comment}
         // value={inputRef.current.value || input}
         className='p-2 bg-bright w-4/5 focus:outline-none text-lg placeholder:font-her font-dove'
         type='text'
         placeholder='댓글 좀 달아줘...'
       />
-      <Button text='댓글' isActive={!isLoading} className=''/>
+      <Button text='등록' isActive={!isLoading} className=''/>
     </form>
   );
 }

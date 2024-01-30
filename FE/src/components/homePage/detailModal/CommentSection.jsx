@@ -6,23 +6,22 @@ import axios from 'axios';
 import OptionBox from './OptionBox';
 
 function CommentSection() {
-  const [input, handleChangeInput] = useInput();
 
-  const [comments, setComments] = useState([]);
-
+  const [commentList, setCommentList] = useState([]);
+  
   const [isLoading, setIsLoading] = useState(false);
 
   const inputRef = useRef();
 
   // 게시글에 속한 댓글들 불러오기
-  useEffect(function requestComments() {
+  useEffect(function requestCommentList() {
     const fetchData = async () => {
       setIsLoading(true);
       try {
         // const res = await axios.get(`/api/feeds/${params.postId}`)
-        const res = await axios.get('/fake/comments');
+        const res = await axios.get('/fake/commentList');
         console.log('response : ', res);
-        setComments(res.data.content);
+        setCommentList(res.data.content);
 
       } catch (error) {
         console.log('에러 발생 : ', error);
@@ -53,13 +52,13 @@ function CommentSection() {
   return (
     <div className='relative border-l border-gray w-1/3'>
       <div className='px-2 w-ful'>
-        {comments?.map((comment, idx) => {
+        {commentList?.map((comment, idx) => {
           return <Comment key={idx} comment={comment} inputRef={inputRef} />;
         })}
       </div>
       <div className='absolute bottom-0 w-full'>
         <OptionBox />
-        <CreateCommentBox setComments={setComments} inputRef={inputRef} />
+        <CreateCommentBox setCommentList={setCommentList} inputRef={inputRef} />
       </div>
     </div>
   );

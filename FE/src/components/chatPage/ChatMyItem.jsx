@@ -1,4 +1,3 @@
-import React from 'react';
 import geo from '@/assets/images/logo.png';
 
 // import { useSelector } from 'react-redux';

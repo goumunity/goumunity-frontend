@@ -3,15 +3,16 @@ import { useState } from 'react';
 import ProfileImage from '../../common/ProfileImage';
 import Option from '../../common/Option';
 import imageIcon from '@/assets/svgs/image.svg';
-import mapIcon from '@/assets/svgs/map.svg';
 import useInput from '../../../hooks/useInput';
 import '@/styles.css';
 import { addCommas } from '../../../utils/formatting';
 import useNumInput from '../../../hooks/useNumInput';
-import { imageUpload } from '../../../utils/upload';
-import MapSection from './MapSection';
+import ContentBox from './ContentBox';
+import SelectBox from '../../common/SelectBox';
+import axios from 'axios';
+import ImageSection from './ImageSection';
 
-const MAX_CONTENT_LENGTH = 500;
+const FEED_CATEGORY_OPTIONS = [{id: 1, name: 'INFO'}, {id: 2, name: 'FUN'}]
 
 function CreatePostModal({ onClose }) {
   const [content, handleChangeContent] = useInput('');
@@ -24,23 +25,61 @@ function CreatePostModal({ onClose }) {
 
   const [isSlide, setIsSlide] = useState(false);
 
-  const [image, setImage] = useState('');
+
+  const [region, handleChangeRegion] = useInput('');
+
+  const [feedCategory, setFeedCategory] = useState('');
+
+  const [isLoading, setIsLoading] = useState(false);
+
   // const className = isSlide ? '-translate-x-3/4' : '-translate-x-1/2';
   const modalClassName = isSlide ? 'w-128' : 'w-96';
   const mainSectionClassName = isSlide ? 'w-96' : 'w-96';
+  const [imageSrcList, setImageSrcList] = useState([]);
   
-
   const handleClickOpenSlide = () => {
     setIsSlide(!isSlide);
   };
 
   const handleClickToggleIsInfo = () => {
     setIsInfo(!isInfo);
+    if (isInfo) {
+      setFeedCategory(FEED_CATEGORY_OPTIONS[0].name)
+    } else {
+      setFeedCategory(FEED_CATEGORY_OPTIONS[1].name)
+    }
+    console.log(isInfo)
   };
 
-  const handleChangeUploadProfileImg = (e) => {
-    imageUpload(e.target, setImage);
+  const handleClickCreatePost = async () => {
+    const data = {
+      content,
+      feedCategory,
+      price,
+      afterPrice,
+      regionId: region
+    }
+    console.log(data)
+    const blob = new Blob([JSON.stringify(data)], {type: "application/json"});
+    const formData = new FormData();
+    formData.append('images', imageSrcList)
+    formData.append('data', blob)
+    console.log(formData)
+    try {
+      setIsLoading(true)
+      const res = await axios.post('/api/feeds', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(res)
+    } catch (error) {
+      console.error('api 요청 중 오류 발생 : ', error); 
+    }
+    setIsLoading(false)
+    onClose();
   };
+  
 
   const activeClass = 'underline underline-offset-4 pointer-events-none';
 
@@ -50,14 +89,18 @@ function CreatePostModal({ onClose }) {
         className={`absolute top-1/2 left-1/2 flex transition-width duration-700 delay-300 ${modalClassName} -translate-x-1/2 -translate-y-1/2 z-10 `}
       >
         <div
-          className={`bg-bright rounded-xl shadow-2xl ${mainSectionClassName} overflow-hidden `}
+          className={`relative bg-bright rounded-xl shadow-2xl ${mainSectionClassName} overflow-hidden `}
         >
+          <button className='absolute right-5 top-5 font-daeam cursor-pointer' onClick={handleClickCreatePost}> 게시</button>
           {/* <div>
             <button onClick={handleClickOpenSlide}>슬라이드</button>
           </div> */}
-          <h1 className='font-daeam text-5xl my-2 text-center'>
-            새 게시글 만들기
-          </h1>
+          <div className='flex justify-center'>
+            <h1 className='font-daeam text-5xl my-2 text-center'>
+              새 게시글
+            </h1>
+            
+          </div>
 
           <div className='flex items-center'>
             <button
@@ -84,41 +127,22 @@ function CreatePostModal({ onClose }) {
                 <ProfileImage />
                 <span className='font-daeam'>청룡</span>
               </div>
-              <span className='font-daeam'>관악구</span>
+              {/* <SelectBox onChange={(e) => handleChangeRegion(e.target.value)} /> */}
+              <SelectBox onChange={handleChangeRegion} />
             </div>
 
-            <div className='flex flex-col p-2'>
-              <textarea
-                className='px-2 h-44 bg-bright placeholder:font-her outline-none'
-                type='text'
-                placeholder='문구를 입력하세요...'
-                onChange={handleChangeContent}
-                value={content}
-                maxLength={MAX_CONTENT_LENGTH}
-              />
-              <span className='text-right font-her'>
-                {content.length}/{MAX_CONTENT_LENGTH}
-              </span>
-            </div>
+            <ContentBox content={content} handleChangeContent={handleChangeContent}/>
 
             <div className='flex gap-2 p-2'>
-              <label htmlFor='image'>
-                <Option text='이미지' src={imageIcon} />
-                <input
-                  id='image'
-                  type='file'
-                  accept='image/*'
-                  onChange={handleChangeUploadProfileImg}
-                  className='hidden'
-                />
-              </label>
-              {isInfo && (
+                <Option text='이미지' src={imageIcon} onClick={handleClickOpenSlide} />
+               
+              {/* {isInfo && (
                 <Option
                   text='위치'
                   src={mapIcon}
                   onClick={handleClickOpenSlide}
                 />
-              )}
+              )} */}
             </div>
             {/* </div> */}
           </div>
@@ -141,7 +165,7 @@ function CreatePostModal({ onClose }) {
             </div>
           ) : null}
         </div>
-          <MapSection isSlide={isSlide}/>
+          <ImageSection isSlide={isSlide} setImageSrcList={setImageSrcList} imageSrcList={imageSrcList} />
         
       </div>
       {/* {isSlide && <MapModal isSlide={isSlide} />} */}

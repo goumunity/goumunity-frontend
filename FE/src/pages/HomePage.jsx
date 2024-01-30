@@ -34,8 +34,9 @@ function HomePage() {
     node && observerRef.current.observe(node);
   };
 
+  
   useEffect(
-    function requestPost() {
+    function requestPostList() {
       const fetchData = async () => {
         setIsLoading(true);
         try {

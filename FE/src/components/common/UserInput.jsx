@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 function UserInput({ label, isFirst, id, error, ...props }) {
   const firstRef = useRef();

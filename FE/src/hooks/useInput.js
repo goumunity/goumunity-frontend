@@ -6,6 +6,7 @@ function useInput(initialInput) {
     
     const handleChangeInput = (e) => {
         setInput(e.target.value)
+        console.log('입력 결과 : ', input)
     }
     return [input, handleChangeInput]
 }

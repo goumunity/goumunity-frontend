@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Form, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import CloseButton from './CloseButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../../store/auth';

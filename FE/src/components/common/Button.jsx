@@ -1,5 +1,3 @@
-import React from 'react';
-
 function Button({ text, size, isActive=true, ...props }) {
   const className = isActive ? undefined : 'pointer-events-none opacity-75';
   return (

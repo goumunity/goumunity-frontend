@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../../../store/auth';
 import Button from '../../common/Button';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function LoginModal() {
 

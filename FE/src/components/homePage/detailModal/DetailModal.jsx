@@ -1,20 +1,16 @@
 import CloseButton from '../../common/CloseButton';
-import axios from 'axios';
 import ProfileImage from '../../common/ProfileImage';
 import CommentSection from './CommentSection';
 import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
 import { calculateDate } from '../../../utils/formatting';
+import useAxiosGet from '../../../hooks/useAxiosGet';
 
 function DetailModal() {
   // const post = useLoaderData();
 
   const params = useParams();
 
-  const [post, setPost] = useState({});
-
-  const [isLoading, setIsLoading] = useState(false);
-
+  const [post, isLoading, errorMessage] = useAxiosGet('/fake/post');
 
   const navigate = useNavigate();
 
@@ -22,25 +18,6 @@ function DetailModal() {
   const handleClickGoHome = () => {
     navigate('/');
   };
-
-  // 게시글 불러오기
-  useEffect(function requestPost() {
-
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        // const res = await axios.get(`/api/feeds/${params.postId}`)
-        const res = await axios.get('/fake/post');
-        setPost(res.data);
-
-        console.log('post : ', post);
-      } catch (error) {
-        console.log('에러 발생 : ', error);
-      }
-      setIsLoading(false);
-    };
-    fetchData();
-  }, []);
 
   const {
     feedId,
@@ -62,7 +39,7 @@ function DetailModal() {
         className='absolute top-5 right-5'
         onClick={handleClickGoHome}
       />
-      <div className='z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-4/5 w-3/5 bg-bright border border-gray'>
+      <div className='z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-4/5 w-128 bg-bright border border-gray'>
         <div className='h-full flex'>
           <div className='flex flex-col w-2/3 px-10 py-8 scroll-auto'>
             <div className='flex items-center gap-5'>

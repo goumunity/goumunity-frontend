@@ -170,7 +170,7 @@
       "content": "ㅇㅇㅇㅇㅇ"
     }
   ],
-  "comments": {
+  "commentList": {
     "content": [
       {
         "commentId": 2,
@@ -263,7 +263,7 @@
     "numberOfElements": 3,
     "empty": false
   },
-  "replies": {
+  "replyList": {
     "contents": [
       {
         "replyId": 7,
