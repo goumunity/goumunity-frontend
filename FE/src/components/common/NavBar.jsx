@@ -4,6 +4,7 @@ import CloseButton from './CloseButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../../store/auth';
 import axios from 'axios';
+import ProfileImage from './ProfileImage';
 
 function NavBar() {
   // LandingPage에서는 NavBar를 렌더링하지 않음
@@ -37,6 +38,27 @@ function NavBar() {
     dispatch(authActions.logout());
     navigate('/landing/join/4');
   };
+
+  // 회원탈퇴
+  const handleClickDeleteUser = async () => {
+    const isConfirmed = confirm("정말로 회원 탈퇴하시겠습니까?");
+
+    // 사용자가 확인을 누르면 알림창을 띄우고, 그렇지 않으면 아무 동작도 하지 않음
+    if (!isConfirmed) return;
+    // 여기에 실제 회원 탈퇴 처리 로직을 추가할 수 있음
+  
+    try {
+      const res = await axios.delete('/api/users/my');
+      console.log('회원탈퇴 결과: ', res);
+    } catch (error) {
+      console.log('에러 발생 : ', error);
+      return;
+    }
+    dispatch(authActions.logout());
+    alert("회원 탈퇴가 완료되었습니다.");
+    navigate('/landing/join/1');
+  };
+  
 
   const activeClass = 'underline';
 
@@ -81,7 +103,12 @@ function NavBar() {
             프로필
           </NavLink>
         </li>
-        {isAuth && <button onClick={handleClickLogout}>로그아웃</button>}
+        <li>
+          {/* <ProfileImage profileImage={}/> */}
+        </li>
+
+        <li>{isAuth && <button onClick={handleClickLogout}>로그아웃</button>}</li>
+        <li>{isAuth && <button onClick={handleClickDeleteUser}>회원탈퇴</button>}</li>
       </ul>
     </nav>
   );

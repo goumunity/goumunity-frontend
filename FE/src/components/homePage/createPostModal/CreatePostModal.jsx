@@ -54,17 +54,18 @@ function CreatePostModal({ onClose }) {
   const handleClickCreatePost = async () => {
     const data = {
       content,
-      feedCategory,
+      feedCategory: 'FUN',
       price,
       afterPrice,
-      regionId: region
+      regionId: 1
     }
     console.log(data)
     const blob = new Blob([JSON.stringify(data)], {type: "application/json"});
     const formData = new FormData();
     formData.append('images', imageSrcList)
+    console.log(imageSrcList)
     formData.append('data', blob)
-    console.log(formData)
+    console.log('formData : ', formData)
     try {
       setIsLoading(true)
       const res = await axios.post('/api/feeds', formData, {
@@ -77,7 +78,7 @@ function CreatePostModal({ onClose }) {
       console.error('api 요청 중 오류 발생 : ', error); 
     }
     setIsLoading(false)
-    onClose();
+    // onClose();
   };
   
 

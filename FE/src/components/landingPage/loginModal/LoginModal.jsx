@@ -67,6 +67,14 @@ function LoginModal() {
       });
       console.log(res);
       dispatch(authActions.login());
+      
+      try {
+        const res = await axios.get(`/api/users/${userInputs.email}`)
+        console.log(res)
+      } catch (error) {
+        console.log(error)
+      } 
+
       console.log(`로그인 후: ${isAuth}`);
       navigate('/');
     } catch (error) {

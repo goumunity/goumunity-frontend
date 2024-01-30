@@ -36,6 +36,7 @@ function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
         {imageList ? (
           <Slider className='h-4/5 w-4/5' {...settings}>
             {imageList.map((image, idx) => {
+              console.log(image)
               return (
                 <div key={idx} className='flex justify-center items-center w-1/3 h-1/3'>
                   <img
