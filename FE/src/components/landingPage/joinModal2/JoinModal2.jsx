@@ -1,31 +1,26 @@
 import { useState } from 'react';
-import UserInput from '../components/common/UserInput.jsx';
-import Button from '../components/common/Button.jsx';
+
+import UserInput from '../../common/UserInput.jsx';
+import Button from '../../common/Button.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../store/modal.js';
-import { authActions } from '../store/auth.js';
-import { isEqual } from '../utils/validation.js';
-import CheckBox from '../components/common/CheckBox.jsx';
-import ProfileImage from '../components/common/ProfileImage.jsx';
-import axios from 'axios';
+import { authActions } from '../../../store/auth.js';
+import { isEqual } from '../../../utils/validation.js';
+import CheckBox from '../../common/CheckBox.jsx';
+import ProfileImage from '../../common/ProfileImage.jsx';
+import { calculateAge } from '../../../utils/formatting.js';
+import { Link, useNavigate } from 'react-router-dom';
+import NicknameConfirmButton from '@/components/landingPage/joinModal2/NicknameConfirmButton.jsx';
+
+const GENDER_OPTIONS = [
+  { id: 1, content: '남' },
+  { id: 2, content: '여' },
+];
+
 
 function JoinModal2() {
-  const SERVER_URL = 'api/users';
-
   const joinData = useSelector((state) => state.auth.joinData);
 
   const [profileImage, setProfileImage] = useState('');
-
-  // 이미지 업로드
-  const handleChangeUploadProfileImg = (e) => {
-    const { files } = e.target;
-    const uploadFile = files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(uploadFile);
-    reader.onloadend = () => {
-      setProfileImage(reader.result);
-    };
-  };
 
   const [userInputs, setUserInputs] = useState({
     nickname: joinData?.nickname || '',
@@ -35,19 +30,23 @@ function JoinModal2() {
 
   const [isEdited, setIsEdited] = useState({
     nickname: false,
+
     birthDate: false,
     gender: false,
   });
 
   const [errorMessage, setErrorMessage] = useState('');
 
-  let nicknameIsInvalid = false
+  const [isNicknameValid, setIsNicknameValid] = useState(false);
 
   // 날짜 형식은 숫자 8자리 검증
   const birthDateIsInvalid =
     isEdited.birthDate &&
     (isNaN(userInputs.birthDate) ||
       !isEqual(userInputs.birthDate.trim().length, 8));
+
+  // 모달 창 이동을 위해
+  const navigate = useNavigate();
 
   // input에서 focus를 다른 곳에 두었을 때 수정되었음을 표시
   const handleBlurFocusOffInput = (id) => {
@@ -63,6 +62,7 @@ function JoinModal2() {
   // 회원가입 3페이지(다음 단계)로 가기
   const handleSubmitNext = (e) => {
     e.preventDefault();
+
     setErrorMessage('');
     if (userInputs.nickname === '') {
       setErrorMessage('닉네임을 입력해주세요.');
@@ -76,31 +76,37 @@ function JoinModal2() {
       setErrorMessage('성별을 선택해주세요.');
       return;
     }
+    if (!isNicknameValid) {
+      setErrorMessage('사용할 수 없는 닉네임입니다.');
+      return;
+    }
     if (birthDateIsInvalid) {
       return;
     }
-    const fd = new FormData(e.target);
-    const data = Object.fromEntries(fd.entries());
-    const updatedData = { ...joinData, ...data, gender: userInputs.gender };
-    console.log(updatedData);
-    // e.target.reset();
+
+    const age = calculateAge(userInputs.birthDate);
+    const updatedData = {
+      ...joinData,
+      // imgSrc: profileImage,
+      nickname: userInputs.nickname,
+      age,
+      gender: userInputs.gender,
+    };
     dispatch(authActions.updateJoinData(updatedData));
-    dispatch(modalActions.closeModal());
-    dispatch(modalActions.openJoinModal3());
+
+    console.log(joinData);
+    navigate('/landing/join/3');
   };
 
-  // 사용자 입력 감지
+  // 사용자 입력 감지 
   const handleChangeInputs = (id, value) => {
     // 생년월일을 8자 넘게 못쓰게
     if (id === 'birthDate' && value.trim().length > 8) {
       return;
     }
-    // if (id === 'birthDate' && value.trim().length > 8) {
-    //   console.log('gdgd')
-    //   return;
-    // }
-    // if (id === 'birthDate' && value.trim().length === 8) {
-    // }
+    if (id === 'nickname') {
+      setIsNicknameValid(false)
+    }
     setUserInputs((prev) => ({
       ...prev,
       [id]: value,
@@ -111,46 +117,29 @@ function JoinModal2() {
     }));
   };
 
-  const handleClickCheckDuplicated = async () => {
-    if (userInputs.nickname === '') {
-      setErrorMessage('닉네임을 입력해주세요.');
-      return;
-    }
-    
-    try {
-      const res = await axios.get(`${SERVER_URL}/nickname/validation`, {params:{
-        nickname: userInputs.nickname,
-        }
-      });
-
-      if (res.statusText !== 'OK') {
-        throw new Error('데이터 요청 실패');
-      }
-
-      console.log('닉네임 중복 확인 결과 : ', res.data)
-      if (res.data.exist === true) {
-        setErrorMessage('인증번호가 틀렸습니다.')
-      } else {
-        setErrorMessage('닉네임 인증 완료')
-      }
-
-    } catch (error) {
-      console.error('api 요청 중 오류 발생 : ', error);
-    }
-  };
-
-  // 회원가입 1페이지(이전 단계)로 가기
-  const handleClickPrevious = () => {
-    dispatch(modalActions.closeModal());
-    dispatch(modalActions.openJoinModal1());
+  // 이미지 업로드
+  const handleChangeUploadProfileImg = (e) => {
+    const { files } = e.target;
+    console.log(files)
+    const uploadFile = files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(uploadFile);
+    reader.onloadend = () => {
+      setProfileImage(reader.result);
+    };
+    // dispatch(authActions.updateFile(uploadFile));
+    dispatch(authActions.updateFile(uploadFile));
   };
 
   return (
     <>
       <h1 className='font-daeam text-5xl my-5'>회원가입</h1>
-
       <div className='flex justify-center relative text-center m-5'>
-        <ProfileImage size='20' profileImage={profileImage} onChange={handleChangeUploadProfileImg} />
+        <ProfileImage
+          size={6}
+          profileImage={profileImage}
+          onChange={handleChangeUploadProfileImg}
+        />
       </div>
       <form
         onSubmit={handleSubmitNext}
@@ -168,40 +157,39 @@ function JoinModal2() {
               handleBlurFocusOffInput('nickname');
             }}
             onChange={(e) => handleChangeInputs('nickname', e.target.value)}
-            error={nicknameIsInvalid && '이미 사용중인 닉네임입니다.'}
           />
-          <Button
-            text='중복확인'
-            type='button'
-            onClick={handleClickCheckDuplicated}
+          <NicknameConfirmButton
+            nickname={userInputs.nickname}
+            isNicknameValid={isNicknameValid}
+            setIsNicknameValid={setIsNicknameValid}
+            setErrorMessage={setErrorMessage}
           />
         </div>
         <UserInput
-          label='생년월일'
+          label='나이'
           id='birthDate'
           type='text'
           name='birthDate'
           value={userInputs.birthDate}
           onBlur={() => {
-            handleBlurFocusOffInput('birthDate');
+            handleBlurFocusOffInput('nickname');
           }}
           onChange={(e) => handleChangeInputs('birthDate', e.target.value)}
-          error={
-            birthDateIsInvalid && '생년월일은 YYYYMMDD 형식으로 입력해주세요.'
-          }
+          // error={nicknameIsInvalid && '이미 사용중인 닉네임입니다.'}
         />
+
         <div className='flex flex-col mb-2'>
           <label className='text-left text-2xl font-her'>*성별</label>
           <div className='flex gap-20 text-center justify-center'>
             <CheckBox
               text='남'
-              isChecked={userInputs.gender === '남'}
-              onClick={() => handleChangeInputs('gender', '남')}
+              isChecked={userInputs.gender === GENDER_OPTIONS[0].id}
+              onClick={() => handleChangeInputs('gender', GENDER_OPTIONS[0].id)}
             />
             <CheckBox
               text='여'
-              isChecked={userInputs.gender === '여'}
-              onClick={() => handleChangeInputs('gender', '여')}
+              isChecked={userInputs.gender === GENDER_OPTIONS[1].id}
+              onClick={() => handleChangeInputs('gender', GENDER_OPTIONS[1].id)}
             />
           </div>
         </div>
@@ -209,7 +197,9 @@ function JoinModal2() {
           {errorMessage}
         </div>
         <div className='flex gap-5 justify-center absolute bottom-7 w-full'>
-          <Button text='이전단계' type='button' onClick={handleClickPrevious} />
+          <Link to='/landing/join/1'>
+            <Button text='이전단계' type='button' />
+          </Link>
           <Button text='다음단계' type='submit' />
         </div>
       </form>

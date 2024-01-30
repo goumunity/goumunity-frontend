@@ -11,7 +11,19 @@
       "password": "Ekdms9898!"
     }
   ],
-  "post": [
+  "post": {
+    "feedId": 1,
+    "content": "테스트 게시글 더미더미 덤덤덤덤",
+    "type": 1,
+    "price": 200,
+    "afterPrice": 100,
+    "profit": 100,
+    "regionId": 1,
+    "userId": 1,
+    "createdAt": 1706074498,
+    "updatedAt": 1706074498
+  },
+  "postList": [
     {
       "id": "1",
       "content": "아 싸탈하고 싶다..",
@@ -145,17 +157,159 @@
       "created_at": "2023-09-11"
     }
   ],
-  "comment": [{
-    "id": "1",
-      "content": "재밋네여",
-      "like": 60,
-      "user": 2,
-      "created_at": "2023-09-11"
-  },{
-    "id": "11",
-      "content": "유익하네여, 근데 솔직히 너무 구질구질한 것 같기도..ㅎㅎㅎ",
-      "like": 80,
-      "user": 2,
-      "created_at": "2023-09-11"
-  }]
+  "comment": [
+    {
+      "content": "아아"
+    },
+    {
+      "id": "1db6",
+      "content": "ㄴㅇㄹㄴㅇㄹ"
+    },
+    {
+      "id": "a576",
+      "content": "ㅇㅇㅇㅇㅇ"
+    }
+  ],
+  "comments": {
+    "content": [
+      {
+        "commentId": 2,
+        "content": "테스트 댓글",
+        "feedId": 1,
+        "user": {
+          "id": 1,
+          "email": "tes321@naver.com",
+          "password": "$2a$10$zmYuRsz803OTTClt2FVeLefNr.NeS3nobPztPjrGteyDEabvB.CVe",
+          "monthBudget": 100000,
+          "age": 26,
+          "userCategory": "JOB_SEEKER",
+          "gender": 1,
+          "nickname": "김대",
+          "imgSrc": "https://goumunity.s3.ap-northeast-2.amazonaws.com/upload/894182f3-dab1-4c4d-86ad-001bd91beb29test.jpg",
+          "registerDate": "2024-01-24T05:34:17Z",
+          "userStatus": "ACTIVE",
+          "lastPasswordModifiedDate": "2024-01-24T05:34:17Z",
+          "regionId": 1
+        },
+        "createdAt": null,
+        "updatedAt": 1706074498
+      },
+      {
+        "commentId": 3,
+        "content": "테스트 댓글1",
+        "feedId": 1,
+        "user": {
+          "id": 1,
+          "email": "tes321@naver.com",
+          "password": "$2a$10$zmYuRsz803OTTClt2FVeLefNr.NeS3nobPztPjrGteyDEabvB.CVe",
+          "monthBudget": 100000,
+          "age": 26,
+          "userCategory": "JOB_SEEKER",
+          "gender": 1,
+          "nickname": "김대",
+          "imgSrc": "https://goumunity.s3.ap-northeast-2.amazonaws.com/upload/894182f3-dab1-4c4d-86ad-001bd91beb29test.jpg",
+          "registerDate": "2024-01-24T05:34:17Z",
+          "userStatus": "ACTIVE",
+          "lastPasswordModifiedDate": "2024-01-24T05:34:17Z",
+          "regionId": 1
+        },
+        "createdAt": null,
+        "updatedAt": 1706074498
+      },
+      {
+        "commentId": 4,
+        "content": "테스트 댓글2",
+        "feedId": 1,
+        "user": {
+          "id": 1,
+          "email": "tes321@naver.com",
+          "password": "$2a$10$zmYuRsz803OTTClt2FVeLefNr.NeS3nobPztPjrGteyDEabvB.CVe",
+          "monthBudget": 100000,
+          "age": 26,
+          "userCategory": "JOB_SEEKER",
+          "gender": 1,
+          "nickname": "김대",
+          "imgSrc": "https://goumunity.s3.ap-northeast-2.amazonaws.com/upload/894182f3-dab1-4c4d-86ad-001bd91beb29test.jpg",
+          "registerDate": "2024-01-24T05:34:17Z",
+          "userStatus": "ACTIVE",
+          "lastPasswordModifiedDate": "2024-01-24T05:34:17Z",
+          "regionId": 1
+        },
+        "createdAt": null,
+        "updatedAt": 1706074498
+      }
+    ],
+    "pageable": {
+      "pageNumber": 0,
+      "pageSize": 3,
+      "sort": {
+        "empty": true,
+        "sorted": false,
+        "unsorted": true
+      },
+      "offset": 0,
+      "unpaged": false,
+      "paged": true
+    },
+    "size": 3,
+    "number": 0,
+    "sort": {
+      "empty": true,
+      "sorted": false,
+      "unsorted": true
+    },
+    "first": true,
+    "last": false,
+    "numberOfElements": 3,
+    "empty": false
+  },
+  "replies": {
+    "contents": [
+      {
+        "replyId": 7,
+        "content": "답글 test",
+        "commentId": 13,
+        "user": {
+          "id": 1,
+          "email": "tes321@naver.com",
+          "password": "$2a$10$zmYuRsz803OTTClt2FVeLefNr.NeS3nobPztPjrGteyDEabvB.CVe",
+          "monthBudget": 100000,
+          "age": 26,
+          "userCategory": "JOB_SEEKER",
+          "gender": 1,
+          "nickname": "김대",
+          "imgSrc": "https://goumunity.s3.ap-northeast-2.amazonaws.com/upload/894182f3-dab1-4c4d-86ad-001bd91beb29test.jpg",
+          "registerDate": "2024-01-24T05:34:17Z",
+          "userStatus": "ACTIVE",
+          "lastPasswordModifiedDate": "2024-01-24T05:34:17Z",
+          "regionId": 1
+        },
+        "createdAt": 1706239573000,
+        "updatedAt": 1706239573000
+      },
+      {
+        "replyId": 8,
+        "content": "답글 2222",
+        "commentId": 13,
+        "user": {
+          "id": 1,
+          "email": "tes321@naver.com",
+          "password": "$2a$10$zmYuRsz803OTTClt2FVeLefNr.NeS3nobPztPjrGteyDEabvB.CVe",
+          "monthBudget": 100000,
+          "age": 26,
+          "userCategory": "JOB_SEEKER",
+          "gender": 1,
+          "nickname": "김대",
+          "imgSrc": "https://goumunity.s3.ap-northeast-2.amazonaws.com/upload/894182f3-dab1-4c4d-86ad-001bd91beb29test.jpg",
+          "registerDate": "2024-01-24T05:34:17Z",
+          "userStatus": "ACTIVE",
+          "lastPasswordModifiedDate": "2024-01-24T05:34:17Z",
+          "regionId": 1
+        },
+        "createdAt": 1706239573000,
+        "updatedAt": 1706239573000
+      }
+    ],
+    "hasNext": false
+  }
 }

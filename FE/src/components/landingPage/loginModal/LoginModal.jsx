@@ -1,22 +1,24 @@
-import { useState } from "react";
-import UserInput from "../components/common/UserInput.jsx";
-import { isEmail, validatePassword } from "../utils/validation.js";
-import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "../store/auth.js";
-import Button from "../components/common/Button.jsx";
+
+import { useState } from 'react';
+import UserInput from '../../common/UserInput.jsx';
+import { isEmail, validatePassword } from '../../../utils/validation.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { authActions } from '../../../store/auth.js';
+import Button from '../../common/Button.jsx';
 import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function LoginModal() {
 
-  const SERVER_URL = 'api/users'
+  const [isLoading, setIsLoading] = useState(false);
 
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
 
   const [errorMessage, setErrorMessage] = useState('');
 
   const [userInputs, setUserInputs] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const [isEdited, setIsEdited] = useState({
@@ -37,14 +39,16 @@ function LoginModal() {
     }));
   };
 
+  // 로그인 후 메인페이지로 이동하기 위해
+  const navigate = useNavigate();
+
   // auth state의 login 함수를 쓰기 위해
   const dispatch = useDispatch();
 
   // 로그인
-  const handleSubmitLogin =  async (e) => {
+  const handleSubmitLogin = async (e) => {
     e.preventDefault();
-    setErrorMessage('')
-    console.log(`로그인 전: ${isAuth}`);
+    setErrorMessage('');
     if (userInputs.email === '') {
       setErrorMessage('이메일을 입력해주세요.');
       return;
@@ -56,14 +60,26 @@ function LoginModal() {
     if (emailIsInvalid || passwordIsInvalid) {
       return;
     }
-    const res = await axios.post(`${SERVER_URL}/login`, { email: userInputs.email, password: userInputs.password })
-    console.log(res)
-    dispatch(authActions.login());
-    console.log(`로그인 후: ${isAuth}`);
+    try {
+      setIsLoading(true)
+      const res = await axios.post('/api/users/login', {
+        id: userInputs.email,
+        password: userInputs.password,
+      });
+      console.log(res);
+      dispatch(authActions.login());
+      console.log(`로그인 후: ${isAuth}`);
+      navigate('/');
+    } catch (error) {
+      console.log('에러 발생 : ', error);
+      setErrorMessage('이메일과 비밀번호를 다시 확인해주세요.')
+    }
+    setIsLoading(false)
   };
 
   // 사용자의 입력 감지
   const handleChangeInputs = (id, value) => {
+    setErrorMessage('')
     setUserInputs((prev) => ({
       ...prev,
       [id]: value,
@@ -76,43 +92,42 @@ function LoginModal() {
 
   return (
     <>
-      <h1 className="font-daeam text-5xl my-5">로그인</h1>
+      <h1 className='font-daeam text-5xl my-5'>로그인</h1>
       {/* <p className="my-4 font-her text-2xl">
         같은 거지들과 절약 정보를 공유하세요
       </p> */}
-      <form onSubmit={handleSubmitLogin} className="px-2">
+      <form onSubmit={handleSubmitLogin} className='px-2'>
         <UserInput
           isFirst={true}
-          label="이메일"
-          id="email"
-          type="email"
+          label='이메일'
+          id='email'
+          type='email'
           value={userInputs.email}
           onBlur={() => {
-            handleBlurFocusOffInput("email");
+            handleBlurFocusOffInput('email');
           }}
-          onChange={(e) => handleChangeInputs("email", e.target.value)}
+          onChange={(e) => handleChangeInputs('email', e.target.value)}
           error={emailIsInvalid && '이메일에 "@" 기호가 포함되어야 합니다.'}
         />
         <UserInput
-          label="비밀번호"
-          id="password"
-          type="password"
+          label='비밀번호'
+          id='password'
+          type='password'
           value={userInputs.password}
           onBlur={() => {
-            handleBlurFocusOffInput("password");
+            handleBlurFocusOffInput('password');
           }}
-          onChange={(e) => handleChangeInputs("password", e.target.value)}
+          onChange={(e) => handleChangeInputs('password', e.target.value)}
           error={
             passwordIsInvalid &&
-            "비밀번호는 8~20자 · 최소 1개의 소문자, 대문자, 숫자, 특수문자를 포함해야 합니다."
+            '비밀번호는 8~20자 · 최소 1개의 소문자, 대문자, 숫자, 특수문자를 포함해야 합니다.'
           }
         />
-        <Button text='로그인'/>
-        {/* <button className="w-full text-white rounded-xl font-daeam bg-button px-2 py-1">
-          로그인
-        </button> */}
+        <Button text={isLoading ? '로그인 중' : '로그인'} isActive={!isLoading}/>
       </form>
-      <div className='my-5 font-dove text-xl underline-offset-auto cursor-pointer underline' >비밀번호를 잊어버리셨나요?</div>
+      <div className='my-5 font-dove text-xl underline-offset-auto cursor-pointer underline'>
+        비밀번호를 잊어버리셨나요?
+      </div>
       <div className='font-dove text-red-600 text-xl m-3'>{errorMessage}</div>
     </>
   );

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { modalActions } from '../../store/modal.js';
 import { authActions } from '../../store/auth.js';
 
-function CustomModal({ children }) {
+function CustomModal({ children, onClick }) {
   const modalRef = useRef();
 
   // 전역 modal state의 close함수, joinData의 초기화를 위해
@@ -27,13 +27,15 @@ function CustomModal({ children }) {
       // closeJoinModal();
       dispatch(modalActions.closeModal());
       dispatch(authActions.clearJoinData());
+      onClick();
     }
   };
 
   // x눌렀을 때 모달 닫으면서 joinData 초기화
-  const closeModal = () => {
+  const handleClickCloseModal = () => {
     dispatch(modalActions.closeModal());
     dispatch(authActions.clearJoinData());
+    onClick();
   };
 
   const initailSize = { widthSize: 467, heigthSize: 575 };
@@ -41,9 +43,9 @@ function CustomModal({ children }) {
   const heigthSize = '575';
   const widthSize2 = '800';
   const heigthSize2 = '575';
-  
+
   return (
-    <div className='fixed top-0 left-0 bg-back right-0 bottom-0'>
+    <div className='fixed top-0 left-0 bg-back right-0 bottom-0 z-20'>
       <svg
         className='z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-bg transition duration-300'
         width={`${initailSize.widthSize}px`}
@@ -80,7 +82,7 @@ function CustomModal({ children }) {
         </defs>
         <foreignObject className='w-full h-full px-8 py-10 flex flex-col justify-center items-center text-center'>
           {/* <CloseButton onClick={closeJoinModal} /> */}
-          <CloseButton onClick={closeModal} />
+          <CloseButton onClick={handleClickCloseModal} className='absolute top-5 right-5'/>
           {children}
         </foreignObject>
       </svg>

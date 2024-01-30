@@ -17,15 +17,56 @@ pipeline {
                         // sh 'rm package-lock.json'
                         sh 'npm install'
 			            sh 'npm install --global yarn'
+                        sh 'npm install --global vite'
+                        sh 'yarn global add create-vite'
+                        sh 'yarn add vite --dev'
                         sh 'yarn install'
                         sh 'yarn build'
+                        
 
-                        sh 'curl "https://www.ssafyhelper.shop/control/dev/fe"'
+                        
                     }
                 }
             }
         }
+    
+
+    stage('Send Artifact'){
+            steps{
+                sh 'ls -l'
+                sh 'ls -l FE/'
+                sh 'ls -l FE/dist'
+                sh 'tar -cvf febuild.tar FE/dist'
+                sh 'ls -l'
+                script{
+                    sshPublisher(
+                            publishers: [
+                                sshPublisherDesc(
+                                    configName: 'ssafycontrol',
+                                    transfers: [
+                                        sshTransfer(
+                                            sourceFiles: 'febuild.tar',
+                                            remoteDirectory: '/sendData',
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
+                }
+            }
+            
+        }
+        stage('Auto CI By Git-lab CI-CD'){
+            steps{
+                script{
+                    sh 'echo manual Auto CI Start'
+                    sh 'curl "https://ssafycontrol.shop/control/dev/fe"'
+                }
+
+            }
+        }
     }
+
 
     post {
         success {

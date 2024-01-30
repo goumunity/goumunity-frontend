@@ -7,7 +7,6 @@
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/DAEAM_LEE_TAE_JOON.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
-  
 }
 
 @font-face {
@@ -15,7 +14,6 @@
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_ten@1.0/Her-Gilwonok.woff') format('woff');
   font-weight: normal;
   font-style: normal;
- 
 }
 
 @font-face {
@@ -26,3 +24,9 @@
 }
 
 
+.img-bg{
+  height: 300px;
+  background-image: url(./public/img/background.jfif);
+  background-size: cover;
+  background-position: center;
+}

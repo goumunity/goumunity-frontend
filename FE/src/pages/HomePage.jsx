@@ -1,29 +1,26 @@
 import { useEffect, useRef, useState } from 'react';
 import Post from '../components/homePage/Post.jsx';
 import axios from 'axios';
-import DetailModal from '../modal/DetailModal.jsx';
-import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../store/modal.js';
-import CreatePostModal from '../modal/CreatePostModal.jsx';
 
-const SERVER_URL = 'fake/post/';
+import DetailModal from '@/components/homePage/detailModal/DetailModal.jsx';
+import { useDispatch } from 'react-redux';
+import { modalActions } from '../store/modal.js';
+import CreatePostModal from '@/components/homePage/createPostModal/CreatePostModal.jsx';
+import { useParams } from 'react-router-dom';
+
 
 function HomePage() {
+  const params = useParams();
 
-  console.log('gdgd')
-
-  const isDetailModalOpen = useSelector(
-    (state) => state.modal.isDetailModalOpen
-  );
-
-  const isCreatePostModalOpen = useSelector(
-    (state) => state.modal.isCreatePostModalOpen
-  );
+  // const isCreatePostModalOpen = useSelector(
+  //   (state) => state.modal.isCreatePostModalOpen
+  // );
 
   // const [isModalOpen, setIsModalOpen] = useState(false);
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(0);
+  const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
 
   const observerRef = useRef();
 
@@ -44,44 +41,52 @@ function HomePage() {
       const fetchData = async () => {
         setIsLoading(true);
         try {
-          const res = await axios.get(SERVER_URL);
+          const res = await axios.get('fake/postList');
 
           if (res.statusText !== 'OK') {
             throw new Error('데이터 요청 실패');
           }
-          setPosts((prev) => [...prev, ...res.data]);
+          setPosts(res.data)
+          // return res.data;
         } catch (error) {
           console.error('api 요청 중 오류 발생 : ', error);
         }
-        setIsLoading(false);
+        // setIsLoading(false);
       };
 
       fetchData();
     },
     [page]
-  ); 
-  
+  );
   const dispatch = useDispatch();
 
   const handleClickOpenDetailModal = () => {
-    console.log('gdgd')
+    console.log('gdgd');
     dispatch(modalActions.openDetailModal());
-  }
+  };
 
   const handleClickOpenCreatePostModal = () => {
-    dispatch(modalActions.openCreatePostModal());
-  }
+    setIsCreatePostModalOpen(true)
+  };
 
   return (
-    <div className='pl-64 flex flex-col items-center bg-bright'>
-
+    <div className='flex flex-col items-center bg-bright'>
       {posts?.map((post, idx) => {
-        return <Post post={post} key={idx} onClick={handleClickOpenDetailModal}/>;
+        return (
+          <Post post={post} key={idx}   />
+        );
       })}
       <div ref={observer} style={{ height: '10px' }}></div>
-      {isDetailModalOpen && <DetailModal />}
-      {isCreatePostModalOpen && <CreatePostModal />}
-      <button className='fixed bottom-5 right-5 cursor-pointer' onClick={handleClickOpenCreatePostModal}>애드</button>
+      {/* {isDetailModalOpen && <DetailModal />} */}
+      {params.postId && <DetailModal id={params.postId} />}
+      {isCreatePostModalOpen && <CreatePostModal onClose={() => setIsCreatePostModalOpen(false)}/>}
+      
+      <button
+        className='fixed bottom-5 right-5 cursor-pointer'
+        onClick={handleClickOpenCreatePostModal}
+      >
+        애드
+      </button>
     </div>
   );
 }

@@ -1,16 +1,15 @@
 import { useState } from 'react';
-import { isEmail, isEqual, validatePassword } from '../utils/validation.js';
-import UserInput from '../components/common/UserInput.jsx';
-import Button from '../components/common/Button.jsx';
+
+import { isEmail, isEqual, validatePassword } from '../../../utils/validation.js';
+import UserInput from '../../common/UserInput.jsx';
+import Button from '../../common/Button.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../store/modal.js';
-import { authActions } from '../store/auth.js';
-import axios from 'axios';
+import { authActions } from '../../../store/auth.js';
 import '@/styles.css';
+import EmailConfirmButton from '@/components/landingPage/joinModal1/EmailConfirmButton.jsx';
+import { useNavigate } from 'react-router-dom';
 
 function JoinModal1() {
-  const SERVER_URL = 'api/users';
-
   const joinData = useSelector((state) => state.auth.joinData);
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -29,7 +28,7 @@ function JoinModal1() {
     passwordConfirm: false,
   });
 
-  const [isEmailConfirmSended, setIsEmailConfirmSended] = useState(false);
+  const [isEmailConfirmValid, setIsEmailConfirmValid] = useState(false)
 
   // 이메일에는 @ 포함되어야 함
   const emailIsInvalid = isEdited.email && !isEmail(userInputs.email);
@@ -56,9 +55,13 @@ function JoinModal1() {
     }));
   };
 
+  // 모달 창 이동을 위해
+  const navigate = useNavigate();
+
   // 사용자의 입력 감지
   const handleChangeInputs = (id, value) => {
     // 인증번호를 6자 이상못쓰게
+
     if (id === 'emailConfirm' && value.trim().length > 6) {
       return;
     }
@@ -72,56 +75,13 @@ function JoinModal1() {
     }));
   };
 
-  // 인증번호 발송
-  const handleClickSendEmailConfirm = async () => {
-    if (userInputs.email === '') {
-      setErrorMessage('이메일을 입력해주세요.');
-      return;
-    }
-    if (emailIsInvalid) {
-      return;
-    }
-    const res = await axios.get(`${SERVER_URL}/email/verification`, {
-      params: { email: userInputs.email },
-    });
-    console.log(res);
-    setIsEmailConfirmSended(true);
-  };
-
-  // 인증번호 확인
-  const handleClickCheckEmailConfirm = async () => {
-    if (emailConfirmIsInvalid) {
-      return;
-    }
-
-    try {
-      const res = await axios.post(`${SERVER_URL}/email/verification`, {
-        code: userInputs.emailConfirm,
-        email: userInputs.email,
-      });
-
-      if (res.statusText !== 'OK') {
-        throw new Error('데이터 요청 실패');
-      }
-      console.log('인증번호 확인 결과 : ', res.data)
-      if (res.data === false) {
-        setErrorMessage('인증번호가 틀렸습니다.')
-      } else {
-        setErrorMessage('인증 완료')
-      }
-
-    } catch (error) {
-      console.error('api 요청 중 오류 발생 : ', error);
-    }
-  };
-
   // 전역 joinData의 update함수와 전역 modal의 close 함수를 쓰기 위해
   const dispatch = useDispatch();
 
   // 회원가입 2페이지로 이동
   const handleSubmitNext = (e) => {
     e.preventDefault();
-    setErrorMessage('');
+    // setErrorMessage('');
     if (userInputs.email === '') {
       setErrorMessage('이메일을 입력해주세요.');
       return;
@@ -138,6 +98,10 @@ function JoinModal1() {
       setErrorMessage('비밀번호를 다시 확인해주세요.');
       return;
     }
+    if (!isEmailConfirmValid) {
+      setErrorMessage('인증번호를 다시 확인해주세요.')
+      return;
+    }
     // 유효성 검사 중 하나라도 통과못하면 다음페이지로 못 가게
     if (
       emailIsInvalid ||
@@ -147,13 +111,11 @@ function JoinModal1() {
     ) {
       return;
     }
-    const fd = new FormData(e.target);
-    const data = Object.fromEntries(fd.entries());
-    console.log(data);
-    // e.target.reset();
+
+    const data = { email: userInputs.email, password: userInputs.password };
     dispatch(authActions.updateJoinData(data));
-    dispatch(modalActions.closeModal());
-    dispatch(modalActions.openJoinModal2());
+    console.log(joinData);
+    navigate('/landing/join/2')
   };
 
   return (
@@ -186,17 +148,15 @@ function JoinModal1() {
             onChange={(e) => handleChangeInputs('emailConfirm', e.target.value)}
             error={emailConfirmIsInvalid && '인증코드는 6자리 숫자여야 합니다.'}
           />
-          {isEmailConfirmSended ? (
-            <Button
-              text='인증번호 확인'
-              onClick={handleClickCheckEmailConfirm}
-            />
-          ) : (
-            <Button
-              text='인증번호 발송'
-              onClick={handleClickSendEmailConfirm}
-            />
-          )}
+          <EmailConfirmButton
+            emailConfirm={userInputs.emailConfirm}
+            setErrorMessage={setErrorMessage}
+            email={userInputs.email}
+            emailIsInvalid={emailIsInvalid}
+            emailConfirmIsInvalid={emailConfirmIsInvalid}
+            isEmailConfirmValid={isEmailConfirmValid}
+            setIsEmailConfirmValid={setIsEmailConfirmValid}
+          />
         </div>
         <UserInput
           label='비밀번호'
