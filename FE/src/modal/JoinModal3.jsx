@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import UserInput from '../components/common/UserInput';
-import Button from '../components/common/Button';
+import UserInput from '../components/common/UserInput.jsx';
+import Button from '../components/common/Button.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../store/modal';
-import CheckBox from '../components/common/CheckBox';
-import { authActions } from '../store/auth';
-import SelectBox from '../components/common/SelectBox';
+import { modalActions } from '../store/modal.js';
+import CheckBox from '../components/common/CheckBox.jsx';
+import { authActions } from '../store/auth.js';
+import SelectBox from '../components/common/SelectBox.jsx';
 import axios from 'axios';
 function JoinModal3() {
 

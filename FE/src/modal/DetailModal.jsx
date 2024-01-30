@@ -1,10 +1,10 @@
 import { useDispatch } from 'react-redux';
-import CloseButton from '../components/common/closeButton';
-import { modalActions } from '../store/modal';
+import CloseButton from '../components/common/CloseButton.jsx';
+import { modalActions } from '../store/modal.js';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import ProfileImage from '../components/common/ProfileImage';
-import CommentSection from '../components/detailModal/CommentSection';
+import ProfileImage from '../components/common/ProfileImage.jsx';
+import CommentSection from '../components/detailModal/CommentSection.jsx';
 
 function DetailModal() {
   const [post, setPost] = useState([]);

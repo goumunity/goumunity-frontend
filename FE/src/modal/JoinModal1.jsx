@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { isEmail, isEqual, validatePassword } from '../utils/validation';
-import UserInput from '../components/common/UserInput';
-import Button from '../components/common/Button';
+import { isEmail, isEqual, validatePassword } from '../utils/validation.js';
+import UserInput from '../components/common/UserInput.jsx';
+import Button from '../components/common/Button.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../store/modal';
-import { authActions } from '../store/auth';
+import { modalActions } from '../store/modal.js';
+import { authActions } from '../store/auth.js';
 import axios from 'axios';
 import '@/styles.css';
 

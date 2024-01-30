@@ -1,9 +1,9 @@
 import { useState } from "react";
-import UserInput from "../components/common/UserInput";
-import { isEmail, validatePassword } from "../utils/validation";
+import UserInput from "../components/common/UserInput.jsx";
+import { isEmail, validatePassword } from "../utils/validation.js";
 import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "../store/auth";
-import Button from "../components/common/Button";
+import { authActions } from "../store/auth.js";
+import Button from "../components/common/Button.jsx";
 import axios from 'axios';
 
 function LoginModal() {

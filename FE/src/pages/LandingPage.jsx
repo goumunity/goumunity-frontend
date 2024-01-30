@@ -1,11 +1,11 @@
-import Button from "../components/common/Button";
+import Button from "../components/common/Button.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { modalActions } from "../store/modal";
-import CustomModal from "../components/common/CustomModal";
-import JoinModal1 from "../modal/JoinModal1";
-import LoginModal from "../modal/LoginModal";
-import JoinModal2 from '../modal/JoinModal2';
-import JoinModal3 from "../modal/JoinModal3";
+import { modalActions } from "../store/modal.js";
+import CustomModal from "../components/common/CustomModal.jsx";
+import JoinModal1 from "../modal/JoinModal1.jsx";
+import LoginModal from "../modal/LoginModal.jsx";
+import JoinModal2 from '../modal/JoinModal2.jsx';
+import JoinModal3 from "../modal/JoinModal3.jsx";
 
 function LandingPage() {
   const isModalOpen = useSelector((state) => state.modal.isModalOpen);

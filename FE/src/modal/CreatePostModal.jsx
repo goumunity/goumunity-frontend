@@ -1,14 +1,14 @@
-import CloseButton from '@/components/common/CloseButton';
+import CloseButton from '@/components/common/CloseButton.jsx';
 import { useDispatch } from 'react-redux';
-import { modalActions } from '../store/modal';
+import { modalActions } from '../store/modal.js';
 import { useState } from 'react';
-import MapModal from '@/modal/MapModal';
-import ProfileImage from '../components/common/ProfileImage';
-import Option from '../components/common/Option';
+import MapModal from '@/modal/MapModal.jsx';
+import ProfileImage from '../components/common/ProfileImage.jsx';
+import Option from '../components/common/Option.jsx';
 import imageIcon from '@/assets/svgs/image.svg';
 import categoryIcon from '@/assets/svgs/category.svg';
 import mapIcon from '@/assets/svgs/map.svg';
-import useInput from '../hooks/useInput';
+import useInput from '../hooks/useInput.js';
 import '@/styles.css';
 
 const MAX_CONTENT_LENGTH = 500;

@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import UserInput from '../components/common/UserInput';
-import Button from '../components/common/Button';
+import UserInput from '../components/common/UserInput.jsx';
+import Button from '../components/common/Button.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../store/modal';
-import { authActions } from '../store/auth';
-import { isEqual } from '../utils/validation';
-import CheckBox from '../components/common/CheckBox';
-import ProfileImage from '../components/common/ProfileImage';
+import { modalActions } from '../store/modal.js';
+import { authActions } from '../store/auth.js';
+import { isEqual } from '../utils/validation.js';
+import CheckBox from '../components/common/CheckBox.jsx';
+import ProfileImage from '../components/common/ProfileImage.jsx';
 import axios from 'axios';
 
 function JoinModal2() {

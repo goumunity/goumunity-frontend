@@ -1,10 +1,10 @@
-import CreateCommentBox from './CreateCommentBox';
-import Option from '../common/Option';
-import Comment from './Comment';
+import CreateCommentBox from './CreateCommentBox.jsx';
+import Option from '../common/Option.jsx';
+import Comment from './Comment.jsx';
 import { useEffect, useState } from 'react';
-import useInput from '../../hooks/useInput';
+import useInput from '../../hooks/useInput.js';
 import axios from 'axios';
-import OptionBox from './OptionBox';
+import OptionBox from './OptionBox.jsx';
 
 function CommentSection() {
 

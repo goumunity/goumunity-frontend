@@ -1,5 +1,5 @@
-import useInput from '../../hooks/useInput';
-import Button from '../common/Button';
+import useInput from '../../hooks/useInput.js';
+import Button from '../common/Button.jsx';
 
 function CreateCommentBox() {
   const [input, handleChangeInput] = useInput('');

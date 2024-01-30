@@ -1,13 +1,13 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import ReactModal from "react-modal";
-import LandingPage from "./pages/LandingPage";
-import JoinPage from "./pages/JoinPage";
-import LayOut from "./components/common/LayOut";
-import ChatPage from "./pages/ChatPage";
-import ProfilePage from "./pages/ProfilePage";
+import LandingPage from "./pages/LandingPage.jsx";
+import JoinPage from "./pages/JoinPage.jsx";
+import LayOut from "./components/common/LayOut.jsx";
+import ChatPage from "./pages/ChatPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
 import "./index.css";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/HomePage.jsx";
 
 const router = createBrowserRouter([
   {

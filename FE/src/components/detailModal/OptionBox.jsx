@@ -1,4 +1,4 @@
-import Option from '../common/Option';
+import Option from '../common/Option.jsx';
 import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import commentIcon from '@/assets/svgs/commentIcon.svg';

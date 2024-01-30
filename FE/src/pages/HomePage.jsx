@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import Post from '../components/homePage/Post';
+import Post from '../components/homePage/Post.jsx';
 import axios from 'axios';
-import DetailModal from '../modal/DetailModal';
+import DetailModal from '../modal/DetailModal.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../store/modal';
-import CreatePostModal from '../modal/CreatePostModal';
+import { modalActions } from '../store/modal.js';
+import CreatePostModal from '../modal/CreatePostModal.jsx';
 
 const SERVER_URL = 'fake/post/';
 

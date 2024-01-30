@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import ProfileImage from '../common/ProfileImage';
+import ProfileImage from '../common/ProfileImage.jsx';
 import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import commentIcon from '@/assets/svgs/commentIcon.svg';
-import Option from '../common/Option';
-import { modalActions } from '../../store/modal';
+import Option from '../common/Option.jsx';
+import { modalActions } from '../../store/modal.js';
 import { useDispatch } from 'react-redux';
 
 // 댓글, 답글 200자
