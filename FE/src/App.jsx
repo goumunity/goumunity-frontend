@@ -19,6 +19,7 @@ const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       // { path: '/:feedId', element: <HomePage />, loader: () => feedLoader(feedId) },
       { path: '/:feedId', element: <HomePage /> },
+      { path: '/create/:id', element: <HomePage /> },
       { path: '/landing', element: <LandingPage /> },
       { path: '/landing/join/:joinId', element: <LandingPage /> },
       { path: '/:login', element: <LandingPage /> },

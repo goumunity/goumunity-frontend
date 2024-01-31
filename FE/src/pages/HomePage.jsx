@@ -19,8 +19,6 @@ function HomePage() {
   const [page, setPage] = useState(0);
   const [isCreateFeedModalOpen, setIsCreateFeedModalOpen] = useState(false);
 
-  const [initialLoadTime, setInitialLoadTime] = useState(null);
-
   const observerRef = useRef();
 
   const lastFeedRef = useCallback(
@@ -31,7 +29,7 @@ function HomePage() {
       observerRef.current = new IntersectionObserver((entries) => {
         console.log('entries[0].isIntersecting : ', entries[0].isIntersecting);
         if (entries[0].isIntersecting && hasNext) {
-          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+          setPage((prevPageNumber) => prevPageNumber + 1);
         }
       });
       
@@ -44,25 +42,24 @@ function HomePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true)
         const res = await axios.get('/api/feeds', { params: {
-          page, size: 5, time: initialTime
+          page, size: 3, time: initialTime
         }})
         console.log('feedList 요청 결과 : ', res)
         console.log('요청 시간 : ', initialTime)
-        setFeedList(res.data.contents)
+        setFeedList((prev) => [...prev, ...res.data.contents])
+        setHasNext(res.data.hasNext)
       } catch (error) {
         console.log('feedList 요청 중 에러 발생 : ', error)
       }
+      setIsLoading(false)
     }
     fetchData();
   }, [page])
 
   const handleClickOpenCreateFeedModal = () => {
     setIsCreateFeedModalOpen(true);
-  };
-
-  const handleClickOpenDetail = () => {
-    navigate('/1');
   };
 
   return (
@@ -72,23 +69,19 @@ function HomePage() {
       ))}
 
       {params.feedId && <DetailModal  />}
-      {isCreateFeedModalOpen && (
+      {/* {isCreateFeedModalOpen && (
         <CreateFeedModal onClose={() => setIsCreateFeedModalOpen(false)} />
+      )} */}
+      {params.id && (
+        <CreateFeedModal />
       )}
 
-      <button
+      {/* <button
         className='fixed bottom-5 right-5 cursor-pointer'
         onClick={handleClickOpenCreateFeedModal}
       >
         애드
-      </button>
-
-      <button
-        className='fixed bottom-10 right-5 cursor-pointer'
-        onClick={handleClickOpenDetail}
-      >
-        조회
-      </button>
+      </button> */}
       <div ref={lastFeedRef} style={{ height: '10px' }}></div>
 
     </div>

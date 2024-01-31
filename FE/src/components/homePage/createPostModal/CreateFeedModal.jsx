@@ -12,6 +12,7 @@ import SelectBox from '../../common/SelectBox';
 import axios from 'axios';
 import ImageSection from './ImageSection';
 import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
 const FEED_CATEGORY_OPTIONS = [
   { id: 1, name: 'INFO' },
@@ -47,6 +48,8 @@ function CreatePostModal({ onClose }) {
     setIsSlide(!isSlide);
   };
 
+  const navigate = useNavigate();
+
   const handleClickToggleIsInfo = () => {
     setIsInfo(!isInfo);
     if (isInfo) {
@@ -80,11 +83,11 @@ function CreatePostModal({ onClose }) {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(res);
     } catch (error) {
       console.error('api 요청 중 오류 발생 : ', error);
     }
     setIsLoading(false);
+    navigate('/')
     // onClose();
   };
 
@@ -96,7 +99,7 @@ function CreatePostModal({ onClose }) {
         className={`absolute top-1/2 left-1/2 flex transition-width duration-700 delay-300 ${modalClassName} -translate-x-1/2 -translate-y-1/2 z-10 `}
       >
         <div
-          className={`flex h-128 bg-bright rounded-xl shadow-2xl  overflow-hidden `}
+          className={`flex h-128 bg-bright rounded-xl shadow-2xl  overflow-hidden`}
         >
           <div className={`relative ${mainSectionClassName}`}>
             <button
@@ -185,7 +188,9 @@ function CreatePostModal({ onClose }) {
       </div>
       {/* {isSlide && <MapModal isSlide={isSlide} />} */}
       <div className='fixed top-0 left-0 bg-back w-full h-full'>
-        <CloseButton className='absolute top-5 right-5' onClick={onClose} />
+        <Link to='/'>
+        <CloseButton className='absolute top-5 right-5'/>
+        </Link>
       </div>
     </div>
   );

@@ -108,9 +108,15 @@ function NavBar() {
         <li>
           {isAuth && <ProfileImage profileImage={currentUser.imgSrc}/> }
         </li>
-
+        <li>{isAuth && <NavLink
+            to='/create/1'
+            className={({ isActive }) => (isActive ? activeClass : undefined)}
+          >
+            글쓰기
+          </NavLink>}</li>
         <li>{isAuth && <button onClick={handleClickLogout}>로그아웃</button>}</li>
         <li>{isAuth && <button onClick={handleClickDeleteUser}>회원탈퇴</button>}</li>
+        
       </ul>
     </nav>
   );

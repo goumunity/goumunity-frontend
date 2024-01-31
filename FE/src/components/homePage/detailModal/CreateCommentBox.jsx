@@ -2,36 +2,21 @@ import axios from 'axios';
 import useInput from '../../../hooks/useInput';
 import Button from '../../common/Button';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 
-function CreateCommentBox({ setCommentList, inputRef }) {
+function CreateCommentBox({ setCommentList, inputRef, feedId }) {
   const [comment, handleChangeComment] = useInput('');
 
   const [isLoading, setIsLoading] = useState(false);
-
-  const params = useParams();
 
   const handleSubmitCreateComment = async (e) => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const res = await axios.post(`/api/feeds/${params.postId}/comments`, {
+      const res = await axios.post(`/api/feeds/${feedId}/comments`, {
         content: comment,
       });
       console.log('댓글 생성 결과 : ', res)
-      try {
-        const res = await axios.get(`/api/feeds/${params.postId}/comments`, {
-          params: {
-            page: 0,
-            size: 3,
-            time: new Date().getTime(),
-          },
-        });
-        console.log('댓글 조회 결과 : ', res);
-        setCommentList(res.data.contents);
-      } catch (error) {
-        console.log(error);
-      }
+      // setCommentList((prev) => [...prev, res.data]);
     } catch (error) {
       console.log('댓글 생성 과정에서 에러 발생 : ', error);
     }

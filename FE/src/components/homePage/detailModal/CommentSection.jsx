@@ -6,7 +6,7 @@ import axios from 'axios';
 import OptionBox from './OptionBox';
 import { useParams } from 'react-router-dom';
 
-function CommentSection({feedId}) {
+function CommentSection({feedId, updatedAt, likeCount}) {
   const params = useParams();
   const [page, setPage] = useState(0);
 
@@ -30,7 +30,7 @@ function CommentSection({feedId}) {
 
   const inputRef = useRef();
 
-  const [isLike, setIsLike] = useState(true);
+  const [isLike, setIsLike] = useState(false);
 
   // 게시글에 속한 댓글들 불러오기
   useEffect(function requestCommentList() {
@@ -54,8 +54,7 @@ function CommentSection({feedId}) {
   // 게시글 좋아요
   const handleClickCreateLike = async () => {
     try {
-      console.log(params.postId);
-      const res = await axios.post(`/api/feeds/${params.postId}/like`);
+      const res = await axios.post(`/api/feeds/${feedId}/like`);
       setIsLike(true);
       console.log('좋아요 했을 때 결과 : ', res);
     } catch (error) {
@@ -66,8 +65,7 @@ function CommentSection({feedId}) {
   // 게시글 좋아요 취소
   const handleClickDeleteLike = async () => {
     try {
-      console.log(params.postId);
-      const res = await axios.delete(`/api/feeds/${params.postId}/unlike`);
+      const res = await axios.delete(`/api/feeds/${feedId}/unlike`);
       setIsLike(false);
       console.log('좋아요 취소 했을 때 결과 : ', res);
     } catch (error) {
@@ -97,8 +95,10 @@ function CommentSection({feedId}) {
           isLike={isLike}
           handleClickCreateLike={handleClickCreateLike}
           handleClickDeleteLike={handleClickDeleteLike}
+          updatedAt={updatedAt}
+          likeCount={likeCount}
         />
-        <CreateCommentBox setCommentList={setCommentList} inputRef={inputRef} />
+        <CreateCommentBox setCommentList={setCommentList} inputRef={inputRef} feedId={feedId}/>
       </div>
     </div>
   );

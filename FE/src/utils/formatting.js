@@ -1,16 +1,15 @@
 export function formatBirthDate(value) {
+  const birthDate = value;
 
-    const birthDate = value
+  const parts = [
+    birthDate.slice(0, 4),
+    birthDate.slice(4, 6),
+    birthDate.slice(6),
+  ];
 
-    const parts = [
-        birthDate.slice(0, 4),
-        birthDate.slice(4, 6),
-        birthDate.slice(6),
-      ];
+  const formatted = parts.join('.');
 
-      const formatted = parts.join('.');
-
-    return formatted
+  return formatted;
 }
 
 export function calculateAge(birthdate) {
@@ -67,13 +66,19 @@ export function calculateDate(givenTimestamp) {
   return `${daysDifference}일 전`;
 }
 
-
 export function addCommas(number) {
   // 숫자를 문자열로 변환
   let numberString = number.toString();
-  console.log(numberString)
+  console.log(numberString);
   // 정규표현식을 사용하여 세 자리마다 쉼표 추가
-  numberString = numberString.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  numberString = numberString.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   return numberString;
+}
+
+export function formatDate(timestamp) {
+  const date = new Date(timestamp);
+  const formattedDate = date.toISOString().split('T')[0]; // "yyyy-mm-dd" 형식으로 변환
+
+  return formattedDate;
 }
