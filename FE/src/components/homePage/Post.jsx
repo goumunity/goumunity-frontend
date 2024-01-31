@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import ProfileImage from '../common/ProfileImage.jsx';
-import likeIcon from '@/assets/svgs/likeIcon.svg';
-import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
-import commentIcon from '@/assets/svgs/commentIcon.svg';
+import likeIcon from '../../assets/svgs/likeIcon.svg';
+import unLikeIcon from '../../assets/svgs/unLikeIcon.svg';
+import commentIcon from '../../assets/svgs/commentIcon.svg';
 import Option from '../common/Option.jsx';
 import { modalActions } from '../../store/modal.js';
 import { useDispatch } from 'react-redux';

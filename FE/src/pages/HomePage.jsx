@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import Post from '../components/homePage/Post.jsx';
 import axios from 'axios';
 
-import DetailModal from '@/components/homePage/detailModal/DetailModal.jsx';
+import DetailModal from '../components/homePage/detailModal/DetailModal.jsx';
 import { useDispatch } from 'react-redux';
 import { modalActions } from '../store/modal.js';
-import CreatePostModal from '@/components/homePage/createPostModal/CreatePostModal.jsx';
+import CreatePostModal from '../components/homePage/createPostModal/CreatePostModal.jsx';
 import { useParams } from 'react-router-dom';
 
 

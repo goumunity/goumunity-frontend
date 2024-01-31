@@ -5,8 +5,8 @@ import JoinModal1 from '../components/landingPage/joinModal1/JoinModal1.jsx';
 import LoginModal from '../components/landingPage/loginModal/LoginModal.jsx';
 import JoinModal2 from '../components/landingPage/joinModal2/JoinModal2.jsx';
 import JoinModal3 from '../components/landingPage/joinModal3/JoinModal3.jsx';
-import beggar from '@/assets/images/beggar.jpg';
-import geo from '@/assets/images/logo.png';
+import beggar from '../assets/images/beggar.jpg';
+import geo from '../assets/images/logo.png';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 
