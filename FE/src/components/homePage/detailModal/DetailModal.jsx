@@ -1,10 +1,10 @@
-import CloseButton from '../../common/CloseButton.jsx';
+import CloseButton from '../../common/CloseButton';
 import axios from 'axios';
-import ProfileImage from '../../common/ProfileImage.jsx';
-import CommentSection from './CommentSection.jsx';
+import ProfileImage from '../../common/ProfileImage';
+import CommentSection from './CommentSection';
 import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import { calculateDate } from '../../../utils/formatting.js';
+import { calculateDate } from '../../../utils/formatting';
 
 function DetailModal() {
   // const post = useLoaderData();

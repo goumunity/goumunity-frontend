@@ -1,14 +1,12 @@
-
-import Button from '../components/common/Button.jsx';
-import CustomModal from '../components/common/CustomModal.jsx';
-import JoinModal1 from '../components/landingPage/joinModal1/JoinModal1.jsx';
-import LoginModal from '../components/landingPage/loginModal/LoginModal.jsx';
-import JoinModal2 from '../components/landingPage/joinModal2/JoinModal2.jsx';
-import JoinModal3 from '../components/landingPage/joinModal3/JoinModal3.jsx';
-import beggar from '../assets/images/beggar.jpg';
-import geo from '../assets/images/logo.png';
+import Button from '../components/common/Button';
+import CustomModal from '../components/common/CustomModal';
+import JoinModal1 from '../components/landingPage/joinModal1/JoinModal1';
+import LoginModal from '../components/landingPage/loginModal/LoginModal';
+import JoinModal2 from '../components/landingPage/joinModal2/JoinModal2';
+import JoinModal3 from '../components/landingPage/joinModal3/JoinModal3';
+import beggar from '@/assets/images/beggar.jpg';
+import geo from '@/assets/images/logo.png';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-
 
 function LandingPage() {
 

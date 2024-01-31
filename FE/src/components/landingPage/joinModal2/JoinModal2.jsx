@@ -1,21 +1,19 @@
 import { useState } from 'react';
-
-import UserInput from '../../common/UserInput.jsx';
-import Button from '../../common/Button.jsx';
+import UserInput from '../../common/UserInput';
+import Button from '../../common/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { authActions } from '../../../store/auth.js';
-import { isEqual } from '../../../utils/validation.js';
-import CheckBox from '../../common/CheckBox.jsx';
-import ProfileImage from '../../common/ProfileImage.jsx';
-import { calculateAge } from '../../../utils/formatting.js';
+import { authActions } from '../../../store/auth';
+import { isEqual } from '../../../utils/validation';
+import CheckBox from '../../common/CheckBox';
+import ProfileImage from '../../common/ProfileImage';
+import { calculateAge } from '../../../utils/formatting';
 import { Link, useNavigate } from 'react-router-dom';
-import NicknameConfirmButton from '@/components/landingPage/joinModal2/NicknameConfirmButton.jsx';
+import NicknameConfirmButton from '@/components/landingPage/joinModal2/NicknameConfirmButton';
 
 const GENDER_OPTIONS = [
   { id: 1, content: '남' },
   { id: 2, content: '여' },
 ];
-
 
 function JoinModal2() {
   const joinData = useSelector((state) => state.auth.joinData);

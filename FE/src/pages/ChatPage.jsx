@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { modalActions } from '../store/modal';
-import Card from '../components/chatPage/ChatRecommendedSection.jsx';
+import Card from '../components/chatPage/chatRecommendedSection/ChatRecommendedSection';
 import background from '@/assets/images/background.png';
-import ChatMySection from '../components/chatPage/ChatMySection.jsx';
+import ChatMySection from '../components/chatPage/chatMySection/ChatMySection';
 
 function ChatPage() {
   const isModalOpen = useSelector((state) => state.modal.isModalOpen);

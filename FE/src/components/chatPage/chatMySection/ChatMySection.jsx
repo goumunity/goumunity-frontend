@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../../store/modal.js';
-import ChatMyItem from './ChatMyItem.jsx';
-import ChatRoomModal from '../../components/chatPage/chatRoomModal/ChatRoomModal.jsx';
-import CustomModal from '../common/CustomModal.jsx';
+import { modalActions } from '../../../store/modal';
+import ChatMyItem from './ChatMyItem';
+import ChatRoomModal from '@/components/chatPage/chatRoomModal/ChatRoomModal';
+import CustomModal from '../../common/CustomModal';
 
 function ChatMySection() {
   const isModalOpen = useSelector((state) => state.modal.isModalOpen);

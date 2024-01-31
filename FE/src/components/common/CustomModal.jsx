@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
-import CloseButton from './CloseButton.jsx';
+import CloseButton from './CloseButton';
 import { useDispatch } from 'react-redux';
-import { modalActions } from '../../store/modal.js';
-import { authActions } from '../../store/auth.js';
+import { modalActions } from '../../store/modal';
+import { authActions } from '../../store/auth';
 
 function CustomModal({ children, onClick }) {
   const modalRef = useRef();

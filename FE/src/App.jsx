@@ -1,15 +1,13 @@
-
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import ReactModal from 'react-modal';
-import LandingPage from './pages/LandingPage.jsx';
-import LayOut from './components/common/LayOut.jsx';
-import ChatPage from './pages/ChatPage.jsx';
-import ProfilePage from './pages/ProfilePage.jsx';
+import LandingPage from './pages/LandingPage';
+import LayOut from './components/common/LayOut';
+import ChatPage from './pages/ChatPage';
+import ProfilePage from './pages/ProfilePage';
 import './index.css';
-import HomePage from './pages/HomePage.jsx';
-import ErrorPage from './pages/ErrorPage.jsx';
+import HomePage from './pages/HomePage';
+import ErrorPage from './pages/ErrorPage';
 // import { loader as postLoader } from './components/homePage/detailModal/DetailModal';
-
 
 const router = createBrowserRouter([
   {

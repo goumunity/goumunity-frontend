@@ -1,6 +1,6 @@
 import axios from 'axios';
-import useInput from '../../../hooks/useInput.js';
-import Button from '../../common/Button.jsx';
+import useInput from '../../../hooks/useInput';
+import Button from '../../common/Button';
 import { useEffect, useRef, useState } from 'react';
 
 function CreateCommentBox({setComments, inputRef}) {

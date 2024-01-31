@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import Comment from './Comment.jsx';
+import Comment from './Comment';
 
 function ReplySection() {
   const [replies, setReplies] = useState([]);

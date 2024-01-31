@@ -12,7 +12,7 @@
   "dependencies": {
     "@material-design-icons/svg": "^0.14.13",
     "@reduxjs/toolkit": "^2.0.1",
-    "axios": "^1.6.5",
+    "axios": "^1.6.7",
     "camelcase": "^8.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

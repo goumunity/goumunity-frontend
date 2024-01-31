@@ -1,13 +1,10 @@
-
-import CloseButton from '../../../components/common/CloseButton.jsx';
+import CloseButton from '@/components/common/CloseButton';
 import { useState } from 'react';
-import ProfileImage from '../../common/ProfileImage.jsx';
-import Option from '../../common/Option.jsx';
-import imageIcon from '../../../assets/svgs/image.svg';
-import mapIcon from '../../../assets/svgs/map.svg';
-
-import useInput from '../../../hooks/useInput.js';
-
+import ProfileImage from '../../common/ProfileImage';
+import Option from '../../common/Option';
+import imageIcon from '@/assets/svgs/image.svg';
+import mapIcon from '@/assets/svgs/map.svg';
+import useInput from '../../../hooks/useInput';
 import '@/styles.css';
 
 const MAX_CONTENT_LENGTH = 500;
