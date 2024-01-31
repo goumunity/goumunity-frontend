@@ -16,7 +16,7 @@ export function imageUpload(source, setImage) {
 
   const uploadImage = (index) => {
     if (index < files.length) {
-      console.log(files.length)
+      console.log('체크 : ', files)
       const uploadFile = files[index];
       const reader = new FileReader();
       reader.readAsDataURL(uploadFile);

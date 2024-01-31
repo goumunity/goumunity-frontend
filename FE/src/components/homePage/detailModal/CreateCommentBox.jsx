@@ -2,34 +2,55 @@ import axios from 'axios';
 import useInput from '../../../hooks/useInput';
 import Button from '../../common/Button';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-function CreateCommentBox({setCommentList, inputRef}) {
+function CreateCommentBox({ setCommentList, inputRef }) {
   const [comment, handleChangeComment] = useInput('');
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const params = useParams();
+
   const handleSubmitCreateComment = async (e) => {
     e.preventDefault();
     try {
-      setIsLoading(true)
-      const res = await axios.post('/fake/comment', { content: input })
-      console.log(res)
+      setIsLoading(true);
+      const res = await axios.post(`/api/feeds/${params.postId}/comments`, {
+        content: comment,
+      });
+      console.log('댓글 생성 결과 : ', res)
+      try {
+        const res = await axios.get(`/api/feeds/${params.postId}/comments`, {
+          params: {
+            page: 0,
+            size: 3,
+            time: new Date().getTime(),
+          },
+        });
+        console.log('댓글 조회 결과 : ', res);
+        setCommentList(res.data.contents);
+      } catch (error) {
+        console.log(error);
+      }
     } catch (error) {
-      console.log('에러 발생 : ', error)
+      console.log('댓글 생성 과정에서 에러 발생 : ', error);
     }
-    setIsLoading(false)
+    setIsLoading(false);
     // setComments((prev) => {
     //   return {...prev}
     // })
-  }
+  };
 
   // 모달 열리면 인풋에 자동 포커스
   useEffect(function focusInputBox() {
     inputRef.current.focus();
-  })
+  });
 
   return (
-    <form onSubmit={handleSubmitCreateComment} className='flex justify-between items-center px-1'>
+    <form
+      onSubmit={handleSubmitCreateComment}
+      className='flex justify-between items-center px-1'
+    >
       <input
         ref={inputRef}
         onChange={handleChangeComment}
@@ -39,7 +60,7 @@ function CreateCommentBox({setCommentList, inputRef}) {
         type='text'
         placeholder='댓글 좀 달아줘...'
       />
-      <Button text='등록' isActive={!isLoading} className=''/>
+      <Button text='등록' isActive={!isLoading} className='' />
     </form>
   );
 }

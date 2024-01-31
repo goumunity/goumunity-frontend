@@ -9,9 +9,10 @@ function DetailModal() {
   // const post = useLoaderData();
 
   const params = useParams();
+  console.log(params)
 
-  const [post, isLoading, errorMessage] = useAxiosGet('/fake/post');
-
+  // const [post, isLoading, errorMessage] = useAxiosGet(`/api/feeds/${params.postId}`);
+  const [post, isLoading, errorMessage] = useAxiosGet(`/api/feeds/${params.postId}`);
   const navigate = useNavigate();
 
   // 모달 닫기(홈으로 가기)
@@ -48,7 +49,7 @@ function DetailModal() {
                 {/* <span className='font-daeam'>CheongRyeong</span>{' '} */}
                 <span className='font-daeam'>{userId}</span>
                 {' * '}
-                <span className='font-her'>{daysAgo}일 전</span>
+                <span className='font-her'>{daysAgo}</span>
               </div>
             </div>
             <p className='my-4 px-3'>

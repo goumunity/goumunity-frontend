@@ -36,17 +36,37 @@ export function calculateAge(birthdate) {
   return age;
 }
 
-export function calculateDate(timestamp) {
-  // 현재 날짜의 Unix 타임스탬프 가져오기
-  const now = new Date();
-  const nowTimestamp = Math.floor(now.getTime() / 1000);
+// export function calculateDate(timestamp) {
+//   // 현재 날짜의 Unix 타임스탬프 가져오기
+//   const now = new Date();
+//   const nowTimestamp = Math.floor(now.getTime() / 1000);
 
-  // 주어진 타임스탬프를 현재 시간으로부터 얼마나 이전인지 계산
-  const secondsAgo = nowTimestamp - timestamp;
-  const daysAgo = Math.floor(secondsAgo / (60 * 60 * 24));
+//   // 주어진 타임스탬프를 현재 시간으로부터 얼마나 이전인지 계산
+//   const secondsAgo = nowTimestamp - timestamp;
+//   const daysAgo = Math.floor(secondsAgo / (60 * 60 * 24));
 
-  return daysAgo;
+//   return daysAgo;
+// }
+
+export function calculateDate(givenTimestamp) {
+  const givenDate = new Date(parseInt(givenTimestamp));
+  const currentDate = new Date();
+
+  // 두 날짜 간의 차이 계산 (milliseconds)
+  const difference = givenDate - currentDate;
+
+  // milliseconds를 일(day)로 변환
+  const daysDifference = Math.floor(difference / (1000 * 60 * 60 * 24));
+
+  if (daysDifference < 1) {
+    // 만약 하루보다 차이가 적다면 시간(hour) 단위로 반환
+    const hoursDifference = Math.floor(difference / (1000 * 60 * 60));
+    return `${hoursDifference}시간 전`;
+  }
+
+  return `${daysDifference}일 전`;
 }
+
 
 export function addCommas(number) {
   // 숫자를 문자열로 변환

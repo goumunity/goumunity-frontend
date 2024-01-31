@@ -2,21 +2,16 @@ import Option from '../../common/Option';
 import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import commentIcon from '@/assets/svgs/commentIcon.svg';
-import { useState } from 'react';
 
-function OptionBox() {
-  const [isLike, setIsLike] = useState(false);
+function OptionBox({isLike, handleClickDeleteLike, handleClickCreateLike}) {
 
-  const handleClickToggleIsLike = () => {
-    setIsLike(!isLike);
-  };
   return (
     <div className='border-y border-gray p-2'>
       <div className='flex'>
         {isLike ? (
-          <Option src={unLikeIcon} onClick={handleClickToggleIsLike} />
+          <Option src={unLikeIcon} onClick={handleClickDeleteLike} />
         ) : (
-          <Option src={likeIcon} onClick={handleClickToggleIsLike} />
+          <Option src={likeIcon} onClick={handleClickCreateLike} />
         )}
         <Option src={commentIcon} />
       </div>
