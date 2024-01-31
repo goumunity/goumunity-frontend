@@ -13,7 +13,6 @@ function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
 
   const handleChangeUploadProfileImg = (e) => {
     setImageSrcList(imageUpload(e.target, setImageList));
-    console.log('얘를 보내야 함 : ', imageSrcList);
   };
 
   const settings = {
@@ -25,7 +24,6 @@ function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
     arrows: true,
     // customPaging: (i) => <button style={{ width: '30px', height: '30px' }}>{i + 1}</button>,
   };
-  console.log(imageList);
   return (
     <div
       className={` flex flex-col h-full bg-bright transition-width delay-700 duration-300  ${categorySectionClassName}`}

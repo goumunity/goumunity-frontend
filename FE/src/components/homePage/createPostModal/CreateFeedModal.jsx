@@ -11,6 +11,7 @@ import ContentBox from './ContentBox';
 import SelectBox from '../../common/SelectBox';
 import axios from 'axios';
 import ImageSection from './ImageSection';
+import { useSelector } from 'react-redux';
 
 const FEED_CATEGORY_OPTIONS = [
   { id: 1, name: 'INFO' },
@@ -18,6 +19,9 @@ const FEED_CATEGORY_OPTIONS = [
 ];
 
 function CreatePostModal({ onClose }) {
+
+  const currentUser = useSelector((state) => state.auth.currentUser)  
+
   const [content, handleChangeContent] = useInput('');
 
   const [price, handleChangePrice] = useNumInput('');
@@ -130,8 +134,10 @@ function CreatePostModal({ onClose }) {
 
             <div className='flex justify-between items-center p-2'>
               <div className='flex items-center gap-2'>
-                <ProfileImage />
-                <span className='font-daeam'>청룡</span>
+                <ProfileImage profileImage={currentUser.imgSrc}/>
+                <span className='font-daeam'>
+                  {currentUser.nickname}
+                </span>
               </div>
               {/* <SelectBox onChange={(e) => handleChangeRegion(e.target.value)} /> */}
               <SelectBox onChange={handleChangeRegion} />

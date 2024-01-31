@@ -11,7 +11,7 @@ function useAxiosGet(url) {
       setIsLoading(true);
       try {
         const res = await axios.get(url);
-        console.log('요청 결과 : ', res);
+        // console.log('요청 결과 : ', res);
         setValue(res.data);
 
       } catch (error) {
@@ -20,7 +20,7 @@ function useAxiosGet(url) {
       setIsLoading(false);
     };
     fetchData();
-  }, []);
+  }, [url]);
 
   return [value, isLoading, errorMessage];
 }

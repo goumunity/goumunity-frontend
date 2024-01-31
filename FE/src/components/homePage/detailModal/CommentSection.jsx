@@ -6,7 +6,7 @@ import axios from 'axios';
 import OptionBox from './OptionBox';
 import { useParams } from 'react-router-dom';
 
-function CommentSection() {
+function CommentSection({feedId}) {
   const params = useParams();
   const [page, setPage] = useState(0);
 
@@ -38,10 +38,10 @@ function CommentSection() {
       // setIsLoading(true);
       try {
         const time = new Date().getTime();
-        const res = await axios.get(`/api/feeds/${params.postId}/comments`, { params: {
+        const res = await axios.get(`/api/feeds/${feedId}/comments`, { params: {
           page: 0, size: 3, time,
         }});
-        // console.log('댓글 조회 결과 : ', res)
+        console.log('댓글 조회 결과 : ', res)
         setCommentList(res.data.contents);
       } catch (error) {
         console.log('처음 댓글을 불러올 때 에러 발생 : ', error);

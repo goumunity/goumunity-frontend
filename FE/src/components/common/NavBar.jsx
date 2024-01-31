@@ -14,7 +14,7 @@ function NavBar() {
 
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
 
-  const user = useSelector((state) => state.auth.user);
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
@@ -106,7 +106,7 @@ function NavBar() {
           </NavLink>
         </li>
         <li>
-          {isAuth && <ProfileImage profileImage={user.imgSrc}/> }
+          {isAuth && <ProfileImage profileImage={currentUser.imgSrc}/> }
         </li>
 
         <li>{isAuth && <button onClick={handleClickLogout}>로그아웃</button>}</li>
