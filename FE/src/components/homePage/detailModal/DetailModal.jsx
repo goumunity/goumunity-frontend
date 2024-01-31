@@ -15,7 +15,6 @@ function DetailModal() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-
   const navigate = useNavigate();
 
   // 모달 닫기(홈으로 가기)
@@ -25,7 +24,6 @@ function DetailModal() {
 
   // 게시글 불러오기
   useEffect(function requestPost() {
-
     const fetchData = async () => {
       setIsLoading(true);
       try {
@@ -54,7 +52,7 @@ function DetailModal() {
     updatedAt,
   } = post;
 
-  const daysAgo = calculateDate(updatedAt)
+  const daysAgo = calculateDate(updatedAt);
 
   return (
     <div className='fixed top-0 left-0 bg-back right-0 bottom-0'>
@@ -74,9 +72,7 @@ function DetailModal() {
                 <span className='font-her'>{daysAgo}일 전</span>
               </div>
             </div>
-            <p className='my-4 px-3'>
-              {content}
-            </p>
+            <p className='my-4 px-3'>{content}</p>
             <img
               className='w-full h-50 rounded'
               src='https://plus.unsplash.com/premium_photo-1675237625862-d982e7f44696?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Y29mZmVlfGVufDB8fDB8fHww'

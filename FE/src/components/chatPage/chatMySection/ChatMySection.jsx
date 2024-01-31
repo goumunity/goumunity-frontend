@@ -5,16 +5,12 @@ import ChatMyItem from './ChatMyItem';
 import ChatRoomModal from '@/components/chatPage/chatRoomModal/ChatRoomModal';
 import CustomModal from '../../common/CustomModal';
 
-function ChatMySection() {
+function ChatMySection(props) {
   const isModalOpen = useSelector((state) => state.modal.isModalOpen);
   const modalOption = useSelector((state) => state.modal.modalOption);
-  const [chatRoomModal, setChatRoomModal] = useState(false);
 
-  const dispatch = useDispatch();
-
-  const handleClickCreateChatRoom = () => {
-    dispatch(modalActions.openCreatChatModal());
-  };
+  //props 수지
+  const { handleClickMySection } = props;
 
   return (
     <div>
@@ -23,13 +19,11 @@ function ChatMySection() {
         <div className='font-daeam text-4xl text-center mb-4 text-responsive'>
           나의 거지챗
         </div>
-        <ChatMyItem />
+        <button onClick={props.handleClickMySection}>헤헤</button>
+        <ChatMyItem handleClickMySection={handleClickMySection} />
         <div>
           <div className='flex flex-col items-center'>
-            <button
-              className='font-her text-2xl text-center text-white px-4 py-2 bg-transparent rounded-md'
-              onClick={handleClickCreateChatRoom}
-            >
+            <button className='font-her text-2xl text-center text-white px-4 py-2 bg-transparent rounded-md'>
               <div className='mx-auto rounded-full bg-gray-500 text-black'>
                 ...
               </div>

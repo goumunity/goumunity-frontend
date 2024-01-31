@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function ChatRecommendedItem(props) {
   const [chatData, setChatData] = useState(null);
+
+  //button 클릭 시, 특정 채팅방으로 url 변경
+  const navigate = useNavigate();
+
+  //axios
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,7 +61,9 @@ function ChatRecommendedItem(props) {
                       );
                     })}
                     <div className='text-gray-800 font-paci text-center rounded-md border-2 hover:border-solid '>
-                      <button>입장하기</button>
+                      <button onClick={() => navigate(`/chat/talk`)}>
+                        입장하기
+                      </button>
                     </div>
                   </div>
                 </Link>

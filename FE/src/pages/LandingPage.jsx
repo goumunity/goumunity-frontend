@@ -9,24 +9,23 @@ import geo from '@/assets/images/logo.png';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 function LandingPage() {
-
   const params = useParams();
-  
+
   const navigate = useNavigate();
 
-  console.log(params)
+  console.log(params);
 
   const handleClickGoJoin1 = () => {
-    navigate('/landing/join/1')
-  }
+    navigate('/landing/join/1');
+  };
 
   // 모달 닫기(랜딩 페이지로 이동)
   const handleClickCloseModal = () => {
-    navigate('/landing')
-  }
+    navigate('/landing');
+  };
 
   return (
-    <div className='img-bg w-full min-h-screen flex flex-col justify-between relative'>
+    <div className='img-bg w-full min-h-screen flex flex-col justify-between relative pr-64'>
       <div>
         <div
           style={{
@@ -53,7 +52,7 @@ function LandingPage() {
           같은 거지들 끼리 절약 정보를 공유하세요{' '}
         </div>
         {params.joinId === '1' && (
-          <CustomModal onClick={handleClickCloseModal} >
+          <CustomModal onClick={handleClickCloseModal}>
             <JoinModal1 />
           </CustomModal>
         )}
@@ -97,13 +96,14 @@ function LandingPage() {
       </div>
 
       <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-4 space-x-10'>
-
         {/* <Link><Button text='로그인' onClick={handleClickChangeOptionLogin} /></Link> */}
-        <Link to='/landing/join/4'><Button text='로그인' /></Link>
+        <Link to='/landing/join/4'>
+          <Button text='로그인' />
+        </Link>
         {/* <Button text='회원가입' onClick={handleClickChangeOptionJoin1} /> */}
         <Link to='/landing/join/1'>
-        {/* <Button text='회원가입' onClick={handleClickGoJoin1} /> */}
-        <Button text='회원가입' />
+          {/* <Button text='회원가입' onClick={handleClickGoJoin1} /> */}
+          <Button text='회원가입' />
         </Link>
       </div>
     </div>

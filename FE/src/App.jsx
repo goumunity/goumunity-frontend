@@ -7,6 +7,7 @@ import ProfilePage from './pages/ProfilePage';
 import './index.css';
 import HomePage from './pages/HomePage';
 import ErrorPage from './pages/ErrorPage';
+import ChatTalkSection from './components/chatPage/chatTalkSection/ChatTalkSection';
 // import { loader as postLoader } from './components/homePage/detailModal/DetailModal';
 
 const router = createBrowserRouter([
@@ -22,7 +23,11 @@ const router = createBrowserRouter([
       { path: '/landing', element: <LandingPage /> },
       { path: '/landing/join/:joinId', element: <LandingPage /> },
       { path: '/:login', element: <LandingPage /> },
-      { path: '/chat', element: <ChatPage /> },
+      {
+        path: '/chat',
+        element: <ChatPage />,
+        children: [{ path: ':talkId', element: <ChatTalkSection /> }],
+      },
       { path: '/profile', element: <ProfilePage /> },
     ],
   },
