@@ -21,7 +21,7 @@ function EmailConfirmButton({
     if (email === '') {
       setErrorMessage('이메일을 입력해주세요.');
       return;
-    }
+    } 
     if (emailIsInvalid) {
       return;
     }
@@ -62,6 +62,7 @@ function EmailConfirmButton({
       });
 
       if (res.statusText !== 'OK') {
+        console.log( res );
         throw new Error('데이터 요청 실패');
       }
 
