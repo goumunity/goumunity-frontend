@@ -6,9 +6,15 @@ import axios from 'axios';
 import OptionBox from './OptionBox';
 import { useParams } from 'react-router-dom';
 
+const BUTTON_OPTIONS = [{id: 1, name: 'createComment'}, {id: 2, name: 'createReply'},{id: 3, name: 'patchComment'},{id: 4, name: 'patchReply'},]
+
 function CommentSection({ feedId, updatedAt, likeCount }) {
   const params = useParams();
+  const [comment, handleChangeComment] = useInput('');
+
   const [initialTime] = useState(new Date().getTime());
+  const [option, setOption] = useState(true);
+  const [commentId, setCommentId] = useState('');
 
   const observer = (node) => {
     if (isLoading) return;
@@ -107,7 +113,7 @@ function CommentSection({ feedId, updatedAt, likeCount }) {
         )} */}
 
         {commentList?.map((comment, idx) => {
-          return <Comment key={idx} comment={comment} inputRef={inputRef} />;
+          return <Comment key={idx} comment={comment} inputRef={inputRef} option={option} setOption={setOption} setCommentId={setCommentId}/>;
         })}
 
         <div ref={lastCommentRef} style={{ height: '10px' }}></div>
@@ -124,6 +130,11 @@ function CommentSection({ feedId, updatedAt, likeCount }) {
           setCommentList={setCommentList}
           inputRef={inputRef}
           feedId={feedId}
+          option={option}
+          setOption={setOption}
+          commentId={commentId}
+          comment={comment}
+          handleChangeComment={handleChangeComment}
         />
       </div>
     </div>

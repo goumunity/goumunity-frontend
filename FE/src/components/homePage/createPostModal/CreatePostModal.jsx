@@ -13,12 +13,8 @@ const MAX_CONTENT_LENGTH = 500;
 
 function CreatePostModal({ onClose }) {
   const [input, handleChangeInput] = useInput('');
-
   const [isInfo, setIsInfo] = useState(true);
-
   const [isSlide, setIsSlide] = useState(false);
-
-  // const className = isSlide ? '-translate-x-3/4' : '-translate-x-1/2';
   const modalClassName = isSlide ? 'w-128' : 'w-96';
   const mainSectionClassName = isSlide ? 'w-96' : 'w-96';
   const categorySectionClassName = isSlide

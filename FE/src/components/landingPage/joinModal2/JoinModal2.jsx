@@ -9,12 +9,8 @@ import CheckBox from '../../common/CheckBox.jsx';
 import ProfileImage from '../../common/ProfileImage.jsx';
 import { calculateAge } from '../../../utils/formatting.js';
 import { Link, useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
-import NicknameConfirmButton from '@/components/landingPage/joinModal2/NicknameConfirmButton';
-import { imageUpload } from '../../../utils/upload';
-=======
 import NicknameConfirmButton from '@/components/landingPage/joinModal2/NicknameConfirmButton.jsx';
->>>>>>> 168c8017249fb6e777183653a8d1ddb4a98c2120
+
 
 const GENDER_OPTIONS = [
   { id: 1, content: '남' },

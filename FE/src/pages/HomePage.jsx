@@ -42,11 +42,13 @@ function HomePage() {
     const fetchData = async () => {
       try {
         setIsLoading(true);
+        // const res = await axios.get('/api/feeds', { params: {
+        //   page, size: 3, time: initialTime
+        // }})
         const res = await axios.get('/api/feeds', {
           params: {
-            page,
-            size: 3,
             time: initialTime,
+            regionId: 1,
           },
         });
         console.log('feedList 요청 결과 : ', res);

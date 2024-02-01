@@ -31,10 +31,10 @@ function EmailConfirmButton({
         params: { email, },
       });
 
-      if (res.statusText !== 'OK') {
-        throw new Error('데이터 요청 실패');
-      }
-      
+      // if (res.statusText !== 'OK') {
+      //   throw new Error('데이터 요청 실패');
+      // }
+      console.log('testtest')
       setIsEmailConfirmSended(true);
 
     } catch (error) {
