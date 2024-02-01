@@ -20,8 +20,7 @@ const FEED_CATEGORY_OPTIONS = [
 ];
 
 function CreatePostModal({ onClose }) {
-
-  const currentUser = useSelector((state) => state.auth.currentUser)  
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   const [content, handleChangeContent] = useInput('');
 
@@ -57,7 +56,6 @@ function CreatePostModal({ onClose }) {
     } else {
       setFeedCategory(FEED_CATEGORY_OPTIONS[1].name);
     }
-    console.log(isInfo);
   };
 
   const handleClickCreatePost = async () => {
@@ -68,12 +66,11 @@ function CreatePostModal({ onClose }) {
       afterPrice,
       regionId: 1,
     };
-    console.log(data);
+
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
     const formData = new FormData();
     for (const image of imageSrcList) {
       formData.append('images', image);
-      console.log('순회 결과 : ', image);
     }
     formData.append('data', blob);
     try {
@@ -83,13 +80,11 @@ function CreatePostModal({ onClose }) {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('gdgd', res)
     } catch (error) {
       console.error('api 요청 중 오류 발생 : ', error);
     }
     setIsLoading(false);
-    navigate('/')
-    // onClose();
+    navigate('/');
   };
 
   const activeClass = 'underline underline-offset-4 pointer-events-none';
@@ -138,10 +133,8 @@ function CreatePostModal({ onClose }) {
 
             <div className='flex justify-between items-center p-2'>
               <div className='flex items-center gap-2'>
-                <ProfileImage profileImage={currentUser.imgSrc}/>
-                <span className='font-daeam'>
-                  {currentUser.nickname}
-                </span>
+                <ProfileImage profileImage={currentUser.imgSrc} />
+                <span className='font-daeam'>{currentUser.nickname}</span>
               </div>
               {/* <SelectBox onChange={(e) => handleChangeRegion(e.target.value)} /> */}
               <SelectBox onChange={handleChangeRegion} />
@@ -190,7 +183,7 @@ function CreatePostModal({ onClose }) {
       {/* {isSlide && <MapModal isSlide={isSlide} />} */}
       <div className='fixed top-0 left-0 bg-back w-full h-full'>
         <Link to='/'>
-        <CloseButton className='absolute top-5 right-5'/>
+          <CloseButton className='absolute top-5 right-5' />
         </Link>
       </div>
     </div>

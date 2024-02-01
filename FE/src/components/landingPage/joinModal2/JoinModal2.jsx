@@ -93,7 +93,6 @@ function JoinModal2() {
     };
     dispatch(authActions.updateJoinData(updatedData));
 
-    console.log(joinData);
     navigate('/landing/join/3');
   };
 

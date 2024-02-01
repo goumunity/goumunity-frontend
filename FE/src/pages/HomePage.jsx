@@ -5,7 +5,6 @@ import DetailModal from '@/components/homePage/detailModal/DetailModal';
 import CreateFeedModal from '@/components/homePage/createPostModal/CreateFeedModal';
 import { useNavigate, useParams } from 'react-router-dom';
 
-
 function HomePage() {
   const [initialTime] = useState(new Date().getTime());
 
@@ -34,7 +33,6 @@ function HomePage() {
       });
 
       if (node) observerRef.current.observe(node);
-      // console.log(node);
     },
     [isLoading, hasNext]
   );
@@ -50,8 +48,7 @@ function HomePage() {
             time: initialTime,
           },
         });
-        console.log('feedList 요청 결과 : ', res);
-        console.log('요청 시간 : ', initialTime);
+
         setFeedList((prev) => [...prev, ...res.data.contents]);
         setHasNext(res.data.hasNext);
       } catch (error) {

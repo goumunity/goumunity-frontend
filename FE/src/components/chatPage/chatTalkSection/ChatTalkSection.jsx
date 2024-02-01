@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import ChatTalkRoom from './ChatTalkRoom';
+import ChatRoom from './ChatTalkRoom';
 
 function ChatTalkSection({ selectedChatRoom }) {
   const params = useParams();
+  console.log('params: ' + params);
+  console.log(params);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`/fake/chatTalk/${params.talkId}`);
+        const res = await axios.get(`/chat/talk/${params.talkId}`);
 
         setChatData(res.data.chatMyItemList);
       } catch (error) {
@@ -20,15 +24,9 @@ function ChatTalkSection({ selectedChatRoom }) {
 
   return (
     <div>
-      {/* 선택된 채팅방이 있는지 확인하고 해당 채팅방의 내용을 렌더링 */}
-      {selectedChatRoom ? (
-        <div>
-          {/* 선택된 채팅방의 내용 */}
-          <p>{`${params.chatRoomId}번 채팅방 내용`}</p>
-        </div>
-      ) : (
-        <p>채팅방을 선택하여 내용을 확인하세요</p>
-      )}
+      채팅방 내부입니다
+      {params.talkId}
+      {/* <ChatTalkRoom /> */}
     </div>
   );
 }

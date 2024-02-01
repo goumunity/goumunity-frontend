@@ -13,12 +13,6 @@ function LandingPage() {
 
   const navigate = useNavigate();
 
-  console.log(params);
-
-  const handleClickGoJoin1 = () => {
-    navigate('/landing/join/1');
-  };
-
   // 모달 닫기(랜딩 페이지로 이동)
   const handleClickCloseModal = () => {
     navigate('/landing');
@@ -66,11 +60,7 @@ function LandingPage() {
             <JoinModal3 />
           </CustomModal>
         )}
-        {/* {isModalOpen && modalOption === 'join3' && (
-          <CustomModal>
-            <JoinModal3 />
-          </CustomModal>
-        )} */}
+
         {params.joinId === '4' && (
           <CustomModal onClick={handleClickCloseModal}>
             <LoginModal />
