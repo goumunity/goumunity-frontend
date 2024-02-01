@@ -13,7 +13,7 @@ function ChatRecommendedItem(props) {
     const fetchData = async () => {
       try {
         const res = await axios.get('/fake/chatRecomNext');
-
+        console.log(res.data.chatRecomItemList);
         setChatData(res.data.chatRecomItemList);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -32,9 +32,19 @@ function ChatRecommendedItem(props) {
         .filter((val) => {
           if (props.userInput == '') {
             return val;
-          } else if (val.title.includes(props.userInput)) {
-            return val;
           }
+          // (
+          //   val.title.includes(props.userInput) ||
+          //   val.hashtags.includes(props.userInput)
+          // )
+          else {
+            const hashtagsNames = val.hashtags.map((tag) => tag.name);
+            return (
+              val.title.includes(props.userInput) ||
+              hashtagsNames.includes(props.userInput)
+            );
+          }
+          // console.log(val);
         })
         .map((value, index) => {
           return (
@@ -60,7 +70,7 @@ function ChatRecommendedItem(props) {
                         >{`#${hashtag.name}`}</span>
                       );
                     })}
-                    <div className='text-gray-800 font-paci text-center rounded-md border-2 hover:border-solid '>
+                    <div className='text-gray-800 font-paci text-center rounded-md border-2 hover:border-solid hover:bg-lime-100'>
                       <button onClick={() => navigate(`/chat/talk`)}>
                         입장하기
                       </button>

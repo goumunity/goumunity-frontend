@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 function ChatMyItem(props) {
   const [chatData, setChatData] = useState(null);
   const navigate = useNavigate();
-  const { handleClickMySection } = props;
+  const { handleClickMySection, setId } = props;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,8 +33,7 @@ function ChatMyItem(props) {
   const handleClickOpenSpecificRoom = (chatRoomId) => {
     if (props.isLoaded === false) {
       navigate('/chat');
-    } else{
-      
+    } else {
       navigate(`/chat/talk/${chatRoomId}`);
     }
   };
@@ -53,11 +52,19 @@ function ChatMyItem(props) {
           <>
             {/* <button onClick={() => handleClickMySection(value.chatRoomId)}> */}
             <button
+              // className='hover:bg-orange-200 hover:transform rotate-45'
+              className='hover:rotate-45 '
               onClick={() => {
                 handleButtonClick(value.chatRoomId);
               }}
             >
-              <div className='flex' key={index}>
+              <div
+                className='flex'
+                key={index}
+                onClick={() => {
+                  setId(value.chatRoomId);
+                }}
+              >
                 <div className='w-1/4 mt-3'>
                   <span>
                     <img

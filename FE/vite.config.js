@@ -17,8 +17,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://ssafyhelper.shop/test/api',
-        // target: 'http://localhost:8080/api',
+        // target: 'https://ssafyhelper.shop/test/api',
+        target: 'http://localhost:8080/api',
         // target: 'https://i10a408.p.ssafy.io',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),

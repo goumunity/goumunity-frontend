@@ -8,18 +8,25 @@ import ProfileImage from '../../common/ProfileImage';
 
 function ChatRoomModal() {
   const [hashtag, setHashtag] = useState(['#20대', '#거지방', '#절약']);
+  const [newHashtag, setNewHashtag] = useState('');
 
   const [profileImage, setProfileImage] = useState('');
 
   //Enter 누르면 hashtag 하나 더 생성
   const handleOnKeyDownCreateHashtag = (e) => {
     if (e.key === 'Enter') {
-      handleCreateHashtag(e.target.value);
+      // handleCreateHashtag(e.target.value);
+      e.preventDefault();
+      addNewHashtag();
     }
   };
 
   const handleClickAppendHashtag = (e) => {
-    hashtag.append(e.target.value);
+    // hashtag.append(e.target.value);
+    if (newHashtag.trim() !== '') {
+      setHashtag((prevHashtags) => [...prevHashtags, `#${newHashtag}`]);
+      setNewHashtag('');
+    }
   };
   // 해시태그 추가하기
   const handleCreateHashtag = (e, value) => {
@@ -88,28 +95,36 @@ function ChatRoomModal() {
           }}
           onChange={(e) => handleChangeInputs('title', e.target.value)}
         />
-
         <div className='flex'>
+          {hashtag.map((value, index) => {
+            return (
+              <>
+                <HashTag>
+                  {value}
+                  <span
+                    className='w-20 bg-transparent'
+                    type='text'
+                    value={newHashtag}
+                    onChange={(e) => setNewHashtag(e.target.value)}
+                    onClick={handleClickAppendHashtag}
+                    onKeyDown={handleOnKeyDownCreateHashtag}
+                  />
+                </HashTag>
+              </>
+            );
+          })}
           <HashTag>
             <input
               className='w-20 bg-transparent'
               placeholder='#입력'
               type='text'
-              onClick={handleClickAppendHashtag}
-              onKeyDown={handleOnKeyDownCreateHashtag}
-            />
-          </HashTag>
-          <HashTag>
-            <input
-              className='w-20 bg-transparent'
-              placeholder='#입력'
-              type='text'
+              value={newHashtag}
+              onChange={(e) => setNewHashtag(e.target.value)}
               onClick={handleClickAppendHashtag}
               onKeyDown={handleOnKeyDownCreateHashtag}
             />
           </HashTag>
         </div>
-
         {/* <button className='font-paci border border-dashed rounded-2xl pr-2 pl-2'></button> */}
         <div className='flex font-her justify-center bg-gray-100 p-4 '>
           <div
@@ -128,7 +143,6 @@ function ChatRoomModal() {
             widthSize={96}
           />
         </div>
-
         <div className='flex font-her justify-center bg-gray-100 p-4'>
           <div
             type='text'
@@ -161,6 +175,11 @@ function ChatRoomModal() {
             onChange={handleChangeUploadProfileImg}
           />
         </div>
+      </div>
+      <div className='pt-2'>
+        <button className='border rounded-xl pr-2 pl-2 bg-orange-100 hover:bg-orange-200'>
+          추가하기
+        </button>
       </div>
     </div>
   );
