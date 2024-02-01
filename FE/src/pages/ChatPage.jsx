@@ -2,19 +2,22 @@ import { useState } from 'react';
 import background from '@/assets/images/background.png';
 import ChatMySection from '../components/chatPage/chatMySection/ChatMySection';
 import ChatTalkSection from '../components/chatPage/chatTalkSection/ChatTalkSection';
+import ChatRecommendedSection from '../components/chatPage/chatRecommendedSection/ChatRecommendedSection';
 
 function ChatPage() {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true);
 
-  const handleClickMySection = (chatRoomId) => {
-    // setIsLoaded(!isLoaded);
-    navigate(`/chat/talk/${chatRoomId}`);
+  const handleClickMySection = () => {
+    setIsLoaded(!isLoaded);
   };
 
   return (
     <div className='flex w-full'>
       <div className='w-1/6 bg-yellow h-screen'>
-        <ChatMySection handleClickMySection={handleClickMySection} />
+        <ChatMySection
+          handleClickMySection={handleClickMySection}
+          isLoaded={isLoaded}
+        />
       </div>
       <div
         className='w-5/6'

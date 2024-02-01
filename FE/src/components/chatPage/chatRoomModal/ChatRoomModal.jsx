@@ -19,7 +19,6 @@ function ChatRoomModal() {
   };
 
   const handleClickAppendHashtag = (e) => {
-    console.log(e.target.value);
     hashtag.append(e.target.value);
   };
   // 해시태그 추가하기

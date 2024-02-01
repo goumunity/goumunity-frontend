@@ -13,11 +13,10 @@ function EmailConfirmButton({
 }) {
   const [isEmailConfirmSended, setIsEmailConfirmSended] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
 
   // 인증번호 발송
   const handleClickSendEmailConfirm = async () => {
-    setErrorMessage('')
+    setErrorMessage('');
     if (email === '') {
       setErrorMessage('이메일을 입력해주세요.');
       return;
@@ -28,15 +27,14 @@ function EmailConfirmButton({
     try {
       setIsLoading(true);
       const res = await axios.get('/api/users/email/verification', {
-        params: { email, },
+        params: { email },
       });
 
       if (res.statusText !== 'OK') {
         throw new Error('데이터 요청 실패');
       }
-      
-      setIsEmailConfirmSended(true);
 
+      setIsEmailConfirmSended(true);
     } catch (error) {
       console.log('에러 발생 : ', error);
     }
@@ -45,7 +43,7 @@ function EmailConfirmButton({
 
   // 인증번호 확인
   const handleClickCheckEmailConfirm = async () => {
-    setErrorMessage('')
+    setErrorMessage('');
     if (emailConfirm === '') {
       setErrorMessage('인증번호를 입력해주세요.');
       return;
@@ -55,7 +53,7 @@ function EmailConfirmButton({
     }
 
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const res = await axios.post(`/api/users/email/verification`, {
         code: emailConfirm,
         email: email,
@@ -74,16 +72,26 @@ function EmailConfirmButton({
     } catch (error) {
       console.error('api 요청 중 오류 발생 : ', error);
     }
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   return (
     <>
-      {!isEmailConfirmSended && !isLoading && <Button text='인증번호 발송' onClick={handleClickSendEmailConfirm} />}
-      {!isEmailConfirmSended && isLoading && <Button text='인증번호 발송중' isActive={false} />}
-      {isEmailConfirmSended && !isEmailConfirmValid && !isLoading && <Button text='인증번호 확인' onClick={handleClickCheckEmailConfirm} />}
-      {isEmailConfirmSended && !isEmailConfirmValid && isLoading && <Button text='인증번호 확인중' />}
-      {isEmailConfirmSended && isEmailConfirmValid && <Button text='인증완료' isActive={false}/>}
+      {!isEmailConfirmSended && !isLoading && (
+        <Button text='인증번호 발송' onClick={handleClickSendEmailConfirm} />
+      )}
+      {!isEmailConfirmSended && isLoading && (
+        <Button text='인증번호 발송중' isActive={false} />
+      )}
+      {isEmailConfirmSended && !isEmailConfirmValid && !isLoading && (
+        <Button text='인증번호 확인' onClick={handleClickCheckEmailConfirm} />
+      )}
+      {isEmailConfirmSended && !isEmailConfirmValid && isLoading && (
+        <Button text='인증번호 확인중' />
+      )}
+      {isEmailConfirmSended && isEmailConfirmValid && (
+        <Button text='인증완료' isActive={false} />
+      )}
     </>
   );
 }

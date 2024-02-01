@@ -29,8 +29,21 @@ function ChatMyItem(props) {
     return <div>Loading...</div>; // 데이터가 로딩 중일 때 표시할 내용
   }
 
+  //버튼 클릭 이벤트에 URL 이동 로직
   const handleClickOpenSpecificRoom = (chatRoomId) => {
-    navigate(`/chat/talk/${chatRoomId}`);
+    if (props.isLoaded === false) {
+      navigate('/chat');
+    } else{
+      
+      navigate(`/chat/talk/${chatRoomId}`);
+    }
+  };
+
+  console.log(props.isLoaded);
+
+  const handleButtonClick = (chatRoomId) => {
+    handleClickMySection();
+    handleClickOpenSpecificRoom(chatRoomId);
   };
 
   return (
@@ -38,7 +51,12 @@ function ChatMyItem(props) {
       {chatData.map((value, index) => {
         return (
           <>
-            <button onClick={() => handleClickMySection(value.chatRoomId)}>
+            {/* <button onClick={() => handleClickMySection(value.chatRoomId)}> */}
+            <button
+              onClick={() => {
+                handleButtonClick(value.chatRoomId);
+              }}
+            >
               <div className='flex' key={index}>
                 <div className='w-1/4 mt-3'>
                   <span>
