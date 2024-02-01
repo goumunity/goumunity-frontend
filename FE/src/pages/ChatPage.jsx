@@ -1,10 +1,7 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../store/modal';
 import background from '@/assets/images/background.png';
 import ChatMySection from '../components/chatPage/chatMySection/ChatMySection';
 import ChatTalkSection from '../components/chatPage/chatTalkSection/ChatTalkSection';
-import { useDispatch, useSelector } from 'react-redux';
 
 function ChatPage() {
   const [isLoaded, setIsLoaded] = useState(false);

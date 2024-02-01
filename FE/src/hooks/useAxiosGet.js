@@ -6,30 +6,23 @@ function useAxiosGet(url) {
   const [errorMessage, setErrorMessage] = useState('');
   const [value, setValue] = useState('');
 
-  useEffect(function requestData() {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const res = await axios.get(url);
-<<<<<<< HEAD
-        // console.log('요청 결과 : ', res);
-        setValue(res.data);
-
-=======
-        console.log('요청 결과 : ', res);
-        setValue(res.data);
->>>>>>> origin/feature/262
-      } catch (error) {
-        setErrorMessage(error);
-      }
-      setIsLoading(false);
-    };
-    fetchData();
-<<<<<<< HEAD
-  }, [url]);
-=======
-  }, []);
->>>>>>> origin/feature/262
+  useEffect(
+    function requestData() {
+      const fetchData = async () => {
+        setIsLoading(true);
+        try {
+          const res = await axios.get(url);
+          // console.log('요청 결과 : ', res);
+          setValue(res.data);
+        } catch (error) {
+          setErrorMessage(error);
+        }
+        setIsLoading(false);
+      };
+      fetchData();
+    },
+    [url]
+  );
 
   return [value, isLoading, errorMessage];
 }
