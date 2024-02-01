@@ -16,6 +16,7 @@ export default defineConfig({
 
   server: {
     proxy: {
+
       '/api': {
         target: 'https://ssafyhelper.shop/test/api',
         // target: 'http://localhost:8080/api',
@@ -31,6 +32,7 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/fake/, ''),
         secure: false,
         ws: true,
+
       },
     },
   },

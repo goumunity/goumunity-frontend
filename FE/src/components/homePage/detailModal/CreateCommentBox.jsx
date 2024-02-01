@@ -3,9 +3,8 @@ import useInput from '../../../hooks/useInput';
 import Button from '../../common/Button';
 import { useEffect, useState } from 'react';
 
-function CreateCommentBox({ setCommentList, inputRef, feedId }) {
-  const [comment, handleChangeComment] = useInput('');
-
+function CreateCommentBox({ setCommentList, inputRef, feedId, option, setOption, commentId, comment, handleChangeComment }) {
+  const [reply, handleChangeReply] = useInput('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmitCreateComment = async (e) => {
@@ -13,18 +12,28 @@ function CreateCommentBox({ setCommentList, inputRef, feedId }) {
 
     try {
       setIsLoading(true);
+
+      if (option) {
       const res = await axios.post(`/api/feeds/${feedId}/comments`, {
         content: comment,
       });
+      console.log('댓글 생성 결과 : ', res);
+    } else {
+      const res = await axios.post(`/api/comments/${commentId}/replies`, {
+        content: comment,
+      });
+      console.log('답글 생성 결과 : ', res);
+
+    }
       // setCommentList((prev) => {
       //   console.log('이전 댓글들: ', prev)
       // })
-      console.log('댓글 생성 결과 : ', res);
       // setCommentList((prev) => [...prev, res.data]);
     } catch (error) {
       console.log('댓글 생성 과정에서 에러 발생 : ', error);
     }
     setIsLoading(false);
+    setOption(true)
     // setComments((prev) => {
     //   return {...prev}
     // })

@@ -4,7 +4,7 @@ import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import commentIcon from '@/assets/svgs/commentIcon.svg';
 import Option from '../common/Option';
-import { Link, redirect, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { calculateDate } from '../../utils/formatting';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
