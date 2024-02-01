@@ -32,6 +32,7 @@ function EmailConfirmButton({
       });
 
       if (res.statusText !== 'OK') {
+        console.log( res );
         throw new Error('데이터 요청 실패');
       }
       
