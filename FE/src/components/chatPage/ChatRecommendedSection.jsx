@@ -1,8 +1,8 @@
-import ChatRecommendedItem from './ChatRecommendedItem';
+import ChatRecommendedItem from './ChatRecommendedItem.jsx';
 import './ChatRecommendedItem.css';
-import redBoy from '@/assets/images/redBoy.jpg';
-import beggars from '@/assets/images/beggar.jpg';
-import SearchIcon from '../common/SearchIcon';
+import redBoy from '../../assets/images/redBoy.jpg';
+import beggars from '../../assets/images/beggar.jpg';
+import SearchIcon from '../common/SearchIcon.jsx';
 
 //chatPage
 

@@ -4,8 +4,13 @@ import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import commentIcon from '@/assets/svgs/commentIcon.svg';
 import { formatDate } from '../../../utils/formatting';
 
-function OptionBox({isLike, handleClickDeleteLike, handleClickCreateLike, updatedAt, likeCount}) {
-
+function OptionBox({
+  isLike,
+  handleClickDeleteLike,
+  handleClickCreateLike,
+  updatedAt,
+  likeCount,
+}) {
   return (
     <div className='border-y border-gray p-2'>
       <div className='flex'>

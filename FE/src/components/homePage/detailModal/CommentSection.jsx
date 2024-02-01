@@ -6,7 +6,7 @@ import axios from 'axios';
 import OptionBox from './OptionBox';
 import { useParams } from 'react-router-dom';
 
-function CommentSection({feedId, updatedAt, likeCount}) {
+function CommentSection({ feedId, updatedAt, likeCount }) {
   const params = useParams();
   const [initialTime] = useState(new Date().getTime());
 
@@ -44,7 +44,7 @@ function CommentSection({feedId, updatedAt, likeCount}) {
           setPage((prevPageNumber) => prevPageNumber + 1);
         }
       });
-      
+
       if (node) observerRef.current.observe(node);
       // console.log(node);
     },
@@ -55,19 +55,23 @@ function CommentSection({feedId, updatedAt, likeCount}) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setIsLoading(true)
-        const res = await axios.get(`/api/feeds/${feedId}/comments`, { params: {
-          page, size: 3, time: initialTime
-        }})
-        console.log('댓글 조회 결과 : ', res)
+        setIsLoading(true);
+        const res = await axios.get(`/api/feeds/${feedId}/comments`, {
+          params: {
+            page,
+            size: 3,
+            time: initialTime,
+          },
+        });
+        console.log('댓글 조회 결과 : ', res);
         setCommentList(res.data.contents);
-        setHasNext(res.data.hasNext)
+        setHasNext(res.data.hasNext);
       } catch (error) {
-        console.log('commentList 요청 중 에러 발생 : ', error)
+        console.log('commentList 요청 중 에러 발생 : ', error);
       }
-    }
+    };
     fetchData();
-  }, [page])
+  }, [page]);
 
   // 게시글 좋아요
   const handleClickCreateLike = async () => {
@@ -101,12 +105,12 @@ function CommentSection({feedId, updatedAt, likeCount}) {
         ) : (
           <div>댓글이 없습니다.</div>
         )} */}
-     
-          {commentList?.map((comment, idx) => {
-            return <Comment key={idx} comment={comment} inputRef={inputRef} />;
-          })}
-       
-       <div ref={lastCommentRef} style={{ height: '10px' }}></div>
+
+        {commentList?.map((comment, idx) => {
+          return <Comment key={idx} comment={comment} inputRef={inputRef} />;
+        })}
+
+        <div ref={lastCommentRef} style={{ height: '10px' }}></div>
       </div>
       <div className='absolute bottom-0 w-full'>
         <OptionBox
@@ -116,7 +120,11 @@ function CommentSection({feedId, updatedAt, likeCount}) {
           updatedAt={updatedAt}
           likeCount={likeCount}
         />
-        <CreateCommentBox setCommentList={setCommentList} inputRef={inputRef} feedId={feedId}/>
+        <CreateCommentBox
+          setCommentList={setCommentList}
+          inputRef={inputRef}
+          feedId={feedId}
+        />
       </div>
     </div>
   );

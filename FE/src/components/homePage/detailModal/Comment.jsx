@@ -1,8 +1,8 @@
-import Option from '../../common/Option';
-import ProfileImage from '../../common/ProfileImage';
-import likeIcon from '@/assets/svgs/likeIcon.svg';
-import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
-import commentIcon from '@/assets/svgs/commentIcon.svg';
+import Option from '../../common/Option.jsx';
+import ProfileImage from '../../common/ProfileImage.jsx';
+import likeIcon from '../../../assets/svgs/likeIcon.svg';
+import unLikeIcon from '../../../assets/svgs/unLikeIcon.svg';
+import commentIcon from '../../../assets/svgs/commentIcon.svg';
 import { useState } from 'react';
 import { calculateDate, formatDate } from '../../../utils/formatting';
 import ReplySection from './ReplySection';
@@ -63,9 +63,9 @@ function Comment({ comment, inputRef }) {
 
   // 답글 창 여닫기
   const handleClickToggleIsReplyOpen = () => {
-    setIsReplyOpen(!isReplyOpen)
-  }
-  
+    setIsReplyOpen(!isReplyOpen);
+  };
+
   const daysAgo = updatedAt
     ? calculateDate(updatedAt)
     : calculateDate(createdAt);
@@ -103,7 +103,14 @@ function Comment({ comment, inputRef }) {
             답글 달기
           </span>
         </div>
-        {replyCount !== 1 && <div className='text-center font-dove text-sm' onClick={handleClickToggleIsReplyOpen}>- 답글 {isReplyOpen ? '숨기기' : `${replyCount}개 보기`} -</div>}
+        {replyCount !== 1 && (
+          <div
+            className='text-center font-dove text-sm'
+            onClick={handleClickToggleIsReplyOpen}
+          >
+            - 답글 {isReplyOpen ? '숨기기' : `${replyCount}개 보기`} -
+          </div>
+        )}
         {isReplyOpen && <ReplySection />}
       </div>
     </div>

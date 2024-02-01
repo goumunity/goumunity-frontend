@@ -10,7 +10,7 @@ function CreateCommentBox({ setCommentList, inputRef, feedId }) {
 
   const handleSubmitCreateComment = async (e) => {
     e.preventDefault();
-    
+
     try {
       setIsLoading(true);
       const res = await axios.post(`/api/feeds/${feedId}/comments`, {
@@ -19,7 +19,7 @@ function CreateCommentBox({ setCommentList, inputRef, feedId }) {
       // setCommentList((prev) => {
       //   console.log('이전 댓글들: ', prev)
       // })
-      console.log('댓글 생성 결과 : ', res)
+      console.log('댓글 생성 결과 : ', res);
       // setCommentList((prev) => [...prev, res.data]);
     } catch (error) {
       console.log('댓글 생성 과정에서 에러 발생 : ', error);

@@ -101,7 +101,11 @@ function DetailModal() {
                   </div>
                 )}
               </div>
-              <CommentSection feedId={params.feedId} updatedAt={updatedAt} likeCount={likeCount}/>
+              <CommentSection
+                feedId={params.feedId}
+                updatedAt={updatedAt}
+                likeCount={likeCount}
+              />
             </div>
           </div>
         </div>

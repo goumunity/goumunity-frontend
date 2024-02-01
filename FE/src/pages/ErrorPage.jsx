@@ -1,5 +1,5 @@
-import NavBar from '../components/common/NavBar';
-import beggar from '@/assets/images/beggar.jpg';
+import NavBar from '../components/common/NavBar.jsx';
+import beggar from '../assets/images/beggar.jpg';
 import { Link, useRouteError } from 'react-router-dom';
 
 function ErrorPage() {

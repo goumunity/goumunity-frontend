@@ -6,7 +6,6 @@ import CreateFeedModal from '@/components/homePage/createPostModal/CreateFeedMod
 import { useNavigate, useParams } from 'react-router-dom';
 
 function HomePage() {
-  
   const [initialTime] = useState(new Date().getTime());
 
   const params = useParams();
@@ -32,7 +31,7 @@ function HomePage() {
           setPage((prevPageNumber) => prevPageNumber + 1);
         }
       });
-      
+
       if (node) observerRef.current.observe(node);
       // console.log(node);
     },
@@ -42,21 +41,25 @@ function HomePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setIsLoading(true)
-        const res = await axios.get('/api/feeds', { params: {
-          page, size: 3, time: initialTime
-        }})
-        console.log('feedList 요청 결과 : ', res)
-        console.log('요청 시간 : ', initialTime)
-        setFeedList((prev) => [...prev, ...res.data.contents])
-        setHasNext(res.data.hasNext)
+        setIsLoading(true);
+        const res = await axios.get('/api/feeds', {
+          params: {
+            page,
+            size: 3,
+            time: initialTime,
+          },
+        });
+        console.log('feedList 요청 결과 : ', res);
+        console.log('요청 시간 : ', initialTime);
+        setFeedList((prev) => [...prev, ...res.data.contents]);
+        setHasNext(res.data.hasNext);
       } catch (error) {
-        console.log('feedList 요청 중 에러 발생 : ', error)
+        console.log('feedList 요청 중 에러 발생 : ', error);
       }
-      setIsLoading(false)
-    }
+      setIsLoading(false);
+    };
     fetchData();
-  }, [page])
+  }, [page]);
 
   const handleClickOpenCreateFeedModal = () => {
     setIsCreateFeedModalOpen(true);
@@ -65,16 +68,19 @@ function HomePage() {
   return (
     <div className='flex flex-col items-center h-full bg-bright'>
       {feedList.map((feed, idx) => (
-        <Feed feed={feed} key={idx} setFeedList={setFeedList} feedList={feedList}/>
+        <Feed
+          feed={feed}
+          key={idx}
+          setFeedList={setFeedList}
+          feedList={feedList}
+        />
       ))}
 
-      {params.feedId && <DetailModal  />}
+      {params.feedId && <DetailModal />}
       {/* {isCreateFeedModalOpen && (
         <CreateFeedModal onClose={() => setIsCreateFeedModalOpen(false)} />
       )} */}
-      {params.id && (
-        <CreateFeedModal />
-      )}
+      {params.id && <CreateFeedModal />}
 
       {/* <button
         className='fixed bottom-5 right-5 cursor-pointer'
@@ -83,7 +89,6 @@ function HomePage() {
         애드
       </button> */}
       <div ref={lastFeedRef} style={{ height: '10px' }}></div>
-
     </div>
   );
 }

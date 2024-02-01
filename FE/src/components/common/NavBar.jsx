@@ -1,10 +1,14 @@
+
 import { useState } from 'react';
+
 import { NavLink, useNavigate } from 'react-router-dom';
 import CloseButton from './CloseButton';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { authActions } from '../../store/auth';
+import { authActions } from '../../store/auth.js';
 import axios from 'axios';
 import ProfileImage from './ProfileImage';
+
 
 function NavBar() {
   // LandingPage에서는 NavBar를 렌더링하지 않음
