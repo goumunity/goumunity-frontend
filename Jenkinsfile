@@ -40,7 +40,7 @@ pipeline {
                 sh 'ls -l'
                 sh 'ls -l FE/'
                 sh 'ls -l FE/dist'
-                sh 'tar -cvf febuild.tar FE/dist'
+                sh 'tar -cvf febuild.tar FE/**'
                 sh 'ls -l'
                 script{
                     sshPublisher(
