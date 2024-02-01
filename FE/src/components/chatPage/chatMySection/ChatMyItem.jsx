@@ -29,8 +29,8 @@ function ChatMyItem(props) {
     return <div>Loading...</div>; // 데이터가 로딩 중일 때 표시할 내용
   }
 
-  const handleClickOpenSpecificRoom = () => {
-    navigate(`/${chatRoomId}`);
+  const handleClickOpenSpecificRoom = (chatRoomId) => {
+    navigate(`/chat/talk/${chatRoomId}`);
   };
 
   return (
@@ -38,7 +38,7 @@ function ChatMyItem(props) {
       {chatData.map((value, index) => {
         return (
           <>
-            <button onClick={handleClickMySection}>
+            <button onClick={() => handleClickMySection(value.chatRoomId)}>
               <div className='flex' key={index}>
                 <div className='w-1/4 mt-3'>
                   <span>

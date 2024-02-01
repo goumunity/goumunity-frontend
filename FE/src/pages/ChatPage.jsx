@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 function ChatPage() {
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const handleClickMySection = () => {
-    setIsLoaded(!isLoaded);
+  const handleClickMySection = (chatRoomId) => {
+    // setIsLoaded(!isLoaded);
+    navigate(`/chat/talk/${chatRoomId}`);
   };
 
   return (
@@ -29,6 +30,7 @@ function ChatPage() {
           <div>
             {/* <button onClick={handleClickMySection}>클릭</button> */}
             {isLoaded ? <ChatRecommendedSection /> : <ChatTalkSection />}
+            {/* <ChatRecommendedSection /> */}
           </div>
         </div>
       </div>

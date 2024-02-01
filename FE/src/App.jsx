@@ -26,7 +26,7 @@ const router = createBrowserRouter([
       {
         path: '/chat',
         element: <ChatPage />,
-        children: [{ path: ':talkId', element: <ChatTalkSection /> }],
+        children: [{ path: 'talk/:talkId', element: <ChatTalkSection /> }],
       },
       { path: '/profile', element: <ProfilePage /> },
     ],
