@@ -8,16 +8,7 @@ import CheckBox from '../../common/CheckBox';
 import ProfileImage from '../../common/ProfileImage';
 import { calculateAge } from '../../../utils/formatting';
 import { Link, useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
-<<<<<<< HEAD
-import NicknameConfirmButton from '@/components/landingPage/joinModal2/NicknameConfirmButton';
-import { imageUpload } from '../../../utils/upload';
-=======
 import NicknameConfirmButton from '@/components/landingPage/joinModal2/NicknameConfirmButton.jsx';
->>>>>>> 168c8017249fb6e777183653a8d1ddb4a98c2120
-=======
-import NicknameConfirmButton from '@/components/landingPage/joinModal2/NicknameConfirmButton';
->>>>>>> origin/feature/262
 
 const GENDER_OPTIONS = [
   { id: 1, content: '남' },
@@ -106,14 +97,14 @@ function JoinModal2() {
     navigate('/landing/join/3');
   };
 
-  // 사용자 입력 감지 
+  // 사용자 입력 감지
   const handleChangeInputs = (id, value) => {
     // 생년월일을 8자 넘게 못쓰게
     if (id === 'birthDate' && value.trim().length > 8) {
       return;
     }
     if (id === 'nickname') {
-      setIsNicknameValid(false)
+      setIsNicknameValid(false);
     }
     setUserInputs((prev) => ({
       ...prev,
@@ -125,12 +116,10 @@ function JoinModal2() {
     }));
   };
 
- 
-
   return (
     <>
       <h1 className='font-daeam text-5xl my-5'>회원가입</h1>
-      
+
       <form
         onSubmit={handleSubmitNext}
         className='px-2 flexflex-col items-center'
