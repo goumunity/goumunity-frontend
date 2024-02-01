@@ -11,11 +11,15 @@ pipeline {
                 script {
                     // FE 폴더로 이동
                     dir('FE') {
+                
                         sh 'node -v'
                         sh 'npm -v'
                         sh 'rm -rf node_modules'
                         // sh 'rm package-lock.json'
                         sh 'npm install'
+
+                        sh 'sudo cat src/components/landingPage/joinModal1/EmailConfirmButton.jsx'
+
 			            sh 'npm install --global yarn'
                         sh 'npm install --global vite'
                         sh 'yarn global add create-vite'
