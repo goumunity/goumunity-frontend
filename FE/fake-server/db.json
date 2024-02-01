@@ -311,5 +311,84 @@
       }
     ],
     "hasNext": false
+  },
+  "chatMyList": {
+    "chatMyItemList": [
+      {
+        "title": "첫번째 거지방",
+        "chatRoomId": 1,
+        "imgSrc": "@/assets/images/logo.png",
+        "hashtags": [
+          {
+            "name": "20대"
+          },
+          {
+            "name": "거지방"
+          }
+        ],
+        "currentUserCount": 10,
+        "unreadMessageCount": 1
+      },
+      {
+        "title": "두번째 거지방",
+        "chatRoomId": 2,
+        "imgSrc": "@/assets/images/redBoy.jpg",
+        "hashtags": [
+          {
+            "name": "30대"
+          },
+          {
+            "name": "관악구"
+          },
+          {
+            "name": "자취생"
+          }
+        ],
+        "currentUserCount": 30,
+        "unreadMessageCount": 152
+      }
+    ],
+    "hasNext": false
+  },
+  "chatRecomNext": {
+    "chatRecomItemList": [
+      {
+        "title": "관악구 거지들의 모임",
+        "chatRoomId": 1,
+        "imgSrc": "string",
+        "capability": 10,
+        "currentUserCount": 3,
+        "hashtags": [
+          {
+            "name": "거지"
+          },
+          {
+            "name": "20대"
+          },
+          {
+            "name": "자취"
+          }
+        ]
+      },
+      {
+        "title": "돈이 없지 가오가 없냐",
+        "chatRoomId": 2,
+        "imgSrc": "string",
+        "capability": 50,
+        "currentUserCount": 4,
+        "hashtags": [
+          {
+            "name": "하남자"
+          },
+          {
+            "name": "하여자"
+          },
+          {
+            "name": "거지"
+          }
+        ]
+      }
+    ],
+    "hasNext": "boolean"
   }
 }

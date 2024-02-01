@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Slider from 'react-slick';
 
+
 function DetailModal() {
   const params = useParams();
   // const feed = useLoaderData(params.feedId);
@@ -29,12 +30,14 @@ function DetailModal() {
   //   }
   //   fetchData();
   // }, [])
+
   const navigate = useNavigate();
 
   // 모달 닫기(홈으로 가기)
   const handleClickGoHome = () => {
     navigate('/');
   };
+
 
   const {
     afterPrice,
@@ -57,6 +60,7 @@ function DetailModal() {
     slidesToScroll: 1,
     arrows: true,
   };
+
   return (
     <>
       {feed ? (

@@ -1,13 +1,14 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import ReactModal from 'react-modal';
-import LandingPage from './pages/LandingPage.jsx';
-import LayOut from './components/common/LayOut.jsx';
-import ChatPage from './pages/ChatPage.jsx';
-import ProfilePage from './pages/ProfilePage.jsx';
+import LandingPage from './pages/LandingPage';
+import LayOut from './components/common/LayOut';
+import ChatPage from './pages/ChatPage';
+import ProfilePage from './pages/ProfilePage';
 import './index.css';
 import HomePage from './pages/HomePage';
 import ErrorPage from './pages/ErrorPage';
-// import { loader as feedLoader } from './components/homePage/detailModal/DetailModal';
+import ChatTalkSection from './components/chatPage/chatTalkSection/ChatTalkSection';
+
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,11 @@ const router = createBrowserRouter([
       { path: '/landing', element: <LandingPage /> },
       { path: '/landing/join/:joinId', element: <LandingPage /> },
       { path: '/:login', element: <LandingPage /> },
-      { path: '/chat', element: <ChatPage /> },
+      {
+        path: '/chat',
+        element: <ChatPage />,
+        children: [{ path: 'talk/:talkId', element: <ChatTalkSection /> }],
+      },
       { path: '/profile', element: <ProfilePage /> },
     ],
   },

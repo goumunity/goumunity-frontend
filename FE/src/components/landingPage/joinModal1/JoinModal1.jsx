@@ -1,12 +1,11 @@
 import { useState } from 'react';
-
-import { isEmail, isEqual, validatePassword } from '../../../utils/validation.js';
-import UserInput from '../../common/UserInput.jsx';
-import Button from '../../common/Button.jsx';
+import { isEmail, isEqual, validatePassword } from '../../../utils/validation';
+import UserInput from '../../common/UserInput';
+import Button from '../../common/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { authActions } from '../../../store/auth.js';
+import { authActions } from '../../../store/auth';
 import '@/styles.css';
-import EmailConfirmButton from '@/components/landingPage/joinModal1/EmailConfirmButton.jsx';
+import EmailConfirmButton from '@/components/landingPage/joinModal1/EmailConfirmButton';
 import { useNavigate } from 'react-router-dom';
 
 function JoinModal1() {

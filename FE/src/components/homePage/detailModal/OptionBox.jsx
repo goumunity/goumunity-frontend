@@ -11,6 +11,7 @@ function OptionBox({
   updatedAt,
   likeCount,
 }) {
+
   return (
     <div className='border-y border-gray p-2'>
       <div className='flex'>

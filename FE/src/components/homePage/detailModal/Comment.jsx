@@ -1,8 +1,8 @@
-import Option from '../../common/Option.jsx';
-import ProfileImage from '../../common/ProfileImage.jsx';
-import likeIcon from '../../../assets/svgs/likeIcon.svg';
-import unLikeIcon from '../../../assets/svgs/unLikeIcon.svg';
-import commentIcon from '../../../assets/svgs/commentIcon.svg';
+import Option from '../../common/Option';
+import ProfileImage from '../../common/ProfileImage';
+import likeIcon from '@/assets/svgs/likeIcon.svg';
+import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
+import commentIcon from '@/assets/svgs/commentIcon.svg';
 import { useState } from 'react';
 import { calculateDate, formatDate } from '../../../utils/formatting';
 import ReplySection from './ReplySection';

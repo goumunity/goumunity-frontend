@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Button from '../../common/Button.jsx';
+import Button from '../../common/Button';
 import axios from 'axios';
 
 function EmailConfirmButton({

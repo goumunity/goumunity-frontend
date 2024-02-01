@@ -5,6 +5,7 @@ import DetailModal from '@/components/homePage/detailModal/DetailModal';
 import CreateFeedModal from '@/components/homePage/createPostModal/CreateFeedModal';
 import { useNavigate, useParams } from 'react-router-dom';
 
+
 function HomePage() {
   const [initialTime] = useState(new Date().getTime());
 

@@ -1,7 +1,5 @@
-
 import { Outlet, useNavigation } from 'react-router-dom';
-import NavBar from './NavBar.jsx';
-
+import NavBar from './NavBar';
 
 function LayOut() {
   const navigation = useNavigation();
