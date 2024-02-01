@@ -30,11 +30,12 @@ function EmailConfirmButton({
       const res = await axios.get('/api/users/email/verification', {
         params: { email, },
       });
-
-      if (res.statusText !== 'OK') {
-        console.log( res );
-        throw new Error('데이터 요청 실패');
-      }
+      
+      console.log( 'res2: ' + res );
+      // if (res.statusText !== 'OK') {
+      //   console.log( res );
+      //   throw new Error('데이터 요청 실패');
+      // }
       
       setIsEmailConfirmSended(true);
 
@@ -61,7 +62,7 @@ function EmailConfirmButton({
         code: emailConfirm,
         email: email,
       });
-
+      console.log( 'res1: ' + res );
       // if (res.statusText !== 'OK') {
       //   console.log( res );
       //   throw new Error('데이터 요청 실패');
