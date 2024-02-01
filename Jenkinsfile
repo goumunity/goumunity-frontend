@@ -18,7 +18,7 @@ pipeline {
                         // sh 'rm package-lock.json'
                         sh 'npm install'
 
-                        sh 'sudo cat src/components/landingPage/joinModal1/EmailConfirmButton.jsx'
+                        sh 'cat src/components/landingPage/joinModal1/EmailConfirmButton.jsx'
 
 			            sh 'npm install --global yarn'
                         sh 'npm install --global vite'
