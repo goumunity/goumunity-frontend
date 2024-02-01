@@ -63,7 +63,7 @@ function HomePage() {
   };
 
   return (
-    <div className='flex flex-col items-center h-screen bg-bright'>
+    <div className='flex flex-col items-center h-full bg-bright'>
       {feedList.map((feed, idx) => (
         <Feed feed={feed} key={idx} setFeedList={setFeedList} feedList={feedList}/>
       ))}

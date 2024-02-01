@@ -10,11 +10,15 @@ function CreateCommentBox({ setCommentList, inputRef, feedId }) {
 
   const handleSubmitCreateComment = async (e) => {
     e.preventDefault();
+    
     try {
       setIsLoading(true);
       const res = await axios.post(`/api/feeds/${feedId}/comments`, {
         content: comment,
       });
+      // setCommentList((prev) => {
+      //   console.log('이전 댓글들: ', prev)
+      // })
       console.log('댓글 생성 결과 : ', res)
       // setCommentList((prev) => [...prev, res.data]);
     } catch (error) {
@@ -25,6 +29,12 @@ function CreateCommentBox({ setCommentList, inputRef, feedId }) {
     //   return {...prev}
     // })
   };
+
+  // const requestComment = async (commentId) => {
+  //   try {
+  //     const res = await axios.get(`/api/feeds/${feedId}`)
+  //   }
+  // }
 
   // 모달 열리면 인풋에 자동 포커스
   useEffect(function focusInputBox() {

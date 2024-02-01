@@ -83,6 +83,7 @@ function CreatePostModal({ onClose }) {
           'Content-Type': 'multipart/form-data',
         },
       });
+      console.log('gdgd', res)
     } catch (error) {
       console.error('api 요청 중 오류 발생 : ', error);
     }

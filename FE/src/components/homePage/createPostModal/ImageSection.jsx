@@ -3,6 +3,7 @@ import { imageUpload } from '../../../utils/upload';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
+import CloseButton from '../../common/CloseButton';
 
 function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
   const [imageList, setImageList] = useState([]);
@@ -14,6 +15,13 @@ function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
   const handleChangeUploadProfileImg = (e) => {
     setImageSrcList(imageUpload(e.target, setImageList));
   };
+
+  const handleClickDeleteImage = (target) => {
+    const newImageList = imageList.filter((image) => {
+      return image !== target
+    })
+    setImageList(newImageList)
+  }
 
   const settings = {
     dots: true,
@@ -38,9 +46,15 @@ function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
           {...settings}
         >
           {/* <div>gdgd</div> */}
-          {imageList.map((image, idx) => (
-            <img key={idx} className='h-96' src={image} alt='' />
-          ))}
+          {imageList.map((image, idx) => {
+            console.log(image, idx)
+            return (
+              <div key={idx} className='relative h-full w-full'>
+                <img className='h-96' src={image} alt='' />
+                <CloseButton className='absolute right-5 top-5' onClick={() => handleClickDeleteImage(image)} />
+              </div>
+            );
+          })}
         </Slider>
       ) : (
         <div className='flex flex-col justify-center items-center gap-5 w-full h-full'>

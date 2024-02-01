@@ -31,7 +31,6 @@ function ReplySection() {
       {replyList.map((reply) => {
         return <Comment key={reply.replyId} comment={reply} />;
       })}
-      ;
     </>
   );
 }
