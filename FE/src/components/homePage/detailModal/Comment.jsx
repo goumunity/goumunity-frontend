@@ -1,7 +1,5 @@
 import Option from '../../common/Option';
 import ProfileImage from '../../common/ProfileImage';
-import likeIcon from '@/assets/svgs/likeIcon.svg';
-import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import commentIcon from '@/assets/svgs/commentIcon.svg';
 import { useState } from 'react';
 import { calculateDate, formatDate } from '../../../utils/formatting';
@@ -9,14 +7,13 @@ import ReplySection from './ReplySection';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import CommentLikeBox from './CommentLikeBox';
 
-function Comment({ comment, inputRef, option, setOption, setCommentId }) {
-  const [isCommentLike, setIsCommentLike] = useState(false);
+const BUTTON_OPTIONS = [{id: 1, name: 'createComment'}, {id: 2, name: 'createReply'},{id: 3, name: 'patchComment'},{id: 4, name: 'patchReply'},]
 
-  const [isReplyOpen, setIsReplyOpen] = useState(false);
-
+function Comment({ comment, inputRef, option, setOption, setCommentId, setReplyId, commentList, setCommentList }) {
   const currentUser = useSelector((state) => state.auth.currentUser);
-  
+  const [isReplyOpen, setIsReplyOpen] = useState(false);
   const {
     commentId,
     content,
@@ -27,71 +24,38 @@ function Comment({ comment, inputRef, option, setOption, setCommentId }) {
     user,
     updatedAt,
   } = comment;
-
-  const [commentLikeCount, setCommentLikeCount] = useState(likeCount);
-
-  // 좋아요 토글
-  const handleClickToggleisCommentLike = () => {
-    setIsCommentLike(!isCommentLike);
-  };
+  const daysAgo = updatedAt
+    ? calculateDate(updatedAt)
+    : calculateDate(createdAt);
 
   // 답글 달기 클릭 시 인풋 창으로 커서 이동
   const handleClickFocusInput = () => {
     inputRef.current.focus();
     inputRef.current.value = `@${user.nickname} `;
-    setOption(false);
+    setOption(BUTTON_OPTIONS[1].name);
     setCommentId(commentId)
   };
 
-  // 댓글 좋아요
-  const handleClickCreateCommentLike = async () => {
-    try {
-      const res = await axios.post(`/api/comments/${commentId}/like`);
-      setIsCommentLike(true);
-      setCommentLikeCount((prev) => prev + 1);
-      console.log('댓글 좋아요 했을 때 결과 : ', res);
-    } catch (error) {
-      console.log('댓글 좋아요 중 에러 발생 : ', error);
-    }
-  };
-
-  // 댓글 좋아요 취소
-  const handleClickDeleteCommentLike = async () => {
-    try {
-      const res = await axios.delete(`/api/comments/${commentId}/unlike`);
-      setIsCommentLike(false);
-      setCommentLikeCount((prev) => prev - 1);
-      console.log('댓글 좋아요 취소 했을 때 결과 : ', res);
-    } catch (error) {
-      console.log('에러 발생 : ', error);
-    }
-  };
-
-  // 답글 창 여닫기
   const handleClickToggleIsReplyOpen = () => {
     setIsReplyOpen(!isReplyOpen);
   };
 
-  const daysAgo = updatedAt
-    ? calculateDate(updatedAt)
-    : calculateDate(createdAt);
-
-  // 댓글 삭제
   const handleClickDeleteComment = async () => {
     const isConfirm = window.confirm('정말로 삭제하시겠습니까?')
-    if (isConfirm) return;
+    if (!isConfirm) return;
 
     try {
       const res = await axios.delete(
         `/api/feeds/${feedId}/comments/${commentId}`
       );
       console.log('댓글 삭제 했을 때 결과 : ', res);
+      const newCommentList = commentList.filter((comment) => comment.commentId !== commentId)
+      setCommentList(newCommentList)
     } catch (error) {
       console.log('에러 발생 : ', error);
     }
   };
 
-  // 댓글 수정
   const handleClickPatchComment = async () => {
     try {
       const res = await axios.patch(`/api/feeds/${feedId}/comments/${commentId}`, {content: comment});
@@ -110,19 +74,7 @@ function Comment({ comment, inputRef, option, setOption, setCommentId }) {
         </div>
         <p className='text-xs leading-4'>{content}</p>
         <div className='flex gap-2 items-center my-1 font-daeam text-xs'>
-          {isCommentLike ? (
-            <Option
-              text={likeCount}
-              src={unLikeIcon}
-              onClick={handleClickDeleteCommentLike}
-            />
-          ) : (
-            <Option
-              text={likeCount}
-              src={likeIcon}
-              onClick={handleClickCreateCommentLike}
-            />
-          )}
+          <CommentLikeBox likeCount={likeCount} commentId={commentId} />
           <Option
             text={replyCount}
             src={commentIcon}
@@ -152,7 +104,7 @@ function Comment({ comment, inputRef, option, setOption, setCommentId }) {
             - 답글 {isReplyOpen ? '숨기기' : `${replyCount}개 보기`} -
           </div>
         )}
-        {isReplyOpen && <ReplySection commentId={commentId} />}
+        {isReplyOpen && <ReplySection commentId={commentId} setOption={setOption} setReplyId={setReplyId}/>}
       </div>
     </div>
   );

@@ -63,8 +63,9 @@ function LoginModal() {
       const res = await axios.post('/api/users/login', {
         id: userInputs.email,
         password: userInputs.password,
-      });
+      }, { withCredentials: true });
 
+      console.log(res)
       dispatch(authActions.login());
 
       try {
@@ -75,7 +76,7 @@ function LoginModal() {
         console.log(error);
       }
 
-      navigate('/');
+      navigate('/1');
     } catch (error) {
       console.log('에러 발생 : ', error);
       setErrorMessage('이메일과 비밀번호를 다시 확인해주세요.');

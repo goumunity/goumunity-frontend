@@ -13,6 +13,7 @@ import axios from 'axios';
 import ImageSection from './ImageSection';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import ModalBackground from '../../common/ModalBackground';
 
 const FEED_CATEGORY_OPTIONS = [
   { id: 1, name: 'INFO' },
@@ -180,12 +181,7 @@ function CreatePostModal({ onClose }) {
           />
         </div>
       </div>
-      {/* {isSlide && <MapModal isSlide={isSlide} />} */}
-      <div className='fixed top-0 left-0 bg-back w-full h-full'>
-        <Link to='/'>
-          <CloseButton className='absolute top-5 right-5' />
-        </Link>
-      </div>
+      <ModalBackground />
     </div>
   );
 }

@@ -3,8 +3,26 @@ import useInput from '../../../hooks/useInput';
 import Button from '../../common/Button';
 import { useEffect, useState } from 'react';
 
-function CreateCommentBox({ setCommentList, inputRef, feedId, option, setOption, commentId, comment, handleChangeComment }) {
-  const [reply, handleChangeReply] = useInput('');
+const BUTTON_OPTIONS = [
+  { id: 1, name: 'createComment' },
+  { id: 2, name: 'createReply' },
+  { id: 3, name: 'patchComment' },
+  { id: 4, name: 'patchReply' },
+];
+
+function CreateCommentBox({
+  setCommentList,
+  setReplyList,
+  inputRef,
+  feedId,
+  option,
+  setOption,
+  commentId,
+  comment,
+  handleChangeComment,
+  replyId
+}) {
+  const [input, handleChangeInput] = useInput('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmitCreateComment = async (e) => {
@@ -13,30 +31,28 @@ function CreateCommentBox({ setCommentList, inputRef, feedId, option, setOption,
     try {
       setIsLoading(true);
 
-      if (option) {
-      const res = await axios.post(`/api/feeds/${feedId}/comments`, {
-        content: comment,
-      });
-      console.log('댓글 생성 결과 : ', res);
-    } else {
-      const res = await axios.post(`/api/comments/${commentId}/replies`, {
-        content: comment,
-      });
-      console.log('답글 생성 결과 : ', res);
-
-    }
-      // setCommentList((prev) => {
-      //   console.log('이전 댓글들: ', prev)
-      // })
-      // setCommentList((prev) => [...prev, res.data]);
+      if (option === BUTTON_OPTIONS[0].name) {
+        const res = await axios.post(`/api/feeds/${feedId}/comments`, {
+          content: input,
+        });
+        console.log('댓글 생성 결과 : ', res);
+      } else if (option === BUTTON_OPTIONS[1].name) {
+        const res = await axios.post(`/api/comments/${commentId}/replies`, {
+          content: input,
+        });
+        console.log('답글 생성 결과 : ', res);
+      } else if (option === BUTTON_OPTIONS[3].name) {
+        const res = await axios.put(
+          `/api/comments/${commentId}/replies/${replyId}`,
+          { content: input }
+        );
+        console.log('답글 수정 결과 : ', res);
+      }
     } catch (error) {
-      console.log('댓글 생성 과정에서 에러 발생 : ', error);
+      console.log('댓글 답글 에러 발생 : ', error);
     }
     setIsLoading(false);
-    setOption(true)
-    // setComments((prev) => {
-    //   return {...prev}
-    // })
+    setOption(BUTTON_OPTIONS[0].name);
   };
 
   // const requestComment = async (commentId) => {
@@ -57,8 +73,8 @@ function CreateCommentBox({ setCommentList, inputRef, feedId, option, setOption,
     >
       <input
         ref={inputRef}
-        onChange={handleChangeComment}
-        value={comment}
+        onChange={handleChangeInput}
+        value={input}
         // value={inputRef.current.value || input}
         className='p-2 bg-bright w-4/5 focus:outline-none text-lg placeholder:font-her font-dove'
         type='text'

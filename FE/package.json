@@ -15,6 +15,7 @@
     "axios": "^1.6.7",
     "camelcase": "^8.0.0",
     "react": "^18.2.0",
+    "react-cookie": "^7.0.2",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
     "react-redux": "^9.1.0",
