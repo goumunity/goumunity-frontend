@@ -8,8 +8,8 @@ import './index.css';
 import HomePage from './pages/HomePage';
 import ErrorPage from './pages/ErrorPage';
 import ChatTalkSection from './components/chatPage/chatTalkSection/ChatTalkSection';
-
-
+import ProfilePageDetail from './components/ProfilePage/ProfilePageDetail';
+import TestPage from './pages/TestPage';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -29,7 +29,8 @@ const router = createBrowserRouter([
         element: <ChatPage />,
         children: [{ path: 'talk/:talkId', element: <ChatTalkSection /> }],
       },
-      { path: '/profile', element: <ProfilePage /> },
+      { path: '/profile/:detail?', element: <ProfilePage /> },
+      { path: '/test', element: <TestPage /> },
     ],
   },
 ]);
