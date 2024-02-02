@@ -1,12 +1,10 @@
 import axios from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import Comment from './Comment.jsx';
+import Reply from './Reply.jsx';
 
-
-function ReplySection({ commentId }) {
+function ReplySection({ commentId, setOption, setReplyId }) {
   const [replyList, setReplyList] = useState([]);
   const [initialTime] = useState(new Date().getTime());
-
   const [isLoading, setIsLoading] = useState(false);
   const [hasNext, setHasNext] = useState(false);
   const [page, setPage] = useState(0);
@@ -36,7 +34,8 @@ function ReplySection({ commentId }) {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const res = await axios.get(`/api/feeds/${commentId}/comments`, {
+        console.log(commentId)
+        const res = await axios.get(`/api/comments/${commentId}/replies`, {
           params: {
             page,
             size: 3,
@@ -56,7 +55,7 @@ function ReplySection({ commentId }) {
   return (
     <>
       {replyList.map((reply) => {
-        return <Comment key={reply.replyId} comment={reply} />;
+        return <Reply key={reply.replyId} reply={reply} replyList={replyList} setReplyList={setReplyList} setReplyId={setReplyId} setOption={setOption} />;
       })}
       <div ref={lastReplyRef} style={{ height: '10px' }}></div>
     </>

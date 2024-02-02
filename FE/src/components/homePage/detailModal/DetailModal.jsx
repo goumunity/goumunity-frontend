@@ -1,44 +1,16 @@
 import CloseButton from '../../common/CloseButton';
 import ProfileImage from '../../common/ProfileImage';
 import CommentSection from './CommentSection';
-import { useLoaderData, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { calculateDate } from '../../../utils/formatting';
 import useAxiosGet from '../../../hooks/useAxiosGet';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import Slider from 'react-slick';
-
 
 function DetailModal() {
   const params = useParams();
-  // const feed = useLoaderData(params.feedId);
-  // const [feed, setFeed] = useState({});
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [post, isLoading, errorMessage] = useAxiosGet(`/api/feeds/${params.postId}`);
   const [feed, isLoading, errorMessage] = useAxiosGet(
     `/api/feeds/${params.feedId}`
   );
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //     const res = await axios.get(`/api/feeds/${params.feedId}`)
-  //     console.log('feed 상세 요청 결과 : ', res)
-  //     setFeed(res.data)
-  //   } catch (error) {
-  //     console.log('feed 상세 요청 실패 : ', error)
-  //   }
-  //   }
-  //   fetchData();
-  // }, [])
-
-  const navigate = useNavigate();
-
-  // 모달 닫기(홈으로 가기)
-  const handleClickGoHome = () => {
-    navigate('/');
-  };
-
-
   const {
     afterPrice,
     commentCount,
@@ -51,7 +23,9 @@ function DetailModal() {
     updatedAt,
     user,
   } = feed;
-  const daysAgo = calculateDate(updatedAt);
+  const daysAgo = updatedAt
+    ? calculateDate(updatedAt)
+    : calculateDate(createdAt);
   const settings = {
     dots: true,
     infinite: false,
@@ -59,6 +33,12 @@ function DetailModal() {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
+  };
+
+  const navigate = useNavigate();
+
+  const handleClickGoHome = () => {
+    navigate('/');
   };
 
   return (
@@ -107,6 +87,7 @@ function DetailModal() {
               </div>
               <CommentSection
                 feedId={params.feedId}
+                createdAt={createdAt}
                 updatedAt={updatedAt}
                 likeCount={likeCount}
               />

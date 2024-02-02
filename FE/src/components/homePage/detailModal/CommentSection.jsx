@@ -6,17 +6,27 @@ import axios from 'axios';
 import OptionBox from './OptionBox';
 import { useParams } from 'react-router-dom';
 
+const BUTTON_OPTIONS = [
+  { id: 1, name: 'createComment' },
+  { id: 2, name: 'createReply' },
+  { id: 3, name: 'patchComment' },
+  { id: 4, name: 'patchReply' },
+];
 
-const BUTTON_OPTIONS = [{id: 1, name: 'createComment'}, {id: 2, name: 'createReply'},{id: 3, name: 'patchComment'},{id: 4, name: 'patchReply'},]
-
-
-function CommentSection({ feedId, updatedAt, likeCount }) {
+function CommentSection({ feedId, createdAt, updatedAt, likeCount }) {
   const params = useParams();
   const [comment, handleChangeComment] = useInput('');
-
   const [initialTime] = useState(new Date().getTime());
   const [option, setOption] = useState(true);
   const [commentId, setCommentId] = useState('');
+  const [replyId, setReplyId] = useState('');
+  const [commentList, setCommentList] = useState([]);
+  const [replyList, setReplyList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasNext, setHasNext] = useState(false);
+  const [page, setPage] = useState(0);
+  const inputRef = useRef();
+  const observerRef = useRef();
 
   const observer = (node) => {
     if (isLoading) return;
@@ -29,17 +39,6 @@ function CommentSection({ feedId, updatedAt, likeCount }) {
     });
     node && observerRef.current.observe(node);
   };
-
-  const [commentList, setCommentList] = useState([]);
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasNext, setHasNext] = useState(false);
-  const [page, setPage] = useState(0);
-  const inputRef = useRef();
-
-  const [isLike, setIsLike] = useState(false);
-
-  const observerRef = useRef();
 
   const lastCommentRef = useCallback(
     (node) => {
@@ -81,60 +80,45 @@ function CommentSection({ feedId, updatedAt, likeCount }) {
     fetchData();
   }, [page]);
 
-  // 게시글 좋아요
-  const handleClickCreateLike = async () => {
-    try {
-      const res = await axios.post(`/api/feeds/${feedId}/like`);
-      setIsLike(true);
-      console.log('좋아요 했을 때 결과 : ', res);
-    } catch (error) {
-      console.log('에러 발생 : ', error);
-    }
-  };
-
-  // 게시글 좋아요 취소
-  const handleClickDeleteLike = async () => {
-    try {
-      const res = await axios.delete(`/api/feeds/${feedId}/unlike`);
-      setIsLike(false);
-      console.log('좋아요 취소 했을 때 결과 : ', res);
-    } catch (error) {
-      console.log('에러 발생 : ', error);
-    }
-  };
-
   return (
     <div className='relative border-l border-gray w-1/3'>
       <div className='px-2 w-ful'>
-        {/* {commentList.length ? (
-          commentList?.map((comment, idx) => {
-            return <Comment key={idx} comment={comment} inputRef={inputRef} />;
-          })
-        ) : (
-          <div>댓글이 없습니다.</div>
-        )} */}
-
         {commentList?.map((comment, idx) => {
-          return <Comment key={idx} comment={comment} inputRef={inputRef} option={option} setOption={setOption} setCommentId={setCommentId}/>;
+          return (
+            <Comment
+              key={idx}
+              comment={comment}
+              inputRef={inputRef}
+              option={option}
+              setOption={setOption}
+              setCommentId={setCommentId}
+              replyList={replyList}
+              setReplyList={setReplyList}
+              setReplyId={setReplyId}
+              commentList={commentList}
+              setCommentList={setCommentList}
+            />
+          );
         })}
 
         <div ref={lastCommentRef} style={{ height: '10px' }}></div>
       </div>
       <div className='absolute bottom-0 w-full'>
         <OptionBox
-          isLike={isLike}
-          handleClickCreateLike={handleClickCreateLike}
-          handleClickDeleteLike={handleClickDeleteLike}
+          feedId={feedId}
+          createdAt={createdAt}
           updatedAt={updatedAt}
           likeCount={likeCount}
         />
         <CreateCommentBox
           setCommentList={setCommentList}
+          setReplyList={setReplyList}
           inputRef={inputRef}
           feedId={feedId}
           option={option}
           setOption={setOption}
           commentId={commentId}
+          replyId={replyId}
           comment={comment}
           handleChangeComment={handleChangeComment}
         />

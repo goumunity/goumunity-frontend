@@ -63,8 +63,9 @@ function LoginModal() {
       const res = await axios.post('/api/users/login', {
         id: userInputs.email,
         password: userInputs.password,
-      });
+      }, { withCredentials: true });
 
+      console.log(res)
       dispatch(authActions.login());
 
       try {
