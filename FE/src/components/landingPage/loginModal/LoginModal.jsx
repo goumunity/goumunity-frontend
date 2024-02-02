@@ -76,7 +76,7 @@ function LoginModal() {
         console.log(error);
       }
 
-      navigate('/1');
+      navigate('/');
     } catch (error) {
       console.log('에러 발생 : ', error);
       setErrorMessage('이메일과 비밀번호를 다시 확인해주세요.');
