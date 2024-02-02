@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ChatTalkRoom from './ChatTalkRoom';
 import ChatRoom from './ChatTalkRoom';
+import Main from '../../../pages/Main';
 
 function ChatTalkSection({ id }) {
   useEffect(() => {
@@ -23,6 +24,7 @@ function ChatTalkSection({ id }) {
       채팅방 내부입니다
       {id}
       {/* <ChatTalkRoom /> */}
+      <Main/>
     </div>
   );
 }

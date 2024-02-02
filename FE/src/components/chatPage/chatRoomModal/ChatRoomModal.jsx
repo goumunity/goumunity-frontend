@@ -5,88 +5,107 @@ import hashtagButtonIcon from '@/assets/svgs/hashtagButtonIcon.svg';
 import SelectBox from '../../common/SelectBox';
 import HashTag from '../../common/HashTag';
 import ProfileImage from '../../common/ProfileImage';
+import axios from 'axios';
 
 function ChatRoomModal() {
   const [hashtag, setHashtag] = useState(['#20대', '#거지방', '#절약']);
   const [newHashtag, setNewHashtag] = useState('');
-
   const [profileImage, setProfileImage] = useState('');
-
-  //Enter 누르면 hashtag 하나 더 생성
-  const handleOnKeyDownCreateHashtag = (e) => {
-    if (e.key === 'Enter') {
-      // handleCreateHashtag(e.target.value);
-      e.preventDefault();
-      addNewHashtag();
-    }
-  };
-
-  const handleClickAppendHashtag = (e) => {
-    // hashtag.append(e.target.value);
-    if (newHashtag.trim() !== '') {
-      setHashtag((prevHashtags) => [...prevHashtags, `#${newHashtag}`]);
-      setNewHashtag('');
-    }
-  };
-  // 해시태그 추가하기
-  const handleCreateHashtag = (e, value) => {
-    hashtag.append(e.target.value);
-    setHashtag((prevHashtags) => [...prevHashtags, value]);
-  };
-
-  // //hashtag 추가하기
-  // const handleCreateHashtag = () => {
-  //   const originHashtag = {};
-  //   setHashtag((newHashtag) => [...newHashtag, originHashtag]);
-  // };
-
-  // 이미지 업로드
-  const handleChangeUploadProfileImg = (e) => {
-    const { files } = e.target;
-    const uploadFile = files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(uploadFile);
-    reader.onloadend = () => {
-      setProfileImage(reader.result);
-    };
-  };
-
   const [userInputs, setUesrInputs] = useState({
     title: '',
+    hashtag: '',
+    capability: null,
+    regionId: null,
   });
 
-  const [iisEdited, setIsEdited] = useState({
-    title: '',
+  const [isEdited, setIsEdited] = useState({
+    title: false,
+    hashtag: false,
+    capability: false,
+    regionId: false,
   });
 
-  const handleBlurFoucusOffInput = (id) => {
-    setIsEdited((prev) => ({
-      ...prev,
-      [id]: true,
-    }));
-  };
+  //채팅룸 추가하기
+  const handleSubmitChatCreate = async (e) => {
+    e.preventDefault();
+    setErrorMessage('');
+    if (userInputs.userCategory === '') {
+      setErrorMessage('신분을 선택해주세요.');
+      return;
+    }
+    if (userInputs.region === '') {
+      setErrorMessage('지역을 선택해주세요.');
+      return;
+    }
+    if (userInputs.monthBudget === '') {
+      setErrorMessage('한달 생활비를 입력해주세요.');
+      return;
+    }
 
-  //채팅방 만들기
-  const handleSubmitChatCreate = async (e) => {};
+    // 유저 입력 감지
+    const handleChangeInputs = (id, value) => {
+      if (id === 'monthBudget' && isNaN(value)) {
+        return;
+      }
+      if (id === 'monthBudget') {
+        // value = Number(value.replaceAll(',', ''))
+        // value = value.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
+        // const removedCommaValue = Number(value.replaceAll(',', ''))
+        value = Number(value.replaceAll(',', ''));
+        value = value.toLocaleString();
+      }
 
-  //사용자 입력감지
-  const handleChangeInputs = (id, value) => {
-    setUesrInputs((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
-    setIsEdited((prev) => ({
-      ...prev,
-      [id]: false,
-    }));
+      setUserInputs((prev) => ({
+        ...prev,
+        [id]: value,
+      }));
+
+      setIsEdited((prev) => ({
+        ...prev,
+        [id]: false,
+      }));
+    };
+
+    const updatedData = {
+      ...joinData,
+      userCategory: userInputs.userCategory,
+      regionId: Number(userInputs.region),
+      monthBudget: Number(userInputs.monthBudget.replace(/,/g, '')),
+    };
+
+    const formData = new FormData();
+
+    for (const image of resultImage) {
+      formData.append('image', image);
+    }
+
+    const blob = new Blob([JSON.stringify(updatedData)], {
+      type: 'application/json',
+    });
+    formData.append('data', blob);
+
+    try {
+      const res = await axios.post('/api/chat-rooms', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+    } catch (error) {
+      console.error('api 요청 중 오류 발생 : ', error);
+      if (error.response.status === 409) {
+        setErrorMessage('이미 존재하는 채팅방입니다.');
+      }
+      return;
+    }
+    navigate('/chat');
   };
 
   return (
-    <div>
-      <h1 className='font-daeam text-2xl'>채팅방 개설하기</h1>
-      <form onSubmit={handleSubmitChatCreate} className='px-2'>
+    <>
+      <form onSubmit={handleSubmitChatCreate}>
+        <h1 className='font-daeam text-2xl'>채팅방 개설하기</h1>
         <UserInput
-          label='제목'
+          label='채팅방 이름'
           id='title'
           type='title'
           value={userInputs.title}
@@ -95,6 +114,7 @@ function ChatRoomModal() {
           }}
           onChange={(e) => handleChangeInputs('title', e.target.value)}
         />
+        <div className='font-her text-left text-2xl'>*해시태그 설정하기</div>
         <div className='flex'>
           {hashtag.map((value, index) => {
             return (
@@ -105,9 +125,6 @@ function ChatRoomModal() {
                     className='w-20 bg-transparent'
                     type='text'
                     value={newHashtag}
-                    onChange={(e) => setNewHashtag(e.target.value)}
-                    onClick={handleClickAppendHashtag}
-                    onKeyDown={handleOnKeyDownCreateHashtag}
                   />
                 </HashTag>
               </>
@@ -117,19 +134,19 @@ function ChatRoomModal() {
             <input
               className='w-20 bg-transparent'
               placeholder='#입력'
+              id='hashtag'
               type='text'
-              value={newHashtag}
-              onChange={(e) => setNewHashtag(e.target.value)}
-              onClick={handleClickAppendHashtag}
-              onKeyDown={handleOnKeyDownCreateHashtag}
+              value={userInputs.hashtag}
+              // onChange={(e) => setNewHashtag(e.target.value)}
+              onChange={(e) => handleChangeInputs('hashtag', e.target.value)}
             />
           </HashTag>
         </div>
         {/* <button className='font-paci border border-dashed rounded-2xl pr-2 pl-2'></button> */}
-        <div className='flex font-her justify-center bg-gray-100 p-4 '>
+        <div className='flex font-her justify-center bg-gray-100 p-2 '>
           <div
             type='text'
-            className='p-4 border border-t border-b border-l -mr-px border-gray-300 rounded-md focus:outline-none focus:border-gray-500 bg-transparent text-gray-100 text-3xl'
+            className='p-2 border border-t border-b border-l -mr-px border-gray-300 rounded-md focus:outline-none focus:border-gray-500 bg-transparent text-gray-100 text-3xl'
             style={{
               borderRadius: '1.3rem 0 0 1.3rem',
               backgroundColor: 'rgba(0,0,0,0)',
@@ -143,10 +160,10 @@ function ChatRoomModal() {
             widthSize={96}
           />
         </div>
-        <div className='flex font-her justify-center bg-gray-100 p-4'>
+        <div className='flex font-her justify-center bg-gray-100 p-2'>
           <div
             type='text'
-            className='p-4 border border-t border-b border-l -mr-px border-gray-300 rounded-md focus:outline-none focus:border-gray-500 bg-transparent text-gray-100 text-2xl w-1/3'
+            className='p-2 border border-t border-b border-l -mr-px border-gray-300 rounded-md focus:outline-none focus:border-gray-500 bg-transparent text-gray-100 text-2xl w-1/3'
             style={{
               borderRadius: '1.3rem 0 0 1.3rem',
               backgroundColor: 'rgba(0,0,0,0)',
@@ -164,24 +181,24 @@ function ChatRoomModal() {
             <span>명</span>
           </ul>
         </div>
-      </form>
 
-      <div className='border rounded-xl font-her pt-4'>
-        채팅방 이미지 추가하기
-        <div className='flex justify-center relative text-center m-5'>
-          <ProfileImage
-            size='20'
-            profileImage={profileImage}
-            onChange={handleChangeUploadProfileImg}
-          />
+        <div className='border rounded-xl font-her pt-2 pb-2'>
+          채팅방 이미지 추가하기
+          <div className='flex justify-center relative text-center '>
+            <ProfileImage
+              size='20'
+              profileImage={profileImage}
+              // onChange={handleChangeUploadProfileImg}
+            />
+          </div>
         </div>
-      </div>
-      <div className='pt-2'>
-        <button className='border rounded-xl pr-2 pl-2 bg-orange-100 hover:bg-orange-200'>
-          추가하기
-        </button>
-      </div>
-    </div>
+        <div className='pt-2'>
+          <button className='border rounded-xl pr-2 pl-2 bg-orange-100 hover:bg-orange-200'>
+            추가하기
+          </button>
+        </div>
+      </form>
+    </>
   );
 }
 

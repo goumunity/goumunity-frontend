@@ -52,8 +52,8 @@ function ChatMyItem(props) {
           <>
             {/* <button onClick={() => handleClickMySection(value.chatRoomId)}> */}
             <button
-              // className='hover:bg-orange-200 hover:transform rotate-45'
-              className='hover:rotate-45 '
+              className='hover:bg-orange-200 '
+              // className='hover:rotate-45 '
               onClick={() => {
                 handleButtonClick(value.chatRoomId);
               }}

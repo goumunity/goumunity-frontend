@@ -20,6 +20,7 @@ function JoinModal3() {
   const joinData = useSelector((state) => state.auth.joinData);
   const [profileImage, setProfileImage] = useState('');
   const [resultImage, setResultImage] = useState(null);
+
   // 이미지 업로드
   const handleChangeUploadProfileImg = (e) => {
     const uploadFile = imageUpload(e.target, setProfileImage);
@@ -118,10 +119,12 @@ function JoinModal3() {
       value = Number(value.replaceAll(',', ''));
       value = value.toLocaleString();
     }
+    
     setUserInputs((prev) => ({
       ...prev,
       [id]: value,
     }));
+
     setIsEdited((prev) => ({
       ...prev,
       [id]: false,
