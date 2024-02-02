@@ -23,6 +23,7 @@ function DetailModal() {
     updatedAt,
     user,
   } = feed;
+  
   const daysAgo = updatedAt
     ? calculateDate(updatedAt)
     : calculateDate(createdAt);

@@ -9,8 +9,8 @@ function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
   const [imageList, setImageList] = useState([]);
 
   const categorySectionClassName = isSlide
-    ? 'opacity-100 w-96'
-    : 'opacity-0 w-0';
+    ? 'visible w-96'
+    : 'hidden w-0';
 
   const handleChangeUploadProfileImg = (e) => {
     setImageSrcList(imageUpload(e.target, setImageList));

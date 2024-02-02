@@ -41,18 +41,18 @@ function HomePage() {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        // const res = await axios.get('/api/feeds', { params: {
-        //   page, size: 3, time: initialTime
-        // }})
-        const res = await axios.get('/api/feeds', {
-          params: {
-            time: initialTime,
-            regionId: 1,
-          },
-        });
-
-        setFeedList((prev) => [...prev, ...res.data.contents]);
-        setHasNext(res.data.hasNext);
+        const res = await axios.get('/api/feeds')
+        // const res = await axios.get('/api/feeds', {
+        //   params: {
+        //     time: initialTime,
+        //     regionId: 1,
+        //   },
+        // });
+        console.log()
+        console.log(res)
+        setFeedList(res.data.feedRecommends)
+        // setFeedList((prev) => [...prev, ...res.data.contents]);
+        // setHasNext(res.data.hasNext);
       } catch (error) {
         console.log('feedList 요청 중 에러 발생 : ', error);
       }
@@ -80,7 +80,7 @@ function HomePage() {
       {/* {isCreateFeedModalOpen && (
         <CreateFeedModal onClose={() => setIsCreateFeedModalOpen(false)} />
       )} */}
-      {params.id && <CreateFeedModal />}
+      {params.id && <CreateFeedModal setFeedList={setFeedList} />}
 
       {/* <button
         className='fixed bottom-5 right-5 cursor-pointer'

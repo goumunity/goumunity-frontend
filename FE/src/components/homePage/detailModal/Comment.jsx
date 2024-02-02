@@ -24,6 +24,9 @@ function Comment({ comment, inputRef, option, setOption, setCommentId, setReplyI
     user,
     updatedAt,
   } = comment;
+  console.log(comment)
+
+  console.log(commentId)
   const daysAgo = updatedAt
     ? calculateDate(updatedAt)
     : calculateDate(createdAt);

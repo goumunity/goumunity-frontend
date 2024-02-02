@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { calculateDate } from '../../utils/formatting';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import FeedLikeBox from './FeedLikeBox';
 
 // 댓글, 답글 200자
 function Feed({ feed, setFeedList, feedList, ...props }) {
@@ -20,19 +21,22 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
     afterPrice,
     profit,
     images,
-    user,
+    nickname,
+    imgSrc,
     region,
     createdAt,
     updatedAt,
     likeCount,
+    ilikeThat,
   } = feed;
 
+  console.log('gdgd', ilikeThat)
   const [isLoading, setIsLoading] = useState(false);
   const currentUser = useSelector((state) => state.auth.currentUser);
   const navigate = useNavigate();
   const daysAgo = calculateDate(updatedAt);
   const className = isLoading ? 'pointer-events-none opacity-75' : undefined;
-  const [isLike, setIsLike] = useState(false);
+  const [isLike, setIsLike] = useState(ilikeThat);
 
   const handleClickToggleLike = () => {
     setIsLike(!isLike);
@@ -59,36 +63,24 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
   return (
     <div className='flex flex-col w-post border border-gray px-4 py-2'>
       <div className='flex items-center gap-2'>
-        <ProfileImage size='8' profileImage={user.imgSrc ? user.imgSrc : ''}/>
+        <ProfileImage size='8' profileImage={imgSrc ? imgSrc : ''}/>
         <div className='flex items-center gap-2 w-4/5'>
           {/* <span className='font-daeam'>CheongRyeong</span>{' '} */}
-          <span className='font-daeam'>{user.nickname}</span>
+          <span className='font-daeam'>{nickname}</span>
           <span className='font-her'>{daysAgo}</span>
         </div>
-        {user.id === currentUser.id && (
+        {nickname === currentUser.nickname && (
           <button className={`${className} font-daeam`} onClick={handleClickDeleteFeed}>삭제</button>
         )}
       </div>
       <p className='my-4 px-3'>{content}</p>
       <img
         className='w-full h-50 rounded'
-        src={images[0].imgSrc}
+        src={images[0]?.imgSrc}
         alt=''
       />
       <div className='flex items-center my-2 gap-2'>
-        {isLike ? (
-          <Option
-            text={likeCount}
-            src={unLikeIcon}
-            onClick={handleClickToggleLike}
-          />
-        ) : (
-          <Option
-            text={likeCount}
-            src={likeIcon}
-            onClick={handleClickToggleLike}
-          />
-        )}
+        <FeedLikeBox ilikeThat={ilikeThat} likeCount={likeCount} feedId={feedId}/>
 
         <Link to={`/${feedId}`}>
           <Option text={commentCount} src={commentIcon} />

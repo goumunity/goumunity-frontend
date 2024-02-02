@@ -20,17 +20,13 @@ function NicknameConfirmButton({ nickname, setErrorMessage, isNicknameValid, set
         },
       });
 
-      if (res.statusText !== 'OK') {
-        throw new Error('데이터 요청 실패');
-      }
-
       if (res.data.exist === true) {
         setErrorMessage('이미 존재하는 닉네임입니다.');
       } else {
         setIsNicknameValid(true)
       }
     } catch (error) {
-      console.error('api 요청 중 오류 발생 : ', error);
+      console.error('닉네임 중복확인 중 오류 발생 : ', error);
     }
     setIsLoading(false)
   };

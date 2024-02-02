@@ -22,7 +22,8 @@ function CreateCommentBox({
   handleChangeComment,
   replyId
 }) {
-  const [input, handleChangeInput] = useInput('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [input, handleChangeInput] = useInput('', setErrorMessage);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmitCreateComment = async (e) => {
@@ -36,6 +37,15 @@ function CreateCommentBox({
           content: input,
         });
         console.log('댓글 생성 결과 : ', res);
+        const commentId = res.data
+        try {
+          const res = await axios.get(`/api/feeds/${feedId}/comments/${commentId}`)
+          console.log('단일 조회 : ', res)
+          setCommentList((prev) => [res.data, ...prev])
+        } catch (error) {
+          console.log('댓글 단일 조회 중 에러 발생 : ', error)
+        }
+
       } else if (option === BUTTON_OPTIONS[1].name) {
         const res = await axios.post(`/api/comments/${commentId}/replies`, {
           content: input,
