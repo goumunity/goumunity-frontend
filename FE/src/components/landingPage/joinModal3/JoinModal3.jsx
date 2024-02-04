@@ -100,7 +100,7 @@ function JoinModal3() {
     formData.append('data', blob);
 
     try {
-      const res = await axios.post('/api/users/join', formData, {
+      const res = await axios.post('https://i10a408.p.ssafy.io/temp/api/users/join', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

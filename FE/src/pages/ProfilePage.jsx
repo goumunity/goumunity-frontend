@@ -8,18 +8,51 @@ import './ProfileScroll.css'
 import ProfileDetailUnderPrivate from "../components/ProfilePage/ProfileDetailUnderPrivate";
 import ProfileDetailUnderArea from "../components/ProfilePage/ProfileDetailUnderArea";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
 function ProfilePage() {
   const { detail } = useParams();
+  const [hsize, setHsize]  = useState(''); 
+  const h = detail !== 'detail' ? 'h-1/6' : 'h-3/4'
+  /*
+"email":"ssafy@ssafy.com",
+   "password":"$2a$10$HqqrMtNGbzKvzs8bOV.xU.u8xlQH6JD6Uf.WZv1EmBO3iVYw0ubGG",
+   "monthBudget":100000,
+   "age":10,
+   "userCategory":"JOB_SEEKER",
+   "gender":1,
+   "nickname":"김싸피",
+   "imgSrc":"/images/user-profile/20240117/23758814530500.jpg",
+   "registerDate":"2024-01-17T05:38:00Z",
+   "userStatus":"ACTIVE",
+   "lastPasswordModifiedDate":"2024-01-17T00:00:00Z",
+   "regionId":1
+  */
+
+  const containerClasses = `border-2 border-bg-600 flex flex-row ${h}`;
+  const onLoad = () => {axios.get("https://i10a408.p.ssafy.io/temp/api/users/my",
+  {withCredentials:true}).then(res => {
+  console.log(res.data)
+})
+  }
+  useEffect( () => {
+    onLoad();
+  })
+
+  
   return (
     <div className="font-dove" id="body">
       
-       <div className='grid flex flex-col h-full p-10'>
+       <div className='grid flex flex-col p-10 h-3/4'>
        <ProfileHeader/>      
-      <div id="ProfileBaseUnder" className="border-2 border-bg-600 flex flex-row h-1/6">
+       <div id="ProfileBaseUnder" className={containerClasses}>
         { detail !== 'detail' ?(
           <>
+          
             <ProfileBaseUnderFeeds/>
             <ProfileBaseUnderSave/>
+            
           </> ) : (
           <>
             <ProfileDetailUnderPrivate/>
@@ -28,7 +61,7 @@ function ProfilePage() {
           </>
           ) 
         }
-      </div>
+        </div>
     </div>
   </div>
   )
