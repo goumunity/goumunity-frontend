@@ -11,7 +11,6 @@ export default function Main() {
   return (
     <>
       <h1>해윙</h1>
-
       {isLoggedIn ? (
         <ChatTalkRoom chatRooms={chatRooms} userId={userId} />
       ) : (

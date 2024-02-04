@@ -1,126 +1,3 @@
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import { Link, useNavigate } from 'react-router-dom';
-
-// function ChatRecommendedItem(props) {
-//   const [chatData, setChatData] = useState(null);
-
-//   //button 클릭 시, 특정 채팅방으로 url 변경
-//   const navigate = useNavigate();
-
-//   //axios
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const res = await axios.get('/fake/chatRecomNext');
-//         console.log(res.data.chatRecomItemList);
-//         setChatData(res.data.chatRecomItemList);
-//       } catch (error) {
-//         console.error('Error fetching data:', error);
-//       }
-//     };
-//     fetchData();
-//   }, []);
-
-//   //입장하기 → ChatMyItem 데이터 쌓이기
-//   const handleEnterChatRoom = async(e)=>{
-//     e.preventDefault();
-
-//     const prevEnterChatRoom={
-//       title: '1',
-//       hashtags: 1  ,
-//       currentUserCount: 10,
-//       unreadMessageCount: 10,
-//     },
-
-//     const blob = new Blob([JSON.stringify()])
-
-//     try{
-//       const res = await axios.post(`/api/chat-rooms/${chat-room-id}`, formData,
-//       {
-//         headers:{
-//           'Content-Type' : 'multipart/form-data',
-//         },
-//       });
-//     }catch(error){
-//       console.error('api 요청 중 오류 발생 : ', error);
-//       if(error.response.status === 404){
-//         setErrorMessage('해당하는 거지방이 존재하지 않습니다.')
-//       }else if (error.response.status === 409){
-//         setErrorMessage('기존에 참가한 거지방입니다.')
-
-//       }else (error.response.status === 409){
-//         setErrorMessage('이미 거지가 가득 찬 거지방입니다.')
-
-//       }
-//     }
-
-//   }
-
-//   if (!chatData) {
-//     return <div>Loading...</div>; // 데이터가 로딩 중일 때 표시할 내용
-//   }
-//   return (
-//     <>
-//       {chatData
-//         .filter((val) => {
-//           if (props.userInput == '') {
-//             return val;
-//           }
-//           // (
-//           //   val.title.includes(props.userInput) ||
-//           //   val.hashtags.includes(props.userInput)
-//           // )
-//           else {
-//             const hashtagsNames = val.hashtags.map((tag) => tag.name);
-//             return (
-//               val.title.includes(props.userInput) ||
-//               hashtagsNames.includes(props.userInput)
-//             );
-//           }
-//           // console.log(val);
-//         })
-//         .map((value, index) => {
-//           return (
-//             <>
-//               <li className='cards__item'>
-//                 <Link className='cards__item__link' to={props.path}>
-//                   <figure className='cards__item__pic-wrap'>
-//                     <img
-//                       className='cards__item__img'
-//                       alt='Travel Image'
-//                       src={props.src}
-//                     />
-//                   </figure>
-//                   <div className='cards__item__info '>
-//                     <h5 className='font-daeam cards__item__text'>
-//                       {value.title}
-//                     </h5>
-//                     {value.hashtags.map((hashtag, hashIndex) => {
-//                       return (
-//                         <span
-//                           key={hashIndex}
-//                           className='font-her text-1xl pr-2'
-//                         >{`#${hashtag.name}`}</span>
-//                       );
-//                     })}
-//                     <div className='text-gray-800 font-paci text-center rounded-md border-2 hover:border-solid hover:bg-lime-100'>
-//                       <button
-//                       onChange={(e)=> ChatMyItem의 더미 하나  서버에 더 생성 }>
-//                         입장하기
-//                       </button>
-//                     </div>
-//                   </div>
-//                 </Link>
-//               </li>
-//             </>
-//           );
-//         })}
-//     </>
-//   );
-// }
-
-// export default ChatRecommendedItem;
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -128,10 +5,55 @@ import { Link, useNavigate } from 'react-router-dom';
 function ChatRecommendedItem(props) {
   const [chatData, setChatData] = useState(null);
 
-  //button 클릭 시, 특정 채팅방으로 url 변경
-  const navigate = useNavigate();
+  const [chatMyData, setChatMyData] = useState('');
 
-  //axios
+  useEffect(() => {
+    const trying = async () => {
+      try {
+        const res = await axios.get('/fake/chatMyList');
+        console.log(res);
+        setChatMyData(res.data.chatMyItemList);
+        console.log(chatMyData);
+      } catch (error) {
+        console.log('뭐가 안되나?: ' + error);
+      }
+    };
+    trying();
+  }, []);
+
+  //나의 거지챗 리스트 추가하기
+  const handleAddMyChat = (e) => {
+    // console.log(e);
+    // console.log(e.type);
+    if (e.type === 'click') {
+      addMyChatList();
+    }
+  };
+
+  let clickData = '';
+  const handleClickData = (value) => {
+    clickData = value;
+    // console.log(clickData);
+  };
+
+  const addMyChatList = () => {
+    const nextValue = {
+      title: clickData.title,
+      // chatRoomId: chatMyData.chatRoomdId[chatMyData.chatRoomdId.length - 1] + 1,
+      chatRoomId: 3,
+      imgSrc: 'chatData.imgSrc',
+      hashtags: clickData.hashtags.map((elem) => elem),
+      currentUserCount: clickData.currentUserCount,
+      unreadMessageCount: 0,
+    };
+    console.log(nextValue);
+    console.log(chatData);
+    const nextArr = chatMyData.concat(nextValue);
+    console.log(nextArr);
+    setChatMyData(nextArr);
+  };
+
+  //axios fake-server 가져오기
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -140,6 +62,25 @@ function ChatRecommendedItem(props) {
         setChatData(res.data.chatRecomItemList);
       } catch (error) {
         console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  //axios 입장하기 버튼 클릭 시, 나의 거지챗 list 추가
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // const res = await axios.post('/fake/chatMyList');
+        const res = await axios.post(`/api/chat-rooms/${clickData.chatRoomId}`);
+      } catch (error) {
+        if (error.response.status === 404) {
+          console.log(error + '존재하지 않는 거지방입니다.');
+        }
+        if (error.response.status === 409) {
+          console.log(error + '이미 참여하고 있는 거지방입니다.');
+        }
       }
     };
 
@@ -163,7 +104,7 @@ function ChatRecommendedItem(props) {
           return (
             <>
               <li className='cards__item'>
-                <Link className='cards__item__link' to={props.path}>
+                <div className='cards__item__link' to={props.path}>
                   <figure className='cards__item__pic-wrap'>
                     <img
                       className='cards__item__img'
@@ -184,12 +125,15 @@ function ChatRecommendedItem(props) {
                       );
                     })}
                     <div className='text-gray-800 font-paci text-center rounded-md border-2 hover:border-solid '>
-                      <button onClick={() => navigate(`/chat/talk`)}>
+                      <button
+                        onClick={handleAddMyChat}
+                        onChange={handleClickData(value)}
+                      >
                         입장하기
                       </button>
                     </div>
                   </div>
-                </Link>
+                </div>
               </li>
             </>
           );

@@ -11,12 +11,17 @@ function ChatMyItem(props) {
   const navigate = useNavigate();
   const { handleClickMySection, setId } = props;
 
+  //fake-sever api 연결
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get('/fake/chatMyList');
+        // const res = await axios.get(
+        //   '/api/users/my/chat-rooms?page=&size=&time='
+        // );
 
         setChatData(res.data.chatMyItemList);
+        console.log(chatData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -24,6 +29,29 @@ function ChatMyItem(props) {
 
     fetchData();
   }, []);
+
+  //서버 api 연결
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await axios.get(
+  //         '/api/users/my/chat-rooms?page=&size=&time=',
+  //         //사용자 아이디에 맞는 채팅방 가져오기
+  //         {
+  //           params: {
+  //             id: 1234,
+  //           },
+  //         }
+  //       );
+
+  //       setChatData(res.data.chatMyItemList);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   if (!chatData) {
     return <div>Loading...</div>; // 데이터가 로딩 중일 때 표시할 내용
@@ -38,8 +66,6 @@ function ChatMyItem(props) {
     }
   };
 
-  console.log(props.isLoaded);
-
   const handleButtonClick = (chatRoomId) => {
     handleClickMySection();
     handleClickOpenSpecificRoom(chatRoomId);
@@ -52,8 +78,8 @@ function ChatMyItem(props) {
           <>
             {/* <button onClick={() => handleClickMySection(value.chatRoomId)}> */}
             <button
-              className='hover:bg-orange-200 '
-              // className='hover:rotate-45 '
+              key={value.idx}
+              className='hover:rotate-12  hover:bg-orange-200'
               onClick={() => {
                 handleButtonClick(value.chatRoomId);
               }}

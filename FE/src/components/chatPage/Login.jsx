@@ -9,6 +9,7 @@ export default function Login({ isLoggedIn, setUserId, setChatRooms }) {
     axios
       .post(
         'http://localhost:8080/api/users/login',
+        // '/api/users/login',
         {
           id,
           password,
@@ -31,6 +32,10 @@ export default function Login({ isLoggedIn, setUserId, setChatRooms }) {
     alert(`아이디 : ${id} 비번 : ${password}`);
   };
 
+  const handleOnKeyPress = (e) => {
+    if (e.key === 'Enter') onLoginButtonClicked();
+  };
+
   return (
     <>
       <div className='p-4 max-w-sm mx-auto'>
@@ -47,6 +52,7 @@ export default function Login({ isLoggedIn, setUserId, setChatRooms }) {
           placeholder='Password'
           value={password}
           onChange={(ex) => setPassword(ex.target.value)}
+          onKeyDown={handleOnKeyPress}
           className='w-full p-2 mb-4 border border-gray-300 rounded'
         />
         <br />

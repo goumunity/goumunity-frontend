@@ -75,13 +75,13 @@ export default function Lobby({ userId, chatRooms }) {
   return (
     <>
       <h1 className='text-3xl font-bold mb-4'>응 여긴 로비야</h1>
+      <button
+        onClick={onDeactivatedButtonClicked}
+        className='bg-blue-500 text-white py-2 px-4 rounded cursor-pointer hover:bg-blue-600'
+      >
+        갈께...
+      </button>
       <div className='flex space-x-5'>
-        <button
-          onClick={onDeactivatedButtonClicked}
-          className='bg-blue-500 text-white py-2 px-4 rounded cursor-pointer hover:bg-blue-600'
-        >
-          갈께...
-        </button>
         <div className='space-y-4'>
           <h2 className='text-xl font-bold'>
             나는 지금까지 들어간 채팅방 목록이야
@@ -97,17 +97,11 @@ export default function Lobby({ userId, chatRooms }) {
             </div>
           ))}
         </div>
-        <div className='space-y-4'>
+        {/* <div className='space-y-4'>
           <h2 className='text-xl font-bold'>
             나는 들어갈 수 있는 채팅방 목록이야
           </h2>
-          {/*{newChatRoom.map(room => (*/}
-          {/*    <div key={room.id} onClick={() => onNewRoomClicked(room.id)} className="cursor-pointer">*/}
-          {/*        <h3>{room.id}</h3>*/}
-          {/*        <p>{room.name}</p>*/}
-          {/*    </div>*/}
-          {/*))}*/}
-        </div>
+        </div> */}
         <div className='space-y-4'>
           <ChatRoom
             userId={userId}

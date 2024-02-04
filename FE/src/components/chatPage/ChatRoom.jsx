@@ -7,16 +7,21 @@ export default function ChatRoom({
   userId,
 }) {
   const createMessage = (m) => {
-    if (m.userId === userId) {
-      return <>{messageBody(m)}</>;
+    if (userId.index === userId) {
+      console.log(userId);
+      return (
+        <>
+          <div className='bg-black'>{messageBody(m)}</div>
+        </>
+      );
     } else {
+      console.log(userId.index);
+      console.log(userId);
       return (
         <>
           <div className='text-gray-600 '>
             {m.nickname}
-            <div className='bg-blue-500 text-white p-4 rounded-lg shadow-md max-w-xs mx-auto my-4'>
-              {messageBody(m)}
-            </div>
+            <div className=''>{messageBody(m)}</div>
           </div>
         </>
       );
@@ -53,6 +58,10 @@ export default function ChatRoom({
     }
   };
 
+  const handleOnKeyPress = (e) => {
+    if (e.key === 'Enter') sendMessage();
+  };
+
   return (
     <>
       <h1 className='text-2xl font-bold mb-4'>채팅방 ID: {chatRoomId}</h1>
@@ -61,6 +70,7 @@ export default function ChatRoom({
         type='text'
         value={message}
         onChange={(e) => setMessage(e.target.value)}
+        onKeyDown={handleOnKeyPress}
         className='w-full p-2 border border-gray-300 rounded mb-4'
       />
       <button

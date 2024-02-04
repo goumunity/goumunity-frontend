@@ -60,7 +60,7 @@ function LoginModal() {
     }
     try {
       setIsLoading(true);
-      const res = await axios.post('/api/users/login', {
+      const res = await axios.post('http://localhost:8080/api/users/login', {
         id: userInputs.email,
         password: userInputs.password,
       });
@@ -68,7 +68,10 @@ function LoginModal() {
       dispatch(authActions.login());
 
       try {
-        const res = await axios.get(`/api/users/${userInputs.email}`);
+        // const res = await axios.get(`/api/users/${userInputs.email}`);
+        const res = await axios.get(
+          `http://localhost:8080/api/users/my/chat-rooms?page=0&size=12&time=${new Date().getTime()}`
+        );
 
         dispatch(authActions.createUser(res.data));
       } catch (error) {

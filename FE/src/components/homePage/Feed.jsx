@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import ProfileImage from '../common/ProfileImage';
 import likeIcon from '@/assets/svgs/likeIcon.svg';

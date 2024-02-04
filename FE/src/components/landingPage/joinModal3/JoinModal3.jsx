@@ -119,7 +119,7 @@ function JoinModal3() {
       value = Number(value.replaceAll(',', ''));
       value = value.toLocaleString();
     }
-    
+
     setUserInputs((prev) => ({
       ...prev,
       [id]: value,

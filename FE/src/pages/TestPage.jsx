@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 const TestPage = () => {
   const [val, setVal] = useState('');
   const handleOnKeyPress = (e) => {
+    console.log(e);
     if (e.key === 'Enter') {
       console.log(val);
       changeArr(val);
@@ -26,13 +27,16 @@ const TestPage = () => {
   //------------------------------------------------------------------
 
   const [arr, setArr] = useState([]);
+
   const changeArr = (nextTag) => {
+    console.log('nextTag: ' + nextTag);
     const nextValue = {
       idx: index,
       value: nextTag,
     };
     IncreaseIndex();
     const nextArr = arr.concat(nextValue);
+    console.log(nextArr);
     setArr(nextArr);
     console.log('now: ' + arr);
   };
@@ -54,10 +58,24 @@ const TestPage = () => {
   ));
   // --------------------------------------------------------------------
 
+  // const [count, setCount] = useState(1);
+  // const [name, setName] = useState('');
 
+  // const handlerCountUpdate = () => {
+  //   setCount(count + 1);
+  // };
 
+  // useEffect(() => {
+  //   console.log('렌더링 완료');
+  // });
 
-
+  // const handleInputChange = (e) => {
+  //   setName(e.target.value);
+  //   console.log(e);
+  //   console.log(e.target);
+  //   console.log(e.target.value);
+  //   console.log(e._reactName);
+  // };
 
   return (
     <>
@@ -69,7 +87,22 @@ const TestPage = () => {
           placeholder='value 입력'
           value={val}
         />
-      </div>
+      </div>{' '}
+      {/* <>
+        <div>
+          <button onClick={handlerCountUpdate}>Update</button>
+          <span> count: {count} </span>
+        </div>
+
+        <div>
+          <input
+            type='text'
+            value={`초깃값 설정 ${name}`}
+            onChange={handleInputChange}
+          />
+          <span>name: {name}</span>
+        </div>
+      </> */}
     </>
   );
 };
