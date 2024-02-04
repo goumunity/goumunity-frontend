@@ -8,6 +8,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ReplyLikeBox from './ReplyLikeBox';
+import PatchReplyBox from './PatchReplyBox';
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment' },
@@ -24,23 +25,19 @@ function Reply({
   setCommentId,
   setReplyList,
   replyList,
-  setReplyId
+  setReplyId,
+  setCommentReplyCount
 }) {
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const currentUser = useSelector((state) => state.auth.currentUser);
-  const { commentId, content, createdAt, likeCount, replyId, user, updatedAt } =
+  const { commentId, content, createdAt, ilikeThat, likeCount, replyId, user, updatedAt } =
     reply;
+  // user 객체
+  // const { age, email, gender, id, imgSrc, monthBudget, nickname, regionId, userCategory } = user
+  const [isPatchReplyOpen, setIsPatchReplyOpen] = useState(false);
   const daysAgo = updatedAt
     ? calculateDate(updatedAt)
     : calculateDate(createdAt);
-
-  // 답글 달기 클릭 시 인풋 창으로 커서 이동
-  const handleClickFocusInput = () => {
-    inputRef.current.focus();
-    inputRef.current.value = `@${user.nickname} `;
-    setOption(BUTTON_OPTIONS[0].name);
-    setCommentId(commentId);
-  };
 
   const handleClickDeleteReply = async () => {
     const isConfirm = window.confirm('정말로 삭제하시겠습니까?');
@@ -54,15 +51,16 @@ function Reply({
         (reply) => reply.replyId !== replyId
       );
       setReplyList(newReplyList);
+      setCommentReplyCount((prev) => prev - 1)
     } catch (error) {
       console.log('답글 삭제 중 에러 발생 : ', error);
     }
   };
 
-  const handleClickPatchReply = () => {
-    setOption(BUTTON_OPTIONS[3].name)
-    setReplyId(replyId)
-  };
+  const handleClickTogglePatchReply = () => {
+    setIsPatchReplyOpen(!isPatchReplyOpen);
+  }
+
   return (
     <div className='flex py-1 gap-2 w-full'>
       <ProfileImage profileImage={user.imgSrc} />
@@ -73,18 +71,19 @@ function Reply({
         </div>
         <p className='text-xs leading-4'>{content}</p>
         <div className='flex gap-2 items-center my-1 font-daeam text-xs'>
-          <ReplyLikeBox likeCount={likeCount} replyId={replyId} />
+          <ReplyLikeBox likeCount={likeCount} replyId={replyId} ilikeThat={ilikeThat} />
           {user.id === currentUser.id && (
             <span className='cursor-pointer' onClick={handleClickDeleteReply}>
               삭제
             </span>
           )}
           {user.id === currentUser.id && (
-            <span className='cursor-pointer' onClick={handleClickPatchReply}>
+            <span className='cursor-pointer' onClick={handleClickTogglePatchReply}>
               수정
             </span>
           )}
         </div>
+        {isPatchReplyOpen && <PatchReplyBox setReplyList={setReplyList} replyList={replyList} replyId={reply.replyId} commentId={commentId} setIsPatchReplyOpen={setIsPatchReplyOpen} />}
       </div>
     </div>
   );

@@ -45,7 +45,6 @@ function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
           className='flex justify-center items-center w-full h-full bg-wheat'
           {...settings}
         >
-          {/* <div>gdgd</div> */}
           {imageList.map((image, idx) => {
             return (
               <div key={idx} className='relative h-full w-full'>

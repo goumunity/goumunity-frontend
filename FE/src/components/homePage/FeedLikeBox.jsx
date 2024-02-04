@@ -7,14 +7,14 @@ import Option from '../common/Option';
 function FeedLikeBox({ likeCount, feedId, ilikeThat }) {
   const [feedLikeCount, setFeedLikeCount] = useState(likeCount);
   const [isFeedLike, setIsFeedLike] = useState(ilikeThat);
-
+  
   const handleClickCreateFeedLike = async () => {
     try {
-      
       const res = await axios.post(`/api/feeds/${feedId}/like`);
+
+      console.log(res)
       setIsFeedLike(true);
       setFeedLikeCount((prev) => prev + 1);
-      console.log('게시글 좋아요 했을 때 결과 : ', res);
     } catch (error) {
       console.log('게시글 좋아요 중 에러 발생 : ', error);
     }
@@ -25,7 +25,6 @@ function FeedLikeBox({ likeCount, feedId, ilikeThat }) {
       const res = await axios.delete(`/api/feeds/${feedId}/unlike`);
       setIsFeedLike(false);
       setFeedLikeCount((prev) => prev - 1);
-      console.log('게시글 좋아요 취소 했을 때 결과 : ', res);
     } catch (error) {
       console.log('게시글 좋아요 취소 했을 때 에러 발생 : ', error);
     }
@@ -35,12 +34,14 @@ function FeedLikeBox({ likeCount, feedId, ilikeThat }) {
       {isFeedLike ? (
         <Option
           text={feedLikeCount}
+          size={5}
           src={unLikeIcon}
           onClick={handleClickDeleteFeedLike}
         />
       ) : (
         <Option
           text={feedLikeCount}
+          size={5}
           src={likeIcon}
           onClick={handleClickCreateFeedLike}
         />

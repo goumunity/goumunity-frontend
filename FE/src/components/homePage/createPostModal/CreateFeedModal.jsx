@@ -102,7 +102,7 @@ function CreatePostModal({ onClose, setFeedList }) {
   return (
     <div className=''>
       <div
-        className={`absolute top-1/2 left-1/2 flex transition-width duration-700 delay-300 ${modalClassName} -translate-x-1/2 -translate-y-1/2 z-10 `}
+        className={`fixed top-1/2 left-1/2 flex transition-width duration-700 delay-300 ${modalClassName} -translate-x-1/2 -translate-y-1/2 z-10 `}
       >
         <div
           className={`flex h-128 bg-bright rounded-xl shadow-2xl  overflow-hidden`}
@@ -148,6 +148,7 @@ function CreatePostModal({ onClose, setFeedList }) {
             <div className='flex gap-2 p-2'>
               <Option
                 text='이미지'
+                size={5}
                 src={imageIcon}
                 onClick={handleClickOpenSlide}
               />

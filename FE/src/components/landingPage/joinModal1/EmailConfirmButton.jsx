@@ -55,11 +55,7 @@ function EmailConfirmButton({
         email: email,
       });
       console.log('res1: ' + res);
-      // if (res.statusText !== 'OK') {
-      //   console.log( res );
-      //   throw new Error('데이터 요청 실패');
-      // }
-
+  
       console.log('인증번호 확인 결과 : ', res.data);
       if (res.data === false) {
         setErrorMessage('인증번호가 일치하지 않습니다.');

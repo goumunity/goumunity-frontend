@@ -5,7 +5,7 @@ function useAxiosGet(url) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [value, setValue] = useState('');
-
+  
   useEffect(
     function requestData() {
       const fetchData = async () => {

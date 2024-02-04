@@ -4,9 +4,9 @@ import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import Option from '../../common/Option';
 
-function CommentLikeBox({ likeCount, commentId }) {
+function CommentLikeBox({ likeCount, commentId, ilikeThat }) {
   const [commentLikeCount, setCommentLikeCount] = useState(likeCount);
-  const [isCommentLike, setIsCommentLike] = useState(false);
+  const [isCommentLike, setIsCommentLike] = useState(ilikeThat);
 
   const handleClickCreateCommentLike = async () => {
     try {
@@ -21,6 +21,7 @@ function CommentLikeBox({ likeCount, commentId }) {
 
   const handleClickDeleteCommentLike = async () => {
     try {
+
       const res = await axios.delete(`/api/comments/${commentId}/unlike`);
       setIsCommentLike(false);
       setCommentLikeCount((prev) => prev - 1);
@@ -34,14 +35,16 @@ function CommentLikeBox({ likeCount, commentId }) {
       {isCommentLike ? (
         <Option
           text={commentLikeCount}
+          size={3}
           src={unLikeIcon}
-          onClick={handleClickCreateCommentLike}
+          onClick={handleClickDeleteCommentLike}
         />
       ) : (
         <Option
           text={commentLikeCount}
+          size={3}
           src={likeIcon}
-          onClick={handleClickDeleteCommentLike}
+          onClick={handleClickCreateCommentLike}
         />
       )}
     </div>
