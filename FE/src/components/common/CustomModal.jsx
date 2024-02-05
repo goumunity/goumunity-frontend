@@ -11,25 +11,25 @@ function CustomModal({ children, onClick }) {
   const dispatch = useDispatch();
 
   // 마우스 왼쪽버튼 down 했을 때 clickOutside 함수 실행
-  useEffect(function addClickOutside() {
-    // component가 생성 시 mousedown 이벤트에 clickOutside 함수 추가
-    document.addEventListener('mousedown', closeModalWithClickOutside);
+  // useEffect(function addClickOutside() {
+  //   // component가 생성 시 mousedown 이벤트에 clickOutside 함수 추가
+  //   document.addEventListener('mousedown', closeModalWithClickOutside);
 
-    return () => {
-      // component가 해제 시 mousedown 이벤트에서 clickOutside 함수 제거
-      document.removeEventListener('mousedown', closeModalWithClickOutside);
-    };
-  });
+  //   return () => {
+  //     // component가 해제 시 mousedown 이벤트에서 clickOutside 함수 제거
+  //     document.removeEventListener('mousedown', closeModalWithClickOutside);
+  //   };
+  // });
 
-  // 모달 바깥을 클릭했을 때 닫기
-  const closeModalWithClickOutside = (e) => {
-    if (!modalRef.current.contains(e.target)) {
-      // closeJoinModal();
-      dispatch(modalActions.closeModal());
-      dispatch(authActions.clearJoinData());
-      onClick();
-    }
-  };
+  // // 모달 바깥을 클릭했을 때 닫기
+  // const closeModalWithClickOutside = (e) => {
+  //   if (!modalRef.current.contains(e.target)) {
+  //     // closeJoinModal();
+  //     dispatch(modalActions.closeModal());
+  //     dispatch(authActions.clearJoinData());
+  //     onClick();
+  //   }
+  // };
 
   // x눌렀을 때 모달 닫으면서 joinData 초기화
   const handleClickCloseModal = () => {

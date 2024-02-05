@@ -4,9 +4,9 @@ import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import Option from '../../common/Option';
 
-function ReplyLikeBox({ likeCount, replyId }) {
+function ReplyLikeBox({ likeCount, replyId, ilikeThat }) {
   const [replyLikeCount, setReplyLikeCount] = useState(likeCount);
-  const [isReplyLike, setIsReplyLike] = useState(false);
+  const [isReplyLike, setIsReplyLike] = useState(ilikeThat);
 
   const handleClickCreateCommentLike = async () => {
     try {
@@ -32,12 +32,14 @@ function ReplyLikeBox({ likeCount, replyId }) {
       {isReplyLike ? (
         <Option
           text={replyLikeCount}
+          size={3}
           src={unLikeIcon}
           onClick={handleClickDeleteCommentLike}
         />
       ) : (
         <Option
           text={replyLikeCount}
+          size={3}
           src={likeIcon}
           onClick={handleClickCreateCommentLike}
         />

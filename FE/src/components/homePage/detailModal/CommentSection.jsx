@@ -4,20 +4,27 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import useInput from '../../../hooks/useInput';
 import axios from 'axios';
 import OptionBox from './OptionBox';
-import { useParams } from 'react-router-dom';
+import LoadingImage from '../../common/LoadingImage';
 
 const BUTTON_OPTIONS = [
-  { id: 1, name: 'createComment' },
-  { id: 2, name: 'createReply' },
-  { id: 3, name: 'patchComment' },
-  { id: 4, name: 'patchReply' },
+  { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
+  { id: 2, name: 'createReply', text: '답글 쓰는 중...' },
+  { id: 3, name: 'patchComment', text: '댓글 수정 중...' },
+  { id: 4, name: 'patchReply', text: '답글 수정 중...' },
 ];
 
-function CommentSection({ feedId, createdAt, updatedAt, likeCount }) {
-  const params = useParams();
+function CommentSection({
+  feedId,
+  createdAt,
+  updatedAt,
+  likeCount,
+  ilikeThat,
+  commentCnt,
+  setCommentCnt,
+}) {
   const [comment, handleChangeComment] = useInput('');
   const [initialTime] = useState(new Date().getTime());
-  const [option, setOption] = useState(true);
+  const [option, setOption] = useState(BUTTON_OPTIONS[0].name);
   const [commentId, setCommentId] = useState('');
   const [replyId, setReplyId] = useState('');
   const [commentList, setCommentList] = useState([]);
@@ -25,26 +32,16 @@ function CommentSection({ feedId, createdAt, updatedAt, likeCount }) {
   const [isLoading, setIsLoading] = useState(false);
   const [hasNext, setHasNext] = useState(false);
   const [page, setPage] = useState(0);
+  const [placeholderText, setPlaceholderText] = useState(
+    BUTTON_OPTIONS[0].text
+  );
   const inputRef = useRef();
   const observerRef = useRef();
-
-  const observer = (node) => {
-    if (isLoading) return;
-    if (observerRef.current) observerRef.current.disconnect();
-
-    observerRef.current = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setPage((page) => page + 1);
-      }
-    });
-    node && observerRef.current.observe(node);
-  };
 
   const lastCommentRef = useCallback(
     (node) => {
       if (isLoading) return;
       if (observerRef.current) observerRef.current.disconnect();
-
       observerRef.current = new IntersectionObserver((entries) => {
         console.log('entries[0].isIntersecting : ', entries[0].isIntersecting);
         if (entries[0].isIntersecting && hasNext) {
@@ -66,42 +63,49 @@ function CommentSection({ feedId, createdAt, updatedAt, likeCount }) {
         const res = await axios.get(`/api/feeds/${feedId}/comments`, {
           params: {
             page,
-            size: 3,
+            size: 15,
             time: initialTime,
           },
         });
-        console.log('댓글 조회 결과 : ', res);
-        setCommentList(res.data.contents);
+        console.log(res.data);
+        setCommentList((prev) => [...res.data.contents, ...prev]);
         setHasNext(res.data.hasNext);
+        // setHasNext(true);
       } catch (error) {
         console.log('commentList 요청 중 에러 발생 : ', error);
       }
+      setIsLoading(false);
     };
     fetchData();
   }, [page]);
 
   return (
-    <div className='relative border-l border-gray w-1/3'>
-      <div className='px-2 w-ful'>
-        {commentList?.map((comment, idx) => {
-          return (
-            <Comment
-              key={idx}
-              comment={comment}
-              inputRef={inputRef}
-              option={option}
-              setOption={setOption}
-              setCommentId={setCommentId}
-              replyList={replyList}
-              setReplyList={setReplyList}
-              setReplyId={setReplyId}
-              commentList={commentList}
-              setCommentList={setCommentList}
-            />
-          );
-        })}
-
-        <div ref={lastCommentRef} style={{ height: '10px' }}></div>
+    <div className='relative border-l border-gray w-2/5'>
+      <div className='flex flex-col my-3 px-3 comment-list-height w-full overflow-y-auto non-scroll'>
+        {/* <div className='flex flex-col items-center h-full bg-bright'> */}
+        {commentList?.map((comment, idx) => (
+          <Comment
+            key={idx}
+            comment={comment}
+            inputRef={inputRef}
+            option={option}
+            setOption={setOption}
+            setCommentId={setCommentId}
+            replyList={replyList}
+            setReplyList={setReplyList}
+            setReplyId={setReplyId}
+            commentList={commentList}
+            setCommentList={setCommentList}
+            placeholderText={placeholderText}
+            setPlaceholderText={setPlaceholderText}
+          />
+        ))}
+        {isLoading && hasNext && <LoadingImage />}
+        <div
+          ref={lastCommentRef}
+          style={{ height: '5px' }}
+          className='bg-bg'
+        ></div>
       </div>
       <div className='absolute bottom-0 w-full'>
         <OptionBox
@@ -109,6 +113,11 @@ function CommentSection({ feedId, createdAt, updatedAt, likeCount }) {
           createdAt={createdAt}
           updatedAt={updatedAt}
           likeCount={likeCount}
+          ilikeThat={ilikeThat}
+          setOption={setOption}
+          setPlaceholderText={setPlaceholderText}
+          inputRef={inputRef}
+          commentCnt={commentCnt}
         />
         <CreateCommentBox
           setCommentList={setCommentList}
@@ -121,6 +130,9 @@ function CommentSection({ feedId, createdAt, updatedAt, likeCount }) {
           replyId={replyId}
           comment={comment}
           handleChangeComment={handleChangeComment}
+          commentList={commentList}
+          placeholderText={placeholderText}
+          setPlaceholderText={setPlaceholderText}
         />
       </div>
     </div>

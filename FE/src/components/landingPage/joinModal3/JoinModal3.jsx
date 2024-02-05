@@ -199,9 +199,13 @@ function JoinModal3() {
           <label className='text-left text-2xl font-her'>*지역</label>
           <div className='flex gap-20 text-center justify-center'>
             <SelectBox
+            color='yellow'
+            option='시'
               onChange={(e) => handleChangeInputs('region', e.target.value)}
             />
             <SelectBox
+            color='yellow'
+            option='구'
               onChange={(e) => handleChangeInputs('region', e.target.value)}
             />
           </div>
