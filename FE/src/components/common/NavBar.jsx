@@ -10,9 +10,14 @@ import homeIcon from '@/assets/svgs/homeIcon.svg';
 import NavBarItem from './NavBarItem';
 function NavBar() {
   // LandingPage에서는 NavBar를 렌더링하지 않음
-  if (window.location.pathname === '/landing') {
-    return null;
-  }
+    const targetUrl = window.location.pathname;
+    switch (targetUrl) {
+      case '/landing':
+      case '/landing/join/1':
+      case '/landing/join/2':
+      case '/landing/join/3':
+        return
+    }
 
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
 
@@ -89,7 +94,11 @@ function NavBar() {
           <li>
             <NavLink
               to='/profile'
-              className={({ isActive }) => (isActive ? `${activeClass} flex gap-1 items-center` : 'flex gap-1 items-center')}
+              className={({ isActive }) =>
+                isActive
+                  ? `${activeClass} flex gap-1 items-center`
+                  : 'flex gap-1 items-center'
+              }
             >
               <ProfileImage size={6} profileImage={currentUser.imgSrc} />
               <span>프로필</span>

@@ -21,7 +21,7 @@ function NicknameConfirmButton({ nickname, setErrorMessage, isNicknameValid, set
       });
 
       if (res.data.exist === true) {
-        setErrorMessage('이미 존재하는 닉네임입니다.');
+        setErrorMessage('이미 사용중인 닉네임입니다.');
       } else {
         setIsNicknameValid(true)
       }

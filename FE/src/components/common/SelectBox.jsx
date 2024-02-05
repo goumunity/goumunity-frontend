@@ -14,7 +14,7 @@ function SelectBox({ widthSize, color, defaultValue, ...props }) {
       id=''
       {...props}
     >
-      <option value='none'>지역</option>
+      <option value='none'>지역을 선택해주세요.</option>
       {OPTIONS.map((option) => {
         return (
           <option key={option.id} value={option.id} selected={defaultValue === option.name}>

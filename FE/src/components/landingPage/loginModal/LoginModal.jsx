@@ -65,12 +65,11 @@ function LoginModal() {
         password: userInputs.password,
       }, { withCredentials: true });
 
-      console.log(res)
       dispatch(authActions.login());
 
       try {
         const res = await axios.get(`/api/users/${userInputs.email}`);
-
+        console.log('로그인 결과:', res)
         dispatch(authActions.createUser(res.data));
       } catch (error) {
         console.log(error);
