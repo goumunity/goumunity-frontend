@@ -8,7 +8,7 @@ export default function Login({ isLoggedIn, setUserId, setChatRooms }) {
   const onLoginButtonClicked = () => {
     axios
       .post(
-        'http://localhost:8080/api/users/login',
+        '/temp/api/users/login',
         // '/api/users/login',
         {
           id,
@@ -21,7 +21,7 @@ export default function Login({ isLoggedIn, setUserId, setChatRooms }) {
         setUserId(id);
         axios
           .get(
-            `http://localhost:8080/api/users/my/chat-rooms?page=0&size=12&time=${new Date().getTime()}`,
+            `/temp/api/users/my/chat-rooms?page=0&size=12&time=${new Date().getTime()}`,
             { withCredentials: true }
           )
           .then((res) => {
