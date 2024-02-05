@@ -9,10 +9,7 @@ function ChatRecommendedSection() {
   const [userInput, setUserInput] = useState('');
   const [items, setItems] = useState([]);
 
- 
-
   const searched = items.filter((item) => item.title.includes(userInput));
-  console.log(items);
 
   return (
     <div className='cards'>

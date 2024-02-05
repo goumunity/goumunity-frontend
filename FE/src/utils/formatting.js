@@ -47,23 +47,37 @@ export function calculateAge(birthdate) {
 //   return daysAgo;
 // }
 
-export function calculateDate(givenTimestamp) {
-  const givenDate = new Date(parseInt(givenTimestamp));
-  const currentDate = new Date();
-
-  // 두 날짜 간의 차이 계산 (milliseconds)
-  const difference = givenDate - currentDate;
-
-  // milliseconds를 일(day)로 변환
-  const daysDifference = Math.floor(difference / (1000 * 60 * 60 * 24));
-
-  if (daysDifference < 1) {
-    // 만약 하루보다 차이가 적다면 시간(hour) 단위로 반환
-    const hoursDifference = Math.floor(difference / (1000 * 60 * 60));
-    return `${hoursDifference}시간 전`;
+export function calculateDate(inputDate) {
+  // 입력된 날짜를 밀리초로 변환
+  const inputTime = new Date(inputDate).getTime();
+  
+  // 현재 날짜를 밀리초로 변환
+  const currentTime = new Date().getTime();
+  
+  // 두 날짜 간의 차이 계산 (밀리초)
+  const timeDifference = currentTime - inputTime;
+  
+  // 밀리초를 초로 변환
+  const seconds = Math.floor(timeDifference / 1000);
+  
+  // 초를 분으로 변환
+  const minutes = Math.floor(seconds / 60);
+  
+  // 분을 시간으로 변환
+  const hours = Math.floor(minutes / 60);
+  
+  // 시간, 일, 달, 년으로 변환
+  if (hours < 1) {
+    return '방금';
+  } else if (hours < 24) {
+    return `${hours}시간 전`;
+  } else if (hours < 24 * 30) {
+    return `${Math.floor(hours / 24)}일 전`;
+  } else if (hours < 24 * 30 * 12) {
+    return `${Math.floor(hours / (24 * 30))}달 전`;
+  } else {
+    return `${Math.floor(hours / (24 * 30 * 12))}년 전`;
   }
-
-  return `${daysDifference}일 전`;
 }
 
 export function addCommas(number) {

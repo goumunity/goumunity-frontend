@@ -30,9 +30,11 @@ function NavBar() {
 
   // 로그아웃 후 로그인 모달로 이동
   const handleClickLogout = async () => {
+    const isConfirm = window.confirm('로그아웃 하시겠습니까?')
+    if (!isConfirm) return;
+
     try {
       const res = await axios.get('/api/users/logout');
-      console.log('로그아웃 결과: ', res);
     } catch (error) {
       console.log('에러 발생 : ', error);
       return;
@@ -43,15 +45,14 @@ function NavBar() {
 
   // 회원탈퇴
   const handleClickDeleteUser = async () => {
-    const isConfirmed = confirm("정말로 회원 탈퇴하시겠습니까?");
+    const isConfirm = confirm("정말로 회원 탈퇴하시겠습니까?");
 
     // 사용자가 확인을 누르면 알림창을 띄우고, 그렇지 않으면 아무 동작도 하지 않음
-    if (!isConfirmed) return;
+    if (!isConfirm) return;
     // 여기에 실제 회원 탈퇴 처리 로직을 추가할 수 있음
   
     try {
       const res = await axios.delete('/api/users/my');
-      console.log('회원탈퇴 결과: ', res);
     } catch (error) {
       console.log('에러 발생 : ', error);
       return;
@@ -61,7 +62,6 @@ function NavBar() {
     navigate('/landing/join/1');
   };
   
-
   const activeClass = 'underline';
 
   return (
@@ -106,7 +106,7 @@ function NavBar() {
           </NavLink>
         </li>
         <li>
-          {isAuth && <ProfileImage profileImage={currentUser.imgSrc}/> }
+          {isAuth && <ProfileImage size={6} profileImage={currentUser.imgSrc}/> }
         </li>
         <li>{isAuth && <NavLink
             to='/create/1'
@@ -116,7 +116,6 @@ function NavBar() {
           </NavLink>}</li>
         <li>{isAuth && <button onClick={handleClickLogout}>로그아웃</button>}</li>
         <li>{isAuth && <button onClick={handleClickDeleteUser}>회원탈퇴</button>}</li>
-        
       </ul>
     </nav>
   );

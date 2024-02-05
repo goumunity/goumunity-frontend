@@ -5,20 +5,13 @@ import DetailModal from '@/components/homePage/detailModal/DetailModal';
 import CreateFeedModal from '@/components/homePage/createPostModal/CreateFeedModal';
 import { useNavigate, useParams } from 'react-router-dom';
 
-
 function HomePage() {
   const [initialTime] = useState(new Date().getTime());
-
   const params = useParams();
-
-  const navigate = useNavigate();
-
   const [feedList, setFeedList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasNext, setHasNext] = useState(false);
   const [page, setPage] = useState(0);
-  const [isCreateFeedModalOpen, setIsCreateFeedModalOpen] = useState(false);
-
   const observerRef = useRef();
 
   const lastFeedRef = useCallback(
@@ -34,7 +27,6 @@ function HomePage() {
       });
 
       if (node) observerRef.current.observe(node);
-      // console.log(node);
     },
     [isLoading, hasNext]
   );
@@ -43,16 +35,8 @@ function HomePage() {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const res = await axios.get('/api/feeds', {
-          params: {
-            page,
-            size: 3,
-            time: initialTime,
-          },
-        });
-        console.log('feedList 요청 결과 : ', res);
-        console.log('요청 시간 : ', initialTime);
-        setFeedList((prev) => [...prev, ...res.data.contents]);
+        const res = await axios.get('/api/feeds')
+        setFeedList((prev) => [...res.data.feedRecommends, ...prev]);
         setHasNext(res.data.hasNext);
       } catch (error) {
         console.log('feedList 요청 중 에러 발생 : ', error);
@@ -62,9 +46,11 @@ function HomePage() {
     fetchData();
   }, [page]);
 
-  const handleClickOpenCreateFeedModal = () => {
-    setIsCreateFeedModalOpen(true);
-  };
+  // if (params.id || params.feedId) {
+  //   document.body.style.overflow = 'hidden';
+  // } else {
+  //   document.body.style.overflow = 'auto';
+  // }
 
   return (
     <div className='flex flex-col items-center h-full bg-bright'>
@@ -77,18 +63,9 @@ function HomePage() {
         />
       ))}
 
-      {params.feedId && <DetailModal />}
-      {/* {isCreateFeedModalOpen && (
-        <CreateFeedModal onClose={() => setIsCreateFeedModalOpen(false)} />
-      )} */}
-      {params.id && <CreateFeedModal />}
+      {params.feedId && <DetailModal feedId={params.feedId} />}
+      {params.id && <CreateFeedModal setFeedList={setFeedList} />}
 
-      {/* <button
-        className='fixed bottom-5 right-5 cursor-pointer'
-        onClick={handleClickOpenCreateFeedModal}
-      >
-        애드
-      </button> */}
       <div ref={lastFeedRef} style={{ height: '10px' }}></div>
     </div>
   );

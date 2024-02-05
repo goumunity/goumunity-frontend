@@ -8,7 +8,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function LoginModal() {
-
   const [isLoading, setIsLoading] = useState(false);
 
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
@@ -60,34 +59,34 @@ function LoginModal() {
       return;
     }
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const res = await axios.post('/api/users/login', {
         id: userInputs.email,
         password: userInputs.password,
-      });
-      console.log(res);
-      dispatch(authActions.login());
-      
-      try {
-        const res = await axios.get(`/api/users/${userInputs.email}`)
-        console.log(res)
-        dispatch(authActions.createUser(res.data))
-      } catch (error) {
-        console.log(error)
-      } 
+      }, { withCredentials: true });
 
-      console.log(`로그인 후: ${isAuth}`);
+      console.log(res)
+      dispatch(authActions.login());
+
+      try {
+        const res = await axios.get(`/api/users/${userInputs.email}`);
+
+        dispatch(authActions.createUser(res.data));
+      } catch (error) {
+        console.log(error);
+      }
+
       navigate('/');
     } catch (error) {
       console.log('에러 발생 : ', error);
-      setErrorMessage('이메일과 비밀번호를 다시 확인해주세요.')
+      setErrorMessage('이메일과 비밀번호를 다시 확인해주세요.');
     }
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   // 사용자의 입력 감지
   const handleChangeInputs = (id, value) => {
-    setErrorMessage('')
+    setErrorMessage('');
     setUserInputs((prev) => ({
       ...prev,
       [id]: value,
@@ -131,7 +130,10 @@ function LoginModal() {
             '비밀번호는 8~20자 · 최소 1개의 소문자, 대문자, 숫자, 특수문자를 포함해야 합니다.'
           }
         />
-        <Button text={isLoading ? '로그인 중' : '로그인'} isActive={!isLoading}/>
+        <Button
+          text={isLoading ? '로그인 중' : '로그인'}
+          isActive={!isLoading}
+        />
       </form>
       <div className='my-5 font-dove text-xl underline-offset-auto cursor-pointer underline'>
         비밀번호를 잊어버리셨나요?

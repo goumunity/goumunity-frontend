@@ -10,33 +10,23 @@ import ProfileImage from '../../common/ProfileImage';
 import { imageUpload } from '../../../utils/upload';
 
 const USER_CATEGORY_OPTIONS = [
-  {id: 1, title: 'JOB_SEEKER', name: '대학생'},
-  {id: 2, title: 'JOB_SEEKE', name: '사회초년생'},
-  {id: 3, title: 'JOB_SEEK', name: '회사원'},
-  {id: 4, title: 'JOB_SEE', name: '취업준비생'},
+  { id: 1, title: 'JOB_SEEKER', name: '대학생' },
+  { id: 2, title: 'JOB_SEEKE', name: '사회초년생' },
+  { id: 3, title: 'JOB_SEEK', name: '회사원' },
+  { id: 4, title: 'JOB_SEE', name: '취업준비생' },
 ];
 
 function JoinModal3() {
-
   const joinData = useSelector((state) => state.auth.joinData);
   const [profileImage, setProfileImage] = useState('');
   const [resultImage, setResultImage] = useState(null);
-   // 이미지 업로드
-   const handleChangeUploadProfileImg = (e) => {
-    const uploadFile = imageUpload(e.target, setProfileImage)
-    setResultImage(uploadFile)
-    console.log('얘를 보내야 함', uploadFile)
-    // setProfileImageTest(uploadFile)
-    // e.preventDefault();
-    // console.log(e.target.files[0])
-    // console.log(e.target.files.length)
-    // const file = e.target.files[0];
-    // setFiles([...files, { uploadedFile: file }]);
-    // dispatch(authActions.updateFile(e.target));
-    
+  // 이미지 업로드
+  const handleChangeUploadProfileImg = (e) => {
+    const uploadFile = imageUpload(e.target, setProfileImage);
+    setResultImage(uploadFile);
   };
   const file = useSelector((state) => state.auth.file);
-  console.log(file)
+
   const [userInputs, setUserInputs] = useState({
     userCategory: '',
     region: '',
@@ -90,13 +80,14 @@ function JoinModal3() {
     };
 
     const formData = new FormData();
-    console.log(resultImage)
+
     for (const image of resultImage) {
       formData.append('image', image);
-      console.log('순회 결과 : ', image)
     }
-    
-    const blob = new Blob([JSON.stringify(updatedData)], {type: "application/json"});
+
+    const blob = new Blob([JSON.stringify(updatedData)], {
+      type: 'application/json',
+    });
     formData.append('data', blob);
 
     try {
@@ -105,11 +96,10 @@ function JoinModal3() {
           'Content-Type': 'multipart/form-data',
         },
       });
-
     } catch (error) {
       console.error('api 요청 중 오류 발생 : ', error);
       if (error.response.status === 409) {
-        setErrorMessage('이미 가입된 이메일입니다.')
+        setErrorMessage('이미 가입된 이메일입니다.');
       }
       return;
     }
@@ -148,8 +138,7 @@ function JoinModal3() {
             <CheckBox
               text={USER_CATEGORY_OPTIONS[0].name}
               isChecked={
-                userInputs.userCategory ===
-                USER_CATEGORY_OPTIONS[0].title
+                userInputs.userCategory === USER_CATEGORY_OPTIONS[0].title
               }
               onClick={() =>
                 handleChangeInputs(
@@ -161,8 +150,7 @@ function JoinModal3() {
             <CheckBox
               text={USER_CATEGORY_OPTIONS[1].name}
               isChecked={
-                userInputs.userCategory ===
-                USER_CATEGORY_OPTIONS[1].title
+                userInputs.userCategory === USER_CATEGORY_OPTIONS[1].title
               }
               onClick={() =>
                 handleChangeInputs(
@@ -173,13 +161,13 @@ function JoinModal3() {
             />
           </div>
           <div className='flex justify-center relative text-center m-5'>
-        <ProfileImage
-          size={6}
-          // profileImage={profileImage}
-          profileImage={profileImage}
-          onChange={handleChangeUploadProfileImg}
-        />
-      </div>
+            <ProfileImage
+              size={6}
+              // profileImage={profileImage}
+              profileImage={profileImage}
+              onChange={handleChangeUploadProfileImg}
+            />
+          </div>
           <div className='flex gap-20 text-center justify-center'>
             <CheckBox
               text={USER_CATEGORY_OPTIONS[2].name}
@@ -211,9 +199,13 @@ function JoinModal3() {
           <label className='text-left text-2xl font-her'>*지역</label>
           <div className='flex gap-20 text-center justify-center'>
             <SelectBox
+            color='yellow'
+            option='시'
               onChange={(e) => handleChangeInputs('region', e.target.value)}
             />
             <SelectBox
+            color='yellow'
+            option='구'
               onChange={(e) => handleChangeInputs('region', e.target.value)}
             />
           </div>

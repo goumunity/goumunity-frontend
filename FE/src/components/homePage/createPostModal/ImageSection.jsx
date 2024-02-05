@@ -9,8 +9,8 @@ function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
   const [imageList, setImageList] = useState([]);
 
   const categorySectionClassName = isSlide
-    ? 'opacity-100 w-96'
-    : 'opacity-0 w-0';
+    ? 'visible w-96'
+    : 'hidden w-0';
 
   const handleChangeUploadProfileImg = (e) => {
     setImageSrcList(imageUpload(e.target, setImageList));
@@ -18,10 +18,10 @@ function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
 
   const handleClickDeleteImage = (target) => {
     const newImageList = imageList.filter((image) => {
-      return image !== target
-    })
-    setImageList(newImageList)
-  }
+      return image !== target;
+    });
+    setImageList(newImageList);
+  };
 
   const settings = {
     dots: true,
@@ -45,13 +45,14 @@ function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
           className='flex justify-center items-center w-full h-full bg-wheat'
           {...settings}
         >
-          {/* <div>gdgd</div> */}
           {imageList.map((image, idx) => {
-            console.log(image, idx)
             return (
               <div key={idx} className='relative h-full w-full'>
                 <img className='h-96' src={image} alt='' />
-                <CloseButton className='absolute right-5 top-5' onClick={() => handleClickDeleteImage(image)} />
+                <CloseButton
+                  className='absolute right-5 top-5'
+                  onClick={() => handleClickDeleteImage(image)}
+                />
               </div>
             );
           })}

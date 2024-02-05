@@ -27,7 +27,7 @@ function JoinModal1() {
     passwordConfirm: false,
   });
 
-  const [isEmailConfirmValid, setIsEmailConfirmValid] = useState(false)
+  const [isEmailConfirmValid, setIsEmailConfirmValid] = useState(false);
 
   // 이메일에는 @ 포함되어야 함
   const emailIsInvalid = isEdited.email && !isEmail(userInputs.email);
@@ -98,7 +98,7 @@ function JoinModal1() {
       return;
     }
     if (!isEmailConfirmValid) {
-      setErrorMessage('인증번호를 다시 확인해주세요.')
+      setErrorMessage('인증번호를 다시 확인해주세요.');
       return;
     }
     // 유효성 검사 중 하나라도 통과못하면 다음페이지로 못 가게
@@ -113,8 +113,7 @@ function JoinModal1() {
 
     const data = { email: userInputs.email, password: userInputs.password };
     dispatch(authActions.updateJoinData(data));
-    console.log(joinData);
-    navigate('/landing/join/2')
+    navigate('/landing/join/2');
   };
 
   return (

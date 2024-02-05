@@ -1,10 +1,17 @@
 input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 30px #fefae0 inset;
-    -webkit-text-fill-color: #000;
-  }
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:focus {
-    /* 추가로 원하는 스타일을 여기에 추가할 수 있습니다. */
-  }
+  -webkit-box-shadow: 0 0 0 30px #fefae0 inset;
+  -webkit-text-fill-color: #000;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  /* 추가로 원하는 스타일을 여기에 추가할 수 있습니다. */
+}
 
+.non-scroll::-webkit-scrollbar {
+  display: none; /* 크롬, 사파리, 오페라, 엣지 */
+}
+
+.comment-list-height {
+  height: calc(100% - 118px);
+}

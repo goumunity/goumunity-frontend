@@ -1,7 +1,7 @@
-function Option({text, src, ...props}) {
+function Option({text, src, size, ...props}) {
   return (
     <div className='flex justify-center items-center gap-1 cursor-pointer' {...props}>
-      <img className='w-5 h-5' src={src} alt='' />
+      <img className={`w-${size} h-${size}`} src={src} alt='' />
       <span className='font-daeam'>{text}</span>
     </div>
   );

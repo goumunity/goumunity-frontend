@@ -10,7 +10,9 @@ function ChatMySection(props) {
   const modalOption = useSelector((state) => state.modal.modalOption);
 
   //props 수지
-  const { handleClickMySection } = props;
+  const { handleClickMySection, isLoaded } = props;
+  
+
 
   return (
     <div>
@@ -19,8 +21,10 @@ function ChatMySection(props) {
         <div className='font-daeam text-4xl text-center mb-4 text-responsive'>
           나의 거지챗
         </div>
-        <button onClick={props.handleClickMySection}>헤헤</button>
-        <ChatMyItem handleClickMySection={handleClickMySection} />
+        <ChatMyItem
+          handleClickMySection={handleClickMySection}
+          isLoaded={isLoaded}
+        />
         <div>
           <div className='flex flex-col items-center'>
             <button className='font-her text-2xl text-center text-white px-4 py-2 bg-transparent rounded-md'>
