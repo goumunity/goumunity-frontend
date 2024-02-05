@@ -8,7 +8,7 @@ import './index.css';
 import HomePage from './pages/HomePage';
 import ErrorPage from './pages/ErrorPage';
 import ChatTalkSection from './components/chatPage/chatTalkSection/ChatTalkSection';
-
+import ProtectedRoutes from './components/common/ProtectedRoutes';
 
 const router = createBrowserRouter([
   {
@@ -16,21 +16,25 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     element: <LayOut />,
     children: [
-      // index: true -> 부모 라우트가 활성일 경우 기본 라우트
-      { index: true, element: <HomePage /> },
-      // { path: '/:feedId', element: <HomePage />, loader: () => feedLoader(feedId) },
-      { path: '/:feedId', element: <HomePage /> },
-      { path: '/create/:id', element: <HomePage /> },
-      { path: '/patch/:patchId', element: <HomePage /> },
+      {
+        index: '',
+        element: <ProtectedRoutes />,
+        children: [
+          { index: true, element: <HomePage /> },
+          { path: '/:feedId', element: <HomePage /> },
+          { path: '/create/:id', element: <HomePage /> },
+          { path: '/patch/:patchId', element: <HomePage /> },
+          {
+            path: '/chat',
+            element: <ChatPage />,
+            children: [{ path: 'talk/:talkId', element: <ChatTalkSection /> }],
+          },
+          { path: '/profile', element: <ProfilePage /> },
+        ],
+      },
       { path: '/landing', element: <LandingPage /> },
       { path: '/landing/join/:joinId', element: <LandingPage /> },
       { path: '/:login', element: <LandingPage /> },
-      {
-        path: '/chat',
-        element: <ChatPage />,
-        children: [{ path: 'talk/:talkId', element: <ChatTalkSection /> }],
-      },
-      { path: '/profile', element: <ProfilePage /> },
     ],
   },
 ]);
