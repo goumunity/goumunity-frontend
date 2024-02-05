@@ -11,12 +11,12 @@ function ChatRecommendedItem(props) {
     const trying = async () => {
       try {
         const res = await axios.get(
-          `/temp/api/chat-rooms/search?keyword=0&page=0&size=100&time=${new Date().getTime()}`
+          `/temp/api/chat-rooms/search?keyword=거&page=0&size=100&time=${new Date().getTime()}`
         );
         //'/fake/chatRecomNext'
         console.log(res);
         // setChatData(res.data.chatRecomItemList);
-        setChatMyData(res.data.contents);
+        setChatData(res.data.contents);
         console.log(chatMyData);
       } catch (error) {
         console.log('Error fetching data: ' + error);

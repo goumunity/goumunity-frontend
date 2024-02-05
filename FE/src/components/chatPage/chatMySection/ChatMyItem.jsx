@@ -3,8 +3,7 @@ import axios from 'axios';
 import geo from '@/assets/images/logo.png';
 import useAxiosGet from '../../../hooks/useAxiosGet';
 import { useNavigate } from 'react-router-dom';
-
-// import { useSelector } from 'react-redux';
+import CloseButton from '../../common/CloseButton';
 
 function ChatMyItem(props) {
   const [chatData, setChatData] = useState(null);
@@ -17,7 +16,7 @@ function ChatMyItem(props) {
       try {
         // const res = await axios.get('/fake/chatMyList');
         const res = await axios.get(
-          `temp/api/users/my/chat-rooms?page=0&size=1&time=${new Date().getTime()}`
+          `temp/api/users/my/chat-rooms?page=0&size=100&time=${new Date().getTime()}`
         );
 
         setChatData(res.data.contents);
@@ -30,29 +29,6 @@ function ChatMyItem(props) {
 
     fetchData();
   }, []);
-
-  //서버 api 연결
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await axios.get(
-  //         '/api/users/my/chat-rooms?page=&size=&time=',
-  //         //사용자 아이디에 맞는 채팅방 가져오기
-  //         {
-  //           params: {
-  //             id: 1234,
-  //           },
-  //         }
-  //       );
-
-  //       setChatData(res.data.chatMyItemList);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   if (!chatData) {
     return <div>Loading...</div>; // 데이터가 로딩 중일 때 표시할 내용
@@ -72,15 +48,20 @@ function ChatMyItem(props) {
     handleClickOpenSpecificRoom(chatRoomId);
   };
 
+  //채팅방 삭제
+  const handleRemoveChat = () => {
+    setChatData();
+    async () => await axios.delete(`/api/chat-rooms/${chatRoomId}`);
+  };
+
   return (
     <>
       {chatData.map((value, index) => {
         return (
-          <>
-            {/* <button onClick={() => handleClickMySection(value.chatRoomId)}> */}
+          <div>
             <button
               key={value.idx}
-              className='hover:rotate-12  hover:bg-orange-200'
+              // className='hover:rotate-12  hover:bg-orange-200'
               onClick={() => {
                 handleButtonClick(value.chatRoomId);
               }}
@@ -104,6 +85,12 @@ function ChatMyItem(props) {
                 <div className='w-3/4 h-30'>
                   <div>
                     <span className='font-bold text-responsive text-2xl'>
+                      <div className='flex justify-end  w-full'>
+                        {/* <CloseButton
+                          className='top-5 right-5 hover:bg-amber-300'
+                          onClick={handleRemoveChat(value.chatRoomId)}
+                        /> */}
+                      </div>
                       {value.title}
                     </span>
                     <span> 👤{value.currentUserCount}</span>
@@ -124,10 +111,9 @@ function ChatMyItem(props) {
                     </ul>
                   </div>
                 </div>
-                <div></div>
               </div>
             </button>
-          </>
+          </div>
         );
       })}
     </>
