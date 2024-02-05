@@ -21,7 +21,6 @@ function ProfileImage({ size, profileImage, ...props }) {
             />
           </label>
         )}
-        
         <input
           type='file'
           accept='image/*'
@@ -29,6 +28,7 @@ function ProfileImage({ size, profileImage, ...props }) {
           {...props}
           className='hidden'
         />
+
       </div>
     </>
   );

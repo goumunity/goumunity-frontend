@@ -11,12 +11,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import NicknameConfirmButton from '@/components/landingPage/joinModal2/NicknameConfirmButton.jsx';
 
 const GENDER_OPTIONS = [
-  { id: 1, content: '남' },
-  { id: 2, content: '여' },
+  { id: 1, content: 'MALE' },
+  { id: 2, content: 'FEMALE' },
 ];
 
 function JoinModal2() {
   const joinData = useSelector((state) => state.auth.joinData);
+
   const [profileImageTest, setProfileImageTest] = useState('');
   const [files, setFiles] = useState('');
 
@@ -28,6 +29,7 @@ function JoinModal2() {
 
   const [isEdited, setIsEdited] = useState({
     nickname: false,
+
     birthDate: false,
     gender: false,
   });
@@ -159,13 +161,17 @@ function JoinModal2() {
           <div className='flex gap-20 text-center justify-center'>
             <CheckBox
               text='남'
-              isChecked={userInputs.gender === GENDER_OPTIONS[0].id}
-              onClick={() => handleChangeInputs('gender', GENDER_OPTIONS[0].id)}
+              isChecked={userInputs.gender === GENDER_OPTIONS[0].content}
+              onClick={() =>
+                handleChangeInputs('gender', GENDER_OPTIONS[0].content)
+              }
             />
             <CheckBox
               text='여'
-              isChecked={userInputs.gender === GENDER_OPTIONS[1].id}
-              onClick={() => handleChangeInputs('gender', GENDER_OPTIONS[1].id)}
+              isChecked={userInputs.gender === GENDER_OPTIONS[1].content}
+              onClick={() =>
+                handleChangeInputs('gender', GENDER_OPTIONS[1].content)
+              }
             />
           </div>
         </div>

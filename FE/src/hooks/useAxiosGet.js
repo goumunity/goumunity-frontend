@@ -24,7 +24,7 @@ function useAxiosGet(url) {
     [url]
   );
 
-  return [value, isLoading, errorMessage];
+  return [value, isLoading, errorMessage, setErrorMessage];
 }
 
 export default useAxiosGet;

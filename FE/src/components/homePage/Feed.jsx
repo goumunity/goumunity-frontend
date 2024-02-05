@@ -59,13 +59,16 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
       <div className='relative flex items-center gap-2'>
         <ProfileImage size='8' profileImage={imgSrc ? imgSrc : ''} />
         <NicknameBox nickname={nickname} daysAgo={daysAgo} fontSize='md' />
+
         {nickname === currentUser.nickname && (
-          <button
-            className={`${className} font-daeam absolute right-1`}
-            onClick={handleClickDeleteFeed}
-          >
-            삭제
-          </button>
+          <div className='flex font-daeam absolute right-1 gap-3'>
+            <Link to={`/patch/${feedId}`}>
+              <button className={`${className}`}>수정</button>
+            </Link>
+            <button className={`${className}`} onClick={handleClickDeleteFeed}>
+              삭제
+            </button>
+          </div>
         )}
       </div>
 
@@ -82,7 +85,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
           feedId={feedId}
         />
         <Link to={`/${feedId}`}>
-          <Option text={commentCount} src={commentIcon} size={5}/>
+          <Option text={commentCount} src={commentIcon} size={5} />
         </Link>
       </div>
     </div>

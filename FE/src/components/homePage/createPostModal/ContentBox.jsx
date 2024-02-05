@@ -12,7 +12,7 @@ function ContentBox({ content, handleChangeContent }) {
         maxLength={MAX_CONTENT_LENGTH}
       />
       <span className='text-right font-her'>
-        {content.length}/{MAX_CONTENT_LENGTH}
+        {/* {content.length}/{MAX_CONTENT_LENGTH} */}
       </span>
     </div>
   );
