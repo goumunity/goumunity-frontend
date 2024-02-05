@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import UserInput from '../../common/UserInput';
 import { useDispatch, useSelector } from 'react-redux';
 import hashtagButtonIcon from '@/assets/svgs/hashtagButtonIcon.svg';
@@ -6,105 +7,206 @@ import SelectBox from '../../common/SelectBox';
 import HashTag from '../../common/HashTag';
 import ProfileImage from '../../common/ProfileImage';
 import axios from 'axios';
+import HashtagMore from './HashtagMore';
+import CloseButton from '../../common/CloseButton';
+import { imageUpload } from '../../../utils/upload';
+import Button from '../../common/Button';
 
 function ChatRoomModal() {
-  const [hashtag, setHashtag] = useState(['#20대', '#거지방', '#절약']);
-  const [newHashtag, setNewHashtag] = useState('');
   const [profileImage, setProfileImage] = useState('');
+  const [resultImage, setResultImage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const navigate = useNavigate();
   const [userInputs, setUesrInputs] = useState({
     title: '',
-    hashtag: '',
+    hashtags: [],
     capability: null,
     regionId: null,
   });
 
   const [isEdited, setIsEdited] = useState({
     title: false,
-    hashtag: false,
+    hashtags: false,
     capability: false,
     regionId: false,
   });
+
+  // 이미지 업로드
+  const handleChangeUploadProfileImg = (e) => {
+    const uploadFile = imageUpload(e.target, setProfileImage);
+    console.log(uploadFile);
+    setResultImage(uploadFile);
+  };
+  const file = useSelector((state) => state.auth.file);
+  //--------------------------------------------------------------
+
+  const updatedData = {
+    title: userInputs.title,
+    hashtags: [],
+    capability: Number(userInputs.capability),
+    regionId: Number(userInputs.regionId),
+  };
 
   //채팅룸 추가하기
   const handleSubmitChatCreate = async (e) => {
     e.preventDefault();
     setErrorMessage('');
-    if (userInputs.userCategory === '') {
-      setErrorMessage('신분을 선택해주세요.');
+    if (userInputs.title === '') {
+      setErrorMessage('방 제목을 입력해줏세요');
       return;
     }
-    if (userInputs.region === '') {
-      setErrorMessage('지역을 선택해주세요.');
+    // if (userInputs.hashtags === '') {
+    //   setErrorMessage('해쉬태그를 입력해주세요');
+    //   return;
+    // }
+    if (userInputs.capability === '') {
+      setErrorMessage('방 최대 인원 수를 입력해주세요');
       return;
     }
-    if (userInputs.monthBudget === '') {
-      setErrorMessage('한달 생활비를 입력해주세요.');
+    if (userInputs.regionId === '') {
+      setErrorMessage('방 지역을 선택해주세요');
       return;
     }
-
-    // 유저 입력 감지
-    const handleChangeInputs = (id, value) => {
-      if (id === 'monthBudget' && isNaN(value)) {
-        return;
-      }
-      if (id === 'monthBudget') {
-        // value = Number(value.replaceAll(',', ''))
-        // value = value.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
-        // const removedCommaValue = Number(value.replaceAll(',', ''))
-        value = Number(value.replaceAll(',', ''));
-        value = value.toLocaleString();
-      }
-
-      setUserInputs((prev) => ({
-        ...prev,
-        [id]: value,
-      }));
-
-      setIsEdited((prev) => ({
-        ...prev,
-        [id]: false,
-      }));
+    const data = {
+      title: userInputs.title,
+      hashtags: [],
+      capability: userInputs.capability,
+      regionId: userInputs.regionId,
     };
 
-    const updatedData = {
-      ...joinData,
-      userCategory: userInputs.userCategory,
-      regionId: Number(userInputs.region),
-      monthBudget: Number(userInputs.monthBudget.replace(/,/g, '')),
-    };
-
+    //image 업로드
     const formData = new FormData();
 
-    for (const image of resultImage) {
+    for (const image of resultImage || []) {
       formData.append('image', image);
     }
 
-    const blob = new Blob([JSON.stringify(updatedData)], {
+    const blob = new Blob([JSON.stringify(data)], {
       type: 'application/json',
     });
-    formData.append('data', blob);
 
-    try {
-      const res = await axios.post('/api/chat-rooms', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-    } catch (error) {
-      console.error('api 요청 중 오류 발생 : ', error);
-      if (error.response.status === 409) {
-        setErrorMessage('이미 존재하는 채팅방입니다.');
+    formData.append('data', blob);
+    //-------axios 연결-------
+    const fetchData = async () => {
+      try {
+        const res = await axios.post('temp/api/chat-rooms', formData);
+      } catch (error) {
+        console.error('api 요청 중 오류 발생 : ', error);
+        if (error.response.status === 409) {
+          setErrorMessage('이미 존재하는 채팅방입니다.');
+        }
+        return;
       }
-      return;
-    }
+    };
+
+    fetchData();
+
     navigate('/chat');
   };
 
+  // 유저 입력 감지
+  const handleChangeInputs = (id, value) => {
+    if (id === 'capability' && isNaN(value)) {
+      return;
+    }
+    setUesrInputs((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+
+    setIsEdited((prev) => ({
+      ...prev,
+      [id]: false,
+    }));
+  };
+  // --------------------------------------------
+  const [val, setVal] = useState('');
+  const handleOnKeyPress = (e) => {
+    console.log(e);
+    if (e.key === 'Enter') {
+      console.log(val);
+      changeArr(val);
+      emptyInput();
+      console.log(val);
+    }
+  };
+
+  const [index, setIndex] = useState(0);
+
+  const emptyInput = () => {
+    setVal('');
+  };
+
+  const handleOnChange = (e) => {
+    setVal(e.target.value);
+  };
+  const IncreaseIndex = () => {
+    setIndex(index + 1);
+  };
+
+  //------------------------------------------------------------------
+
+  const [arr, setArr] = useState([]);
+
+  const changeArr = (nextTag) => {
+    console.log('nextTag: ' + nextTag);
+    const nextValue = {
+      idx: index,
+      value: nextTag,
+    };
+    IncreaseIndex();
+    const nextArr = arr.concat(nextValue);
+    console.log(nextArr);
+    setArr(nextArr);
+    console.log('now: ' + arr);
+  };
+
+  const onRemove = (target) => {
+    console.log(target);
+    const nextArr = arr.filter((elem) => elem.idx !== target.idx);
+    setArr(nextArr);
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const tagArr = arr.map((elem) => (
+    <HashTag>
+      <CloseButton
+        className='absolute top-5 right-5'
+        onClick={() => onRemove(elem)}
+      />
+      <div
+        key={elem.idx}
+        className='p-1 m-1 text-2xl'
+        onDoubleClick={() => onRemove(elem)}
+        onChange={(e) => handleChangeInputs('hashtag', e.target.value)}
+      >
+        {`#${elem.value}`}
+      </div>
+    </HashTag>
+  ));
+
+  //tagArr의 길이가 5 초과하는 경우, 5번째 인덱스 이후의 요소들을 제거
+
+  if (tagArr.length > 5) {
+    tagArr.splice(5);
+    alert('해시태그는 5개까지만 입력 가능합니다.');
+  }
+
   return (
     <>
+      <h1 className='font-daeam text-2xl'>채팅방 개설하기</h1>
       <form onSubmit={handleSubmitChatCreate}>
-        <h1 className='font-daeam text-2xl'>채팅방 개설하기</h1>
-        <UserInput
+        <div className='text-start font-her text-2xl'>*채팅방 제목 </div>
+        <div className='content-start pb-3'>
+          <input
+            className='bg-transparent w-full border-b font-her'
+            placeholder='방제 입력하기'
+            onChange={(e) => handleChangeInputs('title', e.target.value)}
+          />
+        </div>
+        {/* <UserInput
           label='채팅방 이름'
           id='title'
           type='title'
@@ -113,10 +215,10 @@ function ChatRoomModal() {
             handleBlurFoucusOffInput('title');
           }}
           onChange={(e) => handleChangeInputs('title', e.target.value)}
-        />
+        /> */}
         <div className='font-her text-left text-2xl'>*해시태그 설정하기</div>
         <div className='flex'>
-          {hashtag.map((value, index) => {
+          {/* {hashtag.map((value, index) => {
             return (
               <>
                 <HashTag>
@@ -129,8 +231,8 @@ function ChatRoomModal() {
                 </HashTag>
               </>
             );
-          })}
-          <HashTag>
+          })} */}
+          {/* <HashTag>
             <input
               className='w-20 bg-transparent'
               placeholder='#입력'
@@ -140,6 +242,21 @@ function ChatRoomModal() {
               // onChange={(e) => setNewHashtag(e.target.value)}
               onChange={(e) => handleChangeInputs('hashtag', e.target.value)}
             />
+          </HashTag> */}
+
+          {tagArr}
+          <HashTag>
+            <div className='flex flex-row'>
+              <div>
+                <input
+                  className='bg-transparent w-20 border-2 text-center'
+                  onChange={handleOnChange}
+                  onKeyDown={handleOnKeyPress}
+                  placeholder='#키워드'
+                  value={val}
+                />
+              </div>
+            </div>{' '}
           </HashTag>
         </div>
         {/* <button className='font-paci border border-dashed rounded-2xl pr-2 pl-2'></button> */}
@@ -158,6 +275,7 @@ function ChatRoomModal() {
           <SelectBox
             className='px-2 py-1 bg-yellow rounded-md border-solid border-2 font-daeam text-lg text-center flex-grow'
             widthSize={96}
+            onChange={(e) => handleChangeInputs('regionId', e.target.value)}
           />
         </div>
         <div className='flex font-her justify-center bg-gray-100 p-2'>
@@ -177,6 +295,7 @@ function ChatRoomModal() {
               className='bg-transparent h-full text-center'
               type='number'
               min='1'
+              onChange={(e) => handleChangeInputs('capability', e.target.value)}
             />
             <span>명</span>
           </ul>
@@ -188,14 +307,12 @@ function ChatRoomModal() {
             <ProfileImage
               size='20'
               profileImage={profileImage}
-              // onChange={handleChangeUploadProfileImg}
+              onChange={handleChangeUploadProfileImg}
             />
           </div>
         </div>
         <div className='pt-2'>
-          <button className='border rounded-xl pr-2 pl-2 bg-orange-100 hover:bg-orange-200'>
-            추가하기
-          </button>
+          <Button text='추가하기' type='submit' />
         </div>
       </form>
     </>

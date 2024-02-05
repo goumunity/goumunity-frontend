@@ -60,7 +60,6 @@ function JoinModal1() {
   // 사용자의 입력 감지
   const handleChangeInputs = (id, value) => {
     // 인증번호를 6자 이상못쓰게
-
     if (id === 'emailConfirm' && value.trim().length > 6) {
       return;
     }

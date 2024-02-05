@@ -60,7 +60,8 @@ function LoginModal() {
     }
     try {
       setIsLoading(true);
-      const res = await axios.post('http://localhost:8080/api/users/login', {
+      // const res = await axios.post('http://localhost:8080/api/users/login', {
+      const res = await axios.post('/temp/api/users/login', {
         id: userInputs.email,
         password: userInputs.password,
       });

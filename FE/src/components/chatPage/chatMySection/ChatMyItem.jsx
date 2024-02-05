@@ -11,16 +11,17 @@ function ChatMyItem(props) {
   const navigate = useNavigate();
   const { handleClickMySection, setId } = props;
 
-  //fake-sever api 연결
+  //api 연결
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('/fake/chatMyList');
-        // const res = await axios.get(
-        //   '/api/users/my/chat-rooms?page=&size=&time='
-        // );
+        // const res = await axios.get('/fake/chatMyList');
+        const res = await axios.get(
+          `temp/api/users/my/chat-rooms?page=0&size=1&time=${new Date().getTime()}`
+        );
 
-        setChatData(res.data.chatMyItemList);
+        setChatData(res.data.contents);
+        // setChatData(res.data.chatMyItemList);
         console.log(chatData);
       } catch (error) {
         console.error('Error fetching data:', error);
