@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import axios from "axios";
 function ProfilePage() {
   const { detail } = useParams();
-  const [hsize, setHsize]  = useState(''); 
+  const [info, setInfo]  = useState({}); 
   const h = detail !== 'detail' ? 'h-1/6' : 'h-3/4'
   /*
 "email":"ssafy@ssafy.com",
@@ -31,32 +31,35 @@ function ProfilePage() {
   */
 
   const containerClasses = `border-2 border-bg-600 flex flex-row ${h}`;
-  const onLoad = () => {axios.get("https://i10a408.p.ssafy.io/temp/api/users/my",
-  {withCredentials:true}).then(res => {
-  console.log(res.data)
-})
+  const onLoad = async () => { 
+    const res = await axios.get("/api/users/my",
+    {withCredentials:true});
+
+    setInfo( res.data );
+
+    
   }
   useEffect( () => {
     onLoad();
-  })
+  },[])
 
   
   return (
     <div className="font-dove" id="body">
       
        <div className='grid flex flex-col p-10 h-3/4'>
-       <ProfileHeader/>      
+       <ProfileHeader info={info}/>      
        <div id="ProfileBaseUnder" className={containerClasses}>
         { detail !== 'detail' ?(
           <>
           
-            <ProfileBaseUnderFeeds/>
-            <ProfileBaseUnderSave/>
+            <ProfileBaseUnderFeeds info={info}/>
+            <ProfileBaseUnderSave info={info}/>
             
           </> ) : (
           <>
-            <ProfileDetailUnderPrivate/>
-            <ProfileDetailUnderArea/>
+            <ProfileDetailUnderPrivate info={info}/>
+            <ProfileDetailUnderArea info={info}/>
 
           </>
           ) 

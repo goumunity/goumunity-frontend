@@ -61,7 +61,7 @@ function LoginModal() {
     }
     try {
       setIsLoading(true)
-      const res = await axios.post('https://i10a408.p.ssafy.io/temp/api/users/login', {
+      const res = await axios.post('/api/users/login', {
         id: userInputs.email,
         password: userInputs.password,
       });
@@ -69,7 +69,7 @@ function LoginModal() {
       dispatch(authActions.login());
       
       try {
-        const res = await axios.get(`https://i10a408.p.ssafy.io/temp/api/users/${userInputs.email}`)
+        const res = await axios.get(`/api/users/${userInputs.email}`)
         console.log(res)
         dispatch(authActions.createUser(res.data))
       } catch (error) {
