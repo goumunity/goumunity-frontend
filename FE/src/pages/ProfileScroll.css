@@ -9,3 +9,8 @@
   .scroll::-webkit-scrollbar-thumb {
     background: #666; 
   }
+
+
+  .base{
+    min-height: 532px;
+  }

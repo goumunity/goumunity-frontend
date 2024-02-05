@@ -8,13 +8,23 @@ import './ProfileScroll.css'
 import ProfileDetailUnderPrivate from "../components/ProfilePage/ProfileDetailUnderPrivate";
 import ProfileDetailUnderArea from "../components/ProfilePage/ProfileDetailUnderArea";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState,useCallback } from "react";
 import { useEffect } from "react";
 import axios from "axios";
-function ProfilePage() {
+import Loading from "../components/common/Loading";
+const ProfilePage = () => {
+  
+
   const { detail } = useParams();
   const [info, setInfo]  = useState({}); 
-  const h = detail !== 'detail' ? 'h-1/6' : 'h-3/4'
+  const h = detail !== 'detail' ? 'h-4/5' : 'h-5/6'
+  const h2 = detail !== 'detail' ? 'h-3/4' : 'h-full'
+  const [ written, setWritten ] = useState([]);
+  const [ savings, setSavings ] = useState([]);
+  const [ isInfoLoaded, setIsInfoLoaded ] = useState( false );
+  const [ isWrittenLoaded, setIsWrittenLoaded ] = useState( false );
+  const [ isSavingsLoaded, setIsSavingsLoaded ] = useState( false );
+
   /*
 "email":"ssafy@ssafy.com",
    "password":"$2a$10$HqqrMtNGbzKvzs8bOV.xU.u8xlQH6JD6Uf.WZv1EmBO3iVYw0ubGG",
@@ -29,32 +39,72 @@ function ProfilePage() {
    "lastPasswordModifiedDate":"2024-01-17T00:00:00Z",
    "regionId":1
   */
+   
+   const [writtenFeeds,setWrittenFeeds] = useState([]);
+   const [, updateState ] = useState();
+   const forceUpdate = useCallback( () => updateState({}), []);
+  const containerClasses = `base border-2 border-bg-600 flex flex-row ${h}`;
+  const onLoad = () => { 
 
-  const containerClasses = `border-2 border-bg-600 flex flex-row ${h}`;
-  const onLoad = async () => { 
-    const res = await axios.get("/api/users/my",
-    {withCredentials:true});
+    axios.get("/api/users/my",
+    {withCredentials:true})
+    .then( res => {
+      setInfo( res.data );
+      setIsInfoLoaded( true );
+      return res.data;  
+    }).then( info => {
 
-    setInfo( res.data );
+      axios.get(`/api/users/${info.id}/feeds`, {withCredentials:true}).then( res => {
+        setWritten( res.data );
+        setIsWrittenLoaded( true );
 
+        return info;
+      }).then( info => {
+        axios.get(`/api/users/${info.id}/savings`, {withCredentials:true}).then( res => { 
+        
+
+        const saves = res.data['result'].filter( el => el.price != null );
+        setSavings( saves );
+        setIsSavingsLoaded( true );
+        // console.log( isSavingsLoaded );
+      });
+      
+    })
+      
+
+    })
     
+    
+
   }
+
   useEffect( () => {
+    console.log("remounted!");
     onLoad();
+    
+
   },[])
 
   
   return (
     <div className="font-dove" id="body">
       
-       <div className='grid flex flex-col p-10 h-3/4'>
-       <ProfileHeader info={info}/>      
+       <div className={`grid flex flex-col p-10 ${h2}`}>
+        {
+          isInfoLoaded ? (
+            <>
+            <ProfileHeader info={info}/>      
        <div id="ProfileBaseUnder" className={containerClasses}>
         { detail !== 'detail' ?(
           <>
-          
-            <ProfileBaseUnderFeeds info={info}/>
-            <ProfileBaseUnderSave info={info}/>
+            {
+              isWrittenLoaded ? (<><ProfileBaseUnderFeeds info={info} written={written} forceUpdate={forceUpdate}/></>) : (<><Loading></Loading></>)
+            }
+            
+            {
+              isSavingsLoaded ? ( <><ProfileBaseUnderSave savings={savings}/></> ) : ( <><Loading></Loading></> )
+            }
+            
             
           </> ) : (
           <>
@@ -64,7 +114,15 @@ function ProfilePage() {
           </>
           ) 
         }
+
         </div>
+        </>
+          ) :
+          (
+            <Loading></Loading>
+          )
+        }
+       
     </div>
   </div>
   )

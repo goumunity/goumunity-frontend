@@ -121,8 +121,7 @@ function CreatePostModal({ onClose, setFeedList }) {
             </div>
 
             <CategoryBox
-              isInfo={isInfo}
-              setIsInfo={setIsInfo}
+              feedCategory={feedCategory}
               setFeedCategory={setFeedCategory}
             />
 
@@ -155,7 +154,7 @@ function CreatePostModal({ onClose, setFeedList }) {
             </div>
             {/* </div> */}
 
-            {isInfo ? (
+            {feedCategory==='INFO' ? (
               <div className='flex justify-center'>
                 <input
                   className='border border-gray w-1/2 text-center font-her bg-bright outline-none'
