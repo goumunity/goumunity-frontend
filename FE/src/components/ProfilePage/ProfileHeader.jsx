@@ -2,9 +2,14 @@ import ProfileImage from "../common/ProfileImage";
 import Button2to1 from "../../components/common/Button2to1";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import ProfileImageSection from "./ProfileImageSection";
 const ProfileHeader = ( { info } ) => {
+    const { imgSrc, setImgSrc } = useState('');
     const {detail} = useParams();
-
+    useEffect( () => {
+      setImgSrc( info.imgSrc );
+    })
     return (
         <>
         <div className="justify-self-start font-daeam">
@@ -14,7 +19,7 @@ const ProfileHeader = ( { info } ) => {
        <div className="justify-center w-full flex flex-row p-20">
             <div className="">
               <div className="ms-16 me-16 w-32">
-              <ProfileImage size="32"></ProfileImage>
+              <ProfileImageSection size='36' src={info.imgSrc} setImgSrc = {setImgSrc}/>
               </div>
               
             </div>

@@ -12,12 +12,14 @@ import { useState,useCallback } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import Loading from "../components/common/Loading";
+import ProfileBaseUnder from "../components/ProfilePage/ProfileBaseUnder";
+import ProfileDetailUnder from "../components/ProfilePage/ProfileDetailUnder";
 const ProfilePage = () => {
   
 
   const { detail } = useParams();
   const [info, setInfo]  = useState({}); 
-  const h = detail !== 'detail' ? 'h-4/5' : 'h-5/6'
+  const h = detail !== 'detail' ? 'h-3/4' : 'h-5/6'
   const h2 = detail !== 'detail' ? 'h-3/4' : 'h-full'
   const [ written, setWritten ] = useState([]);
   const [ savings, setSavings ] = useState([]);
@@ -42,8 +44,15 @@ const ProfilePage = () => {
    
    const [writtenFeeds,setWrittenFeeds] = useState([]);
    const [, updateState ] = useState();
-   const forceUpdate = useCallback( () => updateState({}), []);
-  const containerClasses = `base border-2 border-bg-600 flex flex-row ${h}`;
+   const saveChange = ( price ) => {
+    // const nextArr = savings.filter( el => el.id !== id );
+    // setSavings( nextArr );
+
+  }
+   useEffect( () => {
+    console.log( savings );
+   },[savings])
+  const containerClasses = `base border-2 border-bg-600 flex flex-row`;
   const onLoad = () => { 
 
     axios.get("/api/users/my",
@@ -79,7 +88,6 @@ const ProfilePage = () => {
   }
 
   useEffect( () => {
-    console.log("remounted!");
     onLoad();
     
 
@@ -94,22 +102,23 @@ const ProfilePage = () => {
           isInfoLoaded ? (
             <>
             <ProfileHeader info={info}/>      
-       <div id="ProfileBaseUnder" className={containerClasses}>
+       <div id="ProfileUnder" className={containerClasses}>
         { detail !== 'detail' ?(
           <>
             {
-              isWrittenLoaded ? (<><ProfileBaseUnderFeeds info={info} written={written} forceUpdate={forceUpdate}/></>) : (<><Loading></Loading></>)
+              isWrittenLoaded ? (<><ProfileBaseUnder info={info} written={written} saveChange={saveChange}/></>) : (<><Loading></Loading></>)
             }
             
-            {
+            {/* {
               isSavingsLoaded ? ( <><ProfileBaseUnderSave savings={savings}/></> ) : ( <><Loading></Loading></> )
-            }
+            } */}
             
             
           </> ) : (
           <>
-            <ProfileDetailUnderPrivate info={info}/>
-            <ProfileDetailUnderArea info={info}/>
+            <ProfileDetailUnder info={info}/>
+            {/* <ProfileDetailUnderPrivate info={info}/>
+            <ProfileDetailUnderArea info={info}/> */}
 
           </>
           ) 

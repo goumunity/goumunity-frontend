@@ -11,6 +11,7 @@ import ChatTalkSection from './components/chatPage/chatTalkSection/ChatTalkSecti
 import ProfilePageDetail from './components/ProfilePage/ProfilePageDetail';
 import TestPage from './pages/TestPage';
 const router = createBrowserRouter([
+  
   {
     path: '/',
     errorElement: <ErrorPage />,
