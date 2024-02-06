@@ -1,8 +1,10 @@
-import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
+import defaultMaleIcon from '../../assets/svgs/defaultMaleIcon.svg';
+
 
 function ProfileImage({ size, profileImage, ...props }) {
   return (
     <>
+
       <div
         className={`w-${size} h-${size} rounded-full border-2 overflow-hidden cursor-pointer`}
       >
@@ -11,6 +13,7 @@ function ProfileImage({ size, profileImage, ...props }) {
             <img
               // className={`w-${size} h-${size} cursor-pointer`}
               className={`w-${size} h-${size} cursor-pointer`}
+
               // src={profileImage}
               src={profileImage}
             />
@@ -18,7 +21,9 @@ function ProfileImage({ size, profileImage, ...props }) {
         ) : (
           <label htmlFor='profileImg' className=''>
             <img
+
               className={`w-${size} h-${size} cursor-pointer`}
+
               // src={profileImage}
               src={defaultMaleIcon}
             />

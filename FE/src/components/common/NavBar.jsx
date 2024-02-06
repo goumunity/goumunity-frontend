@@ -16,6 +16,7 @@ function NavBar() {
       case '/landing/join/1':
       case '/landing/join/2':
       case '/landing/join/3':
+      case '/landing/join/4':
         return
     }
 

@@ -8,8 +8,13 @@ import './index.css';
 import HomePage from './pages/HomePage';
 import ErrorPage from './pages/ErrorPage';
 import ChatTalkSection from './components/chatPage/chatTalkSection/ChatTalkSection';
+<<<<<<< HEAD
 import ProtectedRoutes from './components/common/ProtectedRoutes';
 
+=======
+import ProfilePageDetail from './components/ProfilePage/ProfilePageDetail';
+import TestPage from './pages/TestPage';
+>>>>>>> ba3dce0b06a663b8f2df1bdc46afd61193bb0744
 const router = createBrowserRouter([
   {
     path: '/',
@@ -35,6 +40,16 @@ const router = createBrowserRouter([
       { path: '/landing', element: <LandingPage /> },
       { path: '/landing/join/:joinId', element: <LandingPage /> },
       { path: '/:login', element: <LandingPage /> },
+<<<<<<< HEAD
+=======
+      {
+        path: '/chat',
+        element: <ChatPage />,
+        children: [{ path: 'talk/:talkId', element: <ChatTalkSection /> }],
+      },
+      { path: '/profile/:detail?', element: <ProfilePage /> },
+      { path: '/test', element: <TestPage /> },
+>>>>>>> ba3dce0b06a663b8f2df1bdc46afd61193bb0744
     ],
   },
 ]);
