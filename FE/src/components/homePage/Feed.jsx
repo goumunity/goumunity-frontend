@@ -30,6 +30,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
     regionId,
     si,
     updatedAt,
+    isScrapped,
   } = feed;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -59,7 +60,6 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
       <div className='relative flex items-center gap-2'>
         <ProfileImage size='8' profileImage={imgSrc ? imgSrc : ''} />
         <NicknameBox nickname={nickname} daysAgo={daysAgo} fontSize='md' />
-
         {nickname === currentUser.nickname && (
           <div className='flex font-daeam absolute right-1 gap-3'>
             <Link to={`/patch/${feedId}`}>

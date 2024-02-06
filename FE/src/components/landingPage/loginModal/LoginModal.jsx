@@ -6,7 +6,7 @@ import { authActions } from '../../../store/auth';
 import Button from '../../common/Button';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import client from '../../../utils/client';
+import instance from '../../../utils/instance';
 
 function LoginModal() {
   const [isLoading, setIsLoading] = useState(false);
@@ -61,17 +61,21 @@ function LoginModal() {
     }
     try {
       setIsLoading(true);
-      // const res = await axios.post('/api/users/login', {
-      const res = await client.post('/api/users/login', {
-        id: userInputs.email,
-        password: userInputs.password,
-      }, { withCredentials: true });
-
+      console.log('gggggggg', import.meta.env.VITE_API_DEV);
+      // const res = await instance.post('/api/users/login', {
+      const res = await axios.post(
+        '/api/users/login',
+        {
+          id: userInputs.email,
+          password: userInputs.password,
+        },
+        { withCredentials: true }
+      );
       dispatch(authActions.login());
 
       try {
         const res = await axios.get(`/api/users/${userInputs.email}`);
-        console.log('로그인 결과:', res)
+        console.log('로그인 결과:', res);
         dispatch(authActions.createUser(res.data));
       } catch (error) {
         console.log(error);

@@ -34,21 +34,21 @@ function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
   };
   return (
     <div
-      className={`flex flex-col h-full bg-bright border-gray border-l transition-width delay-700 duration-300  ${categorySectionClassName}`}
+      className={`flex flex-col bg-bright border-gray border-l transition-width delay-700 duration-300  ${categorySectionClassName}`}
     >
-      <div className='relative '>
+      {/* <div className='relative '>
         <span className='absolute top-0 right-3'></span>
-      </div>
+      </div> */}
 
       {imageList.length ? (
         <Slider
-          className='flex justify-center items-center w-full h-full bg-wheat'
+          className='flex justify-center items-center w-full h-full'
           {...settings}
         >
           {imageList.map((image, idx) => {
             return (
-              <div key={idx} className='relative h-full w-full'>
-                <img className='h-96' src={image} alt='' />
+              <div key={idx} className='relative flex w-full h-full items-center justify-center'>
+                <img className='w-full h-full' src={image} alt='' />
                 <CloseButton
                   className='absolute right-5 top-5'
                   onClick={() => handleClickDeleteImage(image)}

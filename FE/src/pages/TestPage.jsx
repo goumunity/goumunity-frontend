@@ -1,12 +1,12 @@
-import { useState,useEffect } from "react";
-import Modal from "../components/common/Modal/Modal";
-import { Map } from "react-kakao-maps-sdk";
+import { useState, useEffect } from 'react';
+import Modal from '../components/common/Modal/Modal';
+import { Map } from 'react-kakao-maps-sdk';
 const TestPage = () => {
-    const { kakao } = window;
+  const { kakao } = window;
 
- useEffect(() => {
+  useEffect(() => {
     //지도를 담을 영역의 DOM 레퍼런스
-    const container = document.getElementById("map");
+    const container = document.getElementById('map');
     //지도를 생성할 때 필요한 기본 옵션
     const options = {
       center: new kakao.maps.LatLng(37.29432708770308, 126.99658273529194), //지도의 중심좌표.
@@ -15,8 +15,8 @@ const TestPage = () => {
     //지도 생성 및 객체 리턴
     const map = new kakao.maps.Map(container, options);
 
-//    ---------------------------------------------------------- 하단은 마커
-   
+    //    ---------------------------------------------------------- 하단은 마커
+
     // 마커가 표시될 위치입니다
     var markerPosition = new kakao.maps.LatLng(
       37.29432708770308,
@@ -34,47 +34,45 @@ const TestPage = () => {
 
   return (
     <>
-        <div id ="map" style={{width:'500px', height:'400px'}}></div>
+      <div id='map' style={{ width: '500px', height: '400px' }}></div>
     </>
-  )
-    // const [val, setVal] = useState('');
-    // const handleOnKeyPress = (e) => {
-        
-    //     if( e.key === 'Enter'){
-    //         console.log( val );
-    //         changeArr(e.target.value);
-    //     }
-    // }   
+  );
+  // const [val, setVal] = useState('');
+  // const handleOnKeyPress = (e) => {
 
-    // const handleOnChange = (e) => {
-    //     setVal( e.target.value );
+  //     if( e.key === 'Enter'){
+  //         console.log( val );
+  //         changeArr(e.target.value);
+  //     }
+  // }
 
-    // }
+  // const handleOnChange = (e) => {
+  //     setVal( e.target.value );
 
-    // //------------------------------------------------------------------
+  // }
 
-    // const [ arr, setArr ] = useState([]);
-    // const changeArr = (nextTag) => {
-    //     const nextArr = arr.concat(nextTag);
-    //     setArr( nextArr );
-    //     setVal('');
-    // }
-    // const onRemove = ( tag ) => {
-    //     const nextArr = arr.filter( elem => elem !== tag );
-    //     setArr( nextArr );
-    // }
-    // const tagArr = arr.map( elem => <div className="p-1 border-2 m-1 text-2xl" onDoubleClick={ () => onRemove(elem) }>{elem}</div>);
+  // //------------------------------------------------------------------
 
-    
+  // const [ arr, setArr ] = useState([]);
+  // const changeArr = (nextTag) => {
+  //     const nextArr = arr.concat(nextTag);
+  //     setArr( nextArr );
+  //     setVal('');
+  // }
+  // const onRemove = ( tag ) => {
+  //     const nextArr = arr.filter( elem => elem !== tag );
+  //     setArr( nextArr );
+  // }
+  // const tagArr = arr.map( elem => <div className="p-1 border-2 m-1 text-2xl" onDoubleClick={ () => onRemove(elem) }>{elem}</div>);
 
-    // return (
-    //     <>
-    //     <div className="flex flex-row border-2">
-    //         {tagArr}
-    //         <input onChange={handleOnChange} onKeyDown={handleOnKeyPress} placeholder="value 입력"/>
-    //     </div>
-    //     </>
-    // )
-}
+  // return (
+  //     <>
+  //     <div className="flex flex-row border-2">
+  //         {tagArr}
+  //         <input onChange={handleOnChange} onKeyDown={handleOnKeyPress} placeholder="value 입력"/>
+  //     </div>
+  //     </>
+  // )
+};
 
 export default TestPage;

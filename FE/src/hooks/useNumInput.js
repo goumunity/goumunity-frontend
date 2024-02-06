@@ -8,7 +8,7 @@ function useNumInput(initialInput) {
 
         setInput(e.target.value.replace(/[^0-9]/g, ""))
     }
-    return [input, handleChangeInput]
+    return [input, handleChangeInput, setInput]
 }
 
 export default useNumInput

@@ -38,8 +38,7 @@ const router = createBrowserRouter([
       { path: '/landing', element: <LandingPage /> },
       { path: '/landing/join/:joinId', element: <LandingPage /> },
       { path: '/:login', element: <LandingPage /> },
-<<<<<<< HEAD
-=======
+
       {
         path: '/chat',
         element: <ChatPage />,
@@ -47,7 +46,7 @@ const router = createBrowserRouter([
       },
       { path: '/profile/:detail?', element: <ProfilePage /> },
       { path: '/test', element: <TestPage /> },
->>>>>>> ba3dce0b06a663b8f2df1bdc46afd61193bb0744
+
     ],
   },
 ]);

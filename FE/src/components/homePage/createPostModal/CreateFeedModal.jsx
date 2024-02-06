@@ -90,7 +90,25 @@ function CreateFeedModal({ onClose, setFeedList }) {
       try {
         const res = await axios.get(`/api/feeds/${feedId}`)
           console.log('단일 조회 : ', res)
-          setFeedList((prev) => [res.data, ...prev])
+          setFeedList((prev) => [{
+            afterPrice: res.data.feedId,
+            commentCount: res.data.commentCount,
+            content: res.data.content,
+            createdAt: res.data.createdAt,
+            feedCategory: res.data.feedCategory,
+            feedId: res.data.feedId,
+            gungu: res.data.region.gungu,
+            ilikeThat: false,
+            images: res.data.images,
+            imgSrc: res.data.user.imgSrc,
+            likeCount: 0,
+            nickname: res.data.user.nickname,
+            price: res.data.price,
+            regionId: res.data.region.regionId,
+            si: res.data.region.si,
+            updatedAt: res.data.updatedAt,
+            isScrapped: false
+          } , ...prev])
         console.log('게시글 단일 조회 결과 : ', res.data)
       } catch (error) {
         console.log('게시글 단일 조회 중 에러 발생 : ', error)

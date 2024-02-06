@@ -1,3 +1,4 @@
+import CloseButton from '@/components/common/CloseButton';
 import { useEffect, useState } from 'react';
 import ProfileImage from '../../common/ProfileImage';
 import Option from '../../common/Option';
@@ -10,11 +11,11 @@ import ContentBox from './ContentBox';
 import SelectBox from '../../common/SelectBox';
 import axios from 'axios';
 import ImageSection from './ImageSection';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import ModalBackground from '../../common/ModalBackground';
 import CategoryBox from './CategoryBox';
 import useAxiosGet from '../../../hooks/useAxiosGet';
-import Loading from '../../common/Loading';
 
 const REGION_OPTIONS = [
   { id: 1, name: '광진구' },
@@ -28,45 +29,50 @@ const FEED_CATEGORY_OPTIONS = [
 ];
 
 function PatchFeedModal({ onClose, setFeedList }) {
-  console.log('ggggggggggggggggggggggggggggggggggggggggg')
   const params = useParams();
-  const [feed, isFeedLoading, errorMessage, setErrorMessage] = useAxiosGet(`/api/feeds/${params.patchId}`);
-
+  const [feed, isFeedLoading] = useAxiosGet(`/api/feeds/${params.patchId}`);
+  const [errorMessage, setErrorMessage] = useState('');
   const {
     afterPrice,
-    commentCount,
     content,
     createdAt,
     feedCategory,
-    ilikeThat,
     images,
-    likeCount,
     price,
     region,
     updatedAt,
     user,
   } = feed;
-
   console.log(feed)
-
-  // region 객체
-  // const { createdAt, gungu, regionId, si, updatedAt } = region
-
-  // user 객체
-  // const { age, email, gender, id, imgSrc, monthBudget, nickname, regionId, userCategory } = user
-  
-  const [newPrice, handleChangeNewPrice] = useNumInput(price);
-  const [newAfterPrice, handleChangeNewAfterPrice] = useNumInput(afterPrice);
+  const currentUser = useSelector((state) => state.auth.currentUser);
+  const [newPrice, handleChangeNewPrice, setNewPrice] = useNumInput('');
+  const [newAfterPrice, handleChangeNewAfterPrice, setNewAfterPrice] = useNumInput('');
   const [isSlide, setIsSlide] = useState(true);
-  const [newFeedCategory, setNewFeedCategory] = useState(feedCategory);
+  const [newFeedCategory, setNewFeedCategory] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [newContent, handleChangeNewContent, setNewContent] = useInput(content, setErrorMessage);
-  const [newRegion, handleChangeNewRegion] = useInput(region, setErrorMessage);
-
-  // // const className = isSlide ? '-translate-x-3/4' : '-translate-x-1/2';
+  // const [errorMessage, setErrorMessage] = useState('');
+  const [newContent, handleChangeNewContent, setNewContent] = useInput('', setErrorMessage);
+  const [newRegion, handleChangeNewRegion, setNewRegion] = useInput('', setErrorMessage );
+  
+  // const className = isSlide ? '-translate-x-3/4' : '-translate-x-1/2';
   const modalClassName = isSlide ? 'w-128' : 'w-96';
   const mainSectionClassName = isSlide ? 'w-96' : 'w-96';
-  const [newImageSrcList, setNewImageSrcList] = useState(images);
+  const [newImageSrcList, setNewImageSrcList] = useState([]);
+
+  useEffect(() => {
+    setNewFeedCategory(feedCategory)
+    setNewContent(content)
+    setNewAfterPrice(afterPrice)
+    setNewPrice(price)
+    setNewImageSrcList(images)
+    console.log('feed값:',feed)
+    console.log('region값:ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ',region)
+    // setNewRegion(region.gungu)
+    
+    if (images?.length > 0) {
+      setIsSlide(true)
+    }
+  }, [feed])
 
   const handleClickOpenSlide = () => {
     setIsSlide(!isSlide);
@@ -127,14 +133,12 @@ function PatchFeedModal({ onClose, setFeedList }) {
     setIsLoading(false);
     navigate('/');
   };
-  // console.log(feed);
+
   return (
-   
     <div className=''>
       <div
         className={`fixed top-1/2 left-1/2 flex transition-width duration-700 delay-300 ${modalClassName} -translate-x-1/2 -translate-y-1/2 z-10 `}
       >
-        {feed ?
         <div
           className={`flex h-128 bg-bright rounded-xl shadow-2xl  overflow-hidden`}
         >
@@ -150,6 +154,7 @@ function PatchFeedModal({ onClose, setFeedList }) {
                 게시
               </button>
             </div>
+
             <CategoryBox
               feedCategory={newFeedCategory}
               setFeedCategory={setNewFeedCategory}
@@ -157,14 +162,15 @@ function PatchFeedModal({ onClose, setFeedList }) {
 
             <div className='flex justify-between items-center p-2'>
               <div className='flex items-center gap-2'>
-                <ProfileImage size={6} profileImage={user.imgSrc} />
-                <span className='font-daeam'>{user.nickname}</span>
+                <ProfileImage size={6} profileImage={currentUser.imgSrc} />
+                <span className='font-daeam'>{currentUser.nickname}</span>
               </div>
               {/* <SelectBox onChange={(e) => handleChangeRegion(e.target.value)} /> */}
+              
               <SelectBox
                 color='bright'
                 onChange={(e) => handleChangeNewRegion(e)}
-                defaultValue={region.gungu}
+                defaultValue={region?.gungu}
               />
             </div>
 
@@ -183,7 +189,9 @@ function PatchFeedModal({ onClose, setFeedList }) {
                 onClick={handleClickOpenSlide}
               />
             </div>
-            {newFeedCategory === FEED_CATEGORY_OPTIONS[0].name ? (
+            {/* </div> */}
+
+            {feedCategory === FEED_CATEGORY_OPTIONS[0].name ? (
               <div className='flex justify-center'>
                 <input
                   className='border border-gray w-1/2 text-center font-her bg-bright outline-none'
@@ -208,7 +216,6 @@ function PatchFeedModal({ onClose, setFeedList }) {
             imageSrcList={newImageSrcList}
           />
         </div>
-        : <Loading />}
       </div>
       <ModalBackground />
     </div>

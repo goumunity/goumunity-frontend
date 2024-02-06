@@ -14,26 +14,26 @@ export default defineConfig({
     ],
   },
 
-  // server: {
-  //   proxy: {
+  server: {
+    proxy: {
 
-  //     '/api': {
-  //       target: 'https://ssafyhelper.shop/test/api',
-  //       // target: 'http://localhost:8080/api',
-  //       // target: 'https://i10a408.p.ssafy.io',
-  //       changeOrigin: true,
-  //       rewrite: (path) => path.replace(/^\/api/, ''),
-  //       secure: false,
-  //       ws: true,
-  //     },
-  //     '/fake': {
-  //       target: 'http://localhost:3001',
-  //       changeOrigin: true,
-  //       rewrite: (path) => path.replace(/^\/fake/, ''),
-  //       secure: false,
-  //       ws: true,
+      '/api': {
+        target: 'https://ssafyhelper.shop/test/api',
+        // target: 'http://localhost:8080/api',
+        // target: 'https://i10a408.p.ssafy.io',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+        secure: false,
+        ws: true,
+      },
+      '/fake': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/fake/, ''),
+        secure: false,
+        ws: true,
 
-  //     },
-  //   },
-  // },
+      },
+    },
+  },
 });

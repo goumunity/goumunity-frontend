@@ -6,7 +6,7 @@ const OPTIONS = [
 ];
 
 function SelectBox({ widthSize, color, defaultValue, ...props }) {
-  console.log(defaultValue)
+  console.log('defaulValue의 값:',defaultValue)
   return (
     <select
       className={` px-2 py-1 bg-${color} rounded-md border-solid border-2 font-daeam text-lg w-${widthSize}`}
