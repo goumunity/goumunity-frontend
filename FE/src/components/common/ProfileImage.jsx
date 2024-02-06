@@ -29,8 +29,7 @@ function ProfileImage({ size, profileImage, ...props }) {
           {...props}
           className='hidden'
         />
-      </div>{' '}
-      */}
+      </div>
       <div className={`rounded-full  border-2 overflow-hidden cursor-pointer`}>
         {profileImage ? (
           <label htmlFor='profileImg' className=''>
