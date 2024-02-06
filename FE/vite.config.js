@@ -16,6 +16,7 @@ export default defineConfig({
 
   server: {
     proxy: {
+
       '/api': {
         // target: 'https://i10a408.p.ssafy.io/temp',
         target: 'https://ssafyhelper.shop/test/api',
@@ -44,6 +45,7 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/fake/, ''),
         secure: false,
         ws: true,
+
       },
     },
   },

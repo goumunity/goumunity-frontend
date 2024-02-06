@@ -5,7 +5,7 @@ function Button({ text, size, isActive=true, ...props }) {
     <button
       {...props}
       className={`w-${size} h-${size} font-daeam cursor-pointer text-white rounded-xl bg-button px-2 py-1 ${className}`}
-    >
+    >   
       {text}
     </button>
   );

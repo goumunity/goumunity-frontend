@@ -17,7 +17,6 @@ const GENDER_OPTIONS = [
 
 function JoinModal2() {
   const joinData = useSelector((state) => state.auth.joinData);
-
   const [profileImageTest, setProfileImageTest] = useState('');
   const [files, setFiles] = useState('');
 
@@ -29,7 +28,6 @@ function JoinModal2() {
 
   const [isEdited, setIsEdited] = useState({
     nickname: false,
-
     birthDate: false,
     gender: false,
   });

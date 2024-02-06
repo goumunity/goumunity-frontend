@@ -9,7 +9,7 @@ import HomePage from './pages/HomePage';
 import ErrorPage from './pages/ErrorPage';
 import ChatTalkSection from './components/chatPage/chatTalkSection/ChatTalkSection';
 import Main from './pages/Main';
-import TestPage from './pages/TestPage';
+import ProfilePageDetail from './components/ProfilePage/ProfilePageDetail';
 
 const router = createBrowserRouter([
   {
@@ -30,8 +30,8 @@ const router = createBrowserRouter([
         element: <ChatPage />,
         children: [{ path: 'talk/:talkId', element: <ChatTalkSection /> }],
       },
-      { path: '/profile', element: <ProfilePage /> },
       { path: '/main', element: <Main /> },
+      { path: '/profile/:detail?', element: <ProfilePage /> },
       { path: '/test', element: <TestPage /> },
     ],
   },
