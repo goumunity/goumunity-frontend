@@ -46,12 +46,12 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
       setIsLoading(true);
       const res = await axios.delete(`/api/feeds/${feedId}`);
       console.log('삭제 결과 : ', res);
+      const newFeedList = feedList.filter((feed) => feed.feedId !== feedId);
+      setFeedList(newFeedList);
     } catch (error) {
       console.log('피드 삭제 중 에러 발생 : ', error);
     }
     setIsLoading(false);
-    const newFeedList = feedList.filter((feed) => feed.feedId !== feedId);
-    setFeedList(newFeedList);
   };
 
   return (
