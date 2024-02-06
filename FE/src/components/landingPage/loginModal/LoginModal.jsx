@@ -6,6 +6,7 @@ import { authActions } from '../../../store/auth';
 import Button from '../../common/Button';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import client from '../../../utils/client';
 
 function LoginModal() {
   const [isLoading, setIsLoading] = useState(false);
@@ -60,7 +61,8 @@ function LoginModal() {
     }
     try {
       setIsLoading(true);
-      const res = await axios.post('/api/users/login', {
+      // const res = await axios.post('/api/users/login', {
+      const res = await client.post('/api/users/login', {
         id: userInputs.email,
         password: userInputs.password,
       }, { withCredentials: true });
