@@ -10,6 +10,7 @@ import ErrorPage from './pages/ErrorPage';
 import ChatTalkSection from './components/chatPage/chatTalkSection/ChatTalkSection';
 import Main from './pages/Main';
 import ProfilePageDetail from './components/ProfilePage/ProfilePageDetail';
+import TestPage from './pages/TestPage';
 
 const router = createBrowserRouter([
   {

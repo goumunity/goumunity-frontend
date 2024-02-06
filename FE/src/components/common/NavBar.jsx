@@ -8,8 +8,13 @@ import ProfileImage from './ProfileImage';
 
 function NavBar() {
   // LandingPage에서는 NavBar를 렌더링하지 않음
-  if (window.location.pathname === '/landing') {
-    return null;
+  const targetUrl = window.location.pathname;
+  switch (targetUrl) {
+    case '/landing':
+    case '/landing/join/1':
+    case '/landing/join/2':
+    case '/landing/join/3':
+      return;
   }
 
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
@@ -30,7 +35,7 @@ function NavBar() {
 
   // 로그아웃 후 로그인 모달로 이동
   const handleClickLogout = async () => {
-    const isConfirm = window.confirm('로그아웃 하시겠습니까?')
+    const isConfirm = window.confirm('로그아웃 하시겠습니까?');
     if (!isConfirm) return;
 
     try {
@@ -45,12 +50,12 @@ function NavBar() {
 
   // 회원탈퇴
   const handleClickDeleteUser = async () => {
-    const isConfirm = confirm("정말로 회원 탈퇴하시겠습니까?");
+    const isConfirm = confirm('정말로 회원 탈퇴하시겠습니까?');
 
     // 사용자가 확인을 누르면 알림창을 띄우고, 그렇지 않으면 아무 동작도 하지 않음
     if (!isConfirm) return;
     // 여기에 실제 회원 탈퇴 처리 로직을 추가할 수 있음
-  
+
     try {
       const res = await axios.delete('/api/users/my');
     } catch (error) {
@@ -58,10 +63,10 @@ function NavBar() {
       return;
     }
     dispatch(authActions.logout());
-    alert("회원 탈퇴가 완료되었습니다.");
+    alert('회원 탈퇴가 완료되었습니다.');
     navigate('/landing/join/1');
   };
-  
+
   const activeClass = 'underline';
 
   return (
@@ -106,16 +111,26 @@ function NavBar() {
           </NavLink>
         </li>
         <li>
-          {isAuth && <ProfileImage size={6} profileImage={currentUser.imgSrc}/> }
+          {isAuth && (
+            <ProfileImage size={6} profileImage={currentUser.imgSrc} />
+          )}
         </li>
-        <li>{isAuth && <NavLink
-            to='/create/1'
-            className={({ isActive }) => (isActive ? activeClass : undefined)}
-          >
-            글쓰기
-          </NavLink>}</li>
-        <li>{isAuth && <button onClick={handleClickLogout}>로그아웃</button>}</li>
-        <li>{isAuth && <button onClick={handleClickDeleteUser}>회원탈퇴</button>}</li>
+        <li>
+          {isAuth && (
+            <NavLink
+              to='/create/1'
+              className={({ isActive }) => (isActive ? activeClass : undefined)}
+            >
+              글쓰기
+            </NavLink>
+          )}
+        </li>
+        <li>
+          {isAuth && <button onClick={handleClickLogout}>로그아웃</button>}
+        </li>
+        <li>
+          {isAuth && <button onClick={handleClickDeleteUser}>회원탈퇴</button>}
+        </li>
       </ul>
     </nav>
   );
