@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Button from '../../common/Button';
 import axios from 'axios';
+import client from '../../../utils/client';
 
 function EmailConfirmButton({
   emailConfirm,
@@ -26,21 +27,24 @@ function EmailConfirmButton({
     }
     try {
       setIsLoading(true);
+      //https://ssafyhelper.shop/test/api
       const res = await axios.get('/api/users/email/verification', {
+        // const res = await axios.get(
+        //   'https://ssafyhelper.shop/test/api/users/email/verification',
+        //   {
         params: { email },
       });
-      console.log(res)
+      console.log(res);
 
       setIsEmailConfirmSended(true);
     } catch (error) {
       if (error.response.status === 409) {
-        setErrorMessage('이미 가입한 이메일입니다.')
+        setErrorMessage('이미 가입한 이메일입니다.');
       }
       console.log('에러 발생 : ', error);
-    
     }
     setIsLoading(false);
-    setErrorMessage('인증코드가 발송되었습니다.')
+    setErrorMessage('인증코드가 발송되었습니다.');
   };
 
   // 인증번호 확인
@@ -61,7 +65,7 @@ function EmailConfirmButton({
         email: email,
       });
       console.log('res1: ' + res);
-  
+
       console.log('인증번호 확인 결과 : ', res.data);
       if (res.data === false) {
         setErrorMessage('인증번호가 일치하지 않습니다.');

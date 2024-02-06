@@ -45,7 +45,7 @@ function ChatRecommendedSection() {
 
       <div className='cards__container'>
         <div className='cards__wrapper'>
-          <div className='cards__items '>
+          <div className='cards__items'>
             <ChatRecommendedItem
               src={redBoy}
               userInput={userInput}

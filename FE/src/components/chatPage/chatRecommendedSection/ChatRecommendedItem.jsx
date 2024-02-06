@@ -134,26 +134,24 @@ function ChatRecommendedItem(props) {
     fetchData();
   };
 
-
-
   return (
     <>
       <form onSubmit={handleSubmitEnterChat}>
-        {chatData
-          .filter((val) => {
-            if (props.userInput == '') {
-              return val;
-            } else if (
-              val.title.includes(props.userInput) ||
-              val.hashtags.some((tag) => tag.name.includes(props.userInput))
-            ) {
-              return val;
-            }
-          })
-          .map((value, index) => {
-            return (
-              <>
-                <li className='cards__item' key={index}>
+        <ul className='flex flex-wrap justify-center p-0 m-0 list-none'>
+          {chatData
+            .filter((val) => {
+              if (props.userInput == '') {
+                return val;
+              } else if (
+                val.title.includes(props.userInput) ||
+                val.hashtags.some((tag) => tag.name.includes(props.userInput))
+              ) {
+                return val;
+              }
+            })
+            .map((value, index) => {
+              return (
+                <li className='p-0 m-5' key={index}>
                   <div className='cards__item__link'>
                     <figure className='cards__item__pic-wrap'>
                       <img
@@ -185,9 +183,9 @@ function ChatRecommendedItem(props) {
                     </div>
                   </div>
                 </li>
-              </>
-            );
-          })}
+              );
+            })}
+        </ul>
       </form>
     </>
   );

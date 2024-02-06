@@ -62,8 +62,9 @@ function LoginModal() {
     try {
       setIsLoading(true);
       // const res = await axios.post('/api/users/login', {
-      const res = await client.post(
-        '/api/users/login',
+      const res = await axios.post(
+        '/temp/api/users/login',
+        // 'https://ssafyhelper.shop/test/api/api/user/login',
         {
           id: userInputs.email,
           password: userInputs.password,
@@ -75,11 +76,16 @@ function LoginModal() {
 
       try {
         // const res = await axios.get(`/api/users/${userInputs.email}`);
-        // const res = await axios.get(
-        //   `http://localhost:8080/api/users/my/chat-rooms?page=0&size=12&time=${new Date().getTime()}`
-        // );
+        const res = await axios.get(
+          `http://localhost:8080/api/users/my/chat-rooms?page=0&size=12&time=${new Date().getTime()}`
+        );
 
-        const res = await axios.get(`/api/users/${userInputs.email}`);
+        //https://ssafyhelper.shop/test/api
+
+        // const res = await axios.get(`temp/api/users/${userInputs.email}`);
+        // const res = await axios.get(
+        //   `https://ssafyhelper.shop/test/api/api/users/${userInputs.email}`
+        // );
         console.log('로그인 결과:', res);
 
         dispatch(authActions.createUser(res.data));
