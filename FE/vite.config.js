@@ -14,39 +14,26 @@ export default defineConfig({
     ],
   },
 
-  server: {
-    proxy: {
+  // server: {
+  //   proxy: {
 
-      '/api': {
-        // target: 'https://i10a408.p.ssafy.io/temp',
-        target: 'https://ssafyhelper.shop/test/api',
-        // target: 'http://localhost:8080/api',
-        // target: 'https://i10a408.p.ssafy.io',
+  //     '/api': {
+  //       target: 'https://ssafyhelper.shop/test/api',
+  //       // target: 'http://localhost:8080/api',
+  //       // target: 'https://i10a408.p.ssafy.io',
+  //       changeOrigin: true,
+  //       rewrite: (path) => path.replace(/^\/api/, ''),
+  //       secure: false,
+  //       ws: true,
+  //     },
+  //     '/fake': {
+  //       target: 'http://localhost:3001',
+  //       changeOrigin: true,
+  //       rewrite: (path) => path.replace(/^\/fake/, ''),
+  //       secure: false,
+  //       ws: true,
 
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-        secure: false,
-        ws: true,
-      },
-      '/temp': {
-        target: 'https://i10a408.p.ssafy.io',
-        // target: 'https://ssafyhelper.shop/test/api',
-        // target: 'http://localhost:8080/api',
-        // target: 'https://i10a408.p.ssafy.io',
-
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-        secure: false,
-        ws: true,
-      },
-      '/fake': {
-        target: 'http://localhost:3001',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/fake/, ''),
-        secure: false,
-        ws: true,
-
-      },
-    },
-  },
+  //     },
+  //   },
+  // },
 });

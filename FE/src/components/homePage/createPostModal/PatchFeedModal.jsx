@@ -1,5 +1,4 @@
-import CloseButton from '@/components/common/CloseButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProfileImage from '../../common/ProfileImage';
 import Option from '../../common/Option';
 import imageIcon from '@/assets/svgs/image.svg';
@@ -11,10 +10,11 @@ import ContentBox from './ContentBox';
 import SelectBox from '../../common/SelectBox';
 import axios from 'axios';
 import ImageSection from './ImageSection';
-import { useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ModalBackground from '../../common/ModalBackground';
 import CategoryBox from './CategoryBox';
+import useAxiosGet from '../../../hooks/useAxiosGet';
+import Loading from '../../common/Loading';
 
 const REGION_OPTIONS = [
   { id: 1, name: '광진구' },
@@ -27,21 +27,46 @@ const FEED_CATEGORY_OPTIONS = [
   { id: 2, name: 'FUN' },
 ];
 
-function CreateFeedModal({ onClose, setFeedList }) {
-  const currentUser = useSelector((state) => state.auth.currentUser);
-  const [price, handleChangePrice] = useNumInput('');
-  const [afterPrice, handleChangeAfterPrice] = useNumInput('');
-  const [isSlide, setIsSlide] = useState(false);
-  const [feedCategory, setFeedCategory] = useState('INFO');
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [content, handleChangeContent] = useInput('', setErrorMessage);
-  const [region, handleChangeRegion] = useInput('', setErrorMessage);
+function PatchFeedModal({ onClose, setFeedList }) {
+  console.log('ggggggggggggggggggggggggggggggggggggggggg')
+  const params = useParams();
+  const [feed, isFeedLoading, errorMessage, setErrorMessage] = useAxiosGet(`/api/feeds/${params.patchId}`);
 
-  // const className = isSlide ? '-translate-x-3/4' : '-translate-x-1/2';
+  const {
+    afterPrice,
+    commentCount,
+    content,
+    createdAt,
+    feedCategory,
+    ilikeThat,
+    images,
+    likeCount,
+    price,
+    region,
+    updatedAt,
+    user,
+  } = feed;
+
+  console.log(feed)
+
+  // region 객체
+  // const { createdAt, gungu, regionId, si, updatedAt } = region
+
+  // user 객체
+  // const { age, email, gender, id, imgSrc, monthBudget, nickname, regionId, userCategory } = user
+  
+  const [newPrice, handleChangeNewPrice] = useNumInput(price);
+  const [newAfterPrice, handleChangeNewAfterPrice] = useNumInput(afterPrice);
+  const [isSlide, setIsSlide] = useState(true);
+  const [newFeedCategory, setNewFeedCategory] = useState(feedCategory);
+  const [isLoading, setIsLoading] = useState(false);
+  const [newContent, handleChangeNewContent, setNewContent] = useInput(content, setErrorMessage);
+  const [newRegion, handleChangeNewRegion] = useInput(region, setErrorMessage);
+
+  // // const className = isSlide ? '-translate-x-3/4' : '-translate-x-1/2';
   const modalClassName = isSlide ? 'w-128' : 'w-96';
   const mainSectionClassName = isSlide ? 'w-96' : 'w-96';
-  const [imageSrcList, setImageSrcList] = useState([]);
+  const [newImageSrcList, setNewImageSrcList] = useState(images);
 
   const handleClickOpenSlide = () => {
     setIsSlide(!isSlide);
@@ -49,33 +74,33 @@ function CreateFeedModal({ onClose, setFeedList }) {
 
   const navigate = useNavigate();
 
-  const handleClickCreatePost = async () => {
-    if (content === '') {
+  const handleClickPatchFeed = async () => {
+    if (newContent === '') {
       setErrorMessage('내용을 입력해주세요.');
       return;
     }
 
-    if (region === '') {
+    if (newRegion === '') {
       setErrorMessage('지역을 선택해주세요.');
       return;
     }
 
-    if (feedCategory === '') {
+    if (newFeedCategory === '') {
       setErrorMessage('카테고리를 선택해주세요.');
       return;
     }
 
     const data = {
-      content,
-      feedCategory,
-      price,
-      afterPrice,
-      regionId: region,
+      content: newContent,
+      feedCategory: newFeedCategory,
+      price: newPrice,
+      afterPrice: newAfterPrice,
+      regionId: newRegion,
     };
 
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
     const formData = new FormData();
-    for (const image of imageSrcList) {
+    for (const image of newImageSrcList) {
       formData.append('images', image);
     }
     formData.append('data', blob);
@@ -102,48 +127,50 @@ function CreateFeedModal({ onClose, setFeedList }) {
     setIsLoading(false);
     navigate('/');
   };
-
+  // console.log(feed);
   return (
+   
     <div className=''>
       <div
         className={`fixed top-1/2 left-1/2 flex transition-width duration-700 delay-300 ${modalClassName} -translate-x-1/2 -translate-y-1/2 z-10 `}
       >
+        {feed ?
         <div
           className={`flex h-128 bg-bright rounded-xl shadow-2xl  overflow-hidden`}
         >
           <div className={`relative ${mainSectionClassName}`}>
             <div className='flex justify-center'>
               <h1 className='font-daeam text-5xl my-2 text-center'>
-                새 게시글
+                게시글 수정
               </h1>
               <button
                 className='absolute right-5 top-5 font-daeam cursor-pointer'
-                onClick={handleClickCreatePost}
+                onClick={handleClickPatchFeed}
               >
                 게시
               </button>
             </div>
-
             <CategoryBox
-              feedCategory={feedCategory}
-              setFeedCategory={setFeedCategory}
+              feedCategory={newFeedCategory}
+              setFeedCategory={setNewFeedCategory}
             />
 
             <div className='flex justify-between items-center p-2'>
               <div className='flex items-center gap-2'>
-                <ProfileImage size={6} profileImage={currentUser.imgSrc} />
-                <span className='font-daeam'>{currentUser.nickname}</span>
+                <ProfileImage size={6} profileImage={user.imgSrc} />
+                <span className='font-daeam'>{user.nickname}</span>
               </div>
               {/* <SelectBox onChange={(e) => handleChangeRegion(e.target.value)} /> */}
               <SelectBox
                 color='bright'
-                onChange={(e) => handleChangeRegion(e)}
+                onChange={(e) => handleChangeNewRegion(e)}
+                defaultValue={region.gungu}
               />
             </div>
 
             <ContentBox
-              content={content}
-              handleChangeContent={handleChangeContent}
+              content={newContent}
+              handleChangeContent={handleChangeNewContent}
             />
             <div className='h-2 text-center font-dove text-red-600'>
               {errorMessage}
@@ -156,37 +183,36 @@ function CreateFeedModal({ onClose, setFeedList }) {
                 onClick={handleClickOpenSlide}
               />
             </div>
-            {/* </div> */}
-
-            {feedCategory === FEED_CATEGORY_OPTIONS[0].name ? (
+            {newFeedCategory === FEED_CATEGORY_OPTIONS[0].name ? (
               <div className='flex justify-center'>
                 <input
                   className='border border-gray w-1/2 text-center font-her bg-bright outline-none'
                   type='text'
                   placeholder='정가'
-                  value={addCommas(price)}
-                  onChange={handleChangePrice}
+                  value={addCommas(Number(newPrice))}
+                  onChange={handleChangeNewPrice}
                 />
                 <input
                   className='border border-gray w-1/2 text-center font-her bg-bright outline-none'
                   type='text'
                   placeholder='할인가'
-                  value={addCommas(afterPrice)}
-                  onChange={handleChangeAfterPrice}
+                  value={addCommas(Number(newAfterPrice))}
+                  onChange={handleChangeNewAfterPrice}
                 />
               </div>
             ) : null}
           </div>
           <ImageSection
             isSlide={isSlide}
-            setImageSrcList={setImageSrcList}
-            imageSrcList={imageSrcList}
+            setImageSrcList={setNewImageSrcList}
+            imageSrcList={newImageSrcList}
           />
         </div>
+        : <Loading />}
       </div>
       <ModalBackground />
     </div>
   );
 }
 
-export default CreateFeedModal;
+export default PatchFeedModal;

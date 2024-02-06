@@ -5,15 +5,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../../store/auth';
 import axios from 'axios';
 import ProfileImage from './ProfileImage';
-
+import chat from '@/assets/images/chat.png';
+import homeIcon from '@/assets/svgs/homeIcon.svg';
+import NavBarItem from './NavBarItem';
 function NavBar() {
   // LandingPage에서는 NavBar를 렌더링하지 않음
+
   const targetUrl = window.location.pathname;
   switch (targetUrl) {
     case '/landing':
     case '/landing/join/1':
     case '/landing/join/2':
     case '/landing/join/3':
+    case '/landing/join/4':
       return;
   }
 
@@ -70,19 +74,10 @@ function NavBar() {
   const activeClass = 'underline';
 
   return (
-    <nav className='fixed w-64 h-screen bg-bg text-3xl font-daeam p-5'>
-      <div onClick={handleClickToggleMenu}>로고</div>
-      <ul>
-        <li>
-          {/* 현재 접속중인 페이지 표시를 할 수 있는 태그 */}
-          <NavLink
-            to='/landing'
-            className={({ isActive }) => (isActive ? activeClass : undefined)}
-          >
-            랜딩
-          </NavLink>
-        </li>
-        <li>
+    <nav className='flex justify-center fixed w-64 h-screen bg-bg text-3xl font-daeam p-5'>
+      {/* <div onClick={handleClickToggleMenu}>로고</div> */}
+      <ul className='flex flex-col gap-3 justify-center items-center'>
+        {/* <li>
           <NavLink
             to='/'
             className={({ isActive }) => (isActive ? activeClass : undefined)}
@@ -93,28 +88,25 @@ function NavBar() {
             </div>
             <div className={`${isMenuOpen ? 'block' : 'hidden'} `}>Home</div>
           </NavLink>
-        </li>
-        <li>
-          <NavLink
-            className={({ isActive }) => (isActive ? activeClass : undefined)}
-            to='/chat'
-          >
-            거지방
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to='/profile'
-            className={({ isActive }) => (isActive ? activeClass : undefined)}
-          >
-            프로필
-          </NavLink>
-        </li>
-        <li>
-          {isAuth && (
-            <ProfileImage size={6} profileImage={currentUser.imgSrc} />
-          )}
-        </li>
+        </li> */}
+
+        <NavBarItem imgSrc={chat} link='/' text='거지글' />
+        <NavBarItem imgSrc={homeIcon} link='/chat' text='거지방' />
+        {isAuth && (
+          <li>
+            <NavLink
+              to='/profile'
+              className={({ isActive }) =>
+                isActive
+                  ? `${activeClass} flex gap-1 items-center`
+                  : 'flex gap-1 items-center'
+              }
+            >
+              <ProfileImage size={6} profileImage={currentUser.imgSrc} />
+              <span>프로필</span>
+            </NavLink>
+          </li>
+        )}
         <li>
           {isAuth && (
             <NavLink

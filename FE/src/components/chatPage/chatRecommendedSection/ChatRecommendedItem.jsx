@@ -26,13 +26,13 @@ function ChatRecommendedItem(props) {
   }, []);
 
   //나의 거지챗 리스트 추가하기
-  const handleAddMyChat = (e) => {
-    // console.log(e);
-    // console.log(e.type);
-    if (e.type === 'click') {
-      addMyChatList();
-    }
-  };
+  // const handleAddMyChat = (e) => {
+  //   // console.log(e);
+  //   // console.log(e.type);
+  //   if (e.type === 'click') {
+  //     addMyChatList();
+  //   }
+  // };
 
   let clickData = '';
   const handleClickData = (value) => {
@@ -134,6 +134,8 @@ function ChatRecommendedItem(props) {
     fetchData();
   };
 
+
+
   return (
     <>
       <form onSubmit={handleSubmitEnterChat}>
@@ -151,8 +153,8 @@ function ChatRecommendedItem(props) {
           .map((value, index) => {
             return (
               <>
-                <li className='cards__item'>
-                  <div className='cards__item__link' to={props.path}>
+                <li className='cards__item' key={index}>
+                  <div className='cards__item__link'>
                     <figure className='cards__item__pic-wrap'>
                       <img
                         className='cards__item__img'
@@ -174,7 +176,7 @@ function ChatRecommendedItem(props) {
                       })}
                       <div className='text-gray-800 font-paci text-center rounded-md border-2 hover:border-solid '>
                         <button
-                          onClick={handleAddMyChat}
+                          // onClick={handleAddMyChat}
                           onChange={handleClickData(value)}
                         >
                           입장하기

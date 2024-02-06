@@ -4,6 +4,7 @@ import axios from 'axios';
 import DetailModal from '@/components/homePage/detailModal/DetailModal';
 import CreateFeedModal from '@/components/homePage/createPostModal/CreateFeedModal';
 import { useNavigate, useParams } from 'react-router-dom';
+import PatchFeedModal from '../components/homePage/createPostModal/PatchFeedModal';
 
 function HomePage() {
   const [initialTime] = useState(new Date().getTime());
@@ -13,6 +14,7 @@ function HomePage() {
   const [hasNext, setHasNext] = useState(false);
   const [page, setPage] = useState(0);
   const observerRef = useRef();
+  console.log(params)
 
   const lastFeedRef = useCallback(
     (node) => {
@@ -65,6 +67,7 @@ function HomePage() {
 
       {params.feedId && <DetailModal feedId={params.feedId} />}
       {params.id && <CreateFeedModal setFeedList={setFeedList} />}
+      {params.patchId && <PatchFeedModal setFeedList={setFeedList} />}
 
       <div ref={lastFeedRef} style={{ height: '10px' }}></div>
     </div>

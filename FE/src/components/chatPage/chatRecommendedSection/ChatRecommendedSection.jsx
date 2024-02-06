@@ -11,7 +11,8 @@ function ChatRecommendedSection() {
 
   const searched = items.filter(
     (item) =>
-      item.title.includes(userInput) || item.hashtags.data.name.includes(userInput)
+      item.title.includes(userInput) ||
+      item.hashtags.data.name.includes(userInput)
   );
 
   console.log('Searched Items:', searched);
@@ -44,13 +45,13 @@ function ChatRecommendedSection() {
 
       <div className='cards__container'>
         <div className='cards__wrapper'>
-          <ul className='cards__items'>
+          <div className='cards__items '>
             <ChatRecommendedItem
               src={redBoy}
               userInput={userInput}
               setUserInput={setUserInput}
             />
-          </ul>
+          </div>
         </div>
       </div>
     </div>
