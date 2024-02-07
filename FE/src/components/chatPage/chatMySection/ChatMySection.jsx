@@ -38,7 +38,7 @@ function ChatMySection(props) {
   }
 
   //props 수지
-  const { handleClickMySection, isLoaded, setId } = props;
+  const { handleClickMySection, isLoaded,  handleJoinChatRoom } = props;
 
   const dispatch = useDispatch();
 
@@ -60,11 +60,11 @@ function ChatMySection(props) {
                 <ChatMyItem
                   handleClickMySection={handleClickMySection}
                   isLoaded={isLoaded}
-                  setId={setId}
                   chatData={chatData}
                   setChatData={setChatData}
                   value={value}
                   index={index}
+                  handleJoinChatRoom={handleJoinChatRoom}
                 ></ChatMyItem>
               </div>
             );

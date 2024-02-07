@@ -7,7 +7,8 @@ import CloseButton from '../../common/CloseButton';
 
 function ChatMyItem(props) {
   const navigate = useNavigate();
-  const { handleClickMySection, setId, chatData, setChatData, value, index } =
+  const { handleClickMySection,  chatData, setChatData, value, index
+  , handleJoinChatRoom} =
     props;
   const [isHovered, setIsHovered] = useState(false);
 
@@ -69,6 +70,7 @@ function ChatMyItem(props) {
           className='hover:rotate-12  hover:bg-orange-200'
           onClick={() => {
             handleButtonClick(value.chatRoomId);
+            handleJoinChatRoom(value.chatRoomId);
           }}
           onMouseOver={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
@@ -76,9 +78,9 @@ function ChatMyItem(props) {
           <div
             className='flex'
             key={index}
-            onClick={() => {
-              setId(value.chatRoomId);
-            }}
+            // onClick={() => {
+            //   setId(value.chatRoomId);
+            // }}
           >
             <div className='w-1/4 mt-3'>
               <span>

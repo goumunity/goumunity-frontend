@@ -68,9 +68,11 @@ function ChatRoomModal() {
       setErrorMessage('방 지역을 선택해주세요');
       return;
     }
+    console.log(userInputs.hashtags)
+    console.log(arr)
     const data = {
       title: userInputs.title,
-      hashtags: [],
+      hashtags: arr.map(data => data.value),
       capability: userInputs.capability,
       regionId: userInputs.regionId,
     };

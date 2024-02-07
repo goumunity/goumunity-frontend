@@ -1,9 +1,9 @@
 import ChatRecommendedItem from './ChatRecommendedItem';
 import './ChatRecommendedItem.css';
 import redBoy from '@/assets/images/redBoy.jpg';
-import beggars from '@/assets/images/beggar.jpg';
 import SearchIcon from '../../common/SearchIcon';
-import { useState } from 'react';
+import {useState} from 'react';
+import client from "@/utils/client.js";
 
 function ChatRecommendedSection() {
   const [userInput, setUserInput] = useState('');
@@ -14,6 +14,17 @@ function ChatRecommendedSection() {
       item.title.includes(userInput) ||
       item.hashtags.data.name.includes(userInput)
   );
+
+
+  const onSearchItem = () => {
+
+      client.get(`/temp/api/chat-rooms/search?keyword=ㅎ&page=0&size=12&time=${new Date().getTime()}`)
+          .then(res => {
+              console.log(res.data)
+              setItems(res.data.contents)
+          })
+
+  }
 
   console.log('Searched Items:', searched);
   return (
@@ -38,6 +49,7 @@ function ChatRecommendedSection() {
             borderRadius: '0 1.3rem  1.3rem 0',
             backgroundColor: 'rgba(0,0,0,0)',
           }}
+          onClick={onSearchItem}
         >
           <SearchIcon />
         </div>
