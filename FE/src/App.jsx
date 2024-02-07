@@ -36,7 +36,7 @@ const router = createBrowserRouter([
         ],
       },
       // { path: '/landing', element: <LandingPage /> },
-      { path: '/landing', element: <NewLandingPage /> },
+      // { path: '/landing', element: <NewLandingPage /> },
       { path: '/landing/join/:joinId', element: <LandingPage /> },
       { path: '/:login', element: <LandingPage /> },
 
@@ -53,6 +53,7 @@ const router = createBrowserRouter([
       { path: '/test', element: <TestPage /> },
     ],
   },
+  { path: '/landing', element: <NewLandingPage /> },
 ]);
 
 ReactModal.setAppElement('#root');

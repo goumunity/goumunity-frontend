@@ -6,7 +6,7 @@ import { authActions } from '../../../store/auth';
 import Button from '../../common/Button';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import instance from '../../../utils/instance';
+
 
 function LoginModal() {
   const [isLoading, setIsLoading] = useState(false);
