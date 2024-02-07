@@ -9,8 +9,13 @@ function ChatRecommendedSection() {
   const [userInput, setUserInput] = useState('');
   const [items, setItems] = useState([]);
 
-  const searched = items.filter((item) => item.title.includes(userInput));
+  const searched = items.filter(
+    (item) =>
+      item.title.includes(userInput) ||
+      item.hashtags.data.name.includes(userInput)
+  );
 
+  console.log('Searched Items:', searched);
   return (
     <div className='cards'>
       <div className='flex font-her justify-center bg-gray-100 p-4'>
@@ -40,13 +45,13 @@ function ChatRecommendedSection() {
 
       <div className='cards__container'>
         <div className='cards__wrapper'>
-          <ul className='cards__items'>
+          <div className='cards__items '>
             <ChatRecommendedItem
               src={redBoy}
               userInput={userInput}
               setUserInput={setUserInput}
             />
-          </ul>
+          </div>
         </div>
       </div>
     </div>

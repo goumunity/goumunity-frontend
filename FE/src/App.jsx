@@ -8,6 +8,9 @@ import './index.css';
 import HomePage from './pages/HomePage';
 import ErrorPage from './pages/ErrorPage';
 import ChatTalkSection from './components/chatPage/chatTalkSection/ChatTalkSection';
+
+import Main from './pages/Main';
+
 import ProtectedRoutes from './components/common/ProtectedRoutes';
 
 import ProfilePageDetail from './components/ProfilePage/ProfilePageDetail';
@@ -44,12 +47,12 @@ const router = createBrowserRouter([
         element: <ChatPage />,
         children: [{ path: 'talk/:talkId', element: <ChatTalkSection /> }],
       },
+      { path: '/main', element: <Main /> },
       { path: '/profile/:detail?', element: <ProfilePage /> },
-      
+
       // 다른 사람 페이지로 바뀔 예정
       { path: '/profile/:userId', element: <ProfilePage /> },
       { path: '/test', element: <TestPage /> },
-
     ],
   },
 ]);

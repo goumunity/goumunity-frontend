@@ -1,0 +1,45 @@
+/* 채팅 메시지의 기본 스타일 */
+.my-message,
+.your-message {
+  max-width: 70%;
+  margin: 8px;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+/* 자신의 채팅 메시지 스타일 */
+.my-message {
+  background-color: #3498db;
+  color: #fff;
+  align-self: flex-end;
+}
+
+/* 상대방의 채팅 메시지 스타일 */
+.your-message {
+  background-color: #ecf0f1;
+  color: #333;
+  align-self: flex-start;
+}
+
+/* 채팅 메시지 리스트 컨테이너 */
+.chat-messages-container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  height: 100%;
+  overflow-y: auto;
+  background-color: #f5f5f5;
+}
+
+/* 최신식 채팅방 스타일을 위한 컨테이너 */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* 최신식 채팅방 전체 배경 스타일 */
+body {
+  margin: 0;
+  background-color: #ecf0f1;
+}

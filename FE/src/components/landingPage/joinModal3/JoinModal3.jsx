@@ -20,6 +20,7 @@ function JoinModal3() {
   const joinData = useSelector((state) => state.auth.joinData);
   const [profileImage, setProfileImage] = useState('');
   const [resultImage, setResultImage] = useState(null);
+
   // 이미지 업로드
   const handleChangeUploadProfileImg = (e) => {
     const uploadFile = imageUpload(e.target, setProfileImage);
@@ -80,7 +81,7 @@ function JoinModal3() {
       userCategory: userInputs.userCategory,
       monthBudget: userInputs.monthBudget.replace(/,/g, ''),
     };
-    
+
     const formData = new FormData();
 
     if (resultImage !== null) {
@@ -95,11 +96,15 @@ function JoinModal3() {
     formData.append('data', blob);
 
     try {
-      const res = await axios.post('https://i10a408.p.ssafy.io/temp/api/users/join', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const res = await axios.post(
+        'https://i10a408.p.ssafy.io/temp/api/users/join',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
     } catch (error) {
       console.error('api 요청 중 오류 발생 : ', error);
     }
@@ -114,7 +119,7 @@ function JoinModal3() {
       const numberValue = parseFloat(numericValue.replace(/,/g, '')) || 0;
       // 세자리마다 쉼표 추가
       const formattedValue = numberValue.toLocaleString();
-      
+
       setUserInputs((prev) => ({
         ...prev,
         [id]: formattedValue,
@@ -137,7 +142,7 @@ function JoinModal3() {
   };
 
   // const displayMonthBudget = userInputs.monthBudget ? `${userInputs.monthBudget}원` : '';
-  
+
   // 유저 입력 감지
   // const handleChangeInputs = (id, value) => {
   //   // if (id === 'monthBudget' && isNaN(value)) {

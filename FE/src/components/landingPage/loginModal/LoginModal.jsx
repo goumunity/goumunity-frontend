@@ -61,9 +61,11 @@ function LoginModal() {
     }
     try {
       setIsLoading(true);
+
       console.log('gggggggg', import.meta.env.VITE_API_DEV);
       // const res = await instance.post('/api/users/login', {
       const res = await axios.post(
+
         '/api/users/login',
         {
           id: userInputs.email,
@@ -71,11 +73,18 @@ function LoginModal() {
         },
         { withCredentials: true }
       );
+
       dispatch(authActions.login());
 
       try {
+        // const res = await axios.get(`/api/users/${userInputs.email}`);
+        // const res = await axios.get(
+        //   `http://localhost:8080/api/users/my/chat-rooms?page=0&size=12&time=${new Date().getTime()}`
+        // );
+
         const res = await axios.get(`/api/users/${userInputs.email}`);
         console.log('로그인 결과:', res);
+
         dispatch(authActions.createUser(res.data));
       } catch (error) {
         console.log(error);

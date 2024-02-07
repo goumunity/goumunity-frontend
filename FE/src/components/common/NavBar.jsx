@@ -12,6 +12,7 @@ import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
 
 function NavBar() {
   // LandingPage에서는 NavBar를 렌더링하지 않음
+
   const targetUrl = window.location.pathname;
   switch (targetUrl) {
     case '/landing':

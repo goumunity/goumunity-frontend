@@ -60,7 +60,9 @@ function JoinModal1() {
   // 사용자의 입력 감지
   const handleChangeInputs = (id, value) => {
     // 인증번호를 6자 이상못쓰게
-    setErrorMessage('')
+
+    setErrorMessage('');
+
     if (id === 'emailConfirm' && value.trim().length > 6) {
       return;
     }
@@ -192,7 +194,7 @@ function JoinModal1() {
         <div className='flex justify-center absolute bottom-7 w-full'>
           {/* <Button text='다음단계' type='submit' onClick={handleClickNext}/> */}
           <div className='flex justify-center'>
-          <Button text='다음단계' type='submit' />
+            <Button text='다음단계' type='submit' />
           </div>
         </div>
       </form>
