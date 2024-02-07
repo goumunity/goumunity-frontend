@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import FeedLikeBox from './FeedLikeBox';
 import NicknameBox from '../common/NicknameBox';
+import defaultMaleIcon from '../../assets/svgs/defaultMaleIcon.svg';
 
 // 댓글, 답글 200자
 function Feed({ feed, setFeedList, feedList, ...props }) {
@@ -31,6 +32,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
     regionId,
     si,
     updatedAt,
+    isScrapped,
   } = feed;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +40,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
   const daysAgo = calculateDate(updatedAt);
   const className = isLoading ? 'pointer-events-none opacity-75' : undefined;
   const [isLike, setIsLike] = useState(ilikeThat);
+  const profit = price - afterPrice;
 
   const handleClickDeleteFeed = async () => {
     const isConfirm = window.confirm('정말로 삭제하시겠습니까?');
@@ -58,7 +61,21 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
   return (
     <div className='flex flex-col w-post border border-gray px-4 py-3'>
       <div className='relative flex items-center gap-2'>
-        <ProfileImage size='8' profileImage={imgSrc ? imgSrc : ''} />
+        <Link to={`/profile/${nickname}`}>
+          <div
+            className={`w-8 h-8 rounded-full border-2 overflow-hidden cursor-pointer`}
+          >
+            {imgSrc ? (
+              <img className={`w-full h-full cursor-pointer`} src={imgSrc} />
+            ) : (
+              <img
+                className={`w-full h-full cursor-pointer`}
+                src={defaultMaleIcon}
+              />
+            )}
+          </div>
+        </Link>
+        {/* <ProfileImage size='8' profileImage={imgSrc ? imgSrc : ''} /> */}
         <NicknameBox nickname={nickname} daysAgo={daysAgo} fontSize='md' />
 
         {nickname === currentUser.nickname && (
@@ -72,7 +89,27 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
           </div>
         )}
       </div>
+      {profit !== 0 && (
+        <div className='mt-2 flex items-center gap-2'>
+          <div className='flex items-center gap-1'>
+            <div className='font-dove text-entrance'>
+              원가
+            </div>
+            <span className='font-her'>{price}원</span>
+          </div>
 
+          <div className='flex items-center gap-1'>
+            <div className='font-dove text-entrance'>할인가</div>
+            <span className='font-her'>{afterPrice}원</span>
+          </div>
+          
+          <div className='flex items-center gap-1'>
+            <div className='font-dove text-red-400'>절약내역</div>
+            <span className='font-her'>{profit}원</span>
+          </div>
+
+        </div>
+      )}
       <p className='my-4 px-2'>{content}</p>
 
       <Link to={`/${feedId}`}>

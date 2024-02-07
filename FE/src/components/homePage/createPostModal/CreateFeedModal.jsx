@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import ModalBackground from '../../common/ModalBackground';
 import CategoryBox from './CategoryBox';
+import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
 
 const REGION_OPTIONS = [
   { id: 1, name: '광진구' },
@@ -29,6 +30,7 @@ const FEED_CATEGORY_OPTIONS = [
 
 function CreateFeedModal({ onClose, setFeedList }) {
   const currentUser = useSelector((state) => state.auth.currentUser);
+  console.log(currentUser);
   const [price, handleChangePrice] = useNumInput('');
   const [afterPrice, handleChangeAfterPrice] = useNumInput('');
   const [isSlide, setIsSlide] = useState(false);
@@ -86,16 +88,36 @@ function CreateFeedModal({ onClose, setFeedList }) {
           'Content-Type': 'multipart/form-data',
         },
       });
-      const feedId = res.data
+      const feedId = res.data;
       try {
-        const res = await axios.get(`/api/feeds/${feedId}`)
-          console.log('단일 조회 : ', res)
-          setFeedList((prev) => [res.data, ...prev])
-        console.log('게시글 단일 조회 결과 : ', res.data)
+        const res = await axios.get(`/api/feeds/${feedId}`);
+        console.log('단일 조회 : ', res);
+        setFeedList((prev) => [
+          {
+            afterPrice: res.data.afterPrice,
+            commentCount: res.data.commentCount,
+            content: res.data.content,
+            createdAt: res.data.createdAt,
+            feedCategory: res.data.feedCategory,
+            feedId: res.data.feedId,
+            gungu: res.data.region.gungu,
+            ilikeThat: false,
+            images: res.data.images,
+            imgSrc: res.data.user.imgSrc,
+            likeCount: 0,
+            nickname: res.data.user.nickname,
+            price: res.data.price,
+            regionId: res.data.region.regionId,
+            si: res.data.region.si,
+            updatedAt: res.data.updatedAt,
+            isScrapped: false,
+          },
+          ...prev,
+        ]);
+        console.log('게시글 단일 조회 결과 : ', res.data);
       } catch (error) {
-        console.log('게시글 단일 조회 중 에러 발생 : ', error)
+        console.log('게시글 단일 조회 중 에러 발생 : ', error);
       }
-
     } catch (error) {
       console.error('게시글 생성 중 오류 발생 : ', error);
     }
@@ -131,7 +153,24 @@ function CreateFeedModal({ onClose, setFeedList }) {
 
             <div className='flex justify-between items-center p-2'>
               <div className='flex items-center gap-2'>
-                <ProfileImage size={6} profileImage={currentUser.imgSrc} />
+                <Link to={`/profile/${currentUser.nickname}`}>
+                  <div
+                    className={`w-8 h-8 rounded-full border-2 overflow-hidden cursor-pointer`}
+                  >
+                    {currentUser.imgSrc ? (
+                      <img
+                        className={`w-full h-full cursor-pointer`}
+                        src={currentUser.imgSrc}
+                      />
+                    ) : (
+                      <img
+                        className={`w-full h-full cursor-pointer`}
+                        src={defaultMaleIcon}
+                      />
+                    )}
+                  </div>
+                </Link>
+                {/* <ProfileImage size={10} profileImage={currentUser.imgSrc} /> */}
                 <span className='font-daeam'>{currentUser.nickname}</span>
               </div>
               {/* <SelectBox onChange={(e) => handleChangeRegion(e.target.value)} /> */}
@@ -158,11 +197,7 @@ function CreateFeedModal({ onClose, setFeedList }) {
             </div>
             {/* </div> */}
 
-<<<<<<< HEAD
-            {feedCategory==='INFO' ? (
-=======
             {feedCategory === FEED_CATEGORY_OPTIONS[0].name ? (
->>>>>>> origin/FE
               <div className='flex justify-center'>
                 <input
                   className='border border-gray w-1/2 text-center font-her bg-bright outline-none'

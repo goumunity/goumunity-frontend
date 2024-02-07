@@ -96,3 +96,4 @@ export function formatDate(timestamp) {
 
   return formattedDate;
 }
+

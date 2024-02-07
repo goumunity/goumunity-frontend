@@ -5,12 +5,16 @@ function ProfileImage({ size, profileImage, ...props }) {
     <>
       <div
         className={`w-${size} h-${size} rounded-full border-2 overflow-hidden cursor-pointer`}
+        // className={`w-10 h-10 rounded-full border-2 overflow-hidden cursor-pointer`}
       >
         {profileImage ? (
           <label htmlFor='profileImg' className=''>
             <img
               // className={`w-${size} h-${size} cursor-pointer`}
-              className={`w-${size} h-${size} cursor-pointer`}
+
+              className={`w-full h-full cursor-pointer`}
+
+
               // src={profileImage}
               src={profileImage}
             />
@@ -18,7 +22,10 @@ function ProfileImage({ size, profileImage, ...props }) {
         ) : (
           <label htmlFor='profileImg' className=''>
             <img
-              className={`w-${size} h-${size} cursor-pointer`}
+              // className={`w-${size} h-${size} cursor-pointer`}
+              className={`w-full h-full cursor-pointer`}
+
+
               // src={profileImage}
               src={defaultMaleIcon}
             />
