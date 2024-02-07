@@ -106,7 +106,7 @@ const ProfileBaseUnder = ({ info, written, saveChange }) => {
 
 
         <div className=" w-1/2 p-1">
-          <div id="savebody" className="w-full h-full">
+          <div id="savebody" className="w-full" style={{ height: '532px'}} >
             <div className="overflow-x-hidden overflow-y-hidden">
             <div className=" p-5 bg-bg border-2 border-indigo-100 rounded-lg">
                 

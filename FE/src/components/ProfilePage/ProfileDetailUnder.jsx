@@ -1,21 +1,46 @@
 import { validatePassword } from '../../utils/validation';
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Button2to1 from '../common/Button2to1';
 const ProfileDetailUnder = ( {info} ) => {
+    const [ userInfo, setUserInfo ] = useState({});
     const [gunguList,setGunguList] = useState([]);
+    const [filtered, setFiltered ] = useState([]);
+    const [filterStatus, setFilterStatus ] = useState(false);
+    const [searchText, setSearchText ] = useState('');
+
+    useEffect( () => {
+        setUserInfo( info );
+
+        setOriginPassWord( info.password );
+    }, [])
+   
     // const {kakao} = window;
     useEffect( () => {
         axios.get('/api/regions').then( (res) => {
-            const val = res.data.map( el => <li key = {el.regionId} id={el.regionId} className="flex justify-between items-center py-2 border-b border-gray-300">
-            <span className="text-lg">{el.gungu}</span>
-            <input type="checkbox" className="form-checkbox h-5 w-5 text-blue-500"/>
-        </li>)
+            const val = res.data.map( el => {
+                
+                return <li key = {el.regionId} id={el.regionId} text={el.gungu}>
+                <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                  <input id="checkbox-item-11" name='regionId' type="radio" value ={el.regionId} class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 /dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" onChange={ onChecked }/>
+                  <label for="checkbox-item-11" class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">{el.gungu}</label>
+                </div>
+              </li>
+            })
         setGunguList( val );
-        console.log( gunguList)
         })
     },[])
 
-
+    const onChecked = ( e ) => {
+        if( e.target.checked ){
+            const nextUserInfo = {
+                ...userInfo,
+                [e.target.name]: e.target.value
+            }
+            setUserInfo( nextUserInfo );
+        }
+        
+    }
     const [ originPassWord, setOriginPassWord ] = useState('');
 
     const changePassword = async () => {
@@ -41,21 +66,47 @@ const ProfileDetailUnder = ( {info} ) => {
             alert("비밀번호 8~20자, 소문자 1개, 대문자 1개, 숫자 1개, 특수문자 1개 이상 포함되어야 합니다.");
         }
     }
-    const [ userInfo, setUserInfo ] = useState({});
 
-    useEffect( () => {
-        setUserInfo( info );
-        setOriginPassWord( info.password );
-    }, [])
 
     const onChange = e => {
         const nextUserInfo = {
             ...userInfo,
             [e.target.name]: e.target.value
         }
+
         setUserInfo( nextUserInfo )
     }
 
+
+    const putInfo = () => {
+        if( confirm("변경하시겠습니까?")){
+            axios.patch('/api/users/my', userInfo ).then( res => {
+                alert("변경에 성공하였습니다.");
+    
+            }).catch( err => {
+                console.log( err );
+            })
+        }    
+        
+    }
+
+    const SearchRegion = () => {
+        const nextFilter = gunguList.filter( el => { 
+
+            return el.props.text.includes( searchText ) } );
+        console.log('next', nextFilter );
+        setFiltered( nextFilter );
+    }
+
+
+    const toggleFilterStatus = () => {
+        setFiltered([]);
+        setSearchText('');
+    }
+
+    const onSearchTextChange = ( e ) => {
+        setSearchText( e.target.value );
+    }
 
 
 
@@ -104,7 +155,7 @@ const ProfileDetailUnder = ( {info} ) => {
                 <label for="customInput" className="block text-sm font-medium text-gray-600">나이</label>
                     <div className="flex flex-row w-full">
                         <input
-                                    type="text"
+                                    type="number"
                                     id="customInput"
                                     name="age"
                                     className="w-5/6 me-3 mt-1 p-2 block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300"
@@ -121,7 +172,7 @@ const ProfileDetailUnder = ( {info} ) => {
                 <label for="customInput" className="block text-sm font-medium text-gray-600">한달 예산</label>
                     <div className="flex flex-row w-full">
                         <input
-                                    type="text"
+                                    type="number"
                                     id="customInput"
                                     name="monthBudget"
                                     className="w-5/6 me-3 mt-1 p-2 block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300"
@@ -159,21 +210,44 @@ const ProfileDetailUnder = ( {info} ) => {
             
             <div className="w-full ms-4 mt-4">
 
-                <button className="w-5/6 me-3 mt-1 p-2 bg-bg block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300"> 수정 </button>
+                <button className="w-5/6 me-3 mt-1 p-2 bg-bg block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300" onClick={putInfo}> 수정 </button>
                             
 
             </div>
         
         </div>
+        
         <div className="w-3/5 ms-2 roudned-md">
-           
+        <div id="dropdownSearch" className="z-10 bg-white rounded-lg shadow w-full h-96 dark:bg-gray-700">
+    <div className="p-3">
+      <label for="input-group-search" className="sr-only">Search</label>
+      <div className="relative flex flex-row">
+        <div className="absolute inset-y-0 start-0 flex items-center ps-3 cursor-pointer" onClick={ SearchRegion }>
+          <svg className="w-4 h-4 text-gray-500 /dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+        </svg>
+        </div>
+        <input type="text" id="input-group-search" className="me-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 /focus:border-blue-500 /block w-full ps-10 p-2.5  dark:bg-gray-600 dark:border-gray-500 /dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 /dark:focus:border-blue-500" placeholder="지역을 검색하세요."  value={searchText} onChange={onSearchTextChange}/>
+        <Button2to1 text="취소" size="5" onClick={toggleFilterStatus}/>
+      </div>
+    </div>
+    <ul className="scroll h-3/4 px-3 pb-3 overflow-y-scroll text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownSearchButton">
+      { filtered.length !== 0 ? <>{filtered}</> : <>{gunguList}</>}
+      
+ 
+    </ul>
+
+</div>
+
+
             {/* <Map width="100" height="96"/> */}
-            <ul className="scroll list-none w-full p-5 overflow-y-scroll h-full">
+            {/* <ul className="scroll list-none w-full p-5 overflow-y-scroll h-full">
+            
                 {gunguList}
 
 
 
-            </ul>
+            </ul> */}
         
         </div>
         </>

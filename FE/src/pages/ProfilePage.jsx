@@ -2,11 +2,9 @@ import ProfileImage from "../components/common/ProfileImage";
 import Button2to1 from "../components/common/Button2to1";
 import MinimumFeed from "../components/ProfilePage/MinimumFeed";
 import ProfileHeader from "../components/ProfilePage/ProfileHeader";
-import ProfileBaseUnderFeeds from "../components/ProfilePage/ProfileBaseUnderFeeds";
-import ProfileBaseUnderSave from "../components/ProfilePage/ProfileBaseUnderSave";
+
 import './ProfileScroll.css'
-import ProfileDetailUnderPrivate from "../components/ProfilePage/ProfileDetailUnderPrivate";
-import ProfileDetailUnderArea from "../components/ProfilePage/ProfileDetailUnderArea";
+
 import { useParams } from "react-router-dom";
 import { useState,useCallback } from "react";
 import { useEffect } from "react";
@@ -19,7 +17,7 @@ const ProfilePage = () => {
 
   const { detail } = useParams();
   const [info, setInfo]  = useState({}); 
-  const h = detail !== 'detail' ? 'h-3/4' : 'h-5/6'
+  const h = detail !== 'detail' ? '' : 'h-fit'
   const h2 = detail !== 'detail' ? 'h-3/4' : 'h-full'
   const [ written, setWritten ] = useState([]);
   const [ savings, setSavings ] = useState([]);
@@ -52,12 +50,13 @@ const ProfilePage = () => {
    useEffect( () => {
     console.log( savings );
    },[savings])
-  const containerClasses = `base border-2 border-bg-600 flex flex-row`;
+  const containerClasses = `base border-2 border-bg-600 flex flex-row ${h}`;
   const onLoad = () => { 
 
     axios.get("/api/users/my",
     {withCredentials:true})
     .then( res => {
+      console.log( 'res : ', res.data );
       setInfo( res.data );
       setIsInfoLoaded( true );
       return res.data;  
@@ -106,7 +105,7 @@ const ProfilePage = () => {
         { detail !== 'detail' ?(
           <>
             {
-              isWrittenLoaded ? (<><ProfileBaseUnder info={info} written={written} saveChange={saveChange}/></>) : (<><Loading></Loading></>)
+              isWrittenLoaded ? (<><ProfileBaseUnder info={info} style={{height:'532px'}} written={written} saveChange={saveChange}/></>) : (<><Loading></Loading></>)
             }
             
             {/* {
@@ -116,7 +115,7 @@ const ProfilePage = () => {
             
           </> ) : (
           <>
-            <ProfileDetailUnder info={info}/>
+            <ProfileDetailUnder info={info} className='h-fit'/>
             {/* <ProfileDetailUnderPrivate info={info}/>
             <ProfileDetailUnderArea info={info}/> */}
 
