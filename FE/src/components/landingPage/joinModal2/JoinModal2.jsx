@@ -5,11 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../../../store/auth';
 import { isEqual } from '../../../utils/validation';
 import CheckBox from '../../common/CheckBox';
-import ProfileImage from '../../common/ProfileImage';
 import { calculateAge } from '../../../utils/formatting';
 import { Link, useNavigate } from 'react-router-dom';
-import NicknameConfirmButton from '@/components/landingPage/joinModal2/NicknameConfirmButton.jsx';
 import SelectBox from '../../common/SelectBox';
+import axios from 'axios';
 
 const GENDER_OPTIONS = [
   { id: 1, content: 'MALE' },
@@ -17,9 +16,9 @@ const GENDER_OPTIONS = [
 ];
 
 function JoinModal2() {
+  const [nickname, setNickname] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const joinData = useSelector((state) => state.auth.joinData);
-  const [profileImageTest, setProfileImageTest] = useState('');
-  const [files, setFiles] = useState('');
   const [userInputs, setUserInputs] = useState({
     nickname: joinData?.nickname || '',
     birthDate: joinData?.birthDate || '',
@@ -41,6 +40,20 @@ function JoinModal2() {
     (isNaN(userInputs.birthDate) ||
       !isEqual(userInputs.birthDate.trim().length, 8));
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const res = await axios.get('/api/nicknames');
+        setNickname(res.data);
+      } catch (error) {
+        console.log('닉네임 받는 중 에러 발생:', error);
+      }
+      setIsLoading(false);
+    };
+    fetchData();
+  }, []);
+
   const navigate = useNavigate();
 
   // useEffect(() => {
@@ -54,6 +67,17 @@ function JoinModal2() {
       ...prev,
       [id]: true,
     }));
+  };
+
+  const handleClickGetNickname = async () => {
+    try {
+      setIsLoading(true)
+      const res = await axios.get('/api/nicknames');
+      setNickname(res.data);
+    } catch (error) {
+      console.log('닉네임 받는 중 에러 발생:', error);
+    }
+    setIsLoading(false)
   };
 
   const dispatch = useDispatch();
@@ -122,30 +146,26 @@ function JoinModal2() {
   return (
     <>
       <h1 className='font-daeam text-5xl my-5'>회원가입</h1>
-
       <form
         onSubmit={handleSubmitNext}
         className='px-2 flexflex-col items-center'
       >
         <div className='flex justify-between'>
-          <UserInput
-            isFirst={true}
-            label='닉네임'
-            id='nickname'
-            type='text'
-            name='nickname'
-            value={userInputs.nickname}
-            onBlur={() => {
-              handleBlurFocusOffInput('nickname');
-            }}
-            onChange={(e) => handleChangeInputs('nickname', e.target.value)}
-          />
-          <NicknameConfirmButton
-            nickname={userInputs.nickname}
-            isNicknameValid={isNicknameValid}
-            setIsNicknameValid={setIsNicknameValid}
-            setErrorMessage={setErrorMessage}
-          />
+          <div className='flex flex-col mb-3'>
+            <label className='text-left text-2xl font-her'>*닉네임</label>
+            <span className='border-b border-black-200 my-2 bg-transparent font-daeam text-xl'>
+              {nickname}
+            </span>
+          </div>
+          {isLoading ? (
+            <Button text='다시 받기' type='button' isActive={false} />
+          ) : (
+            <Button
+              text='다시 받기'
+              type='button'
+              onClick={handleClickGetNickname}
+            />
+          )}
         </div>
         <UserInput
           label='생년월일'
@@ -182,11 +202,6 @@ function JoinModal2() {
         <div className='flex flex-col mb-5 '>
           <label className='text-left text-2xl font-her'>*지역</label>
           <div className='flex gap-20 text-center justify-center'>
-            {/* <SelectBox
-              color='yellow'
-              option='시'
-              onChange={(e) => handleChangeInputs('region', e.target.value)}
-            /> */}
             <SelectBox
               color='yellow'
               option='구'

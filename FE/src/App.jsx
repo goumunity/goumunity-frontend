@@ -8,15 +8,12 @@ import './index.css';
 import HomePage from './pages/HomePage';
 import ErrorPage from './pages/ErrorPage';
 import ChatTalkSection from './components/chatPage/chatTalkSection/ChatTalkSection';
-
 import Main from './pages/Main';
-
 import ProtectedRoutes from './components/common/ProtectedRoutes';
-
 import TestPage from './pages/TestPage';
+import NewLandingPage from './pages/NewLandingPage';
 
 const router = createBrowserRouter([
-  
   {
     path: '/',
     errorElement: <ErrorPage />,
@@ -38,7 +35,8 @@ const router = createBrowserRouter([
           { path: '/profile', element: <ProfilePage /> },
         ],
       },
-      { path: '/landing', element: <LandingPage /> },
+      // { path: '/landing', element: <LandingPage /> },
+      // { path: '/landing', element: <NewLandingPage /> },
       { path: '/landing/join/:joinId', element: <LandingPage /> },
       { path: '/:login', element: <LandingPage /> },
 
@@ -49,9 +47,13 @@ const router = createBrowserRouter([
       },
       { path: '/main', element: <Main /> },
       { path: '/profile/:detail?', element: <ProfilePage /> },
+
+      // 다른 사람 페이지로 바뀔 예정
+      { path: '/profile/:userId', element: <ProfilePage /> },
       { path: '/test', element: <TestPage /> },
     ],
   },
+  { path: '/landing', element: <NewLandingPage /> },
 ]);
 
 ReactModal.setAppElement('#root');

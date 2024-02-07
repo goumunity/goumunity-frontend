@@ -1,0 +1,10 @@
+.parent-container {
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    height: 100vh; /* 뷰포트 높이에 맞추기 위해 */
+  }
+  
+  .child-container {
+    width: 100%; /* 뷰포트의 60% 크기로 조정할 수 있습니다. */
+  }

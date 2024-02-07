@@ -5,12 +5,10 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import CloseButton from '../../common/CloseButton';
 
-function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
-  const [imageList, setImageList] = useState([]);
+function ImageSection({ isSlide, setImageSrcList, originalImageList = []}) {
+  const [imageList, setImageList] = useState(originalImageList ? originalImageList : []);
 
-  const categorySectionClassName = isSlide
-    ? 'visible w-96'
-    : 'hidden w-0';
+  const categorySectionClassName = isSlide ? 'visible w-96' : 'hidden w-0';
 
   const handleChangeUploadProfileImg = (e) => {
     setImageSrcList(imageUpload(e.target, setImageList));
@@ -34,21 +32,25 @@ function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
   };
   return (
     <div
-      className={`flex flex-col h-full bg-bright border-gray border-l transition-width delay-700 duration-300  ${categorySectionClassName}`}
+      className={`flex justify-center items-center bg-bright border-gray border-l transition-width delay-700 duration-300  ${categorySectionClassName}`}
     >
-      <div className='relative '>
-        <span className='absolute top-0 right-3'></span>
-      </div>
-
       {imageList.length ? (
+        // <div>gdgd</div>
         <Slider
-          className='flex justify-center items-center w-full h-full bg-wheat'
+          className='items-center justify-center'
           {...settings}
         >
           {imageList.map((image, idx) => {
             return (
-              <div key={idx} className='relative h-full w-full'>
-                <img className='h-96' src={image} alt='' />
+              <div
+                key={idx}
+                className=''
+              >
+                <img
+                  className=''
+                  src={image}
+                  alt=''
+                />
                 <CloseButton
                   className='absolute right-5 top-5'
                   onClick={() => handleClickDeleteImage(image)}
