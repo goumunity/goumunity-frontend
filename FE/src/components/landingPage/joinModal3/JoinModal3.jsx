@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UserInput from '../../common/UserInput';
 import Button from '../../common/Button';
 import { useSelector } from 'react-redux';
@@ -10,16 +10,17 @@ import ProfileImage from '../../common/ProfileImage';
 import { imageUpload } from '../../../utils/upload';
 
 const USER_CATEGORY_OPTIONS = [
-  { id: 1, title: 'JOB_SEEKER', name: '대학생' },
-  { id: 2, title: 'JOB_SEEKE', name: '사회초년생' },
-  { id: 3, title: 'JOB_SEEK', name: '회사원' },
-  { id: 4, title: 'JOB_SEE', name: '취업준비생' },
+  { id: 1, title: 'COLLEGE_STUDENT', name: '대학생' },
+  { id: 2, title: 'NEWCOMER_TO_SOCIETY', name: '사회초년생' },
+  { id: 3, title: 'EMPLOYEE', name: '회사원' },
+  { id: 4, title: 'JOB_SEEKER', name: '취업준비생' },
 ];
 
 function JoinModal3() {
   const joinData = useSelector((state) => state.auth.joinData);
   const [profileImage, setProfileImage] = useState('');
   const [resultImage, setResultImage] = useState(null);
+
   // 이미지 업로드
   const handleChangeUploadProfileImg = (e) => {
     const uploadFile = imageUpload(e.target, setProfileImage);
@@ -29,20 +30,26 @@ function JoinModal3() {
 
   const [userInputs, setUserInputs] = useState({
     userCategory: '',
-    region: '',
     monthBudget: '',
   });
 
   const [isEdited, setIsEdited] = useState({
     userCategory: false,
-    region: false,
     monthBudget: false,
   });
 
   const [errorMessage, setErrorMessage] = useState('');
 
   const monthBudgetIsInvalid =
-    isEdited.monthBudget && isNaN(userInputs.monthBudget);
+    isEdited.monthBudget && isNaN(userInputs.monthBudget.replace(/,/g, ''));
+
+  // useEffect(() => {
+  //   if (joinData.nickname === undefined || joinData.birthDate === undefined || joinData.gender === undefined) {
+  //     navigate('/landing/join/2');
+  //   } else if (joinData.email === undefined || joinData.password === undefined) {
+  //     navigate('/landing/join/1');
+  //   }
+  // }, []);
 
   // 모달 창 이동을 위해
   const navigate = useNavigate();
@@ -59,12 +66,9 @@ function JoinModal3() {
   const handleSubmitJoin = async (e) => {
     e.preventDefault();
     setErrorMessage('');
+    // if (!joinData) return;
     if (userInputs.userCategory === '') {
       setErrorMessage('신분을 선택해주세요.');
-      return;
-    }
-    if (userInputs.region === '') {
-      setErrorMessage('지역을 선택해주세요.');
       return;
     }
     if (userInputs.monthBudget === '') {
@@ -75,14 +79,15 @@ function JoinModal3() {
     const updatedData = {
       ...joinData,
       userCategory: userInputs.userCategory,
-      regionId: Number(userInputs.region),
-      monthBudget: Number(userInputs.monthBudget.replace(/,/g, '')),
+      monthBudget: userInputs.monthBudget.replace(/,/g, ''),
     };
 
     const formData = new FormData();
 
-    for (const image of resultImage) {
-      formData.append('image', image);
+    if (resultImage !== null) {
+      for (const image of resultImage) {
+        formData.append('image', image);
+      }
     }
 
     const blob = new Blob([JSON.stringify(updatedData)], {
@@ -91,48 +96,90 @@ function JoinModal3() {
     formData.append('data', blob);
 
     try {
-      const res = await axios.post('https://i10a408.p.ssafy.io/temp/api/users/join', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const res = await axios.post(
+        'https://i10a408.p.ssafy.io/temp/api/users/join',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
     } catch (error) {
       console.error('api 요청 중 오류 발생 : ', error);
-      if (error.response.status === 409) {
-        setErrorMessage('이미 가입된 이메일입니다.');
-      }
-      return;
     }
     navigate('/landing/join/4');
   };
 
-  // 유저 입력 감지
   const handleChangeInputs = (id, value) => {
-    if (id === 'monthBudget' && isNaN(value)) {
-      return;
-    }
     if (id === 'monthBudget') {
-      // value = Number(value.replaceAll(',', ''))
-      // value = value.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
-      // const removedCommaValue = Number(value.replaceAll(',', ''))
-      value = Number(value.replaceAll(',', ''));
-      value = value.toLocaleString();
+      // 숫자와 쉼표 이외의 문자 제거
+      const numericValue = value.replace(/[^\d,]/g, '');
+      // 쉼표 제거 후 숫자로 변환
+      const numberValue = parseFloat(numericValue.replace(/,/g, '')) || 0;
+      // 세자리마다 쉼표 추가
+      const formattedValue = numberValue.toLocaleString();
+
+      setUserInputs((prev) => ({
+        ...prev,
+        [id]: formattedValue,
+      }));
+      setIsEdited((prev) => ({
+        ...prev,
+        [id]: false,
+      }));
+    } else {
+      // 다른 입력값은 그대로 업데이트
+      setUserInputs((prev) => ({
+        ...prev,
+        [id]: value,
+      }));
+      setIsEdited((prev) => ({
+        ...prev,
+        [id]: false,
+      }));
     }
-    setUserInputs((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
-    setIsEdited((prev) => ({
-      ...prev,
-      [id]: false,
-    }));
   };
+
+  // const displayMonthBudget = userInputs.monthBudget ? `${userInputs.monthBudget}원` : '';
+
+  // 유저 입력 감지
+  // const handleChangeInputs = (id, value) => {
+  //   // if (id === 'monthBudget' && isNaN(value)) {
+  //   //   return;
+  //   // }
+  //   if (id === 'monthBudget') {
+  //     // value = Number(value.replaceAll(',', ''))
+  //     // value = value.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
+  //     // const removedCommaValue = Number(value.replaceAll(',', ''))
+  //     // value = value.replace(/[^\d,]/g, '');
+  //     // value = Number(value.replaceAll(',', ''));
+  //     value = value.toLocaleString();
+  //   }
+  //   setUserInputs((prev) => ({
+  //     ...prev,
+  //     [id]: value,
+  //   }));
+  //   setIsEdited((prev) => ({
+  //     ...prev,
+  //     [id]: false,
+  //   }));
+  // };
 
   return (
     <>
       <h1 className='font-daeam text-5xl my-5'>회원가입</h1>
       <form onSubmit={handleSubmitJoin} className='px-2 my-5'>
         <div className='flex flex-col mb-5 '>
+          <label className='text-left text-2xl font-her'>*프로필 이미지</label>
+          <div className='flex justify-center relative text-center m-5'>
+            <ProfileImage
+              size={12}
+              // profileImage={profileImage}
+              profileImage={profileImage}
+              onChange={handleChangeUploadProfileImg}
+            />
+          </div>
           <label className='text-left text-2xl font-her'>*신분</label>
           <div className='flex gap-20 text-center justify-center my-3'>
             <CheckBox
@@ -158,14 +205,6 @@ function JoinModal3() {
                   USER_CATEGORY_OPTIONS[1].title
                 )
               }
-            />
-          </div>
-          <div className='flex justify-center relative text-center m-5'>
-            <ProfileImage
-              size={6}
-              // profileImage={profileImage}
-              profileImage={profileImage}
-              onChange={handleChangeUploadProfileImg}
             />
           </div>
           <div className='flex gap-20 text-center justify-center'>
@@ -195,23 +234,9 @@ function JoinModal3() {
             />
           </div>
         </div>
-        <div className='flex flex-col mb-5 '>
-          <label className='text-left text-2xl font-her'>*지역</label>
-          <div className='flex gap-20 text-center justify-center'>
-            <SelectBox
-            color='yellow'
-            option='시'
-              onChange={(e) => handleChangeInputs('region', e.target.value)}
-            />
-            <SelectBox
-            color='yellow'
-            option='구'
-              onChange={(e) => handleChangeInputs('region', e.target.value)}
-            />
-          </div>
-        </div>
+
         <UserInput
-          label='월평균생활비'
+          label='월평균생활비[원]'
           id='monthBudget'
           type='text'
           value={userInputs.monthBudget}

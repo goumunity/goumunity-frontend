@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UserInput from '../../common/UserInput';
 import Button from '../../common/Button';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,31 +9,30 @@ import ProfileImage from '../../common/ProfileImage';
 import { calculateAge } from '../../../utils/formatting';
 import { Link, useNavigate } from 'react-router-dom';
 import NicknameConfirmButton from '@/components/landingPage/joinModal2/NicknameConfirmButton.jsx';
+import SelectBox from '../../common/SelectBox';
 
 const GENDER_OPTIONS = [
-  { id: 1, content: '남' },
-  { id: 2, content: '여' },
+  { id: 1, content: 'MALE' },
+  { id: 2, content: 'FEMALE' },
 ];
 
 function JoinModal2() {
   const joinData = useSelector((state) => state.auth.joinData);
   const [profileImageTest, setProfileImageTest] = useState('');
   const [files, setFiles] = useState('');
-
   const [userInputs, setUserInputs] = useState({
     nickname: joinData?.nickname || '',
     birthDate: joinData?.birthDate || '',
     gender: joinData?.gender || '',
+    region: joinData?.regionId || '',
   });
-
   const [isEdited, setIsEdited] = useState({
     nickname: false,
     birthDate: false,
     gender: false,
+    region: false,
   });
-
   const [errorMessage, setErrorMessage] = useState('');
-
   const [isNicknameValid, setIsNicknameValid] = useState(false);
 
   // 날짜 형식은 숫자 8자리 검증
@@ -42,9 +41,13 @@ function JoinModal2() {
     (isNaN(userInputs.birthDate) ||
       !isEqual(userInputs.birthDate.trim().length, 8));
 
-  // 모달 창 이동을 위해
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   if (joinData.email === undefined || joinData.password === undefined) {
+  //     navigate('/landing/join/1');
+  //   }
+  // }, []);
   // input에서 focus를 다른 곳에 두었을 때 수정되었음을 표시
   const handleBlurFocusOffInput = (id) => {
     setIsEdited((prev) => ({
@@ -53,10 +56,8 @@ function JoinModal2() {
     }));
   };
 
-  // reducer 조작을 위한 dispatch 함수 생성
   const dispatch = useDispatch();
 
-  // 회원가입 3페이지(다음 단계)로 가기
   const handleSubmitNext = (e) => {
     e.preventDefault();
 
@@ -73,6 +74,10 @@ function JoinModal2() {
       setErrorMessage('성별을 선택해주세요.');
       return;
     }
+    if (userInputs.region === '') {
+      setErrorMessage('지역을 선택해주세요.');
+      return;
+    }
     if (!isNicknameValid) {
       setErrorMessage('사용할 수 없는 닉네임입니다.');
       return;
@@ -87,6 +92,7 @@ function JoinModal2() {
       // imgSrc: profileImage,
       nickname: userInputs.nickname,
       age,
+      regionId: Number(userInputs.region),
       gender: userInputs.gender,
     };
     dispatch(authActions.updateJoinData(updatedData));
@@ -142,16 +148,16 @@ function JoinModal2() {
           />
         </div>
         <UserInput
-          label='나이'
+          label='생년월일'
           id='birthDate'
           type='text'
           name='birthDate'
           value={userInputs.birthDate}
           onBlur={() => {
-            handleBlurFocusOffInput('nickname');
+            handleBlurFocusOffInput('birthDate');
           }}
           onChange={(e) => handleChangeInputs('birthDate', e.target.value)}
-          // error={nicknameIsInvalid && '이미 사용중인 닉네임입니다.'}
+          error={birthDateIsInvalid && 'YYYYMMDD 형식으로 입력해주세요.'}
         />
 
         <div className='flex flex-col mb-2'>
@@ -159,13 +165,32 @@ function JoinModal2() {
           <div className='flex gap-20 text-center justify-center'>
             <CheckBox
               text='남'
-              isChecked={userInputs.gender === GENDER_OPTIONS[0].id}
-              onClick={() => handleChangeInputs('gender', GENDER_OPTIONS[0].id)}
+              isChecked={userInputs.gender === GENDER_OPTIONS[0].content}
+              onClick={() =>
+                handleChangeInputs('gender', GENDER_OPTIONS[0].content)
+              }
             />
             <CheckBox
               text='여'
-              isChecked={userInputs.gender === GENDER_OPTIONS[1].id}
-              onClick={() => handleChangeInputs('gender', GENDER_OPTIONS[1].id)}
+              isChecked={userInputs.gender === GENDER_OPTIONS[1].content}
+              onClick={() =>
+                handleChangeInputs('gender', GENDER_OPTIONS[1].content)
+              }
+            />
+          </div>
+        </div>
+        <div className='flex flex-col mb-5 '>
+          <label className='text-left text-2xl font-her'>*지역</label>
+          <div className='flex gap-20 text-center justify-center'>
+            {/* <SelectBox
+              color='yellow'
+              option='시'
+              onChange={(e) => handleChangeInputs('region', e.target.value)}
+            /> */}
+            <SelectBox
+              color='yellow'
+              option='구'
+              onChange={(e) => handleChangeInputs('region', e.target.value)}
             />
           </div>
         </div>

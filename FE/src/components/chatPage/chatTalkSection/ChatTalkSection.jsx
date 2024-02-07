@@ -2,16 +2,13 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ChatTalkRoom from './ChatTalkRoom';
 import ChatRoom from './ChatTalkRoom';
+import Main from '../../../pages/Main';
 
-function ChatTalkSection({ selectedChatRoom }) {
-  const params = useParams();
-  console.log('params: ' + params);
-  console.log(params);
-
+function ChatTalkSection({ id }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`/chat/talk/${params.talkId}`);
+        const res = await axios.get(`/chat/talk/${id}`);
 
         setChatData(res.data.chatMyItemList);
       } catch (error) {
@@ -25,8 +22,9 @@ function ChatTalkSection({ selectedChatRoom }) {
   return (
     <div>
       채팅방 내부입니다
-      {params.talkId}
+      {id}
       {/* <ChatTalkRoom /> */}
+      <Main/>
     </div>
   );
 }

@@ -61,6 +61,8 @@ function JoinModal1() {
   const handleChangeInputs = (id, value) => {
     // 인증번호를 6자 이상못쓰게
 
+    setErrorMessage('');
+
     if (id === 'emailConfirm' && value.trim().length > 6) {
       return;
     }
@@ -188,9 +190,12 @@ function JoinModal1() {
         <div className='text-center font-dove text-red-600 text-xl h-2 mb-3'>
           {errorMessage}
         </div>
-        <div className='flex  justify-center gap-5 absolute bottom-7 w-full'>
+        {/* <div className='flex justify-center gap-5 absolute bottom-7 w-full'> */}
+        <div className='flex justify-center absolute bottom-7 w-full'>
           {/* <Button text='다음단계' type='submit' onClick={handleClickNext}/> */}
-          <Button text='다음단계' type='submit' />
+          <div className='flex justify-center'>
+            <Button text='다음단계' type='submit' />
+          </div>
         </div>
       </form>
     </>

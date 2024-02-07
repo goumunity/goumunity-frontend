@@ -6,6 +6,7 @@ import ChatRecommendedSection from '../components/chatPage/chatRecommendedSectio
 
 function ChatPage() {
   const [isLoaded, setIsLoaded] = useState(true);
+  const [id, setId] = useState(null);
 
   const handleClickMySection = () => {
     setIsLoaded(!isLoaded);
@@ -17,6 +18,7 @@ function ChatPage() {
         <ChatMySection
           handleClickMySection={handleClickMySection}
           isLoaded={isLoaded}
+          setId={setId}
         />
       </div>
       <div
@@ -30,7 +32,11 @@ function ChatPage() {
           <span></span>
           <div>
             {/* <button onClick={handleClickMySection}>클릭</button> */}
-            {isLoaded ? <ChatRecommendedSection /> : <ChatTalkSection />}
+            {isLoaded ? (
+              <ChatRecommendedSection />
+            ) : (
+              <ChatTalkSection id={id} />
+            )}
             {/* <ChatRecommendedSection /> */}
           </div>
         </div>

@@ -3,20 +3,25 @@ import axios from 'axios';
 import geo from '@/assets/images/logo.png';
 import useAxiosGet from '../../../hooks/useAxiosGet';
 import { useNavigate } from 'react-router-dom';
-
-// import { useSelector } from 'react-redux';
+import CloseButton from '../../common/CloseButton';
 
 function ChatMyItem(props) {
   const [chatData, setChatData] = useState(null);
   const navigate = useNavigate();
-  const { handleClickMySection } = props;
+  const { handleClickMySection, setId } = props;
 
+  //api 연결
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('/fake/chatMyList');
+        // const res = await axios.get('/fake/chatMyList');
+        const res = await axios.get(
+          `temp/api/users/my/chat-rooms?page=0&size=100&time=${new Date().getTime()}`
+        );
 
-        setChatData(res.data.chatMyItemList);
+        setChatData(res.data.contents);
+        // setChatData(res.data.chatMyItemList);
+        console.log(chatData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -33,31 +38,41 @@ function ChatMyItem(props) {
   const handleClickOpenSpecificRoom = (chatRoomId) => {
     if (props.isLoaded === false) {
       navigate('/chat');
-    } else{
-      
+    } else {
       navigate(`/chat/talk/${chatRoomId}`);
     }
   };
-
-  console.log(props.isLoaded);
 
   const handleButtonClick = (chatRoomId) => {
     handleClickMySection();
     handleClickOpenSpecificRoom(chatRoomId);
   };
 
+  //채팅방 삭제
+  const handleRemoveChat = () => {
+    setChatData();
+    async () => await axios.delete(`/api/chat-rooms/${chatRoomId}`);
+  };
+
   return (
     <>
       {chatData.map((value, index) => {
         return (
-          <>
-            {/* <button onClick={() => handleClickMySection(value.chatRoomId)}> */}
+          <div>
             <button
+              key={value.idx}
+              // className='hover:rotate-12  hover:bg-orange-200'
               onClick={() => {
                 handleButtonClick(value.chatRoomId);
               }}
             >
-              <div className='flex' key={index}>
+              <div
+                className='flex'
+                key={index}
+                onClick={() => {
+                  setId(value.chatRoomId);
+                }}
+              >
                 <div className='w-1/4 mt-3'>
                   <span>
                     <img
@@ -70,6 +85,12 @@ function ChatMyItem(props) {
                 <div className='w-3/4 h-30'>
                   <div>
                     <span className='font-bold text-responsive text-2xl'>
+                      <div className='flex justify-end  w-full'>
+                        {/* <CloseButton
+                          className='top-5 right-5 hover:bg-amber-300'
+                          onClick={handleRemoveChat(value.chatRoomId)}
+                        /> */}
+                      </div>
                       {value.title}
                     </span>
                     <span> 👤{value.currentUserCount}</span>
@@ -90,10 +111,9 @@ function ChatMyItem(props) {
                     </ul>
                   </div>
                 </div>
-                <div></div>
               </div>
             </button>
-          </>
+          </div>
         );
       })}
     </>

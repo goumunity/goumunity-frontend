@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import ProfileImage from '../common/ProfileImage';
 import likeIcon from '@/assets/svgs/likeIcon.svg';
@@ -46,12 +47,12 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
       setIsLoading(true);
       const res = await axios.delete(`/api/feeds/${feedId}`);
       console.log('삭제 결과 : ', res);
+      const newFeedList = feedList.filter((feed) => feed.feedId !== feedId);
+      setFeedList(newFeedList);
     } catch (error) {
       console.log('피드 삭제 중 에러 발생 : ', error);
     }
     setIsLoading(false);
-    const newFeedList = feedList.filter((feed) => feed.feedId !== feedId);
-    setFeedList(newFeedList);
   };
 
   return (
@@ -59,13 +60,16 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
       <div className='relative flex items-center gap-2'>
         <ProfileImage size='8' profileImage={imgSrc ? imgSrc : ''} />
         <NicknameBox nickname={nickname} daysAgo={daysAgo} fontSize='md' />
+
         {nickname === currentUser.nickname && (
-          <button
-            className={`${className} font-daeam absolute right-1`}
-            onClick={handleClickDeleteFeed}
-          >
-            삭제
-          </button>
+          <div className='flex font-daeam absolute right-1 gap-3'>
+            <Link to={`/patch/${feedId}`}>
+              <button className={`${className}`}>수정</button>
+            </Link>
+            <button className={`${className}`} onClick={handleClickDeleteFeed}>
+              삭제
+            </button>
+          </div>
         )}
       </div>
 
@@ -82,7 +86,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
           feedId={feedId}
         />
         <Link to={`/${feedId}`}>
-          <Option text={commentCount} src={commentIcon} size={5}/>
+          <Option text={commentCount} src={commentIcon} size={5} />
         </Link>
       </div>
     </div>
