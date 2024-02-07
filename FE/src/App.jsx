@@ -13,7 +13,6 @@ import Main from './pages/Main';
 
 import ProtectedRoutes from './components/common/ProtectedRoutes';
 
-import ProfilePageDetail from './components/ProfilePage/ProfilePageDetail';
 import TestPage from './pages/TestPage';
 
 const router = createBrowserRouter([
