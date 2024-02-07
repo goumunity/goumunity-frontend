@@ -5,18 +5,17 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ProfileImageSection from "./ProfileImageSection";
 const ProfileHeader = ( { info } ) => {
-<<<<<<< HEAD
+
     const [ imgSrc, setImgSrc ] = useState('');
     const {detail} = useParams();
     const regionMapper = [ '동대문구','중구','성동구','성북구','강동구','노원구','도봉구','강서구','금천구','영등포구'];
-=======
-    const [ imgSrc, setImgSrc ]  = useState('');
-    const {detail} = useParams();
+
+    
     useEffect( () => {
       setImgSrc( info.imgSrc );
     },[])
 
->>>>>>> d0df833 (refactor:code)
+
     return (
         <>
         <div className="justify-self-start font-daeam">

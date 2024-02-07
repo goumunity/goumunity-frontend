@@ -8,3 +8,11 @@
   .child-container {
     width: 100%; /* 뷰포트의 60% 크기로 조정할 수 있습니다. */
   }
+
+  .side{
+    opacity: 0.1;
+
+    &{
+      background-color: white;
+    }
+  }
