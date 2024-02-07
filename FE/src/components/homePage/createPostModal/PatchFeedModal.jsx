@@ -1,6 +1,4 @@
-import CloseButton from '@/components/common/CloseButton';
 import { useEffect, useState } from 'react';
-import ProfileImage from '../../common/ProfileImage';
 import Option from '../../common/Option';
 import imageIcon from '@/assets/svgs/image.svg';
 import useInput from '../../../hooks/useInput';
@@ -230,7 +228,7 @@ function PatchFeedModal({ onClose, setFeedList }) {
           <ImageSection
             isSlide={isSlide}
             setImageSrcList={setNewImageSrcList}
-            imageSrcList={newImageSrcList}
+            originalImageList={images}
           />
         </div>
       </div>

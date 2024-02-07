@@ -5,8 +5,8 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import CloseButton from '../../common/CloseButton';
 
-function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
-  const [imageList, setImageList] = useState([]);
+function ImageSection({ isSlide, setImageSrcList, originalImageList = []}) {
+  const [imageList, setImageList] = useState(originalImageList ? originalImageList : []);
 
   const categorySectionClassName = isSlide ? 'visible w-96' : 'hidden w-0';
 
