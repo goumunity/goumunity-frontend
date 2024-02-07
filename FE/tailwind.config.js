@@ -17,13 +17,14 @@ export default {
       her: ['"Her-Gilwonok"', "cursive"],
       paci: ['"Pacifico"', "cursive"],
       dove: ['"Dovemayo_wild"', "cursive"],
+      main: ['"NanumGothic-Bold"', "cursive"]
     },
     colors: {
       'bg': '#faedcd',
       'entrance': '#B7B7A4',
       'yellow': '#fefae0',
       'button': '#DDBEA9',
-      'gray': '#e5e7eb',
+      'grey': '#e5e7eb',
       'bright': '#FFFCF5',
       'back': 'rgba(0, 0, 0, 0.7)',
       'dirty': '#A5A58D',
@@ -36,6 +37,7 @@ export default {
     width: {
       '128': '768px',
       'post': '390px',
+      'twitter': '600px'
     }
   }
     // spacing: {
