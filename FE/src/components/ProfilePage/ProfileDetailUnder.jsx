@@ -78,6 +78,7 @@ const ProfileDetailUnder = ( {info} ) => {
     }
 
 
+<<<<<<< HEAD
     const putInfo = () => {
         if( confirm("변경하시겠습니까?")){
             axios.patch('/api/users/my', userInfo ).then( res => {
@@ -109,6 +110,17 @@ const ProfileDetailUnder = ( {info} ) => {
     }
 
 
+=======
+    const ChangePrivate = () =>{
+        
+        axios.patch('/api/users/my', userInfo )
+        .then( res => {
+            alert("변경에 성공하였습니다.");
+        }).catch( err => {
+            console.log( err );
+        })
+    }
+>>>>>>> d0df833 (refactor:code)
 
     return ( 
         <>
@@ -210,7 +222,11 @@ const ProfileDetailUnder = ( {info} ) => {
             
             <div className="w-full ms-4 mt-4">
 
+<<<<<<< HEAD
                 <button className="w-5/6 me-3 mt-1 p-2 bg-bg block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300" onClick={putInfo}> 수정 </button>
+=======
+                <button className="w-5/6 me-3 mt-1 p-2 bg-bg block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300" onClick={ChangePrivate}> 수정 </button>
+>>>>>>> d0df833 (refactor:code)
                             
 
             </div>
