@@ -39,6 +39,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
   const daysAgo = calculateDate(updatedAt);
   const className = isLoading ? 'pointer-events-none opacity-75' : undefined;
   const [isLike, setIsLike] = useState(ilikeThat);
+  const profit = price - afterPrice;
 
   const handleClickDeleteFeed = async () => {
     const isConfirm = window.confirm('정말로 삭제하시겠습니까?');
@@ -75,6 +76,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
         </Link>
         {/* <ProfileImage size='8' profileImage={imgSrc ? imgSrc : ''} /> */}
         <NicknameBox nickname={nickname} daysAgo={daysAgo} fontSize='md' />
+
         {nickname === currentUser.nickname && (
           <div className='flex font-daeam absolute right-1 gap-3'>
             <Link to={`/patch/${feedId}`}>
@@ -86,7 +88,27 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
           </div>
         )}
       </div>
+      {profit !== 0 && (
+        <div className='mt-2 flex items-center gap-2'>
+          <div className='flex items-center gap-1'>
+            <div className='font-dove text-entrance'>
+              원가
+            </div>
+            <span className='font-her'>{price}원</span>
+          </div>
 
+          <div className='flex items-center gap-1'>
+            <div className='font-dove text-entrance'>할인가</div>
+            <span className='font-her'>{afterPrice}원</span>
+          </div>
+          
+          <div className='flex items-center gap-1'>
+            <div className='font-dove text-red-400'>절약내역</div>
+            <span className='font-her'>{profit}원</span>
+          </div>
+
+        </div>
+      )}
       <p className='my-4 px-2'>{content}</p>
 
       <Link to={`/${feedId}`}>

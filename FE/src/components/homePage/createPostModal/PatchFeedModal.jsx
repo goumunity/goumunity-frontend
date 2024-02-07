@@ -16,6 +16,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import ModalBackground from '../../common/ModalBackground';
 import CategoryBox from './CategoryBox';
 import useAxiosGet from '../../../hooks/useAxiosGet';
+import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
 
 const REGION_OPTIONS = [
   { id: 1, name: '광진구' },
@@ -162,8 +163,24 @@ function PatchFeedModal({ onClose, setFeedList }) {
 
             <div className='flex justify-between items-center p-2'>
               <div className='flex items-center gap-2'>
-                <ProfileImage size={6} profileImage={currentUser.imgSrc} />
-                <span className='font-daeam'>{currentUser.nickname}</span>
+              <Link to={`/profile/${user?.nickname}`}>
+                  <div
+                    className={`w-8 h-8 rounded-full border-2 overflow-hidden cursor-pointer`}
+                  >
+                    {user?.imgSrc ? (
+                      <img
+                        className={`w-full h-full cursor-pointer`}
+                        src={user?.imgSrc}
+                      />
+                    ) : (
+                      <img
+                        className={`w-full h-full cursor-pointer`}
+                        src={defaultMaleIcon}
+                      />
+                    )}
+                  </div>
+                </Link>
+                <span className='font-daeam'>{user?.nickname}</span>
               </div>
               {/* <SelectBox onChange={(e) => handleChangeRegion(e.target.value)} /> */}
               

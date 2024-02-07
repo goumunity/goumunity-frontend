@@ -26,6 +26,7 @@ export default {
       'gray': '#e5e7eb',
       'bright': '#FFFCF5',
       'back': 'rgba(0, 0, 0, 0.7)',
+      'dirty': '#A5A58D',
     },
     transitionProperty: {
       'width': 'width',

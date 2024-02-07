@@ -8,6 +8,8 @@ import ProfileImage from './ProfileImage';
 import chat from '@/assets/images/chat.png';
 import homeIcon from '@/assets/svgs/homeIcon.svg';
 import NavBarItem from './NavBarItem';
+import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
+
 function NavBar() {
   // LandingPage에서는 NavBar를 렌더링하지 않음
   const targetUrl = window.location.pathname;
@@ -101,7 +103,18 @@ function NavBar() {
                   : 'flex gap-1 items-center'
               }
             >
-              <ProfileImage size={6} profileImage={currentUser.imgSrc} />
+              <div
+            className={`w-8 h-8 rounded-full border-2 overflow-hidden cursor-pointer`}
+          >
+            {currentUser.imgSrc ? (
+              <img className={`w-full h-full cursor-pointer`} src={currentUser.imgSrc} />
+            ) : (
+              <img
+                className={`w-full h-full cursor-pointer`}
+                src={defaultMaleIcon}
+              />
+            )}
+          </div>
               <span>프로필</span>
             </NavLink>
           </li>
