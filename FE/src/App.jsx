@@ -45,6 +45,9 @@ const router = createBrowserRouter([
         children: [{ path: 'talk/:talkId', element: <ChatTalkSection /> }],
       },
       { path: '/profile/:detail?', element: <ProfilePage /> },
+      
+      // 다른 사람 페이지로 바뀔 예정
+      { path: '/profile/:userId', element: <ProfilePage /> },
       { path: '/test', element: <TestPage /> },
 
     ],

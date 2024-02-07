@@ -8,9 +8,7 @@ import CloseButton from '../../common/CloseButton';
 function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
   const [imageList, setImageList] = useState([]);
 
-  const categorySectionClassName = isSlide
-    ? 'visible w-96'
-    : 'hidden w-0';
+  const categorySectionClassName = isSlide ? 'visible w-96' : 'hidden w-0';
 
   const handleChangeUploadProfileImg = (e) => {
     setImageSrcList(imageUpload(e.target, setImageList));
@@ -34,21 +32,25 @@ function ImageSection({ isSlide, setImageSrcList, imageSrcList }) {
   };
   return (
     <div
-      className={`flex flex-col bg-bright border-gray border-l transition-width delay-700 duration-300  ${categorySectionClassName}`}
+      className={`flex justify-center items-center bg-bright border-gray border-l transition-width delay-700 duration-300  ${categorySectionClassName}`}
     >
-      {/* <div className='relative '>
-        <span className='absolute top-0 right-3'></span>
-      </div> */}
-
       {imageList.length ? (
+        // <div>gdgd</div>
         <Slider
-          className='flex justify-center items-center w-full h-full'
+          className='items-center justify-center'
           {...settings}
         >
           {imageList.map((image, idx) => {
             return (
-              <div key={idx} className='relative flex w-full h-full items-center justify-center'>
-                <img className='w-full h-full' src={image} alt='' />
+              <div
+                key={idx}
+                className=''
+              >
+                <img
+                  className=''
+                  src={image}
+                  alt=''
+                />
                 <CloseButton
                   className='absolute right-5 top-5'
                   onClick={() => handleClickDeleteImage(image)}

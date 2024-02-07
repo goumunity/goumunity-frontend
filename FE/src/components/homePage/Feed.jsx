@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import FeedLikeBox from './FeedLikeBox';
 import NicknameBox from '../common/NicknameBox';
+import defaultMaleIcon from '../../assets/svgs/defaultMaleIcon.svg';
 
 // 댓글, 답글 200자
 function Feed({ feed, setFeedList, feedList, ...props }) {
@@ -58,7 +59,21 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
   return (
     <div className='flex flex-col w-post border border-gray px-4 py-3'>
       <div className='relative flex items-center gap-2'>
-        <ProfileImage size='8' profileImage={imgSrc ? imgSrc : ''} />
+        <Link to={`/profile/${nickname}`}>
+          <div
+            className={`w-8 h-8 rounded-full border-2 overflow-hidden cursor-pointer`}
+          >
+            {imgSrc ? (
+              <img className={`w-full h-full cursor-pointer`} src={imgSrc} />
+            ) : (
+              <img
+                className={`w-full h-full cursor-pointer`}
+                src={defaultMaleIcon}
+              />
+            )}
+          </div>
+        </Link>
+        {/* <ProfileImage size='8' profileImage={imgSrc ? imgSrc : ''} /> */}
         <NicknameBox nickname={nickname} daysAgo={daysAgo} fontSize='md' />
         {nickname === currentUser.nickname && (
           <div className='flex font-daeam absolute right-1 gap-3'>

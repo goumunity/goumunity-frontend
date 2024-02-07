@@ -10,15 +10,15 @@ import homeIcon from '@/assets/svgs/homeIcon.svg';
 import NavBarItem from './NavBarItem';
 function NavBar() {
   // LandingPage에서는 NavBar를 렌더링하지 않음
-    const targetUrl = window.location.pathname;
-    switch (targetUrl) {
-      case '/landing':
-      case '/landing/join/1':
-      case '/landing/join/2':
-      case '/landing/join/3':
-      case '/landing/join/4':
-        return
-    }
+  const targetUrl = window.location.pathname;
+  switch (targetUrl) {
+    case '/landing':
+    case '/landing/join/1':
+    case '/landing/join/2':
+    case '/landing/join/3':
+    case '/landing/join/4':
+      return;
+  }
 
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
 
@@ -112,7 +112,7 @@ function NavBar() {
               to='/create/1'
               className={({ isActive }) => (isActive ? activeClass : undefined)}
             >
-              글쓰기
+              <i className='fa-solid fa-comment fa-sm'></i>글쓰기
             </NavLink>
           )}
         </li>
