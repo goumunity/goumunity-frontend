@@ -196,6 +196,7 @@ function CreateFeedModal({ onClose, setFeedList }) {
               />
             </div>
             {/* </div> */}
+
             {feedCategory === FEED_CATEGORY_OPTIONS[0].name ? (
               <div className='flex justify-center'>
                 <input

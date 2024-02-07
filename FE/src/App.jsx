@@ -14,7 +14,6 @@ import TestPage from './pages/TestPage';
 import NewLandingPage from './pages/NewLandingPage';
 
 const router = createBrowserRouter([
-  
   {
     path: '/',
     errorElement: <ErrorPage />,
