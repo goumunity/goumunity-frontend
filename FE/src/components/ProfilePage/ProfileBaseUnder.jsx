@@ -34,7 +34,7 @@ const ProfileBaseUnder = ({ info, written, saveChange }) => {
   const [ sum, setSum ] = useState(0);
 
     const initLi = () => {
-      const lis = written['result'].map( el => <li key={el.feedId}><MinimumFeed size="full" feedId={el.feedId} nickname={info.nickname} createAt={ el.createdAt } content={ el.content} deletePost={deletePost}/></li> )
+      const lis = written['result'].map( el => <li key={el.feedId}><MinimumFeed size="full" feedId={el.feedId} nickname={info.nickname} createAt={ el.createdAt } content={ el.content} deletePost={deletePost} imgSrc={info.imgSrc}/></li> )
       setLiList( lis ); 
       const saves = written['result'].filter( el => el.price != null ).map( el => 
         <li key= {el.feedId} className="flex justify-between rounded-lg">
@@ -62,8 +62,9 @@ const ProfileBaseUnder = ({ info, written, saveChange }) => {
     }
 
     useEffect( () => {
-      const lis = feeds.map( el => <li key={el.feedId}><MinimumFeed size="full" feedId={el.feedId} nickname={info.nickname} createAt={ el.createdAt } content={ el.content} deletePost={deletePost}/></li> )
-      setLiList( lis );
+      console.log( info );
+      const lis = feeds.map( el => <li key={el.feedId}><MinimumFeed size="full" feedId={el.feedId} nickname={info.nickname} createAt={ el.createdAt } content={ el.content} deletePost={deletePost} imgSrc={info.imgSrc}/></li> )
+      setLiList( lis ); 
       console.log( feeds );
 
       const saves = feeds.filter( el => el.price != null ).map( el => 
@@ -71,7 +72,7 @@ const ProfileBaseUnder = ({ info, written, saveChange }) => {
           <div className="ps-4 overflow-x-hidden">{ new Date(el.createdAt).toLocaleDateString() + " : " + el.content }</div>
           <div className="pe-4">${parseInt(el.price) - parseInt(el.afterPrice)}</div>
         </li>
-      )
+      )  
 
 
       let newSum = 0;
