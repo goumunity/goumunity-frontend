@@ -92,7 +92,8 @@ function ChatRoomModal() {
     //-------axios 연결-------
     const fetchData = async () => {
       try {
-        const res = await axios.post('temp/api/chat-rooms', formData);
+        const res = await axios.post('https://i10a408.p.ssafy.io/temp/api/chat-rooms', formData
+        ,{withCredentials : true});
       } catch (error) {
         console.error('api 요청 중 오류 발생 : ', error);
         if (error.response.status === 409) {
@@ -199,7 +200,8 @@ function ChatRoomModal() {
   return (
     <>
       <h1 className='font-daeam text-2xl'>채팅방 개설하기</h1>
-      <form onSubmit={handleSubmitChatCreate}>
+      {/*<form onSubmit={handleSubmitChatCreate}>*/}
+      <form >
         <div className='text-start font-her text-2xl'>*채팅방 제목 </div>
         <div className='content-start pb-3'>
           <input
@@ -314,7 +316,7 @@ function ChatRoomModal() {
           </div>
         </div>
         <div className='pt-2'>
-          <Button text='추가하기' type='submit' />
+          <Button text='추가하기' type='button' onClick={handleSubmitChatCreate}/>
         </div>
       </form>
     </>

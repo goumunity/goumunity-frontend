@@ -67,6 +67,7 @@ function LoginModal() {
       // const res = await axios.post('/api/users/login', {
       const res = await axios.post(
         "https://i10a408.p.ssafy.io/temp/api/users/login",
+        //   "https://i10a408.p.ssafy.io/temp/api/users/login",
         // 'https://ssafyhelper.shop/test/api/api/user/login',
         {
           id: userInputs.email,

@@ -12,7 +12,7 @@ function ChatPage() {
     const [messages, setMessages] = useState([]);
 
     const handleClickMySection = () => {
-        setIsLoaded(!isLoaded);
+        setIsLoaded(false);
     };
 
     const client = useRef({});
@@ -22,14 +22,27 @@ function ChatPage() {
     const connect = () => {
         client.current = new StompJs.Client({
             brokerURL: 'wss://i10a408.p.ssafy.io/temp/goumunity-chat',
+            // brokerURL: 'ws://localhost/goumunity-chat',
+            onConnect : resubscribe
         });
         client.current.activate();
-        console.log(client.current.sessionId)
+        console.log(client.current)
     };
 
     const disconnect = () => {
         client.current.deactivate();
     };
+
+    const resubscribe = () => {
+        console.log("hihi?")
+        if (chatRoomId !== null) {
+            room.current = client.current.subscribe(`/topic/${chatRoomId}`, (chat) => {
+                console.log(chat.body);
+                console.log(chat);
+                setMessages((prev) => [...prev, JSON.parse(chat.body)]);
+            });
+        }
+    }
 
     const subscribe = (value) => {
         console.log(`sub!! /topic/${value}`)
