@@ -155,7 +155,7 @@ function CreateFeedModal({ onClose, setFeedList }) {
               <div className='flex items-center gap-2'>
                 <Link to={`/profile/${currentUser.nickname}`}>
                   <div
-                    className={`w-8 h-8 rounded-full border-2 overflow-hidden cursor-pointer`}
+                    className={`w-8 h-8 rounded-full border-2 border-black overflow-hidden cursor-pointer`}
                   >
                     {currentUser.imgSrc ? (
                       <img

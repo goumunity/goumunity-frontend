@@ -1,15 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { imageUpload } from '../../../utils/upload';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import ItemsCarousel from 'react-items-carousel';
+
 import Slider from 'react-slick';
 import CloseButton from '../../common/CloseButton';
 
-function ImageSection({ isSlide, setImageSrcList, originalImageList = []}) {
-  const [imageList, setImageList] = useState(originalImageList ? originalImageList : []);
-
+function ImageSection({ isSlide, setImageSrcList, imageSrcList}) {
+  // const [imageList, setImageList] = useState(imageSrcList);
+  const [imageList, setImageList] = useState([]);
+  // const [activeItemIndex, setActiveItemIndex] = useState(0);
+  // const chevronWidth = 60;
+  // console.log('이게 나와야 함:', originalImageList);
   const categorySectionClassName = isSlide ? 'visible w-96' : 'hidden w-0';
-
+  
+  useEffect(() => {
+    console.log('이미지 소스 변화 후:', imageSrcList)
+  }, [imageSrcList]
+)
   const handleChangeUploadProfileImg = (e) => {
     setImageSrcList(imageUpload(e.target, setImageList));
   };
@@ -35,19 +44,18 @@ function ImageSection({ isSlide, setImageSrcList, originalImageList = []}) {
       className={`flex justify-center items-center bg-bright border-gray border-l transition-width delay-700 duration-300  ${categorySectionClassName}`}
     >
       {imageList.length ? (
-        // <div>gdgd</div>
         <Slider
-          className='items-center justify-center'
+          className='flex items-center justify-center w-full h-full'
           {...settings}
         >
           {imageList.map((image, idx) => {
             return (
               <div
                 key={idx}
-                className=''
+                className='flex items-center justify-center w-full h-96'
               >
                 <img
-                  className=''
+                  className='w-full h-96'
                   src={image}
                   alt=''
                 />
@@ -59,6 +67,38 @@ function ImageSection({ isSlide, setImageSrcList, originalImageList = []}) {
             );
           })}
         </Slider>
+        // <ItemsCarousel
+        //   requestToChangeActive={setActiveItemIndex}
+        //   activeItemIndex={activeItemIndex}
+        //   numberOfCards={1}
+        //   leftChevron={
+        //     <button>
+        //       <i className='fa-solid fa-arrow-left'></i>
+        //     </button>
+        //   }
+        //   rightChevron={
+        //     <button>
+        //       <i className='fa-solid fa-arrow-right'></i>
+        //     </button>
+        //   }
+        //   outsideChevron
+        //   chevronWidth={chevronWidth}
+        // >
+          /* {imageList.map((image, idx) => {
+            return (
+              <div key={idx} className=''>
+                <img className='' src={image} alt='' />
+                <CloseButton
+                  className='absolute right-5 top-5'
+                  onClick={() => handleClickDeleteImage(image)}
+                />
+              </div>
+            );
+          })} */
+        //   <img src={imageList[0]} alt="" />
+        //   <img src={imageList[1]} alt="" />
+        //   {/* <img src={imageList[2]} alt="" /> */}
+        // </ItemsCarousel>
       ) : (
         <div className='flex flex-col justify-center items-center gap-5 w-full h-full'>
           <svg

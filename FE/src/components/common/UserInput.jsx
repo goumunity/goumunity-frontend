@@ -16,7 +16,7 @@ function UserInput({ label, isFirst, id, error, ...props }) {
         *{label}
       </label>
       <input
-        className='border-b border-black-200 my-1 bg-transparent outline-none'
+        className='border-b border-black my-1 bg-transparent outline-none'
         ref={firstRef}
         {...props}
       />
