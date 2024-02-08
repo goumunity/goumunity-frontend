@@ -22,9 +22,9 @@ function ChatPage() {
     const connect = () => {
         client.current = new StompJs.Client({
             brokerURL: 'wss://i10a408.p.ssafy.io/temp/goumunity-chat',
-            // brokerURL: 'ws://localhost:8080/goumunity-chat',
         });
         client.current.activate();
+        console.log(client.current.sessionId)
     };
 
     const disconnect = () => {
@@ -32,6 +32,7 @@ function ChatPage() {
     };
 
     const subscribe = (value) => {
+        console.log(`sub!! /topic/${value}`)
         room.current = client.current.subscribe(`/topic/${value}`, (chat) => {
             console.log(chat.body);
             console.log(chat);

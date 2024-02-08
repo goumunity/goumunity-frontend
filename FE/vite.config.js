@@ -14,35 +14,35 @@ export default defineConfig({
     ],
   },
 
-  server: {
-    proxy: {
-      '/api': {
-        // target: 'https://ssafyhelper.shop/test/api',
-        target: 'http://localhost:8080/api',
-        // target: 'https://i10a408.p.ssafy.io',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-        secure: false,
-        ws: true,
-      },
-      '/temp': {
-        target: 'https://i10a408.p.ssafy.io',
-        // target: 'https://ssafyhelper.shop/test/api',
-        // target: 'http://localhost:8080',
-        // target: 'https://i10a408.p.ssafy.io',
-
-        changeOrigin: true,
-        // rewrite: (path) => path.replace(/^\/temp/, ''),
-        secure: true,
-        ws: true,
-      },
-      '/fake': {
-        target: 'http://localhost:3001',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/fake/, ''),
-        secure: false,
-        ws: true,
-      },
-    },
-  },
+  // server: {
+  //   proxy: {
+  //     '/api': {
+  //       // target: 'https://ssafyhelper.shop/test/api',
+  //       target: 'http://localhost:8080/api',
+  //       // target: 'https://i10a408.p.ssafy.io',
+  //       changeOrigin: true,
+  //       rewrite: (path) => path.replace(/^\/api/, ''),
+  //       secure: false,
+  //       ws: true,
+  //     },
+  //     '/temp': {
+  //       // target: 'https://i10a408.p.ssafy.io',
+  //       // target: 'https://ssafyhelper.shop/test/api',
+  //       // target: 'http://localhost:8080',
+  //       target: 'https://i10a408.p.ssafy.io',
+  //       // target: 'http://localhost',
+  //       changeOrigin: true,
+  //       // rewrite: (path) => path.replace(/^\/temp/, ''),
+  //       secure: true,
+  //       ws: true,
+  //     },
+  //     '/fake': {
+  //       target: 'http://localhost:3001',
+  //       changeOrigin: true,
+  //       rewrite: (path) => path.replace(/^\/fake/, ''),
+  //       secure: false,
+  //       ws: true,
+  //     },
+  //   },
+  // },
 });

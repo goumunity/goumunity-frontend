@@ -11,7 +11,7 @@ function ChatRecommendedItem(props) {
     const trying = async () => {
       try {
         const res = await axios.get(
-          `/temp/api/chat-rooms/search?keyword=ㅎ&page=0&size=100&time=${new Date().getTime()}`
+          `https://i10a408.p.ssafy.io/temp/api/chat-rooms/search?keyword=ㅎ&page=0&size=100&time=${new Date().getTime()}`
         );
         //'/fake/chatRecomNext'
         console.log(res);

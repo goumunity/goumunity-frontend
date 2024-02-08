@@ -4,6 +4,7 @@ import redBoy from '@/assets/images/redBoy.jpg';
 import SearchIcon from '../../common/SearchIcon';
 import {useState} from 'react';
 import client from "@/utils/client.js";
+import axios from "axios";
 
 function ChatRecommendedSection() {
   const [userInput, setUserInput] = useState('');
@@ -18,7 +19,7 @@ function ChatRecommendedSection() {
 
   const onSearchItem = () => {
 
-      client.get(`/temp/api/chat-rooms/search?keyword=ㅎ&page=0&size=12&time=${new Date().getTime()}`)
+      axios.get(`https://i10a408.p.ssafy.io/temp/api/chat-rooms/search?keyword=ㅎ&page=0&size=12&time=${new Date().getTime()}`)
           .then(res => {
               console.log(res.data)
               setItems(res.data.contents)

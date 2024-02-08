@@ -19,7 +19,8 @@ function ChatMySection(props) {
       try {
         // const res = await axios.get('/fake/chatMyList');
         const res = await axios.get(
-          `/temp/api/users/my/chat-rooms?page=0&size=100&time=${new Date().getTime()}`
+          `https://i10a408.p.ssafy.io/temp/api/users/my/chat-rooms?page=0&size=100&time=${new Date().getTime()}`,
+            {withCredentials : true}
         );
 
         setChatData(res.data.contents);
