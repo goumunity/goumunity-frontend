@@ -2,6 +2,7 @@ import { validatePassword } from '../../utils/validation';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Button2to1 from '../common/Button2to1';
+import instance from "@/utils/instance.js";
 const ProfileDetailUnder = ( {info} ) => {
     const [ userInfo, setUserInfo ] = useState({});
     const [gunguList,setGunguList] = useState([]);
@@ -17,7 +18,7 @@ const ProfileDetailUnder = ( {info} ) => {
    
     // const {kakao} = window;
     useEffect( () => {
-        axios.get('/api/regions').then( (res) => {
+        instance.get('/api/regions').then( (res) => {
             const val = res.data.map( el => {
                 
                 return <li key = {el.regionId} id={el.regionId} text={el.gungu}>
@@ -51,7 +52,7 @@ const ProfileDetailUnder = ( {info} ) => {
                 return;
             }
             if( confirm("비밀 번호를 변경하시겠습니까?")){
-                const res = await axios.patch("/api/users/my/password", userInfo.password,{
+                const res = await instance.patch("/api/users/my/password", userInfo.password,{
                     headers: { "Content-Type":"application/json",},
                 } );
                 if( res.status == 200 ){
@@ -80,7 +81,7 @@ const ProfileDetailUnder = ( {info} ) => {
 
     const putInfo = () => {
         if( confirm("변경하시겠습니까?")){
-            axios.patch('/api/users/my', userInfo ).then( res => {
+            instance.patch('/api/users/my', userInfo ).then( res => {
                 alert("변경에 성공하였습니다.");
     
             }).catch( err => {

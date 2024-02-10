@@ -3,6 +3,7 @@ import axios from 'axios';
 import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import Option from '../../common/Option';
+import instance from "@/utils/instance.js";
 
 function ReplyLikeBox({ likeCount, replyId, ilikeThat }) {
   const [replyLikeCount, setReplyLikeCount] = useState(likeCount);
@@ -10,7 +11,7 @@ function ReplyLikeBox({ likeCount, replyId, ilikeThat }) {
 
   const handleClickCreateCommentLike = async () => {
     try {
-      const res = await axios.post(`/api/replies/${replyId}/like`);
+      const res = await instance.post(`/api/replies/${replyId}/like`);
       setIsReplyLike(true);
       setReplyLikeCount((prev) => prev + 1);
     } catch (error) {
@@ -20,7 +21,7 @@ function ReplyLikeBox({ likeCount, replyId, ilikeThat }) {
 
   const handleClickDeleteCommentLike = async () => {
     try {
-      const res = await axios.delete(`/api/replies/${replyId}/unlike`);
+      const res = await instance.delete(`/api/replies/${replyId}/unlike`);
       setIsReplyLike(false);
       setReplyLikeCount((prev) => prev - 1);
     } catch (error) {

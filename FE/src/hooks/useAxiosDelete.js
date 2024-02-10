@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+import instance from "@/utils/instance.js";
 
 async function useAxiosDelete(url, category, currentUserId, userId) {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,7 +13,7 @@ async function useAxiosDelete(url, category, currentUserId, userId) {
 
   try {
     setIsLoading(true);
-    const res = await axios.get(url);
+    const res = await instance.get(url);
     console.log(`${category} 삭제 결과 : ${res}`);
   } catch (error) {
     console.log(`${category} 삭제 중 에러 발생 : ${error}`);

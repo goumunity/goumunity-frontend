@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import useInput from '../../../hooks/useInput';
 import axios from 'axios';
+import instance from "@/utils/instance.js";
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
@@ -27,13 +28,13 @@ function PatchReplyBox({
 
     setIsLoading(true);
     try {
-      const res = await axios.patch(
+      const res = await instance.patch(
         `/api/comments/${commentId}/replies/${replyId}`,
         { content: reply }
       );
       console.log('답글 수정 결과 : ', res);
       try {
-        const res = await axios.get(
+        const res = await instance.get(
           `/api/comments/${commentId}/replies/${replyId}`
         );
         const newReplyList = replyList.filter(

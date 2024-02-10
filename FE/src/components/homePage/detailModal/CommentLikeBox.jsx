@@ -10,7 +10,7 @@ function CommentLikeBox({ likeCount, commentId, ilikeThat }) {
 
   const handleClickCreateCommentLike = async () => {
     try {
-      const res = await axios.post(`/api/comments/${commentId}/like`);
+      const res = await instance.post(`/api/comments/${commentId}/like`);
       setIsCommentLike(true);
       setCommentLikeCount((prev) => prev + 1);
       console.log('댓글 좋아요 했을 때 결과 : ', res);
@@ -22,7 +22,7 @@ function CommentLikeBox({ likeCount, commentId, ilikeThat }) {
   const handleClickDeleteCommentLike = async () => {
     try {
 
-      const res = await axios.delete(`/api/comments/${commentId}/unlike`);
+      const res = await instance.delete(`/api/comments/${commentId}/unlike`);
       setIsCommentLike(false);
       setCommentLikeCount((prev) => prev - 1);
       console.log('댓글 좋아요 취소 했을 때 결과 : ', res);

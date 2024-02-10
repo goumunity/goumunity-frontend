@@ -3,12 +3,13 @@ import { useParams } from 'react-router-dom';
 import ChatTalkRoom from './ChatTalkRoom';
 import ChatRoom from './ChatTalkRoom';
 import Main from '../../../pages/Main';
+import instance from "@/utils/instance.js";
 
 function ChatTalkSection({ id }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`/chat/talk/${id}`);
+        const res = await instance.get(`/api/chat/talk/${id}`);
 
         setChatData(res.data.chatMyItemList);
       } catch (error) {

@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../../../store/modal';
+import {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {modalActions} from '../../../store/modal';
 import ChatMyItem from './ChatMyItem';
 import ChatRoomModal from '@/components/chatPage/chatRoomModal/ChatRoomModal';
 import CustomModal from '../../common/CustomModal';

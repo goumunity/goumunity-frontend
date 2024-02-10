@@ -15,6 +15,7 @@ import ModalBackground from '../../common/ModalBackground';
 import CategoryBox from './CategoryBox';
 import useAxiosGet from '../../../hooks/useAxiosGet';
 import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
+import instance from "@/utils/instance.js";
 
 const REGION_OPTIONS = [
   { id: 1, name: '광진구' },
@@ -111,14 +112,14 @@ function PatchFeedModal({ onClose, setFeedList }) {
     formData.append('data', blob);
     try {
       setIsLoading(true);
-      const res = await axios.post('/api/feeds', formData, {
+      const res = await instance.post('/api/feeds', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
       const feedId = res.data
       try {
-        const res = await axios.get(`/api/feeds/${feedId}`)
+        const res = await instance.get(`/api/feeds/${feedId}`)
           console.log('단일 조회 : ', res)
           setFeedList((prev) => [res.data, ...prev])
         console.log('게시글 단일 조회 결과 : ', res.data)

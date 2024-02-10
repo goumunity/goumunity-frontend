@@ -5,6 +5,7 @@ import DetailModal from '@/components/homePage/detailModal/DetailModal';
 import CreateFeedModal from '@/components/homePage/createPostModal/CreateFeedModal';
 import { useNavigate, useParams } from 'react-router-dom';
 import PatchFeedModal from '../components/homePage/createPostModal/PatchFeedModal';
+import instance from "@/utils/instance.js";
 
 function HomePage() {
   const [initialTime] = useState(new Date().getTime());
@@ -37,7 +38,7 @@ function HomePage() {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const res = await axios.get('/api/feeds')
+        const res = await instance.get('/api/feeds')
         setFeedList((prev) => [...res.data.feedRecommends, ...prev]);
         setHasNext(res.data.hasNext);
       } catch (error) {

@@ -45,7 +45,7 @@ function NavBar() {
     if (!isConfirm) return;
 
     try {
-      const res = await axios.get('/api/users/logout');
+      const res = await instance.get('/api/users/logout');
     } catch (error) {
       console.log('에러 발생 : ', error);
       return;
@@ -63,7 +63,7 @@ function NavBar() {
     // 여기에 실제 회원 탈퇴 처리 로직을 추가할 수 있음
 
     try {
-      const res = await axios.delete('/api/users/my');
+      const res = await instance.delete('/api/users/my');
     } catch (error) {
       console.log('에러 발생 : ', error);
       return;

@@ -9,6 +9,7 @@ import { calculateAge } from '../../../utils/formatting';
 import { Link, useNavigate } from 'react-router-dom';
 import SelectBox from '../../common/SelectBox';
 import axios from 'axios';
+import instance from "@/utils/instance.js";
 
 const GENDER_OPTIONS = [
   { id: 1, content: 'MALE' },
@@ -44,7 +45,7 @@ function JoinModal2() {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const res = await axios.get('/api/nicknames');
+        const res = await instance.get('/api/nicknames');
         setNickname(res.data);
       } catch (error) {
         console.log('닉네임 받는 중 에러 발생:', error);
@@ -72,7 +73,7 @@ function JoinModal2() {
   const handleClickGetNickname = async () => {
     try {
       setIsLoading(true)
-      const res = await axios.get('/api/nicknames');
+      const res = await instance.get('/api/nicknames');
       setNickname(res.data);
     } catch (error) {
       console.log('닉네임 받는 중 에러 발생:', error);

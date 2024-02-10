@@ -6,6 +6,7 @@ import { authActions } from '../../../store/auth';
 import Button from '../../common/Button';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import instance from "@/utils/instance.js";
 
 
 function LoginModal() {
@@ -64,7 +65,7 @@ function LoginModal() {
 
       console.log('gggggggg', import.meta.env.VITE_API_DEV);
       // const res = await instance.post('/api/users/login', {
-      const res = await axios.post(
+      const res = await instance.post(
 
         '/api/users/login',
         {
@@ -77,12 +78,12 @@ function LoginModal() {
       dispatch(authActions.login());
 
       try {
-        // const res = await axios.get(`/api/users/${userInputs.email}`);
-        // const res = await axios.get(
+        // const res = await instance.get(`/api/users/${userInputs.email}`);
+        // const res = await instance.get(
         //   `http://localhost:8080/api/users/my/chat-rooms?page=0&size=12&time=${new Date().getTime()}`
         // );
 
-        const res = await axios.get(`/api/users/${userInputs.email}`);
+        const res = await instance.get(`/api/users/${userInputs.email}`);
         console.log('로그인 결과:', res);
 
         dispatch(authActions.createUser(res.data));
