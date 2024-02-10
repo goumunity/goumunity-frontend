@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import instance from "@/utils/instance.js";
 
 function ChatRecommendedItem(props) {
   const [chatData, setChatData] = useState(null);
@@ -10,8 +11,8 @@ function ChatRecommendedItem(props) {
   useEffect(() => {
     const trying = async () => {
       try {
-        const res = await axios.get(
-          `/temp/api/chat-rooms/search?keyword=거&page=0&size=100&time=${new Date().getTime()}`
+        const res = await instance.get(
+          `/api/chat-rooms/search?keyword=거&page=0&size=100&time=${new Date().getTime()}`
         );
         //'/fake/chatRecomNext'
         console.log(res);
@@ -61,8 +62,8 @@ function ChatRecommendedItem(props) {
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
-  //       // const res = await axios.get('/fake/chatRecomNext');
-  //       const res = await axios.get(
+  //       // const res = await instance.get('/fake/chatRecomNext');
+  //       const res = await instance.get(
   //         `/temp/api/chat-rooms/search?keyword=0&page=0&size=100&time=${new Date().getTime()}`
   //       );
 
@@ -117,8 +118,8 @@ function ChatRecommendedItem(props) {
     //axios 입장하기 버튼 클릭 시, 나의 거지챗 list 추가
     const fetchData = async () => {
       try {
-        // const res = await axios.post('/fake/chatMyList');
-        const res = await axios.post(
+        // const res = await instance.post('/fake/chatMyList');
+        const res = await instance.post(
           `temp/api/chat-rooms/${clickData.chatRoomId}`
         );
       } catch (error) {

@@ -1,17 +1,13 @@
-
-import { useState } from 'react';
-import ProfileImage from '../common/ProfileImage';
-import likeIcon from '@/assets/svgs/likeIcon.svg';
-import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
+import {useState} from 'react';
 import commentIcon from '@/assets/svgs/commentIcon.svg';
 import Option from '../common/Option';
-import { Link, useNavigate } from 'react-router-dom';
-import { calculateDate } from '../../utils/formatting';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
+import {Link} from 'react-router-dom';
+import {calculateDate} from '../../utils/formatting';
+import {useSelector} from 'react-redux';
 import FeedLikeBox from './FeedLikeBox';
 import NicknameBox from '../common/NicknameBox';
 import defaultMaleIcon from '../../assets/svgs/defaultMaleIcon.svg';
+import instance from "@/utils/instance.js";
 
 // 댓글, 답글 200자
 function Feed({ feed, setFeedList, feedList, ...props }) {
@@ -48,7 +44,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
 
     try {
       setIsLoading(true);
-      const res = await axios.delete(`/api/feeds/${feedId}`);
+      const res = await instance.delete(`/api/feeds/${feedId}`);
       console.log('삭제 결과 : ', res);
       const newFeedList = feedList.filter((feed) => feed.feedId !== feedId);
       setFeedList(newFeedList);

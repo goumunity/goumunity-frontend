@@ -6,6 +6,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { formatDate } from '../../../utils/formatting';
 import FeedLikeBox from '../FeedLikeBox';
+import instance from "@/utils/instance.js";
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
@@ -21,7 +22,7 @@ function OptionBox({ commentCnt, createdAt, updatedAt, likeCount, feedId, ilikeT
 
   const handleClickCreateLike = async () => {
     try {
-      const res = await axios.post(`/api/feeds/${feedId}/like`);
+      const res = await instance.post(`/api/feeds/${feedId}/like`);
       setIsLike(true);
       setFeedLikeCount((prev) => prev + 1);
     } catch (error) {
@@ -31,7 +32,7 @@ function OptionBox({ commentCnt, createdAt, updatedAt, likeCount, feedId, ilikeT
 
   const handleClickDeleteLike = async () => {
     try {
-      const res = await axios.delete(`/api/feeds/${feedId}/unlike`);
+      const res = await instance.delete(`/api/feeds/${feedId}/unlike`);
       setIsLike(false);
       setFeedLikeCount((prev) => prev - 1);
     } catch (error) {

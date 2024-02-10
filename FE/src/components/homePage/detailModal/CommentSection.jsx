@@ -5,6 +5,7 @@ import useInput from '../../../hooks/useInput';
 import axios from 'axios';
 import OptionBox from './OptionBox';
 import LoadingImage from '../../common/LoadingImage';
+import instance from "@/utils/instance.js";
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
@@ -60,7 +61,7 @@ function CommentSection({
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const res = await axios.get(`/api/feeds/${feedId}/comments`, {
+        const res = await instance.get(`/api/feeds/${feedId}/comments`, {
           params: {
             page,
             size: 15,

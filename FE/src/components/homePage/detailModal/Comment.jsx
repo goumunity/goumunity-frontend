@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import CommentLikeBox from './CommentLikeBox';
 import NicknameBox from '../../common/NicknameBox';
 import CreateReplyBox from './CreateReplyBox';
+import instance from "@/utils/instance.js";
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
@@ -73,7 +74,7 @@ function Comment({
     if (!isConfirm) return;
 
     try {
-      const res = await axios.delete(`/api/feeds/${feedId}/comments/${id}`);
+      const res = await instance.delete(`/api/feeds/${feedId}/comments/${id}`);
       const newCommentList = commentList.filter((comment) => comment.id !== id);
       setCommentList(newCommentList);
       setCommentCount((prev) => prev - 1)

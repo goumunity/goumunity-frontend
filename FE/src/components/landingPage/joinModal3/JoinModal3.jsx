@@ -8,6 +8,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import ProfileImage from '../../common/ProfileImage';
 import { imageUpload } from '../../../utils/upload';
+import instance from "@/utils/instance.js";
 
 const USER_CATEGORY_OPTIONS = [
   { id: 1, title: 'COLLEGE_STUDENT', name: '대학생' },
@@ -96,7 +97,7 @@ function JoinModal3() {
     formData.append('data', blob);
 
     try {
-      const res = await axios.post(
+      const res = await instance.post(
         'https://i10a408.p.ssafy.io/temp/api/users/join',
         formData,
         {
