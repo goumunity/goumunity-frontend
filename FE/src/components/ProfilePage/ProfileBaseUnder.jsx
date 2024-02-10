@@ -9,7 +9,7 @@ const ProfileBaseUnder = ({ info, written, saveChange }) => {
     const deletePost = ( feedId ) => {
       if( confirm("정말로 삭제하시겠습니까?")){
         axios.delete( `/api/feeds/${feedId}`).then( res => {
-          console.log( 'feeds: ' + feeds);
+          // console.log( 'feeds: ' + feeds);
 
           alert("삭제에 성공하였습니다.");
           
@@ -62,10 +62,10 @@ const ProfileBaseUnder = ({ info, written, saveChange }) => {
     }
 
     useEffect( () => {
-      console.log( info );
+      // console.log( info );
       const lis = feeds.map( el => <li key={el.feedId}><MinimumFeed size="full" feedId={el.feedId} nickname={info.nickname} createAt={ el.createdAt } content={ el.content} deletePost={deletePost} imgSrc={info.imgSrc}/></li> )
       setLiList( lis ); 
-      console.log( feeds );
+      // console.log( feeds );
 
       const saves = feeds.filter( el => el.price != null ).map( el => 
         <li key= {el.feedId} className="flex justify-between rounded-lg">

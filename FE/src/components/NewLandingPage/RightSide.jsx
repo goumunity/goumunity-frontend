@@ -143,7 +143,7 @@ function RightSide() {
               '비밀번호는 8~20자 · 최소 1개의 소문자, 대문자, 숫자, 특수문자를 포함해야 합니다.'
             }
           />
-          <Button
+          <Button 
             text={isLoading ? '로그인 중' : '로그인'}
             isActive={!isLoading}
           />
