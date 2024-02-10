@@ -43,7 +43,7 @@ function CreateFeedModal({ onClose, setFeedList }) {
   // const className = isSlide ? '-translate-x-3/4' : '-translate-x-1/2';
   const modalClassName = isSlide ? 'w-128' : 'w-96';
   const mainSectionClassName = isSlide ? 'w-96' : 'w-96';
-  const [imageSrcList, setImageSrcList] = useState([]);
+  const [fileList, setFileList] = useState([]);
 
   const handleClickOpenSlide = () => {
     setIsSlide(!isSlide);
@@ -77,7 +77,8 @@ function CreateFeedModal({ onClose, setFeedList }) {
 
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
     const formData = new FormData();
-    for (const image of imageSrcList) {
+    for (const image of fileList) {
+      console.log('이미지들:', image)
       formData.append('images', image);
     }
     formData.append('data', blob);
@@ -218,8 +219,8 @@ function CreateFeedModal({ onClose, setFeedList }) {
           </div>
           <ImageSection
             isSlide={isSlide}
-            setImageSrcList={setImageSrcList}
-            imageSrcList={imageSrcList}
+            setFileList={setFileList}
+            fileList={fileList}
           />
         </div>
       </div>
