@@ -113,7 +113,7 @@ export default DetailModal;
 
 // export async function loader(feedId) {
 //     console.log('gdg')
-//     const res = await axios.get(`/api/feeds${feedId}`);
+//     const res = await instance.get(`/api/feeds${feedId}`);
 
 //     if (res.statusText !== 'OK') {
 //       throw json({ message: '에러 발생' }, { status: 500 });

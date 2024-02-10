@@ -2,6 +2,7 @@ import axios from 'axios';
 import useInput from '../../../hooks/useInput';
 import Button from '../../common/Button';
 import { useEffect, useRef, useState } from 'react';
+import instance from "@/utils/instance.js";
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
@@ -35,13 +36,13 @@ function CreateCommentBox({
     try {
       setIsLoading(true);
       if (option === BUTTON_OPTIONS[0].name) {
-        const res = await axios.post(`/api/feeds/${feedId}/comments`, {
+        const res = await instance.post(`/api/feeds/${feedId}/comments`, {
           content: input,
         });
         console.log('댓글 생성 결과 : ', res);
         const commentId = res.data;
         try {
-          const res = await axios.get(
+          const res = await instance.get(
             `/api/feeds/${feedId}/comments/${commentId}`
           );
           console.log('단일 조회 : ', res);
@@ -50,13 +51,13 @@ function CreateCommentBox({
           console.log('댓글 단일 조회 중 에러 발생 : ', error);
         }
       } else if (option === BUTTON_OPTIONS[1].name) {
-        const res = await axios.post(`/api/comments/${commentId}/replies`, {
+        const res = await instance.post(`/api/comments/${commentId}/replies`, {
           content: input,
         });
         console.log('답글 생성 결과 : ', res);
         const replyId = res.data;
         try {
-          const res = await axios.get(
+          const res = await instance.get(
             `/api/comments/${commentId}/replies/${replyId}`
           );
           console.log('답글 단일 조회 : ', res);
@@ -65,13 +66,13 @@ function CreateCommentBox({
           console.log('답글 생성 중 에러 발생 : ', error);
         }
       } else if (option === BUTTON_OPTIONS[2].name) {
-        const res = await axios.patch(
+        const res = await instance.patch(
           `/api/feeds/${feedId}/comments/${commentId}`,
           { content: input }
         );
         console.log('댓글 수정 결과 : ', res);
         try {
-          const res = await axios.get(
+          const res = await instance.get(
             `/api/feeds/${feedId}/comments/${commentId}`
           );
           const newCommentList = commentList.filter(
@@ -82,7 +83,7 @@ function CreateCommentBox({
           console.log('댓글 단일 조회 중 에러 발생 : ', error);
         }
       } else if (option === BUTTON_OPTIONS[3].name) {
-        const res = await axios.put(
+        const res = await instance.put(
           `/api/comments/${commentId}/replies/${replyId}`,
           { content: input }
         );

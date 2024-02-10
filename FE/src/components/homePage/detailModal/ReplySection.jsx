@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Reply from './Reply.jsx';
 import LoadingImage from '../../common/LoadingImage.jsx';
+import instance from "@/utils/instance.js";
 
 function ReplySection({ commentId, setOption, setReplyId, setCommentReplyCount }) {
   const [replyList, setReplyList] = useState([]);
@@ -36,7 +37,7 @@ function ReplySection({ commentId, setOption, setReplyId, setCommentReplyCount }
       try {
         setIsLoading(true);
         console.log(commentId)
-        const res = await axios.get(`/api/comments/${commentId}/replies`, {
+        const res = await instance.get(`/api/comments/${commentId}/replies`, {
           params: {
             page,
             size: 10,

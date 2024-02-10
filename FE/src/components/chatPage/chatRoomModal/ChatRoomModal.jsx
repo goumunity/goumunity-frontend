@@ -11,6 +11,7 @@ import HashtagMore from './HashtagMore';
 import CloseButton from '../../common/CloseButton';
 import { imageUpload } from '../../../utils/upload';
 import Button from '../../common/Button';
+import instance from "@/utils/instance.js";
 
 function ChatRoomModal() {
   const [profileImage, setProfileImage] = useState('');
@@ -90,7 +91,7 @@ function ChatRoomModal() {
     //-------axios 연결-------
     const fetchData = async () => {
       try {
-        const res = await axios.post('temp/api/chat-rooms', formData);
+        const res = await instance.post('/api/chat-rooms', formData);
       } catch (error) {
         console.error('api 요청 중 오류 발생 : ', error);
         if (error.response.status === 409) {

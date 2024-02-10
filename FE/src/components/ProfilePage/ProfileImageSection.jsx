@@ -1,6 +1,8 @@
+
 import axios from 'axios';
 import defaultMaleIcon from '../../assets/svgs/defaultMaleIcon.svg';
 import { useEffect, useState } from 'react';
+import instance from "@/utils/instance.js";
 const ProfileImageSection = ( { size, src } ) => {
     const [ img,setImg ] = useState(null);
     const [ imgSrc, setImgSrc ] = useState('');
@@ -15,11 +17,11 @@ const ProfileImageSection = ( { size, src } ) => {
         if( img != null ){
             let formData = new FormData();
             formData.append( 'image', img );
-            axios.post('/api/users/my/profile-images', formData ).then( res => {
+            instance.post('/api/users/my/profile-images', formData ).then( res => {
                 const url = res.data;
                 let sendUrl = new Object();
                 sendUrl.imgSrc = url;
-                axios.patch( '/api/users/my/profile-images', JSON.stringify(sendUrl),{ headers: {
+                instance.patch( '/api/users/my/profile-images', JSON.stringify(sendUrl),{ headers: {
                     'Content-Type' : 'application/json',
                 }}).then( res =>{
                     console.log( 'res:', res );
@@ -50,22 +52,24 @@ const ProfileImageSection = ( { size, src } ) => {
       };
     
       const customLabelStyle = {
-        backgroundImage: `url("${ imgSrc }")`,
+        backgroundImage: `url("${imgSrc }")`,
         backgroundSize: 'cover',
-        width:'200px',
-        height:'200px',
+        width:'12rem',
+        height:'12rem',
         display: 'inline-block',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        border: '3px solid'
       };
 
     return(
         <>
-            <div className="rounded-full border-2 w-fit overflow-hidden cursor-pointer">
+            <div className="w-fit cursor-pointer">
                 <input type="file" id="fileInput" style={customInputStyle} onChange={onImgChange} />
-                <label htmlFor="fileInput" style={customLabelStyle}></label>
+                <label htmlFor="fileInput" style={customLabelStyle} className='rounded-full'></label>
             </div>
         </>
     )
+
 }
 
 

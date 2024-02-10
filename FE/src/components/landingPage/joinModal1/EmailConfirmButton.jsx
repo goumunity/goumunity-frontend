@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Button from '../../common/Button';
 import axios from 'axios';
 import client from '../../../utils/instance';
+import instance from "../../../utils/instance";
 
 function EmailConfirmButton({
   emailConfirm,
@@ -27,8 +28,8 @@ function EmailConfirmButton({
     }
     try {
       setIsLoading(true);
-      // const res = await axios.get('/api/users/email/verification', {
-      const res = await axios.get('/api/users/email/verification', {
+      // const res = await instance.get('/api/users/email/verification', {
+      const res = await instance.get('/api/users/email/verification', {
         params: { email },
       });
       console.log(res);
@@ -57,7 +58,7 @@ function EmailConfirmButton({
 
     try {
       setIsLoading(true);
-      const res = await axios.post(`/api/users/email/verification`, {
+      const res = await instance.post(`/api/users/email/verification`, {
         code: emailConfirm,
         email: email,
       });

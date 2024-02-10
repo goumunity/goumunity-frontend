@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '@/store/auth';
 import Button from '@/components/common/Button';
 import axios from 'axios';
+
 import { Link, useNavigate } from 'react-router-dom';
+import instance from "@/utils/instance.js";
+
 
 function RightSide() {
   const [isLoading, setIsLoading] = useState(false);
@@ -60,27 +63,24 @@ function RightSide() {
     }
     try {
       setIsLoading(true);
-
-      console.log('gggggggg', import.meta.env.VITE_API_DEV);
-      // const res = await instance.post('/api/users/login', {
-      const res = await axios.post(
-        '/api/users/login',
+      const res = await instance.post('/api/users/login',
+      // const res = await instance.post(
+      //   '/api/users/login',
         {
           id: userInputs.email,
           password: userInputs.password,
         },
-        { withCredentials: true }
       );
 
       dispatch(authActions.login());
 
       try {
-        // const res = await axios.get(`/api/users/${userInputs.email}`);
-        // const res = await axios.get(
+        // const res = await instance.get(`/api/users/${userInputs.email}`);
+        // const res = await instance.get(
         //   `http://localhost:8080/api/users/my/chat-rooms?page=0&size=12&time=${new Date().getTime()}`
         // );
 
-        const res = await axios.get(`/api/users/${userInputs.email}`);
+        const res = await instance.get(`/api/users/${userInputs.email}`);
         console.log('로그인 결과:', res);
 
         dispatch(authActions.createUser(res.data));
@@ -143,7 +143,7 @@ function RightSide() {
               '비밀번호는 8~20자 · 최소 1개의 소문자, 대문자, 숫자, 특수문자를 포함해야 합니다.'
             }
           />
-          <Button
+          <Button 
             text={isLoading ? '로그인 중' : '로그인'}
             isActive={!isLoading}
           />
