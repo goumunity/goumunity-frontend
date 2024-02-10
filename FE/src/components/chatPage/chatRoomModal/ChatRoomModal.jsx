@@ -100,7 +100,6 @@ function ChatRoomModal({setMyChatRooms, myChatRooms}) {
     };
 
     await fetchData();
-    navigate('/chat');
     dispatch(modalActions.closeModal());
   };
 
