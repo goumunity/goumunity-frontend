@@ -1,9 +1,6 @@
-import {useEffect, useState} from 'react';
-import axios from 'axios';
-import geo from '@/assets/images/logo.png';
+import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import CloseButton from '../../common/CloseButton';
-import instance from "@/utils/instance.js";
+import logo from '@/assets/images/logo.png'
 
 function ChatMyItem(props) {
   const navigate = useNavigate();
@@ -47,19 +44,18 @@ function ChatMyItem(props) {
                   //   setId(value.chatRoomId);
                   // }}
               >
-                <div className='w-1/4 mt-3'>
-              <span>
-                <img src={geo} style={{width: '40px'}} alt='채팅방 사진'/>
-              </span>
+                <div className='w-1/4 mt-3 rounded-full'>
+                    <img src={value.imgSrc ? value.imgSrc : logo}  className='rounded-full object-contain ' style={{width: '40px', height: '40px'}} alt='채팅방 사진'/>
                 </div>
                 <div className='w-3/4 h-30'>
                   <div>
                 <span className='font-bold text-responsive text-2xl'>
-                  <div className='flex justify-end  w-full'></div>
+                  <div className='w-full'>
                   {value.title}
+                  </div>
                 </span>
                     <span> 👤{value.currentUserCount}</span>
-                    <span> 💬{value.unreadMessageCount}</span>
+                    <span> 💬{value.unReadMessageCount}</span>
                   </div>
                   <div className='mt-1'></div>
                   <div>

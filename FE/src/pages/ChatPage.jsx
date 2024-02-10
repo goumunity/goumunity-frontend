@@ -23,11 +23,11 @@ function ChatPage() {
 
     const client = useRef({});
     const room = useRef(null);
+    const logId = useRef();
     const fetchChatRoomData = async () => {
         try{
             setIsLoading(true)
             const res = await instance.get(`/api/users/my/chat-rooms?page=${pageNum}&size=100&time=${searchTime}`);
-            console.log(res.data)
             setHasNext(res.data.hasNext);
             setMyChatRooms(prev => [...prev, ...res.data.contents]);
         }catch (error) {
@@ -42,9 +42,17 @@ function ChatPage() {
         });
         client.current.activate();
     };
-    const disconnect = () => {
+    const disconnect = async () => {
+        console.log("disconnect!", chatRoomId)
+        await logLastAccessTime();
         client.current.deactivate();
     };
+
+    const logLastAccessTime = async () => {
+        if(!logId.current)
+            return;
+        const res = await instance.patch(`/api/chat-rooms/${logId.current}/disconnect`);
+    }
 
     const resubscribe = () => {
         if (chatRoomId !== null) {
@@ -67,19 +75,18 @@ function ChatPage() {
             body: JSON.stringify({content: message, chatType: 'MESSAGE'}),
         });
     };
-
-
-
-
     const onJoinedRoomClicked = (id) => {
         if (room.current !== null) room.current.unsubscribe();
+        if(id !== logId.current)
+            logLastAccessTime();
         setChatRoomId(id);
         subscribe(id);
+        logId.current = id;
         setMessages([]);
     };
     useEffect(() => {
         connect();
-        return () => disconnect();
+        return async () => disconnect();
     }, []);
 
     const lastChatRoomRef = useCallback(
