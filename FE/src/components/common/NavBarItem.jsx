@@ -4,7 +4,7 @@ const activeClass = 'underline';
 
 function NavBarItem({ imgSrc, link, text }) {
   return (
-    <li>
+    <li className='hover:text-gray-500'>
       <NavLink
         className={({ isActive }) =>
           isActive
@@ -14,7 +14,8 @@ function NavBarItem({ imgSrc, link, text }) {
         to={link}
       >
         <div className='flex justify-center items-center w-8 h-8'>
-          <img className='w-full h-full' src={imgSrc} alt='' />
+          <i className={`fa-solid fa-${imgSrc}`}></i>
+          {/* <img className='w-full h-full hover:' src={imgSrc} alt='' /> */}
         </div>
         <span>{text}</span>
       </NavLink>

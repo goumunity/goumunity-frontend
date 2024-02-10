@@ -7,9 +7,8 @@ import JoinModal3 from '../components/landingPage/joinModal3/JoinModal3';
 import beggar from '@/assets/images/beggar.jpg';
 import geo from '@/assets/images/logo.png';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import LeftSide from '../components/newLandingPage/LeftSide';
-import RightSide from '../components/newLandingPage/RightSide';
-
+import LeftSide from '../components/NewLandingPage/LeftSide';
+import RightSide from '../components/NewLandingPage/RightSide';
 function NewLandingPage() {
   const params = useParams();
 
@@ -21,8 +20,8 @@ function NewLandingPage() {
   };
 
   return (
-    <div className='h-screen flex w-full'>
-      <LeftSide />
+    <div className='flex flex-row h-screen'>
+      <LeftSide/>
       <RightSide />
     </div>
   );

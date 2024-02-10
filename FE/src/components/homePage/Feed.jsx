@@ -55,11 +55,12 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
   };
 
   return (
-    <div className='flex flex-col w-post border border-gray px-4 py-3'>
+    // <div className='flex flex-col w-twitter border border-gray-300 px-4 py-3'>
+    <div className='flex flex-col w-twitter border border-grey px-4 py-3 hover:bg-gray-50'>
       <div className='relative flex items-center gap-2'>
         <Link to={`/profile/${nickname}`}>
           <div
-            className={`w-8 h-8 rounded-full border-2 overflow-hidden cursor-pointer`}
+            className={`w-8 h-8 rounded-full border-2 border-black overflow-hidden cursor-pointer`}
           >
             {imgSrc ? (
               <img className={`w-full h-full cursor-pointer`} src={imgSrc} />
@@ -109,7 +110,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
       <p className='my-4 px-2'>{content}</p>
 
       <Link to={`/${feedId}`}>
-        <img className='w-full h-50 rounded' src={images[0]?.imgSrc} alt='' />
+        <img className='w-full max-h-96 rounded' src={images[0]?.imgSrc} alt='' />
       </Link>
 
       <div className='flex items-center my-1 gap-2'>
