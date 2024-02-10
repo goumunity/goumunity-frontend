@@ -11,33 +11,12 @@ function ChatMySection(props) {
   const isModalOpen = useSelector((state) => state.modal.isModalOpen);
   const modalOption = useSelector((state) => state.modal.modalOption);
   const [chatRoomModal, setChatRoomModal] = useState(false);
-  const [chatData, setChatData] = useState(null);
-
-  //api 연결
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await instance.get(`/api/users/my/chat-rooms?page=0&size=100&time=${new Date().getTime()}`);
-        setChatData(res.data.contents);
-        // setChatData(res.data.chatMyItemList);
-        console.log(chatData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (!chatData) {
+  const { handleClickMySection, isLoaded,  handleJoinChatRoom, myChatRooms } = props;
+  if (!myChatRooms) {
     return <div>Loading...</div>; // 데이터가 로딩 중일 때 표시할 내용
   }
-
   //props 수지
-  const { handleClickMySection, isLoaded,  handleJoinChatRoom } = props;
-
   const dispatch = useDispatch();
-
   const handleClickCreateChatRoom = () => {
     dispatch(modalActions.openCreatChatModal());
   };
@@ -50,14 +29,12 @@ function ChatMySection(props) {
           나의 거지챗
         </div>
         <div className='scroll overflow-x-hidden overflow-y-scroll divide-y divide-entrance'>
-          {chatData.map((value, index) => {
+          {myChatRooms.map((value, index) => {
             return (
               <div>
                 <ChatMyItem
                   handleClickMySection={handleClickMySection}
                   isLoaded={isLoaded}
-                  chatData={chatData}
-                  setChatData={setChatData}
                   value={value}
                   index={index}
                   handleJoinChatRoom={handleJoinChatRoom}

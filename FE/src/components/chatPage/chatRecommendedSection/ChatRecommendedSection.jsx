@@ -2,8 +2,7 @@ import ChatRecommendedItem from './ChatRecommendedItem';
 import './ChatRecommendedItem.css';
 import redBoy from '@/assets/images/redBoy.jpg';
 import SearchIcon from '../../common/SearchIcon';
-import {useState} from 'react';
-import axios from "axios";
+import {useEffect, useState} from 'react';
 import instance from "@/utils/instance.js";
 
 function ChatRecommendedSection() {
@@ -17,14 +16,17 @@ function ChatRecommendedSection() {
     );
 
     const onSearchItem = () => {
-        instance.get(`/api/chat-rooms/search?keyword=ㅎ&page=0&size=12&time=${new Date().getTime()}`)
+        instance.get(`/api/chat-rooms/search?keyword=&page=0&size=12&time=${new Date().getTime()}`)
             .then(res => {
                 console.log(res.data)
                 setItems(res.data.contents)
             })
     }
 
-    console.log('Searched Items:', searched);
+    useEffect(() => {
+        onSearchItem()
+    }, []);
+
     return (
         <div className='cards'>
             <div className='flex font-her justify-center bg-gray-100 p-4'>
@@ -51,17 +53,17 @@ function ChatRecommendedSection() {
                     <SearchIcon/>
                 </div>
             </div>
-            <div className='cards__container'>
-                <div className='cards__wrapper'>
-                    <div className='cards__items'>
-                        <ChatRecommendedItem
-                            src={redBoy}
-                            userInput={userInput}
-                            setUserInput={setUserInput}
-                        />
-                    </div>
-                </div>
+            <div className='grid grid-cols-3 gap-10 p-10'>
+
+                {items.map((item) => (
+                    <>
+                        <ChatRecommendedItem item={item}/>
+                    </>
+                ))}
+
+
             </div>
+
         </div>
     );
 }

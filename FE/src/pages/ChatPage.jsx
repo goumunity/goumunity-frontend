@@ -4,12 +4,13 @@ import ChatMySection from '../components/chatPage/chatMySection/ChatMySection';
 import ChatTalkSection from '../components/chatPage/chatTalkSection/ChatTalkSection';
 import ChatRecommendedSection from '../components/chatPage/chatRecommendedSection/ChatRecommendedSection';
 import * as StompJs from "@stomp/stompjs";
-import axios from "axios";
+import instance from "@/utils/instance.js";
 
 function ChatPage() {
     const [isLoaded, setIsLoaded] = useState(true);
     const [chatRoomId, setChatRoomId] = useState(null);
     const [messages, setMessages] = useState([]);
+    const [myChatRooms, setMyChatRooms] = useState([]);
 
     const handleClickMySection = () => {
         setIsLoaded(false);
@@ -17,38 +18,35 @@ function ChatPage() {
 
     const client = useRef({});
     const room = useRef(null);
-
-
+    const fetchChatRoomData = async () => {
+        try{
+            const res = await instance.get(`/api/users/my/chat-rooms?page=0&size=100&time=${new Date().getTime()}`);
+            setMyChatRooms(res.data.contents);
+        }catch (error) {
+            console.error(error)
+        }
+    }
     const connect = () => {
         client.current = new StompJs.Client({
-            brokerURL: 'wss://i10a408.p.ssafy.io/temp/goumunity-chat',
-            // brokerURL: 'ws://localhost/goumunity-chat',
+            brokerURL: 'wss://i10a408.p.ssafy.io/api/goumunity-chat',
             onConnect : resubscribe
         });
         client.current.activate();
-        console.log(client.current)
     };
-
     const disconnect = () => {
         client.current.deactivate();
     };
 
     const resubscribe = () => {
-        console.log("hihi?")
         if (chatRoomId !== null) {
             room.current = client.current.subscribe(`/topic/${chatRoomId}`, (chat) => {
-                console.log(chat.body);
-                console.log(chat);
                 setMessages((prev) => [...prev, JSON.parse(chat.body)]);
             });
         }
     }
 
     const subscribe = (value) => {
-        console.log(`sub!! /topic/${value}`)
         room.current = client.current.subscribe(`/topic/${value}`, (chat) => {
-            console.log(chat.body);
-            console.log(chat);
             setMessages((prev) => [...prev, JSON.parse(chat.body)]);
         });
     };
@@ -62,19 +60,12 @@ function ChatPage() {
     };
 
     useEffect(() => {
-        connect();
-        return () => disconnect();
+        // connect();
+        fetchChatRoomData();
+        // return () => disconnect();
     }, []);
-
-    const onNewRoomClicked = (id) => {
-        axios
-            .post(`http://localhost:8080/join/${id}`, null, {withCredentials: true})
-            .then((res) => console.log(res));
-    };
-
     const onJoinedRoomClicked = (id) => {
         if (room.current !== null) room.current.unsubscribe();
-        console.log(id)
         setChatRoomId(id);
         subscribe(id);
         setMessages([]);
@@ -84,6 +75,7 @@ function ChatPage() {
         <div className='flex w-full h-full'>
             <div className='w-1/6 bg-yellow'>
                 <ChatMySection
+                    myChatRooms={myChatRooms}
                     handleJoinChatRoom={onJoinedRoomClicked}
                     handleClickMySection={handleClickMySection}
                     isLoaded={isLoaded}
@@ -91,10 +83,6 @@ function ChatPage() {
             </div>
             <div
                 className='w-5/6'
-                style={{
-                    backgroundImage: `url(${background})`,
-                    backgroundSize: 'cover',
-                }}
             >
                 <div className=' divide-x divide-entrance'>
                     <span></span>
