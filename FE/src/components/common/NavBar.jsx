@@ -10,7 +10,7 @@ import './NavHover.css';
 import instance from "@/utils/instance.js";
 
 function NavBar() {
-    // LandingPage에서는 NavBar를 렌더링하지 않음
+  // LandingPage에서는 NavBar를 렌더링하지 않음
 
     const targetUrl = window.location.pathname;
     switch (targetUrl) {
@@ -85,8 +85,8 @@ function NavBar() {
                         <div id="NavProfile"
                              className='profile font-dove p-4 w-full flex flex-col justify-center items-center mt-5 mb-10 bg-yellow'
                              style={{backgroundImage: `url(${NavProfileBg})`}}>
-                            <img class='w-48 rounded-full border-black border-2' src={currentUser.imgSrc}/>
-                            <div class="w-full flex flex-row justify-around mt-5 p-1">
+                            <img className='w-48 rounded-full border-black border-2' src={currentUser.imgSrc}/>
+                            <div className="w-full flex flex-row justify-around mt-5 p-1">
 
 
                                 <div
@@ -98,7 +98,7 @@ function NavBar() {
                                 <div
                                     className="rounded-full w-10 aspect-square flex justify-center items-center cursor-pointer">
                                     <Link to="/profile">
-                                        <i class="fa-solid fa-user fa-xs hover:text-gray-500"></i>
+                                        <i className="fa-solid fa-user fa-xs hover:text-gray-500"></i>
                                     </Link>
                                 </div>
                             </div>
@@ -176,7 +176,7 @@ function NavBar() {
 
                         <button onClick={handleClickLogout}>
                             <div className='hover:text-gray-500'>
-                                <i class="fa-solid fa-right-from-bracket ms-1"></i> 로그아웃
+                                <i className="fa-solid fa-right-from-bracket ms-1"></i> 로그아웃
                             </div>
                         </button>}
                 </li>
