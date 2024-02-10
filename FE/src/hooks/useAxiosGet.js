@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import instance from "@/utils/instance.js";
 
 function useAxiosGet(url) {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,7 +12,7 @@ function useAxiosGet(url) {
       const fetchData = async () => {
         setIsLoading(true);
         try {
-          const res = await axios.get(url);
+          const res = await instance.get(url);
           setValue(res.data);
         } catch (error) {
           setErrorMessage(error);

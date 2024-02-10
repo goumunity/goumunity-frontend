@@ -1,6 +1,7 @@
 import { useEffect, useState} from "react";
 import MinimumFeed from "./MinimumFeed";
 import axios from "axios";
+import instance from "@/utils/instance.js";
 const ProfileBaseUnder = ({ info, written, saveChange }) => {
     const [ feeds, setFeeds ] = useState([]);
     const [ liList, setLiList ] = useState([]); 
@@ -8,8 +9,9 @@ const ProfileBaseUnder = ({ info, written, saveChange }) => {
 
     const deletePost = ( feedId ) => {
       if( confirm("정말로 삭제하시겠습니까?")){
-        axios.delete( `/api/feeds/${feedId}`).then( res => {
-          // console.log( 'feeds: ' + feeds);
+
+        instance.delete( `/api/feeds/${feedId}`).then( res => {
+
 
           alert("삭제에 성공하였습니다.");
           

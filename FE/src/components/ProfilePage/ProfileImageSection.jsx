@@ -2,6 +2,7 @@
 import axios from 'axios';
 import defaultMaleIcon from '../../assets/svgs/defaultMaleIcon.svg';
 import { useEffect, useState } from 'react';
+import instance from "@/utils/instance.js";
 const ProfileImageSection = ( { size, src } ) => {
     const [ img,setImg ] = useState(null);
     const [ imgSrc, setImgSrc ] = useState('');
@@ -16,11 +17,11 @@ const ProfileImageSection = ( { size, src } ) => {
         if( img != null ){
             let formData = new FormData();
             formData.append( 'image', img );
-            axios.post('/api/users/my/profile-images', formData ).then( res => {
+            instance.post('/api/users/my/profile-images', formData ).then( res => {
                 const url = res.data;
                 let sendUrl = new Object();
                 sendUrl.imgSrc = url;
-                axios.patch( '/api/users/my/profile-images', JSON.stringify(sendUrl),{ headers: {
+                instance.patch( '/api/users/my/profile-images', JSON.stringify(sendUrl),{ headers: {
                     'Content-Type' : 'application/json',
                 }}).then( res =>{
                     console.log( 'res:', res );

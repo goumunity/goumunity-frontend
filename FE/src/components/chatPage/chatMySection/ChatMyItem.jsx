@@ -4,6 +4,7 @@ import geo from '@/assets/images/logo.png';
 import useAxiosGet from '../../../hooks/useAxiosGet';
 import { useNavigate } from 'react-router-dom';
 import CloseButton from '../../common/CloseButton';
+import instance from "@/utils/instance.js";
 
 function ChatMyItem(props) {
   const [chatData, setChatData] = useState(null);
@@ -14,9 +15,9 @@ function ChatMyItem(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const res = await axios.get('/fake/chatMyList');
-        const res = await axios.get(
-          `temp/api/users/my/chat-rooms?page=0&size=100&time=${new Date().getTime()}`
+        // const res = await instance.get('/fake/chatMyList');
+        const res = await instance.get(
+          `/api/users/my/chat-rooms?page=0&size=100&time=${new Date().getTime()}`
         );
 
         setChatData(res.data.contents);
@@ -51,7 +52,7 @@ function ChatMyItem(props) {
   //채팅방 삭제
   const handleRemoveChat = () => {
     setChatData();
-    async () => await axios.delete(`/api/chat-rooms/${chatRoomId}`);
+    async () => await instance.delete(`/api/chat-rooms/${chatRoomId}`);
   };
 
   return (

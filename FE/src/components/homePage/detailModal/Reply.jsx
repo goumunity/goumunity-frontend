@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ReplyLikeBox from './ReplyLikeBox';
 import PatchReplyBox from './PatchReplyBox';
+import instance from "@/utils/instance.js";
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment' },
@@ -44,7 +45,7 @@ function Reply({
     if (!isConfirm) return;
 
     try {
-      const res = await axios.delete(
+      const res = await instance.delete(
         `/api/comments/${commentId}/replies/${replyId}`
       );
       const newReplyList = replyList.filter(

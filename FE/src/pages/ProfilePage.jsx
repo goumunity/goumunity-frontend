@@ -12,6 +12,7 @@ import axios from "axios";
 import Loading from "../components/common/Loading";
 import ProfileBaseUnder from "../components/ProfilePage/ProfileBaseUnder";
 import ProfileDetailUnder from "../components/ProfilePage/ProfileDetailUnder";
+import instance from "@/utils/instance.js";
 const ProfilePage = () => {
   const { detail } = useParams();
   const [info, setInfo]  = useState({}); 
@@ -51,7 +52,7 @@ const ProfilePage = () => {
   const containerClasses = `base border-2 border-bg-600 flex flex-row ${h}`;
   const onLoad = () => { 
 
-    axios.get("/api/users/my",
+    instance.get("/api/users/my",
     {withCredentials:true})
     .then( res => {
       // console.log( 'res : ', res.data );
@@ -60,13 +61,13 @@ const ProfilePage = () => {
       return res.data;  
     }).then( info => {
 
-      axios.get(`/api/users/${info.id}/feeds`, {withCredentials:true}).then( res => {
+      instance.get(`/api/users/${info.id}/feeds`, {withCredentials:true}).then( res => {
         setWritten( res.data );
         setIsWrittenLoaded( true );
 
         return info;
       }).then( info => {
-        axios.get(`/api/users/${info.id}/savings`, {withCredentials:true}).then( res => { 
+        instance.get(`/api/users/${info.id}/savings`, {withCredentials:true}).then( res => { 
         
 
         const saves = res.data['result'].filter( el => el.price != null );

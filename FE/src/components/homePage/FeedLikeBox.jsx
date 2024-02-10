@@ -3,6 +3,7 @@ import { useState } from 'react';
 import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import Option from '../common/Option';
+import instance from "@/utils/instance.js";
 
 function FeedLikeBox({ likeCount, feedId, ilikeThat }) {
   const [feedLikeCount, setFeedLikeCount] = useState(likeCount);
@@ -10,7 +11,7 @@ function FeedLikeBox({ likeCount, feedId, ilikeThat }) {
   
   const handleClickCreateFeedLike = async () => {
     try {
-      const res = await axios.post(`/api/feeds/${feedId}/like`);
+      const res = await instance.post(`/api/feeds/${feedId}/like`);
 
       console.log(res)
       setIsFeedLike(true);
@@ -22,7 +23,7 @@ function FeedLikeBox({ likeCount, feedId, ilikeThat }) {
 
   const handleClickDeleteFeedLike = async () => {
     try {
-      const res = await axios.delete(`/api/feeds/${feedId}/unlike`);
+      const res = await instance.delete(`/api/feeds/${feedId}/unlike`);
       setIsFeedLike(false);
       setFeedLikeCount((prev) => prev - 1);
     } catch (error) {
