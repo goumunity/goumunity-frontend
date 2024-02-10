@@ -11,7 +11,7 @@ function ChatMySection(props) {
   const isModalOpen = useSelector((state) => state.modal.isModalOpen);
   const modalOption = useSelector((state) => state.modal.modalOption);
   const [chatRoomModal, setChatRoomModal] = useState(false);
-  const { handleClickMySection, isLoaded,  handleJoinChatRoom, myChatRooms } = props;
+  const { handleClickMySection, isLoaded,  handleJoinChatRoom, myChatRooms, setMyChatRooms } = props;
   if (!myChatRooms) {
     return <div>Loading...</div>; // 데이터가 로딩 중일 때 표시할 내용
   }
@@ -56,7 +56,7 @@ function ChatMySection(props) {
             </button>
             {isModalOpen && modalOption === 'createChat' && (
               <CustomModal>
-                <ChatRoomModal />
+                <ChatRoomModal setMyChatRooms={setMyChatRooms} myChatRooms={myChatRooms} />
               </CustomModal>
             )}
           </div>

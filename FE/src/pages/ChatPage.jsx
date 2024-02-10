@@ -62,9 +62,9 @@ function ChatPage() {
     };
 
     useEffect(() => {
-        // connect();
+        connect();
         fetchChatRoomData();
-        // return () => disconnect();
+        return () => disconnect();
     }, []);
 
 
@@ -82,6 +82,7 @@ function ChatPage() {
             <div className='w-1/6 bg-yellow'>
                 <ChatMySection
                     myChatRooms={myChatRooms}
+                    setMyChatRooms={setMyChatRooms}
                     handleJoinChatRoom={onJoinedRoomClicked}
                     handleClickMySection={handleClickMySection}
                     isLoaded={isLoaded}

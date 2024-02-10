@@ -26,8 +26,6 @@ function ChatRecommendedItem(props) {
                             .then(res => {
                                 setMyChatRooms([res.data, ...myChatRooms]);
                             })
-
-
                     })
                     .catch(error => {
                         Swal.fire({

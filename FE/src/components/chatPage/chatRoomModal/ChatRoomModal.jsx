@@ -1,22 +1,21 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import UserInput from '../../common/UserInput';
-import { useDispatch, useSelector } from 'react-redux';
-import hashtagButtonIcon from '@/assets/svgs/hashtagButtonIcon.svg';
+import {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
 import SelectBox from '../../common/SelectBox';
 import HashTag from '../../common/HashTag';
 import ProfileImage from '../../common/ProfileImage';
-import axios from 'axios';
-import HashtagMore from './HashtagMore';
 import CloseButton from '../../common/CloseButton';
-import { imageUpload } from '../../../utils/upload';
+import {imageUpload} from '../../../utils/upload';
 import Button from '../../common/Button';
 import instance from "@/utils/instance.js";
+import {modalActions} from "@/store/modal.js";
 
-function ChatRoomModal() {
+function ChatRoomModal({setMyChatRooms, myChatRooms}) {
   const [profileImage, setProfileImage] = useState('');
   const [resultImage, setResultImage] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const [userInputs, setUesrInputs] = useState({
@@ -65,8 +64,6 @@ function ChatRoomModal() {
       setErrorMessage('방 지역을 선택해주세요');
       return;
     }
-    console.log(userInputs.hashtags)
-    console.log(arr)
     const data = {
       title: userInputs.title,
       hashtags: arr.map(data => data.value),
@@ -90,6 +87,9 @@ function ChatRoomModal() {
     const fetchData = async () => {
       try {
         const res = await instance.post('/api/chat-rooms', formData);
+        const newChatRoom = await instance.get(`/api/chat-rooms/${res.data}`);
+        console.log(newChatRoom)
+        await setMyChatRooms([newChatRoom.data, ...myChatRooms]);
       } catch (error) {
         console.error('api 요청 중 오류 발생 : ', error);
         if (error.response.status === 409) {
@@ -99,9 +99,9 @@ function ChatRoomModal() {
       }
     };
 
-    fetchData();
-
+    await fetchData();
     navigate('/chat');
+    dispatch(modalActions.closeModal());
   };
 
   // 유저 입력 감지
@@ -166,9 +166,6 @@ function ChatRoomModal() {
     const nextArr = arr.filter((elem) => elem.idx !== target.idx);
     setArr(nextArr);
   };
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const tagArr = arr.map((elem) => (
     <HashTag>
       <CloseButton
