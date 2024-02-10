@@ -1,11 +1,10 @@
 import ChatRecommendedItem from './ChatRecommendedItem';
 import './ChatRecommendedItem.css';
-import redBoy from '@/assets/images/redBoy.jpg';
 import SearchIcon from '../../common/SearchIcon';
 import {useEffect, useState} from 'react';
 import instance from "@/utils/instance.js";
 
-function ChatRecommendedSection() {
+function ChatRecommendedSection({setMyChatRooms, myChatRooms}) {
     const [userInput, setUserInput] = useState('');
     const [items, setItems] = useState([]);
 
@@ -51,7 +50,7 @@ function ChatRecommendedSection() {
             <div className='grid grid-cols-3 gap-10 p-10'>
                 {items.map((item) => (
                     <>
-                        <ChatRecommendedItem item={item}/>
+                        <ChatRecommendedItem item={item} setMyChatRooms={setMyChatRooms}    myChatRooms={myChatRooms}/>
                     </>
                 ))}
             </div>

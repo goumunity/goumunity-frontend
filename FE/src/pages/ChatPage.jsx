@@ -10,6 +10,7 @@ function ChatPage() {
     const [isLoaded, setIsLoaded] = useState(true);
     const [chatRoomId, setChatRoomId] = useState(null);
     const [messages, setMessages] = useState([]);
+    const [hasNext, setHasNext] = useState(true);
     const [myChatRooms, setMyChatRooms] = useState([]);
 
     const handleClickMySection = () => {
@@ -21,6 +22,7 @@ function ChatPage() {
     const fetchChatRoomData = async () => {
         try{
             const res = await instance.get(`/api/users/my/chat-rooms?page=0&size=100&time=${new Date().getTime()}`);
+            setHasNext(res.data.hasNextPage);
             setMyChatRooms(res.data.contents);
         }catch (error) {
             console.error(error)
@@ -64,6 +66,10 @@ function ChatPage() {
         fetchChatRoomData();
         // return () => disconnect();
     }, []);
+
+
+
+
     const onJoinedRoomClicked = (id) => {
         if (room.current !== null) room.current.unsubscribe();
         setChatRoomId(id);
@@ -88,7 +94,10 @@ function ChatPage() {
                     <span></span>
                     <div>
                         {isLoaded ? (
-                            <ChatRecommendedSection/>
+                            <ChatRecommendedSection
+                                myChatRooms={myChatRooms}
+                                setMyChatRooms={setMyChatRooms}
+                            />
                         ) : (
                             <ChatTalkSection id={chatRoomId}
                                              onMessageSend={onMessageSend}

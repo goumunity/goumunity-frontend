@@ -6,7 +6,7 @@ import {useEffect} from "react";
 
 function ChatRecommendedItem(props) {
 
-    const {item} = props;
+    const {item, setMyChatRooms, myChatRooms} = props;
 
     const onEnterButtonClicked = () => {
         Swal.fire(
@@ -20,6 +20,15 @@ function ChatRecommendedItem(props) {
             console.log(result)
             if (result.isConfirmed) {
                 instance.post(`/api/chat-rooms/${item.chatRoomId}`)
+                    .then(() => {
+
+                        instance.get(`/api/chat-rooms/${item.chatRoomId}`)
+                            .then(res => {
+                                setMyChatRooms([res.data, ...myChatRooms]);
+                            })
+
+
+                    })
                     .catch(error => {
                         Swal.fire({
                             icon: "error",

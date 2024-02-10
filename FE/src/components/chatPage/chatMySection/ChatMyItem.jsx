@@ -67,7 +67,7 @@ function ChatMyItem(props) {
                         className='flex text-responsive font-her'
                         style={{flexWrap: 'wrap'}}
                     >
-                      {value.hashtags.map((name, hashtagsIndex) => (
+                      {value.hashtags?.map((name, hashtagsIndex) => (
                           <li
                               className='pr-2'
                               key={hashtagsIndex}
