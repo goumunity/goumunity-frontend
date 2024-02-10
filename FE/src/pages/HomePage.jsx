@@ -6,6 +6,7 @@ import CreateFeedModal from '@/components/homePage/createPostModal/CreateFeedMod
 import { useNavigate, useParams } from 'react-router-dom';
 import PatchFeedModal from '../components/homePage/createPostModal/PatchFeedModal';
 import instance from "@/utils/instance.js";
+import RankingBar from '../components/homePage/Ranking/GoumunityRanking.jsx';
 
 function HomePage() {
   const [initialTime] = useState(new Date().getTime());
@@ -56,7 +57,8 @@ function HomePage() {
   // }
 
   return (
-    <div className='flex flex-col items-center h-full bg-bright'>
+    <div className='flex flex-row justify-center bg-bright'>
+      <div className='flex flex-col items-center h-full'>
       {feedList.map((feed, idx) => (
         <Feed
           feed={feed}
@@ -72,6 +74,9 @@ function HomePage() {
 
       <div ref={lastFeedRef} style={{ height: '10px' }}></div>
     </div>
+    <RankingBar/>
+    </div>
+    
   );
 }
 

@@ -93,7 +93,7 @@ const ProfilePage = () => {
 
   
   return (
-    <div className="font-dove" id="body">
+    <div className="font-dove bg-bright" id="body">
       
        <div className={`grid flex flex-col p-10 ${h2}`}>
         {
