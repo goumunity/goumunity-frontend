@@ -211,7 +211,7 @@ const ProfileDetailUnder = ( {info} ) => {
             
             <div className="w-full ms-4 mt-4">
 
-                <button className="w-5/6 me-3 mt-1 p-2 bg-bg block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300" onClick={putInfo}> 수정 </button>
+                <button className="w-5/6 me-3 mt-1 p-2 bg-button block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300 hover:bg-orange-200 hover:text-gray-600 text-white" onClick={putInfo}> 수정 </button>
                             
 
             </div>

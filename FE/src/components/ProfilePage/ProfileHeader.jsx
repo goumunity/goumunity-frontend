@@ -56,7 +56,7 @@ const ProfileHeader = ( { info } ) => {
             </div>
             <div className="w-1/5 flex flex-col justify-around">
               <Link to="/profile/detail"><Button2to1 text="수정" size="8"></Button2to1></Link>
-              <Button2to1 text="회원 삭제" size="8" onClick={handleClickDeleteUser}></Button2to1>
+              <Button2to1 text="회원 삭제" size="8" onClick={handleClickDeleteUser} isNegative={true}></Button2to1>
             </div>
             </>)
             : ( <>
