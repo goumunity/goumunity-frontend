@@ -1,22 +1,21 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import UserInput from '../../common/UserInput';
-import { useDispatch, useSelector } from 'react-redux';
-import hashtagButtonIcon from '@/assets/svgs/hashtagButtonIcon.svg';
+import {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
 import SelectBox from '../../common/SelectBox';
 import HashTag from '../../common/HashTag';
 import ProfileImage from '../../common/ProfileImage';
-import axios from 'axios';
-import HashtagMore from './HashtagMore';
 import CloseButton from '../../common/CloseButton';
-import { imageUpload } from '../../../utils/upload';
+import {imageUpload} from '../../../utils/upload';
 import Button from '../../common/Button';
 import instance from "@/utils/instance.js";
+import {modalActions} from "@/store/modal.js";
 
-function ChatRoomModal() {
+function ChatRoomModal({setMyChatRooms, myChatRooms}) {
   const [profileImage, setProfileImage] = useState('');
   const [resultImage, setResultImage] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const [userInputs, setUesrInputs] = useState({
@@ -57,10 +56,6 @@ function ChatRoomModal() {
       setErrorMessage('방 제목을 입력해줏세요');
       return;
     }
-    // if (userInputs.hashtags === '') {
-    //   setErrorMessage('해쉬태그를 입력해주세요');
-    //   return;
-    // }
     if (userInputs.capability === '') {
       setErrorMessage('방 최대 인원 수를 입력해주세요');
       return;
@@ -71,7 +66,7 @@ function ChatRoomModal() {
     }
     const data = {
       title: userInputs.title,
-      hashtags: [],
+      hashtags: arr.map(data => data.value),
       capability: userInputs.capability,
       regionId: userInputs.regionId,
     };
@@ -92,6 +87,9 @@ function ChatRoomModal() {
     const fetchData = async () => {
       try {
         const res = await instance.post('/api/chat-rooms', formData);
+        const newChatRoom = await instance.get(`/api/chat-rooms/${res.data}`);
+        console.log(newChatRoom)
+        await setMyChatRooms([newChatRoom.data, ...myChatRooms]);
       } catch (error) {
         console.error('api 요청 중 오류 발생 : ', error);
         if (error.response.status === 409) {
@@ -101,9 +99,8 @@ function ChatRoomModal() {
       }
     };
 
-    fetchData();
-
-    navigate('/chat');
+    await fetchData();
+    dispatch(modalActions.closeModal());
   };
 
   // 유저 입력 감지
@@ -168,9 +165,6 @@ function ChatRoomModal() {
     const nextArr = arr.filter((elem) => elem.idx !== target.idx);
     setArr(nextArr);
   };
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const tagArr = arr.map((elem) => (
     <HashTag>
       <CloseButton
@@ -198,7 +192,8 @@ function ChatRoomModal() {
   return (
     <>
       <h1 className='font-daeam text-2xl'>채팅방 개설하기</h1>
-      <form onSubmit={handleSubmitChatCreate}>
+      {/*<form onSubmit={handleSubmitChatCreate}>*/}
+      <form >
         <div className='text-start font-her text-2xl'>*채팅방 제목 </div>
         <div className='content-start pb-3'>
           <input
@@ -313,7 +308,7 @@ function ChatRoomModal() {
           </div>
         </div>
         <div className='pt-2'>
-          <Button text='추가하기' type='submit' />
+          <Button text='추가하기' type='button' onClick={handleSubmitChatCreate}/>
         </div>
       </form>
     </>

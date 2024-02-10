@@ -1,14 +1,17 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import login, { loginActions } from "../../store/login";
 
-export default function Login({ isLoggedIn, setUserId, setChatRooms }) {
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
+export default function Login() {
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
   const onLoginButtonClicked = () => {
     axios
       .post(
-        '/temp/api/users/login',
+        "/temp/api/users/login",
         // '/api/users/login',
         {
           id,
@@ -17,8 +20,10 @@ export default function Login({ isLoggedIn, setUserId, setChatRooms }) {
         { withCredentials: true }
       )
       .then(() => {
-        isLoggedIn(true);
-        setUserId(id);
+        // isLoggedIn(true);
+        dispatch(loginActions.isLoggedIn(true));
+        // setUserId(id);
+        dispatch(loginActions.setUserId(id));
         axios
           .get(
             `/temp/api/users/my/chat-rooms?page=0&size=12&time=${new Date().getTime()}`,
@@ -26,14 +31,15 @@ export default function Login({ isLoggedIn, setUserId, setChatRooms }) {
           )
           .then((res) => {
             console.log(res.data);
-            setChatRooms(res.data);
+            // setChatRooms(res.data);
+            dispatch(loginActions.setChatRooms(res.data));
           });
       });
     alert(`아이디 : ${id} 비번 : ${password}`);
   };
 
   const handleOnKeyPress = (e) => {
-    if (e.key === 'Enter') onLoginButtonClicked();
+    if (e.key === "Enter") onLoginButtonClicked();
   };
 
   return (

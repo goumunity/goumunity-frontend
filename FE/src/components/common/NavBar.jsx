@@ -10,7 +10,7 @@ import './NavHover.css';
 import instance from "@/utils/instance.js";
 
 function NavBar() {
-    // LandingPage에서는 NavBar를 렌더링하지 않음
+  // LandingPage에서는 NavBar를 렌더링하지 않음
 
     const targetUrl = window.location.pathname;
     switch (targetUrl) {
@@ -57,10 +57,7 @@ function NavBar() {
         console.log('target', targetUrl)
     }, [])
 
-
     const handleClickDeleteUser = async () => {
-
-
         // 사용자가 확인을 누르면 알림창을 띄우고, 그렇지 않으면 아무 동작도 하지 않음
         if (!isConfirm) return;
         // 여기에 실제 회원 탈퇴 처리 로직을 추가할 수 있음
