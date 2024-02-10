@@ -61,26 +61,6 @@ function NavBar() {
   useEffect( () => {
     console.log( 'target',targetUrl )
   } ,[])
-  
-
-<<<<<<< HEAD
-  
-=======
-    // 사용자가 확인을 누르면 알림창을 띄우고, 그렇지 않으면 아무 동작도 하지 않음
-    if (!isConfirm) return;
-    // 여기에 실제 회원 탈퇴 처리 로직을 추가할 수 있음
-
-    try {
-      const res = await instance.delete('/api/users/my');
-    } catch (error) {
-      console.log('에러 발생 : ', error);
-      return;
-    }
-    dispatch(authActions.logout());
-    alert('회원 탈퇴가 완료되었습니다.');
-    navigate('/landing/join/1');
-  };
->>>>>>> origin/FE
 
   const activeClass = 'underline';
 

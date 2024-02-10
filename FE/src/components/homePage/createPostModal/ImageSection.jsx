@@ -19,7 +19,7 @@ function ImageSection({ isSlide, fileList, setFileList}) {
   const handleChangeUploadImageList = (e) => {
     const files = e.target.files;
     setFileList([...files])
-    console.log('전체 파일:', files)
+    console.log('fileList 확인:', fileList)
     if (files.length === 0) return;
     for (let i = 0; i < files.length; i++) {
       if (files[i].type.split('/')[0] !== 'image') continue;
@@ -33,16 +33,16 @@ function ImageSection({ isSlide, fileList, setFileList}) {
   //   });
   //   setImageList(newImageList);
   // };
-  const handleClickDeleteImage = (target) => {
+  const handleClickDeleteImage = (targetIdx) => {
     console.log(fileList)
-    const newImageList = imageList.filter((image) => {
-      return image !== target;
+    const newImageList = imageList.filter((_, idx) => {
+      return idx !== targetIdx;
     });
-    // const newFileList = fileList.filter((file) => {
-    //   return URL.createObjectURL(file) !== target;
-    // });
+    const newFileList = fileList.filter((_, idx) => {
+      return idx !== targetIdx;
+    });
     setImageList(newImageList);
-    // setFileList(newFileList);
+    setFileList(newFileList);
   };
 
   const settings = {
@@ -77,7 +77,7 @@ function ImageSection({ isSlide, fileList, setFileList}) {
                 />
                 <CloseButton
                   className='absolute right-5 top-5'
-                  onClick={() => handleClickDeleteImage(image)}
+                  onClick={() => handleClickDeleteImage(idx)}
                 />
               </div>
             );
