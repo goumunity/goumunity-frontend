@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 import defaultMaleIcon from '../../assets/svgs/defaultMaleIcon.svg';
 import { useEffect, useState } from 'react';
@@ -51,22 +52,24 @@ const ProfileImageSection = ( { size, src } ) => {
       };
     
       const customLabelStyle = {
-        backgroundImage: `url("${ imgSrc }")`,
+        backgroundImage: `url("${imgSrc }")`,
         backgroundSize: 'cover',
-        width:'200px',
-        height:'200px',
+        width:'12rem',
+        height:'12rem',
         display: 'inline-block',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        border: '3px solid'
       };
 
     return(
         <>
-            <div className="rounded-full border-2 w-fit overflow-hidden cursor-pointer">
+            <div className="w-fit cursor-pointer">
                 <input type="file" id="fileInput" style={customInputStyle} onChange={onImgChange} />
-                <label htmlFor="fileInput" style={customLabelStyle}></label>
+                <label htmlFor="fileInput" style={customLabelStyle} className='rounded-full'></label>
             </div>
         </>
     )
+
 }
 
 

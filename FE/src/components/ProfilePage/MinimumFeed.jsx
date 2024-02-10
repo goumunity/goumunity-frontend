@@ -3,7 +3,7 @@ import Button2to1 from "../../components/common/Button2to1";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { useEffect } from "react";
-const MinimumFeed = ( {size, feedId, nickname,createAt, content, deletePost } ) => {
+const MinimumFeed = ( {size, feedId, nickname,createAt, content, deletePost,imgSrc } ) => {
   // const navigate = useNavigate(); 안됨
   // 에러 catch 없애달라고 요청하기.
   const navigate = useNavigate();
@@ -12,10 +12,12 @@ const MinimumFeed = ( {size, feedId, nickname,createAt, content, deletePost } ) 
   
     return(
         <div className="w-full">
-<div className={`w-${size}  border border-gray`}>,
+<div className={`w-${size}  border border-gray`}>
         <div className='w-full flex flex-col px-4 py-2'>
       <div className='w-full flex justify-around gap-2'>
-        <ProfileImage size='8'/>
+        <div className="w-8 h-8"> 
+          <img src={imgSrc} className="rounded-full"/>
+        </div>
         <div className='flex gap-2 w-4/5'>
           {/* <span className='font-daeam'>CheongRyeong</span>{' '} */}
           <span className='font-daeam'>{nickname}</span>

@@ -14,8 +14,6 @@ import ProfileBaseUnder from "../components/ProfilePage/ProfileBaseUnder";
 import ProfileDetailUnder from "../components/ProfilePage/ProfileDetailUnder";
 import instance from "@/utils/instance.js";
 const ProfilePage = () => {
-  
-
   const { detail } = useParams();
   const [info, setInfo]  = useState({}); 
   const h = detail !== 'detail' ? '' : 'h-fit'
@@ -49,7 +47,7 @@ const ProfilePage = () => {
 
   }
    useEffect( () => {
-    console.log( savings );
+    // console.log( savings );
    },[savings])
   const containerClasses = `base border-2 border-bg-600 flex flex-row ${h}`;
   const onLoad = () => { 
@@ -57,7 +55,7 @@ const ProfilePage = () => {
     instance.get("/api/users/my",
     {withCredentials:true})
     .then( res => {
-      console.log( 'res : ', res.data );
+      // console.log( 'res : ', res.data );
       setInfo( res.data );
       setIsInfoLoaded( true );
       return res.data;  
