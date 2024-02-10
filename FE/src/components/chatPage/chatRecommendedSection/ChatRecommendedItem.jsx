@@ -53,13 +53,13 @@ function ChatRecommendedItem(props) {
                         );
                     })}
                     <div className='mt-3 text-gray-800 font-paci text-center rounded-md border-2 hover:border-solid
+                    p-2
+                    text-2xl
                     hover:bg-bg
                     hover:cursor-pointer'
                          onClick={onEnterButtonClicked}
                     >
-                        <button >
-                            입장하기
-                        </button>
+                        입장하기
                     </div>
                 </div>
             </div>

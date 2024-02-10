@@ -9,14 +9,8 @@ function ChatRecommendedSection() {
     const [userInput, setUserInput] = useState('');
     const [items, setItems] = useState([]);
 
-    const searched = items.filter(
-        (item) =>
-            item.title.includes(userInput) ||
-            item.hashtags.data.name.includes(userInput)
-    );
-
     const onSearchItem = () => {
-        instance.get(`/api/chat-rooms/search?keyword=&page=0&size=12&time=${new Date().getTime()}`)
+        instance.get(`/api/chat-rooms/search?keyword=${userInput}&page=0&size=12&time=${new Date().getTime()}`)
             .then(res => {
                 console.log(res.data)
                 setItems(res.data.contents)
@@ -29,11 +23,11 @@ function ChatRecommendedSection() {
 
     return (
         <div className='cards'>
-            <div className='flex font-her justify-center bg-gray-100 p-4'>
+            <div className='flex font-her justify-center  p-4'>
                 <input
                     type='text'
                     placeholder='검색어를 입력해봐~'
-                    className='p-4 border border-t border-b border-l -mr-px border-gray-300 rounded-md focus:outline-none focus:border-gray-500 bg-transparent text-gray-100 text-3xl w-1/3'
+                    className='p-4 border border-t border-b border-l -mr-px border-gray-300 rounded-md focus:outline-none focus:border-gray-500 bg-transparent text-3xl w-1/3'
                     style={{
                         borderRadius: '1.3rem 0 0 1.3rem',
                         backgroundColor: 'rgba(0,0,0,0)',
@@ -43,7 +37,8 @@ function ChatRecommendedSection() {
                     }}
                 />
                 <div
-                    className='p-4 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500 bg-transparent text-gray-100 text-3xl w-20'
+                    className='p-4 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500 bg-transparent text-gray-100 text-3xl w-20
+                    hover:cursor-pointer'
                     style={{
                         borderRadius: '0 1.3rem  1.3rem 0',
                         backgroundColor: 'rgba(0,0,0,0)',
@@ -54,14 +49,11 @@ function ChatRecommendedSection() {
                 </div>
             </div>
             <div className='grid grid-cols-3 gap-10 p-10'>
-
                 {items.map((item) => (
                     <>
                         <ChatRecommendedItem item={item}/>
                     </>
                 ))}
-
-
             </div>
 
         </div>
