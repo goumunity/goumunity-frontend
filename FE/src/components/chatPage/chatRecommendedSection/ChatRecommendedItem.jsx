@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
 import instance from "@/utils/instance.js";
 
 function ChatRecommendedItem(props) {
@@ -14,9 +12,7 @@ function ChatRecommendedItem(props) {
         const res = await instance.get(
           `/api/chat-rooms/search?keyword=거&page=0&size=100&time=${new Date().getTime()}`
         );
-        //'/fake/chatRecomNext'
         console.log(res);
-        // setChatData(res.data.chatRecomItemList);
         setChatData(res.data.contents);
         console.log(chatMyData);
       } catch (error) {
@@ -140,21 +136,21 @@ function ChatRecommendedItem(props) {
   return (
     <>
       <form onSubmit={handleSubmitEnterChat}>
-        {chatData
-          .filter((val) => {
-            if (props.userInput == '') {
-              return val;
-            } else if (
-              val.title.includes(props.userInput) ||
-              val.hashtags.some((tag) => tag.name.includes(props.userInput))
-            ) {
-              return val;
-            }
-          })
-          .map((value, index) => {
-            return (
-              <>
-                <li className='cards__item' key={index}>
+        <ul className='flex flex-wrap justify-center p-0 m-0 list-none'>
+          {chatData
+            .filter((val) => {
+              if (props.userInput == '') {
+                return val;
+              } else if (
+                val.title.includes(props.userInput) ||
+                val.hashtags.some((tag) => tag.name.includes(props.userInput))
+              ) {
+                return val;
+              }
+            })
+            .map((value, index) => {
+              return (
+                <li className='p-0 m-5' key={index}>
                   <div className='cards__item__link'>
                     <figure className='cards__item__pic-wrap'>
                       <img
@@ -186,9 +182,9 @@ function ChatRecommendedItem(props) {
                     </div>
                   </div>
                 </li>
-              </>
-            );
-          })}
+              );
+            })}
+        </ul>
       </form>
     </>
   );

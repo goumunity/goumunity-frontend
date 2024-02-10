@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import axios from 'axios';
 import geo from '@/assets/images/logo.png';
-import useAxiosGet from '../../../hooks/useAxiosGet';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import CloseButton from '../../common/CloseButton';
 import instance from "@/utils/instance.js";
 
 function ChatMyItem(props) {
-  const [chatData, setChatData] = useState(null);
   const navigate = useNavigate();
-  const { handleClickMySection, setId } = props;
+  const {
+    handleClickMySection, chatData, setChatData, value, index
+    , handleJoinChatRoom
+  } = props;
+  const [isHovered, setIsHovered] = useState(false);
+
 
   //api 연결
   useEffect(() => {
@@ -17,7 +20,7 @@ function ChatMyItem(props) {
       try {
         // const res = await instance.get('/fake/chatMyList');
         const res = await instance.get(
-          `/api/users/my/chat-rooms?page=0&size=100&time=${new Date().getTime()}`
+            `/api/users/my/chat-rooms?page=0&size=100&time=${new Date().getTime()}`
         );
 
         setChatData(res.data.contents);
@@ -53,61 +56,87 @@ function ChatMyItem(props) {
   const handleRemoveChat = () => {
     setChatData();
     async () => await instance.delete(`/api/chat-rooms/${chatRoomId}`);
-  };
+    const handleRemoveChat = async () => {
+      const inConfirm = window.confirm('정말로 방에서 나가시겠습니까?');
+      if (!inConfirm) return;
+      // onRemove();
 
-  return (
-    <>
-      {chatData.map((value, index) => {
-        return (
+      try {
+        const res = await axios.delete(
+            `/temp/api/chat-rooms/${value.chatRoomId}`
+        );
+        const newChatMyData = chatData.filter(
+            (val) => val.chatRoomId !== value.chatRoomId
+        );
+        setChatData(newChatMyData);
+        // setChatData((prev) => prev - 1);
+      } catch (error) {
+        console.error('api 요청 중 오류 발생: ', error);
+        if (error.response.status === 404) {
+          setErrorMessage('존재하지 않는 거지방입니다.');
+        }
+        if (error.response.status === 403) {
+          console.log(error + '권한이 없습니다.');
+        }
+        if (error.response.status === 409) {
+          console.log(error + '방장은 나갈 수 없습니다.');
+        }
+      }
+    };
+
+    // const onRemove = (target) => {
+    //   console.log(target);
+    //   const nextArr = arr.filter((elem) => elem.idx !== target.idx);
+    //   setArr(nextArr);
+    // };
+
+    return (
+        <div>
           <div>
             <button
-              key={value.idx}
-              // className='hover:rotate-12  hover:bg-orange-200'
-              onClick={() => {
-                handleButtonClick(value.chatRoomId);
-              }}
+                type='button'
+                key={value.idx}
+                className='hover:rotate-12  hover:bg-orange-200'
+                onClick={() => {
+                  handleButtonClick(value.chatRoomId);
+                  handleJoinChatRoom(value.chatRoomId);
+                }}
+                onMouseOver={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
             >
               <div
-                className='flex'
-                key={index}
-                onClick={() => {
-                  setId(value.chatRoomId);
-                }}
+                  className='flex'
+                  key={index}
+                  // onClick={() => {
+                  //   setId(value.chatRoomId);
+                  // }}
               >
                 <div className='w-1/4 mt-3'>
-                  <span>
-                    <img
-                      src={geo}
-                      style={{ width: '40px' }}
-                      alt='채팅방 사진'
-                    />
-                  </span>
+              <span>
+                <img src={geo} style={{width: '40px'}} alt='채팅방 사진'/>
+                {isHovered && <CloseButton onClick={handleRemoveChat}/>}
+              </span>
                 </div>
                 <div className='w-3/4 h-30'>
                   <div>
-                    <span className='font-bold text-responsive text-2xl'>
-                      <div className='flex justify-end  w-full'>
-                        {/* <CloseButton
-                          className='top-5 right-5 hover:bg-amber-300'
-                          onClick={handleRemoveChat(value.chatRoomId)}
-                        /> */}
-                      </div>
-                      {value.title}
-                    </span>
+                <span className='font-bold text-responsive text-2xl'>
+                  <div className='flex justify-end  w-full'></div>
+                  {value.title}
+                </span>
                     <span> 👤{value.currentUserCount}</span>
                     <span> 💬{value.unreadMessageCount}</span>
                   </div>
                   <div className='mt-1'></div>
                   <div>
                     <ul
-                      className='flex text-responsive font-her'
-                      style={{ flexWrap: 'wrap' }}
+                        className='flex text-responsive font-her'
+                        style={{flexWrap: 'wrap'}}
                     >
                       {value.hashtags.map((name, hashtagsIndex) => (
-                        <li
-                          className='pr-2'
-                          key={hashtagsIndex}
-                        >{`#${value.hashtags[hashtagsIndex].name}`}</li>
+                          <li
+                              className='pr-2'
+                              key={hashtagsIndex}
+                          >{`#${value.hashtags[hashtagsIndex].name}`}</li>
                       ))}
                     </ul>
                   </div>
@@ -115,9 +144,8 @@ function ChatMyItem(props) {
               </div>
             </button>
           </div>
-        );
-      })}
-    </>
-  );
+        </div>
+    );
+  }
 }
 export default ChatMyItem;

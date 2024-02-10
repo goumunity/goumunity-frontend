@@ -17,6 +17,7 @@ const ProfileHeader = ( { info } ) => {
        <div className="justify-center w-full flex flex-row p-20">
             <div className="">
               <div className="ms-16 me-16 w-32">
+              <ProfileImage size="32" profileImage={info.imgSrc}></ProfileImage>
               <ProfileImageSection size='36' src={info.imgSrc}/>
               </div>
               

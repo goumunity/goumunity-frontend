@@ -57,10 +57,6 @@ function ChatRoomModal() {
       setErrorMessage('방 제목을 입력해줏세요');
       return;
     }
-    // if (userInputs.hashtags === '') {
-    //   setErrorMessage('해쉬태그를 입력해주세요');
-    //   return;
-    // }
     if (userInputs.capability === '') {
       setErrorMessage('방 최대 인원 수를 입력해주세요');
       return;
@@ -69,9 +65,11 @@ function ChatRoomModal() {
       setErrorMessage('방 지역을 선택해주세요');
       return;
     }
+    console.log(userInputs.hashtags)
+    console.log(arr)
     const data = {
       title: userInputs.title,
-      hashtags: [],
+      hashtags: arr.map(data => data.value),
       capability: userInputs.capability,
       regionId: userInputs.regionId,
     };
@@ -198,7 +196,8 @@ function ChatRoomModal() {
   return (
     <>
       <h1 className='font-daeam text-2xl'>채팅방 개설하기</h1>
-      <form onSubmit={handleSubmitChatCreate}>
+      {/*<form onSubmit={handleSubmitChatCreate}>*/}
+      <form >
         <div className='text-start font-her text-2xl'>*채팅방 제목 </div>
         <div className='content-start pb-3'>
           <input
@@ -313,7 +312,7 @@ function ChatRoomModal() {
           </div>
         </div>
         <div className='pt-2'>
-          <Button text='추가하기' type='submit' />
+          <Button text='추가하기' type='button' onClick={handleSubmitChatCreate}/>
         </div>
       </form>
     </>
