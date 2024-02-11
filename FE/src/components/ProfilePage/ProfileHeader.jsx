@@ -86,6 +86,7 @@ const ProfileHeader = ( { info, isPrivate } ) => {
             </div>
             { detail !== 'detail' ? ( 
               <>
+<<<<<<< HEAD
               {
                 isPrivate && <div className="w-2/5 flex flex-col text-xl ms-16 mt-4">
                 <div className="text-3xl">{currentUser.nickname}님 환영합니다!</div>
@@ -106,6 +107,17 @@ const ProfileHeader = ( { info, isPrivate } ) => {
               isPrivate && <div className="w-1/5 flex flex-col justify-around">
               <Link to="/myprofile/detail"><Button2to1 text="수정" size="8"></Button2to1></Link>
               <Button2to1 text="회원 탈퇴" size="8" onClick={handleClickDeleteUser} isNegative={true}></Button2to1>
+=======
+            <div className="w-2/5 flex flex-col text-xl ms-16 mt-4">
+              <div className="text-3xl">{info.nickname}님 환영합니다!</div>
+              <div>{regionMapper[ info.regionId ] }</div>
+              <div>{info.age}살</div>
+              
+            </div>
+            <div className="w-1/5 flex flex-col justify-around">
+              <Link to="/profile/detail"><Button2to1 text="수정" size="8"></Button2to1></Link>
+              <Button2to1 text="회원 삭제" size="8" onClick={handleClickDeleteUser} isNegative={true}></Button2to1>
+>>>>>>> origin/feature/348
             </div>
             }
             </>)

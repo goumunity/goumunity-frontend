@@ -3,6 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import './GoumunityRanking.css'
 import instance from '../../../utils/instance.js'
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/feature/348
 const RankingBar = () => {
     
 //     const [DragStyleSheet, setDragStyleSheet] = useState({});
@@ -82,6 +85,7 @@ const RankingBar = () => {
             
 //         </>
 //     )
+<<<<<<< HEAD
 =======
 import rankBarBackGround from '../../../assets/svgs/rankBarBackGroundyellow.svg'
 const RankingBar = ( ranks ) => {
@@ -175,6 +179,8 @@ const RankingBar = ( ranks ) => {
         </>
     )
 >>>>>>> d18c277f
+=======
+>>>>>>> origin/feature/348
 
 }
 

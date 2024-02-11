@@ -6,9 +6,13 @@ import CreateFeedModal from '@/components/homePage/createPostModal/CreateFeedMod
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import PatchFeedModal from '../components/homePage/createPostModal/PatchFeedModal';
 import instance from "@/utils/instance.js";
+<<<<<<< HEAD
 import MemberRanking from '../components/homePage/Ranking/GoumunityRanking.jsx';
 import { useSelector } from 'react-redux';
 import FeedRanking from '../components/homePage/Ranking/FeedRanking';
+=======
+import RankingBar from '../components/homePage/Ranking/GoumunityRanking.jsx';
+>>>>>>> origin/feature/348
 
 function HomePage() {
   const [initialTime] = useState(new Date().getTime());
@@ -96,6 +100,7 @@ function HomePage() {
 
       <div ref={lastFeedRef} style={{ height: '10px' }}></div>
     </div>
+<<<<<<< HEAD
     {rankList.length === 0 ?
     (<>
     {/* <div className='w-72 h-10'></div> */}
@@ -111,6 +116,9 @@ function HomePage() {
     }
     {/* <Link to='/test'> <div>hi</div></Link> */}
     
+=======
+    {/* <RankingBar/> */}
+>>>>>>> origin/feature/348
     </div>
     
   );
