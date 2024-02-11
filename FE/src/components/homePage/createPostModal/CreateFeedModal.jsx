@@ -16,7 +16,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ModalBackground from '../../common/ModalBackground';
 import CategoryBox from './CategoryBox';
 import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
-import instance from "@/utils/instance.js";
+import instance from '@/utils/instance.js';
 
 const REGION_OPTIONS = [
   { id: 1, name: '광진구' },
@@ -31,7 +31,6 @@ const FEED_CATEGORY_OPTIONS = [
 
 function CreateFeedModal({ onClose, setFeedList }) {
   const currentUser = useSelector((state) => state.auth.currentUser);
-  console.log(currentUser);
   const [price, handleChangePrice] = useNumInput('');
   const [afterPrice, handleChangeAfterPrice] = useNumInput('');
   const [isSlide, setIsSlide] = useState(false);
@@ -78,10 +77,16 @@ function CreateFeedModal({ onClose, setFeedList }) {
 
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
     const formData = new FormData();
-    for (const image of fileList) {
-      console.log('이미지들:', image)
-      formData.append('images', image);
+    if (fileList.length > 0) {
+      for (const image of fileList) {
+        formData.append('images', image);
+      }
     }
+
+    // for (const image of imageSrcList) {
+    //   formData.append('images', image);
+    // }
+
     formData.append('data', blob);
     try {
       setIsLoading(true);
@@ -93,7 +98,6 @@ function CreateFeedModal({ onClose, setFeedList }) {
       const feedId = res.data;
       try {
         const res = await instance.get(`/api/feeds/${feedId}`);
-        console.log('단일 조회 : ', res);
         setFeedList((prev) => [
           {
             afterPrice: res.data.afterPrice,
@@ -197,7 +201,6 @@ function CreateFeedModal({ onClose, setFeedList }) {
                 onClick={handleClickOpenSlide}
               />
             </div>
-            {/* </div> */}
 
             {feedCategory === FEED_CATEGORY_OPTIONS[0].name ? (
               <div className='flex justify-center'>

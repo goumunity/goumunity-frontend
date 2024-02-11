@@ -8,6 +8,7 @@ import FeedLikeBox from './FeedLikeBox';
 import NicknameBox from '../common/NicknameBox';
 import defaultMaleIcon from '../../assets/svgs/defaultMaleIcon.svg';
 import instance from "@/utils/instance.js";
+import FeedScrapBox from './FeedScrapBox';
 
 // 댓글, 답글 200자
 function Feed({ feed, setFeedList, feedList, ...props }) {
@@ -122,6 +123,10 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
         <Link to={`/${feedId}`}>
           <Option text={commentCount} src={commentIcon} size={5} />
         </Link>
+        <FeedScrapBox
+          isScrapped={isScrapped}
+          feedId={feedId}
+        />
       </div>
     </div>
   );

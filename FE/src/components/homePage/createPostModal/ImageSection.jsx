@@ -7,34 +7,22 @@ import ItemsCarousel from 'react-items-carousel';
 import Slider from 'react-slick';
 import CloseButton from '../../common/CloseButton';
 
-function ImageSection({ isSlide, fileList, setFileList}) {
+function ImageSection({ isSlide, fileList, setFileList }) {
   const [imageList, setImageList] = useState([]);
-  // const [fileList, setFileList] = useState([]);
   const categorySectionClassName = isSlide ? 'visible w-96' : 'hidden w-0';
-
-  // const handleChangeUploadProfileImg = (e) => {
-  //   setImageSrcList(imageUpload(e.target, setImageList));
-  // };
+  const [isDetailImageOpen, setIsDetailImageOpen] = useState(false);
 
   const handleChangeUploadImageList = (e) => {
     const files = e.target.files;
-    setFileList([...files])
-    console.log('fileList 확인:', fileList)
+    setFileList((prev) => [...prev, ...files]);
     if (files.length === 0) return;
     for (let i = 0; i < files.length; i++) {
       if (files[i].type.split('/')[0] !== 'image') continue;
-      setImageList((prev) => [...prev, URL.createObjectURL(files[i])])
+      setImageList((prev) => [...prev, URL.createObjectURL(files[i])]);
     }
-  }
+  };
 
-  // const handleClickDeleteImage = (target) => {
-  //   const newImageList = imageList.filter((image) => {
-  //     return image !== target;
-  //   });
-  //   setImageList(newImageList);
-  // };
   const handleClickDeleteImage = (targetIdx) => {
-    console.log(fileList)
     const newImageList = imageList.filter((_, idx) => {
       return idx !== targetIdx;
     });
@@ -45,6 +33,35 @@ function ImageSection({ isSlide, fileList, setFileList}) {
     setFileList(newFileList);
   };
 
+  const onDragStart = (e, idx) => {
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('imgIndex', String(idx));
+  };
+
+  const onDragDrop = (e, idx) => {
+    e.preventDefault();
+
+    const sourceIndex = Number(e.dataTransfer.getData('imgIndex'));
+    if (sourceIndex === idx) return;
+    const newImageList = [...imageList];
+    const newFileList = [...fileList];
+    const [movedImage] = newImageList.splice(sourceIndex, 1);
+    const [movedFile] = newFileList.splice(sourceIndex, 1);
+
+    newImageList.splice(idx, 0, movedImage);
+    newFileList.splice(idx, 0, movedFile);
+    setImageList(newImageList);
+    setFileList(newFileList);
+  };
+
+  const onDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleClickToggleImageDetail = () => {
+    setIsDetailImageOpen(!isDetailImageOpen);
+  };
+
   const settings = {
     dots: true,
     infinite: false,
@@ -52,6 +69,8 @@ function ImageSection({ isSlide, fileList, setFileList}) {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
+    // prevArrow: (<><i className="absolute left-3 z-50 fa-solid fa-arrow-left cursor-pointer"></i></>),
+    // nextArrow: (<><i className="absolute right-3 top-10 z-50 fa-solid fa-arrow-right cursor-pointer"></i></>),
     // customPaging: (i) => <button style={{ width: '30px', height: '30px' }}>{i + 1}</button>,
   };
   return (
@@ -60,28 +79,68 @@ function ImageSection({ isSlide, fileList, setFileList}) {
     >
       {imageList.length ? (
         <Slider
-          className='flex justify-center items-center w-full h-full bg-red-500'
           {...settings}
+          className='relative flex justify-center items-center w-full h-full'
         >
           {imageList.map((image, idx) => {
             return (
               <div
                 key={idx}
-                className='relative'
+                className='relative flex justify-center items-center'
               >
-                {/* <span className='z-400'>&times;</span> */}
-                <img
-                  className=''
-                  src={image}
-                  alt=''
-                />
+                <img className='w-full' src={image} alt='' />
                 <CloseButton
                   className='absolute right-5 top-5'
                   onClick={() => handleClickDeleteImage(idx)}
                 />
+                <label className='cursor-pointer' htmlFor='image'>
+                  <div className='absolute right-5 bottom-5 border border-black font-daeam cursor-pointer text-white rounded-xl bg-button px-2 py-1'>
+                    추가
+                  </div>
+                  <input
+                    id='image'
+                    type='file'
+                    multiple
+                    accept='image/*'
+                    className='hidden'
+                    onChange={handleChangeUploadImageList}
+                  />
+                </label>
               </div>
             );
           })}
+          {/* {isDetailImageOpen && (
+            <div className='flex flex-row gap-2 absolute bottom-12 right-5 bg-slate-500 w-full'>
+              {imageList.map((image, idx) => {
+                return (
+                  <div
+                    className='bg-green-500 w-16'
+                    draggable
+                    onDragStart={(e) => onDragStart(e, idx)}
+                    onDragOver={onDragOver}
+                    onDrop={(e) => onDragDrop(e, idx)}
+                  >
+                    <img
+                    draggable
+                    onDragStart={(e) => onDragStart(e, idx)}
+                    onDragOver={onDragOver}
+                    onDrop={(e) => onDragDrop(e, idx)}
+                      className='w-14 aspect-square cursor-pointer'
+                      src={image}
+                      alt=''
+                      key={idx}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          <button
+            className='absolute bottom-2 right-5 z-50 bg-black'
+            onClick={handleClickToggleImageDetail}
+          >
+            상세
+          </button> */}
         </Slider>
       ) : (
         <div className='flex flex-col justify-center items-center gap-5 w-full h-full'>
@@ -122,7 +181,6 @@ function ImageSection({ isSlide, fileList, setFileList}) {
               multiple
               accept='image/*'
               className='hidden'
-              // onChange={handleChangeUploadProfileImg}
               onChange={handleChangeUploadImageList}
             />
           </label>
