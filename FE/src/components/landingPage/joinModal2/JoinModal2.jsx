@@ -8,8 +8,8 @@ import CheckBox from '../../common/CheckBox';
 import { calculateAge } from '../../../utils/formatting';
 import { Link, useNavigate } from 'react-router-dom';
 import SelectBox from '../../common/SelectBox';
-import axios from 'axios';
 import instance from "@/utils/instance.js";
+import Loading from '@/components/common/Loading';
 
 const GENDER_OPTIONS = [
   { id: 1, content: 'MALE' },
@@ -54,6 +54,9 @@ function JoinModal2() {
     };
     fetchData();
   }, []);
+
+  
+
 
   const navigate = useNavigate();
 
