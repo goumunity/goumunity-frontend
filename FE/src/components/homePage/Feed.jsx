@@ -31,6 +31,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
     updatedAt,
     isScrapped,
   } = feed;
+  // console.log(feed)
 
   const [isLoading, setIsLoading] = useState(false);
   const currentUser = useSelector((state) => state.auth.currentUser);
