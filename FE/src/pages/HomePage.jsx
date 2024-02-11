@@ -74,7 +74,7 @@ function HomePage() {
 
       <div ref={lastFeedRef} style={{ height: '10px' }}></div>
     </div>
-    <RankingBar/>
+    {/* <RankingBar/> */}
     </div>
     
   );
