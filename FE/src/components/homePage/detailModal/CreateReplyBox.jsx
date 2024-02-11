@@ -2,6 +2,7 @@ import { useState } from 'react';
 import useInput from '../../../hooks/useInput';
 import axios from 'axios';
 import instance from "@/utils/instance.js";
+import Button from '../../common/Button';
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
@@ -36,37 +37,18 @@ function CreateReplyBox({
       const res = await instance.get(
         `/api/comments/${commentId}/replies/${replyId}`
       );
-      setReplyList((prev) => [res.data, ...prev]);
+      console.log('방금 생성된 답글:', res)
       setIsReplyOpen(true);
       setIsCreateReplyOpen(false)
       setCommentReplyCount((prev) => prev + 1)
+      setReplyList((prev) => [res.data, ...prev]);
     } catch (error) {
       console.log('답글 생성 중 에러 발생 : ', error);
     }
   } catch (error) {
     console.log(error)
   }
-    // } else if (option === BUTTON_OPTIONS[3].name) {
-    //   const res = await instance.patch(
-    //     `/api/comments/${commentId}/replies/${replyId}`,
-    //     { content: input }
-    //   );
-    //   console.log('답글 수정 결과 : ', res);
-    //   try {
-    //     const res = await instance.get(
-    //       `/api/comments/${commentId}/replies/${replyId}`
-    //     );
-    //     const newReplyList = replyList.filter(
-    //       (reply) => reply.replyId !== replyId
-    //     );
-    //     setReplyList([res.data, ...newReplyList]);
-    //     setIsReplyOpen(true)
-    //   } catch (error) {
-    //     console.log('답글 단일 조회 중 에러 발생 : ', error);
-    //   }
-    // }
-    // } catch (error) {
-    //   console.log('답글 에러 발생 : ', error);
+
     setIsLoading(false);
     setReply('');
   };
@@ -80,7 +62,8 @@ function CreateReplyBox({
         onChange={handleChangeReply}
         value={reply}
       />
-      <button className='font-daeam text-xs'>등록</button>
+      {/* <button className='font-daeam text-xs'>등록</button> */}
+      <Button text='등록' size={12}/>
     </form>
   );
 }

@@ -14,7 +14,7 @@ function CategoryBox({ feedCategory, setFeedCategory }) {
     }
   };
   return (
-    <div className='flex items-center'>
+    <div className='flex items-center text-lg'>
       <button
         className={`text-center w-1/2 border border-gray font-dove ${
           feedCategory === FEED_CATEGORY_OPTIONS[0].name ? activeClass : ''

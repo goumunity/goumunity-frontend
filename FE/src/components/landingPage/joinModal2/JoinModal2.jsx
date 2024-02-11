@@ -9,7 +9,6 @@ import { calculateAge } from '../../../utils/formatting';
 import { Link, useNavigate } from 'react-router-dom';
 import SelectBox from '../../common/SelectBox';
 import instance from "@/utils/instance.js";
-import Loading from '@/components/common/Loading';
 
 const GENDER_OPTIONS = [
   { id: 1, content: 'MALE' },
@@ -21,19 +20,16 @@ function JoinModal2() {
   const [isLoading, setIsLoading] = useState(false);
   const joinData = useSelector((state) => state.auth.joinData);
   const [userInputs, setUserInputs] = useState({
-    nickname: joinData?.nickname || '',
     birthDate: joinData?.birthDate || '',
     gender: joinData?.gender || '',
     region: joinData?.regionId || '',
   });
   const [isEdited, setIsEdited] = useState({
-    nickname: false,
     birthDate: false,
     gender: false,
     region: false,
   });
   const [errorMessage, setErrorMessage] = useState('');
-  const [isNicknameValid, setIsNicknameValid] = useState(false);
 
   // 날짜 형식은 숫자 8자리 검증
   const birthDateIsInvalid =
@@ -90,10 +86,7 @@ function JoinModal2() {
     e.preventDefault();
 
     setErrorMessage('');
-    if (userInputs.nickname === '') {
-      setErrorMessage('닉네임을 입력해주세요.');
-      return;
-    }
+   
     if (userInputs.birthDate === '') {
       setErrorMessage('생년월일을 입력해주세요.');
       return;
@@ -106,10 +99,6 @@ function JoinModal2() {
       setErrorMessage('지역을 선택해주세요.');
       return;
     }
-    if (!isNicknameValid) {
-      setErrorMessage('사용할 수 없는 닉네임입니다.');
-      return;
-    }
     if (birthDateIsInvalid) {
       return;
     }
@@ -117,8 +106,7 @@ function JoinModal2() {
     const age = calculateAge(userInputs.birthDate);
     const updatedData = {
       ...joinData,
-      // imgSrc: profileImage,
-      nickname: userInputs.nickname,
+      nickname,
       age,
       regionId: Number(userInputs.region),
       gender: userInputs.gender,
@@ -133,9 +121,6 @@ function JoinModal2() {
     // 생년월일을 8자 넘게 못쓰게
     if (id === 'birthDate' && value.trim().length > 8) {
       return;
-    }
-    if (id === 'nickname') {
-      setIsNicknameValid(false);
     }
     setUserInputs((prev) => ({
       ...prev,

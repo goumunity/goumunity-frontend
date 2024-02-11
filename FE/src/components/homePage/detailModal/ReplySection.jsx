@@ -4,8 +4,8 @@ import Reply from './Reply.jsx';
 import LoadingImage from '../../common/LoadingImage.jsx';
 import instance from "@/utils/instance.js";
 
-function ReplySection({ commentId, setOption, setReplyId, setCommentReplyCount }) {
-  const [replyList, setReplyList] = useState([]);
+function ReplySection({ commentId, setOption, setReplyId, setCommentReplyCount, replyList, setReplyList }) {
+  // const [replyList, setReplyList] = useState([]);
   const [initialTime] = useState(new Date().getTime());
   const [isLoading, setIsLoading] = useState(false);
   const [hasNext, setHasNext] = useState(false);
