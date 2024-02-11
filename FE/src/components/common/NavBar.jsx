@@ -114,6 +114,7 @@ function NavBar() {
       {/* <div onClick={handleClickToggleMenu}>로고</div> */}
       <ul className='flex flex-col gap-3 ms-4 mt-10'>
         {/* <li>
+
           <NavLink
             to='/'
             className={({ isActive }) => (isActive ? activeClass : undefined)}
