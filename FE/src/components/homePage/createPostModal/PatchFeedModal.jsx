@@ -85,7 +85,8 @@ function PatchFeedModal({ feedList, setFeedList }) {
     setNewAfterPrice(afterPrice);
     setNewPrice(price);
     setImageList(images);
-    // setNewRegion(region.gungu)
+    // console.log('region:',region)
+    setNewRegion(region?.regionId)
 
     if (images?.length > 0) {
       setIsSlide(true);

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import useInput from '../../../hooks/useInput';
 import axios from 'axios';
 import instance from "@/utils/instance.js";
+import Button from '../../common/Button';
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
@@ -58,13 +59,14 @@ function PatchReplyBox({
       onSubmit={handleSubmitPatchReply}
     >
       <input
-        className='border-gray-100 bg-bright placeholder:font-her outline-none'
+        className='w-36 border-gray-100 bg-bright placeholder:font-her outline-none'
         type='text'
         placeholder='답글 수정중...'
         onChange={handleChangeReply}
         value={reply}
       />
-      <button className='font-daeam text-xs'>등록</button>
+      {/* <button className='font-daeam text-xs'>등록</button> */}
+      <Button text='등록' size={12}/>
     </form>
   );
 }

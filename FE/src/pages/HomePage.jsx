@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Feed from '../components/homePage/Feed';
-import axios from 'axios';
 import DetailModal from '@/components/homePage/detailModal/DetailModal';
 import CreateFeedModal from '@/components/homePage/createPostModal/CreateFeedModal';
+<<<<<<< HEAD
 import { Link, useNavigate, useParams } from 'react-router-dom';
+=======
+import { useParams } from 'react-router-dom';
+>>>>>>> origin/FE
 import PatchFeedModal from '../components/homePage/createPostModal/PatchFeedModal';
 import instance from "@/utils/instance.js";
 <<<<<<< HEAD
@@ -15,7 +18,6 @@ import RankingBar from '../components/homePage/Ranking/GoumunityRanking.jsx';
 >>>>>>> origin/feature/348
 
 function HomePage() {
-  const [initialTime] = useState(new Date().getTime());
   const params = useParams();
   const [feedList, setFeedList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,9 +50,16 @@ function HomePage() {
       try {
         setIsLoading(true);
         const res = await instance.get('/api/feeds')
+<<<<<<< HEAD
         console.log( 'feeds:', res );
         setFeedList((prev) => [...res.data.feedRecommends, ...prev]);
         setHasNext(res.data.hasNext);
+=======
+        setFeedList((prev) => [...prev, ...res.data.feedRecommends]);
+        console.log('response:', res)
+        // setHasNext(res.data.hasNext);
+        setHasNext(true);
+>>>>>>> origin/FE
       } catch (error) {
         console.log('feedList 요청 중 에러 발생 : ', error);
       }
@@ -62,6 +71,7 @@ function HomePage() {
   const getRanks = async () => {
     const res = await instance.get('/api/users/ranking');
 
+<<<<<<< HEAD
     
     const newRankList = res.data;
 
@@ -82,6 +92,8 @@ function HomePage() {
   //   document.body.style.overflow = 'auto';
   // }
 
+=======
+>>>>>>> origin/FE
   return (
     <div className='flex flex-row justify-center bg-bright'>
       <div className='flex flex-col items-center h-full'>

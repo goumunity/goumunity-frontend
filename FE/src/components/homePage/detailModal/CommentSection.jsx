@@ -30,7 +30,6 @@ function CommentSection({
   const [commentId, setCommentId] = useState('');
   const [replyId, setReplyId] = useState('');
   const [commentList, setCommentList] = useState([]);
-  const [replyList, setReplyList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasNext, setHasNext] = useState(false);
   const [page, setPage] = useState(0);
@@ -93,8 +92,6 @@ function CommentSection({
             option={option}
             setOption={setOption}
             setCommentId={setCommentId}
-            replyList={replyList}
-            setReplyList={setReplyList}
             setReplyId={setReplyId}
             commentList={commentList}
             setCommentList={setCommentList}
@@ -124,7 +121,6 @@ function CommentSection({
         />
         <CreateCommentBox
           setCommentList={setCommentList}
-          setReplyList={setReplyList}
           inputRef={inputRef}
           feedId={feedId}
           option={option}
