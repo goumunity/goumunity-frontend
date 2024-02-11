@@ -6,14 +6,21 @@ import { Map } from "react-kakao-maps-sdk";
 import ProfileImageSection from "../components/ProfilePage/ProfileImageSection";
 import LeftSide from "../components/NewLandingPage/LeftSide";
 import ChatRoom from "../components/chatPage/ChatRoom";
-
+import FeedRanking from "../components/homePage/Ranking/FeedRanking";
 const TestPage = () => {
+  const person = {
+    'imageUrl' : '123',
+    'url' : '123',
+    'name' : 'name',
+    'title' : 'title',
+    'phone' : 'phone',
+  }
   return (
     <>
-    <div>
+    {/* <div>
       <span></span>
-      <div className='divide-y  divide-entrance'>
-        <div className='font-daeam text-4xl text-center mb-4 text-responsive'>
+      <div classNameNameName='divide-y  divide-entrance'>
+        <div classNameNameName='font-daeam text-4xl text-center mb-4 text-responsive'>
           나의 거지챗
         </div>
         {chatData.map((value, index) => {
@@ -21,46 +28,43 @@ const TestPage = () => {
           <div>
             <button
               key={value.idx}
-              // className='hover:rotate-12  hover:bg-orange-200'
+              // classNameNameName='hover:rotate-12  hover:bg-orange-200'
               onClick={() => {
                 handleButtonClick(value.chatRoomId);
               }}
             >
               <div
-                className='flex'
+                classNameNameName='flex'
                 key={index}
                 onClick={() => {
                   setId(value.chatRoomId);
                 }}
               >
-                <div className='w-1/4 mt-3'>
+                <div classNameNameName='w-1/4 mt-3'>
                   <span>
                     <img alt=""/>
                   </span>
                 </div>
-                <div className='w-3/4 h-30'>
+                <div classNameNameName='w-3/4 h-30'>
                   <div>
-                    <span className='font-bold text-responsive text-2xl'>
-                      <div className='flex justify-end  w-full'>
-                        {/* <CloseButton
-                          className='top-5 right-5 hover:bg-amber-300'
-                          onClick={handleRemoveChat(value.chatRoomId)}
-                        /> */}
+                    <span classNameNameName='font-bold text-responsive text-2xl'>
+                      <div classNameNameName='flex justify-end  w-full'>
+
                       </div>
                       제목
                     </span>
                     <span> 👤{value.currentUserCount}</span>
                     <span> 💬{value.unreadMessageCount}</span>
                   </div>
-                  <div className='mt-1'></div>
+                  <div classNameNameName='mt-1'></div>
                   <div>
                     <ul
-                      className='flex text-responsive font-her'
+                      classNameNameName='flex text-responsive font-her'
                       style={{ flexWrap: 'wrap' }}
                     >
                       {value.hashtags.map((name, hashtagsIndex) => (
                         <li
-                          className='pr-2'
+                          classNameNameName='pr-2'
                           key={hashtagsIndex}
                         >{`#${value.hashtags[hashtagsIndex].name}`}</li>
                       ))}
@@ -73,15 +77,15 @@ const TestPage = () => {
         );
       })}
         <div>
-          <div className='flex flex-col items-center'>
+          <div classNameNameName='flex flex-col items-center'>
             <button
-              className='font-her text-2xl text-center text-white px-4 py-2 bg-transparent rounded-md'
+              classNameNameName='font-her text-2xl text-center text-white px-4 py-2 bg-transparent rounded-md'
               onClick={handleClickCreateChatRoom}
             >
-              <div className='mx-auto rounded-full bg-gray-500 text-black'>
+              <div classNameNameName='mx-auto rounded-full bg-gray-500 text-black'>
                 ...
               </div>
-              <span className='text-black'>+채팅방 개설하기</span>
+              <span classNameNameName='text-black'>+채팅방 개설하기</span>
             </button>
             {isModalOpen && modalOption === 'createChat' && (
               <CustomModal>
@@ -91,7 +95,12 @@ const TestPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div> */}
+      <div className="w-full flex justify-center">
+        <FeedRanking/>
+      </div>
+      
+  
     </>
   );
 };

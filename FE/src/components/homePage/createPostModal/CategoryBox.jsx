@@ -13,7 +13,6 @@ function CategoryBox({ feedCategory, setFeedCategory }) {
       setFeedCategory(FEED_CATEGORY_OPTIONS[0].name);
     }
   };
-  console.log('gdgdgd', feedCategory)
   return (
     <div className='flex items-center'>
       <button

@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
+
+// import { useDispatch, useSelector } from 'react-redux';
+import { authActions } from '../../store/auth';
 import { NavLink, useNavigate,Link, useParams } from 'react-router-dom';
 import CloseButton from './CloseButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { authActions } from '../../store/auth';
+// import { authActions } from '../../store/auth';
 import axios from 'axios';
 import ProfileImage from './ProfileImage';
 import chat from '@/assets/images/chat.png';
@@ -10,10 +13,11 @@ import homeIcon from '@/assets/svgs/homeIcon.svg';
 import NavBarItem from './NavBarItem';
 import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
 import NavBarBackGround from '../../assets/svgs/navBack2.svg';
-import NavProfileBg from '../../assets/svgs/profilebg.svg'
-
+import NavProfileBg from '../../assets/svgs/profilebg.svg';
+import PoorMark from '../../utils/AuthenticatedPoor';
 import './NavHover.css';
-import instance from "@/utils/instance.js";
+import instance from '@/utils/instance.js';
+import PoorMarkBlack from '../../utils/AuthenticatedPoorBlack';
 
 function NavBar() {
   // LandingPage에서는 NavBar를 렌더링하지 않음
@@ -50,7 +54,7 @@ function NavBar() {
     if (!isConfirm) return;
 
     try {
-      const res = await axios.get('/api/users/logout');
+      const res = await instance.get('/api/users/logout');
     } catch (error) {
       console.log('에러 발생 : ', error);
       return;
@@ -59,9 +63,6 @@ function NavBar() {
     navigate('/landing/join/4');
   };
 
-    useEffect(() => {
-        console.log('target', targetUrl)
-    }, [])
 
     const handleClickDeleteUser = async () => {
         // 사용자가 확인을 누르면 알림창을 띄우고, 그렇지 않으면 아무 동작도 하지 않음
@@ -84,29 +85,30 @@ function NavBar() {
 
   return (
     <nav className={`flex flex-col fixed w-72 h-screen text-2xl font-daeam p-5 }`} style={{ backgroundSize:'cover',backgroundImage: `url(${NavBarBackGround})`}}>
-      {
-          targetUrl !== '/profile' || targetUrl !=='/profile/detail'?
-          <>
-            <div id="NavProfile" className='profile font-dove p-4 w-full flex flex-col justify-center items-center mt-5 mb-10 bg-yellow' style={{backgroundImage: `url(${NavProfileBg})`}} >
+
+        <div id="NavProfile" className='profile font-dove p-4 w-full flex flex-col justify-center items-center mt-5 mb-10 bg-yellow' style={{backgroundImage: `url(${NavProfileBg})`}} >
+        
         <img className='w-48 rounded-full border-black border-2' src={currentUser.imgSrc}  />
         <div className="w-full flex flex-row justify-around mt-5 p-1">
 
         
-        <div className="text-xl hover:text-gray-500 cursor-pointer overflow-x-hidden flex items-center">{currentUser.nickname}님 환영합니다!</div>
+        <div className="text-lg hover:text-gray-500 cursor-pointer overflow-x-hidden flex w-full justify-center items-center">
+          { currentUser.isAuthenticated && <PoorMarkBlack/> }
+          <div className='ms-2'>
+          {currentUser.nickname}님
+          </div>
+          
+        </div>
 
           
           <div className="rounded-full w-10 aspect-square flex justify-center items-center cursor-pointer">
-            <Link to="/profile">
-              <i class="fa-solid fa-user fa-xs hover:text-gray-500"></i>
+            <Link to="/myprofile">
+              <i className="fa-solid fa-user fa-xs hover:text-gray-500"></i>
             </Link>
           </div>
         </div>
       </div>
-          </> 
-          : 
-          <></>
 
-      }
       
       {/* <div onClick={handleClickToggleMenu}>로고</div> */}
       <ul className='flex flex-col gap-3 ms-4 mt-10'>
@@ -175,7 +177,7 @@ function NavBar() {
           
           <button onClick={handleClickLogout}>
             <div className='hover:text-gray-500'>
-            <i class="fa-solid fa-right-from-bracket ms-1"></i> 로그아웃
+            <i className="fa-solid fa-right-from-bracket ms-1"></i> 로그아웃
             </div>
             </button>}
         </li>

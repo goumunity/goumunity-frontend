@@ -12,6 +12,7 @@ import Main from './pages/Main';
 import ProtectedRoutes from './components/common/ProtectedRoutes';
 import TestPage from './pages/TestPage';
 import NewLandingPage from './pages/NewLandingPage';
+import ExternalProfilePage from './pages/ExternalProfilePage';
 
 const router = createBrowserRouter([
   {
@@ -46,10 +47,10 @@ const router = createBrowserRouter([
         children: [{ path: 'talk/:talkId', element: <ChatTalkSection /> }],
       },
       { path: '/main', element: <Main /> },
-      { path: '/profile/:detail?', element: <ProfilePage /> },
-
+      { path: '/myprofile/:detail?', element: <ProfilePage /> },
+      { path: '/myprofile', element: <ProfilePage /> },,
       // 다른 사람 페이지로 바뀔 예정
-      { path: '/profile/:userId', element: <ProfilePage /> },
+      { path: '/profile/:email', element: <ExternalProfilePage /> },
       { path: '/test', element: <TestPage /> },
     ],
   },

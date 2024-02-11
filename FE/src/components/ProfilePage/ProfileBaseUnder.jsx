@@ -2,33 +2,53 @@ import { useEffect, useState} from "react";
 import MinimumFeed from "./MinimumFeed";
 import axios from "axios";
 import instance from "@/utils/instance.js";
-const ProfileBaseUnder = ({ info, written, saveChange }) => {
+import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
+const ProfileBaseUnder = ({ info, written, saveChange, isPrivate }) => {
     const [ feeds, setFeeds ] = useState([]);
     const [ liList, setLiList ] = useState([]); 
     const [ isFeedsDone, setIsFeedDone ] = useState( false );
-
+    const currentUser = useSelector((state) => state.auth.currentUser);
+    const dispatch = useDispatch();
     const deletePost = ( feedId ) => {
-      if( confirm("정말로 삭제하시겠습니까?")){
+      Swal.fire({
+        title: "정말 삭제하시나요?",
+        text: "게시글을 삭제하시겠습니까?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#faedcd",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "네 삭제하겠습니다"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          instance.delete( `/api/feeds/${feedId}`).then( res => {
 
-        instance.delete( `/api/feeds/${feedId}`).then( res => {
+            Swal.fire({
+              title: "삭제되었습니다!",
+              text: "요청하신 게시글이 삭제되었습니다.",
+              icon: "success"
+            })
+            
+            const deleteTarget = feeds.filter( el => el.feedId === feedId );
+            if( deleteTarget[0].price == null ){
+              saveChange( deleteTarget[0].price);
+            }
+            const nextArr = feeds.filter( el => el.feedId !== feedId );
+            setFeeds( nextArr );
+  
+            
+            
+          }).catch( error => {
+            console.log( error );
+            Swal.fire({
+              title: "삭제에 실패하였습니다!",
+              text: "잠시후 다시 시도해주세요",
+              icon: "error"
+            })
+          })
+        }
+      });
 
-
-          alert("삭제에 성공하였습니다.");
-          
-          const deleteTarget = feeds.filter( el => el.feedId === feedId );
-          if( deleteTarget[0].price == null ){
-            saveChange( deleteTarget[0].price);
-          }
-          const nextArr = feeds.filter( el => el.feedId !== feedId );
-          setFeeds( nextArr );
-
-          
-          
-        }).catch( error => {
-          console.log( error );
-          alert("삭제에 실패하였습니다. 다시 시도해주세요.");
-        })
-      }
       
     }
 
@@ -36,7 +56,7 @@ const ProfileBaseUnder = ({ info, written, saveChange }) => {
   const [ sum, setSum ] = useState(0);
 
     const initLi = () => {
-      const lis = written['result'].map( el => <li key={el.feedId}><MinimumFeed size="full" feedId={el.feedId} nickname={info.nickname} createAt={ el.createdAt } content={ el.content} deletePost={deletePost} imgSrc={info.imgSrc}/></li> )
+      const lis = written['result'].map( el => <li key={el.feedId}><MinimumFeed size="full" feedId={el.feedId} nickname={ isPrivate ? currentUser.nickname : info.nickname } createAt={ el.createdAt } content={ el.content} deletePost={deletePost} imgSrc={ isPrivate ? currentUser.imgSrc:info.imgSrc} isPrivate={isPrivate}/></li> )
       setLiList( lis ); 
       const saves = written['result'].filter( el => el.price != null ).map( el => 
         <li key= {el.feedId} className="flex justify-between rounded-lg">
@@ -65,7 +85,8 @@ const ProfileBaseUnder = ({ info, written, saveChange }) => {
 
     useEffect( () => {
       // console.log( info );
-      const lis = feeds.map( el => <li key={el.feedId}><MinimumFeed size="full" feedId={el.feedId} nickname={info.nickname} createAt={ el.createdAt } content={ el.content} deletePost={deletePost} imgSrc={info.imgSrc}/></li> )
+      console.log( 'info:>',info );
+      const lis = feeds.map( el => <li key={el.feedId}><MinimumFeed size="full" feedId={el.feedId} nickname={isPrivate ? currentUser.nickname : info.nickname} createAt={ el.createdAt } content={ el.content} deletePost={deletePost} imgSrc={ isPrivate ? currentUser.imgSrc : info.imgSrc} isPrivate={isPrivate}/></li> )
       setLiList( lis ); 
       // console.log( feeds );
 
@@ -74,7 +95,8 @@ const ProfileBaseUnder = ({ info, written, saveChange }) => {
           <div className="ps-4 overflow-x-hidden">{ new Date(el.createdAt).toLocaleDateString() + " : " + el.content }</div>
           <div className="pe-4">${parseInt(el.price) - parseInt(el.afterPrice)}</div>
         </li>
-      )  
+      
+      ,[])  
 
 
       let newSum = 0;
@@ -92,6 +114,7 @@ const ProfileBaseUnder = ({ info, written, saveChange }) => {
 
   
     useEffect( () => {
+      // console.log('baseunder info, ', info )
      initLi();
      initFe();                                                                 
     },[])

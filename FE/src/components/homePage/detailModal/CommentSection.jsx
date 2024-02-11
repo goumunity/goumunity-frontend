@@ -22,6 +22,7 @@ function CommentSection({
   ilikeThat,
   commentCnt,
   setCommentCnt,
+  isScrapped,
 }) {
   const [comment, handleChangeComment] = useInput('');
   const [initialTime] = useState(new Date().getTime());
@@ -99,13 +100,13 @@ function CommentSection({
             setCommentList={setCommentList}
             placeholderText={placeholderText}
             setPlaceholderText={setPlaceholderText}
+            setCommentCnt={setCommentCnt}
           />
         ))}
         {isLoading && hasNext && <LoadingImage />}
         <div
           ref={lastCommentRef}
           style={{ height: '5px' }}
-          className='bg-bg'
         ></div>
       </div>
       <div className='absolute bottom-0 w-full'>
@@ -119,6 +120,7 @@ function CommentSection({
           setPlaceholderText={setPlaceholderText}
           inputRef={inputRef}
           commentCnt={commentCnt}
+          isScrapped={isScrapped}
         />
         <CreateCommentBox
           setCommentList={setCommentList}

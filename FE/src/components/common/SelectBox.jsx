@@ -6,18 +6,19 @@ const OPTIONS = [
 ];
 
 function SelectBox({ widthSize, color, defaultValue, ...props }) {
-  console.log('defaulValue의 값:',defaultValue)
   return (
     <select
-      className={` px-2 py-1 bg-${color} rounded-md border-solid border-2 font-daeam text-lg w-${widthSize}`}
+      className={` px-2 py-1 bg-${color} rounded-md border-solid border-2 border-black font-daeam text-lg w-${widthSize}`}
       name=''
       id=''
+      // defaultValue={defaultValue}
       {...props}
     >
       <option value='none'>지역을 선택해주세요.</option>
       {OPTIONS.map((option) => {
         return (
           <option key={option.id} value={option.id} selected={defaultValue === option.name}>
+          {/* <option key={option.id} value={option.id}> */}
             {option.name}
           </option>
         );
