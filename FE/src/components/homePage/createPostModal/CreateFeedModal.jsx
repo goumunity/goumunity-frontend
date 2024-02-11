@@ -203,21 +203,31 @@ function CreateFeedModal({ onClose, setFeedList }) {
             </div>
 
             {feedCategory === FEED_CATEGORY_OPTIONS[0].name ? (
-              <div className='flex justify-center'>
-                <input
-                  className='border border-gray w-1/2 text-center font-her bg-bright outline-none'
-                  type='text'
-                  placeholder='정가'
-                  value={addCommas(price)}
-                  onChange={handleChangePrice}
-                />
-                <input
-                  className='border border-gray w-1/2 text-center font-her bg-bright outline-none'
-                  type='text'
-                  placeholder='할인가'
-                  value={addCommas(afterPrice)}
-                  onChange={handleChangeAfterPrice}
-                />
+              <div className='flex p-2'>
+                <div className='flex '>
+                  <span className='flex justify-center items-center w-12 p-1 bg-entrance text-white font-dove text-sm'>
+                    정가
+                  </span>
+                  <input
+                    className='w-4/5 border border-gray text-center font-her bg-bright outline-none'
+                    type='text'
+                    placeholder='할인 받기 전 가격'
+                    value={addCommas(price)}
+                    onChange={handleChangePrice}
+                  />
+                </div>
+                <div className='flex '>
+                  <span className='flex justify-center items-center w-12 p-1 bg-entrance text-white font-dove text-center text-xs'>
+                    할인가
+                  </span>
+                  <input
+                    className='border border-gray w-4/5 text-center font-her bg-bright outline-none'
+                    type='text'
+                    placeholder='할인 받은 후 가격'
+                    value={addCommas(afterPrice)}
+                    onChange={handleChangeAfterPrice}
+                  />
+                </div>
               </div>
             ) : null}
           </div>
