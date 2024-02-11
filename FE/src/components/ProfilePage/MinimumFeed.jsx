@@ -3,7 +3,7 @@ import Button2to1 from "../../components/common/Button2to1";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { useEffect } from "react";
-const MinimumFeed = ( {size, feedId, nickname,createAt, content, deletePost,imgSrc } ) => {
+const MinimumFeed = ( {size, feedId, nickname,createAt, content, deletePost,imgSrc, isPrivate } ) => {
   // const navigate = useNavigate(); 안됨
   // 에러 catch 없애달라고 요청하기.
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const MinimumFeed = ( {size, feedId, nickname,createAt, content, deletePost,imgS
         <div className="w-full">
 <div className={`w-${size}  border border-gray`}>
         <div className='w-full flex flex-col px-4 py-2'>
-      <div className='w-full flex justify-around gap-2'>
+      <div className='w-full flex gap-2'>
         <div className="w-8 h-8"> 
           <img src={imgSrc} className="rounded-full"/>
         </div>
@@ -24,7 +24,7 @@ const MinimumFeed = ( {size, feedId, nickname,createAt, content, deletePost,imgS
           <span className='font-her'>{new Date( createAt).toLocaleDateString()}</span>
         </div>
 
-        <Button2to1 text="삭제" size="6" onClick={ () => { deletePost( feedId ) } }></Button2to1>
+        { isPrivate && <Button2to1 text="삭제" size="6" onClick={ () => { deletePost( feedId ) } }></Button2to1> }
     </div>
         
 
