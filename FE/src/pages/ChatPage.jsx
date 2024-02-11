@@ -1,5 +1,4 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
-import background from '@/assets/images/background.png';
 import ChatMySection from '../components/chatPage/chatMySection/ChatMySection';
 import ChatTalkSection from '../components/chatPage/chatTalkSection/ChatTalkSection';
 import ChatRecommendedSection from '../components/chatPage/chatRecommendedSection/ChatRecommendedSection';
@@ -37,7 +36,8 @@ function ChatPage() {
     }
     const connect = () => {
         client.current = new StompJs.Client({
-            brokerURL: 'wss://i10a408.p.ssafy.io/api/goumunity-chat',
+            // brokerURL: 'wss://i10a408.p.ssafy.io/api/goumunity-chat',
+            brokerURL: 'ws://localhost:8080/goumunity-chat',
             onConnect : resubscribe
         });
         client.current.activate();
@@ -135,6 +135,7 @@ function ChatPage() {
                             <ChatTalkSection id={chatRoomId}
                                              onMessageSend={onMessageSend}
                                              messages={messages}
+                                             setIsSearchMode={setIsSearchMode}
                             />
                         )}
                     </div>
