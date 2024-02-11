@@ -8,6 +8,7 @@ import FeedLikeBox from './FeedLikeBox';
 import NicknameBox from '../common/NicknameBox';
 import defaultMaleIcon from '../../assets/svgs/defaultMaleIcon.svg';
 import instance from "@/utils/instance.js";
+import FeedScrapBox from './FeedScrapBox';
 
 // 댓글, 답글 200자
 function Feed({ feed, setFeedList, feedList, ...props }) {
@@ -30,6 +31,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
     updatedAt,
     isScrapped,
   } = feed;
+  console.log(feed)
 
   const [isLoading, setIsLoading] = useState(false);
   const currentUser = useSelector((state) => state.auth.currentUser);
@@ -113,7 +115,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
         <img className='w-full max-h-96 rounded' src={images[0]?.imgSrc} alt='' />
       </Link>
 
-      <div className='flex items-center my-1 gap-2'>
+      <div className='flex items-center my-1 gap-12'>
         <FeedLikeBox
           ilikeThat={ilikeThat}
           likeCount={likeCount}
@@ -122,6 +124,10 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
         <Link to={`/${feedId}`}>
           <Option text={commentCount} src={commentIcon} size={5} />
         </Link>
+        <FeedScrapBox
+          isScrapped={isScrapped}
+          feedId={feedId}
+        />
       </div>
     </div>
   );

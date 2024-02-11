@@ -16,7 +16,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ModalBackground from '../../common/ModalBackground';
 import CategoryBox from './CategoryBox';
 import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
-import instance from "@/utils/instance.js";
+import instance from '@/utils/instance.js';
 
 const REGION_OPTIONS = [
   { id: 1, name: '광진구' },
@@ -31,7 +31,6 @@ const FEED_CATEGORY_OPTIONS = [
 
 function CreateFeedModal({ onClose, setFeedList }) {
   const currentUser = useSelector((state) => state.auth.currentUser);
-  console.log(currentUser);
   const [price, handleChangePrice] = useNumInput('');
   const [afterPrice, handleChangeAfterPrice] = useNumInput('');
   const [isSlide, setIsSlide] = useState(false);
@@ -44,7 +43,7 @@ function CreateFeedModal({ onClose, setFeedList }) {
   // const className = isSlide ? '-translate-x-3/4' : '-translate-x-1/2';
   const modalClassName = isSlide ? 'w-128' : 'w-96';
   const mainSectionClassName = isSlide ? 'w-96' : 'w-96';
-  const [imageSrcList, setImageSrcList] = useState([]);
+  const [fileList, setFileList] = useState([]);
 
   const handleClickOpenSlide = () => {
     setIsSlide(!isSlide);
@@ -78,9 +77,16 @@ function CreateFeedModal({ onClose, setFeedList }) {
 
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
     const formData = new FormData();
-    for (const image of imageSrcList) {
-      formData.append('images', image);
+    if (fileList.length > 0) {
+      for (const image of fileList) {
+        formData.append('images', image);
+      }
     }
+
+    // for (const image of imageSrcList) {
+    //   formData.append('images', image);
+    // }
+
     formData.append('data', blob);
     try {
       setIsLoading(true);
@@ -92,7 +98,6 @@ function CreateFeedModal({ onClose, setFeedList }) {
       const feedId = res.data;
       try {
         const res = await instance.get(`/api/feeds/${feedId}`);
-        console.log('단일 조회 : ', res);
         setFeedList((prev) => [
           {
             afterPrice: res.data.afterPrice,
@@ -156,7 +161,7 @@ function CreateFeedModal({ onClose, setFeedList }) {
               <div className='flex items-center gap-2'>
                 <Link to={`/profile/${currentUser.nickname}`}>
                   <div
-                    className={`w-8 h-8 rounded-full border-2 overflow-hidden cursor-pointer`}
+                    className={`w-8 h-8 rounded-full border-2 border-black overflow-hidden cursor-pointer`}
                   >
                     {currentUser.imgSrc ? (
                       <img
@@ -196,31 +201,40 @@ function CreateFeedModal({ onClose, setFeedList }) {
                 onClick={handleClickOpenSlide}
               />
             </div>
-            {/* </div> */}
 
             {feedCategory === FEED_CATEGORY_OPTIONS[0].name ? (
-              <div className='flex justify-center'>
-                <input
-                  className='border border-gray w-1/2 text-center font-her bg-bright outline-none'
-                  type='text'
-                  placeholder='정가'
-                  value={addCommas(price)}
-                  onChange={handleChangePrice}
-                />
-                <input
-                  className='border border-gray w-1/2 text-center font-her bg-bright outline-none'
-                  type='text'
-                  placeholder='할인가'
-                  value={addCommas(afterPrice)}
-                  onChange={handleChangeAfterPrice}
-                />
+              <div className='flex p-2'>
+                <div className='flex '>
+                  <span className='flex justify-center items-center w-12 p-1 bg-entrance text-white font-dove text-sm'>
+                    정가
+                  </span>
+                  <input
+                    className='w-4/5 border border-gray text-center font-her bg-bright outline-none'
+                    type='text'
+                    placeholder='할인 받기 전 가격'
+                    value={addCommas(price)}
+                    onChange={handleChangePrice}
+                  />
+                </div>
+                <div className='flex '>
+                  <span className='flex justify-center items-center w-12 p-1 bg-entrance text-white font-dove text-center text-xs'>
+                    할인가
+                  </span>
+                  <input
+                    className='border border-gray w-4/5 text-center font-her bg-bright outline-none'
+                    type='text'
+                    placeholder='할인 받은 후 가격'
+                    value={addCommas(afterPrice)}
+                    onChange={handleChangeAfterPrice}
+                  />
+                </div>
               </div>
             ) : null}
           </div>
           <ImageSection
             isSlide={isSlide}
-            setImageSrcList={setImageSrcList}
-            imageSrcList={imageSrcList}
+            setFileList={setFileList}
+            fileList={fileList}
           />
         </div>
       </div>
