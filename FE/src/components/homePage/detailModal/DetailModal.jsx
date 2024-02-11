@@ -26,6 +26,7 @@ function DetailModal({ feedId }) {
     region,
     updatedAt,
     user,
+    isScrapped,
   } = feed;
 
   // region 객체
@@ -97,6 +98,7 @@ function DetailModal({ feedId }) {
                 ilikeThat={ilikeThat}
                 commentCnt={commentCnt}
                 setCommentCnt={setCommentCnt}
+                isScrapped={isScrapped}
               />
             </div>
           ) : (

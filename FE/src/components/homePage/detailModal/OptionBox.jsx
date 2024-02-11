@@ -3,10 +3,11 @@ import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import commentIcon from '@/assets/svgs/commentIcon.svg';
 import { useState } from 'react';
-import axios from 'axios';
 import { formatDate } from '../../../utils/formatting';
 import FeedLikeBox from '../FeedLikeBox';
 import instance from "@/utils/instance.js";
+import scrapIcon from '@/assets/svgs/scrapIcon.svg';
+import unScrapIcon from '@/assets/svgs/unScrapIcon.svg';
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
@@ -15,8 +16,9 @@ const BUTTON_OPTIONS = [
   { id: 4, name: 'patchReply', text: '답글 수정 중...' },
 ];
 
-function OptionBox({ commentCnt, createdAt, updatedAt, likeCount, feedId, ilikeThat, setOption, setPlaceholderText, inputRef }) {
+function OptionBox({ commentCnt, createdAt, updatedAt, likeCount, feedId, ilikeThat, setOption, setPlaceholderText, inputRef, isScrapped }) {
   const [isLike, setIsLike] = useState(ilikeThat);
+  const [isScrap, setIsScrap] = useState(isScrapped);
   const [feedLikeCount, setFeedLikeCount] = useState(likeCount);
   const feedDate = updatedAt ? formatDate(updatedAt) : formatDate(createdAt)
 
@@ -40,6 +42,26 @@ function OptionBox({ commentCnt, createdAt, updatedAt, likeCount, feedId, ilikeT
     }
   };
 
+  const handleClickCreateScrap = async () => {
+    try {
+      const res = await instance.post(`/api/feeds/${feedId}/scrap`);
+      setIsScrap(true);
+      // setFeedLikeCount((prev) => prev + 1);
+    } catch (error) {
+      console.log('게시물 스크랩 할 때 에러 발생 : ', error);
+    }
+  };
+
+  const handleClickDeleteScrap = async () => {
+    try {
+      const res = await instance.delete(`/api/feeds/${feedId}/unscrap`);
+      setIsScrap(false);
+      // setFeedLikeCount((prev) => prev - 1);
+    } catch (error) {
+      console.log('게시물 스크랩 취소할 때에러 발생 : ', error);
+    }
+  };
+
   const handleClickChangeCreateComment = () => {
     setPlaceholderText(BUTTON_OPTIONS[0].text)
     setOption(BUTTON_OPTIONS[0].name)
@@ -56,6 +78,11 @@ function OptionBox({ commentCnt, createdAt, updatedAt, likeCount, feedId, ilikeT
         )}
         {/* <FeedLikeBox likeCount={likeCount} feedId={feedId} ilikeThat={ilikeThat}/> */}
         <Option text={commentCnt} src={commentIcon} size={5} onClick={handleClickChangeCreateComment}/>
+        {isScrap ? (
+          <Option src={scrapIcon} size={5} onClick={handleClickDeleteScrap} />
+        ) : (
+          <Option src={unScrapIcon} size={5} onClick={handleClickCreateScrap} />
+        )}
       </div>
       <div className='flex items-center gap-2'>
         {/* <span className='font-daeam'>거추 {feedLikeCount}개</span> */}

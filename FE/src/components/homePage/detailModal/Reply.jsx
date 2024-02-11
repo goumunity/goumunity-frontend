@@ -4,7 +4,6 @@ import commentIcon from '@/assets/svgs/commentIcon.svg';
 import { useState } from 'react';
 import { calculateDate, formatDate } from '../../../utils/formatting';
 import ReplySection from './ReplySection';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ReplyLikeBox from './ReplyLikeBox';
@@ -64,7 +63,20 @@ function Reply({
 
   return (
     <div className='flex py-1 gap-2 w-full'>
-      <ProfileImage profileImage={user.imgSrc} />
+      <Link to={`/profile/${user.nickname}`}>
+        <div
+          className={`w-8 h-8 rounded-full border-2 border-black overflow-hidden cursor-pointer`}
+        >
+          {user.imgSrc ? (
+            <img className={`w-full h-full cursor-pointer`} src={user.imgSrc} />
+          ) : (
+            <img
+              className={`w-full h-full cursor-pointer`}
+              src={defaultMaleIcon}
+            />
+          )}
+        </div>
+      </Link>
       <div>
         <div className='flex flex-row items-center gap-1 text-sm'>
           <span className='font-daeam'>{user.nickname}</span>

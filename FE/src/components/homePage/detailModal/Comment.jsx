@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import CommentLikeBox from './CommentLikeBox';
 import NicknameBox from '../../common/NicknameBox';
 import CreateReplyBox from './CreateReplyBox';
-import instance from "@/utils/instance.js";
+import instance from '@/utils/instance.js';
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
@@ -30,12 +30,13 @@ function Comment({
   setCommentList,
   placeholderText,
   setPlaceholderText,
+  setCommentCnt,
 }) {
   const currentUser = useSelector((state) => state.auth.currentUser);
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [isCreateReplyOpen, setIsCreateReplyOpen] = useState(false);
   const [replyList, setReplyList] = useState([]);
-  
+
   const {
     content,
     createdAt,
@@ -59,9 +60,8 @@ function Comment({
   // 답글 달기칸 열기
   const handleClickOpenCreateReply = () => {
     inputRef.current.focus();
-    setIsCreateReplyOpen(!isCreateReplyOpen)
+    setIsCreateReplyOpen(!isCreateReplyOpen);
     setCommentId(id);
-    
   };
 
   const handleClickToggleIsReplyOpen = () => {
@@ -77,7 +77,7 @@ function Comment({
       const res = await instance.delete(`/api/feeds/${feedId}/comments/${id}`);
       const newCommentList = commentList.filter((comment) => comment.id !== id);
       setCommentList(newCommentList);
-      setCommentCount((prev) => prev - 1)
+      setCommentCnt((prev) => prev - 1);
     } catch (error) {
       console.log('에러 발생 : ', error);
     }
@@ -88,12 +88,25 @@ function Comment({
     inputRef.current.focus();
     setOption(BUTTON_OPTIONS[2].name);
     setCommentId(id);
-    setPlaceholderText(BUTTON_OPTIONS[2].text)
+    setPlaceholderText(BUTTON_OPTIONS[2].text);
   };
 
   return (
     <div className='flex py-1 gap-2 w-full'>
-      <ProfileImage profileImage={user.imgSrc} />
+      <Link to={`/profile/${user.nickname}`}>
+        <div
+          className={`w-8 h-8 rounded-full border-2 border-black overflow-hidden cursor-pointer`}
+        >
+          {user.imgSrc ? (
+            <img className={`w-full h-full cursor-pointer`} src={user.imgSrc} />
+          ) : (
+            <img
+              className={`w-full h-full cursor-pointer`}
+              src={defaultMaleIcon}
+            />
+          )}
+        </div>
+      </Link>
       <div>
         <NicknameBox nickname={user.nickname} daysAgo={daysAgo} fontSize='sm' />
         <p className='text-md leading-4 my-1'>{content}</p>
@@ -128,7 +141,16 @@ function Comment({
             </span>
           )}
         </div>
-        {isCreateReplyOpen && <CreateReplyBox setCommentReplyCount={setCommentReplyCount} setIsReplyOpen={setIsReplyOpen} setIsCreateReplyOpen={setIsCreateReplyOpen} replyList={replyList} setReplyList={setReplyList} commentId={id}/>}
+        {isCreateReplyOpen && (
+          <CreateReplyBox
+            setCommentReplyCount={setCommentReplyCount}
+            setIsReplyOpen={setIsReplyOpen}
+            setIsCreateReplyOpen={setIsCreateReplyOpen}
+            replyList={replyList}
+            setReplyList={setReplyList}
+            commentId={id}
+          />
+        )}
         {commentReplyCount !== 0 && (
           <div
             className='my-2 font-dove text-sm cursor-pointer'

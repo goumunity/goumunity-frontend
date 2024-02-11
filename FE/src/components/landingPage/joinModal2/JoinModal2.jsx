@@ -154,7 +154,7 @@ function JoinModal2() {
         <div className='flex justify-between'>
           <div className='flex flex-col mb-3'>
             <label className='text-left text-2xl font-her'>*닉네임</label>
-            <span className='border-b border-black-200 my-2 bg-transparent font-daeam text-xl'>
+            <span className='border-b border-black my-2 bg-transparent font-daeam text-xl'>
               {nickname}
             </span>
           </div>
