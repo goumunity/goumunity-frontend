@@ -12,6 +12,10 @@ function ChatTalkRoom({ userId, chatRoomId, onMessageSend, messages }) {
     setMsg(e.target.value);
   };
 
+  useEffect(() => {
+    setMsg('');
+  }, [chatRoomId]);
+
   //메세지 쌓이면 스크롤바가 가장 맨 아래에 오도록 함
   useEffect(() => {
     if (messagesContainerRef.current) {
@@ -23,8 +27,13 @@ function ChatTalkRoom({ userId, chatRoomId, onMessageSend, messages }) {
   const handleOnKeyPress = (e) => {
     if (e.key === 'Enter') {
       onMessageSend(e.target.value);
+      setMsg('');
     }
   };
+  const handleSendButtonClicked = () => {
+    onMessageSend(msg);
+    setMsg('');
+  }
 
   //현재시각
   const formatCurrentTime = () => {
@@ -99,7 +108,7 @@ function ChatTalkRoom({ userId, chatRoomId, onMessageSend, messages }) {
         <span className='w-full'>
           <button
             type={'button'}
-            onClick={() => onMessageSend(msg)}
+            onClick={handleSendButtonClicked}
             className='p-4'
           >
             입력
