@@ -1,8 +1,6 @@
-import {useState} from "react";
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useEffect, useRef, useState} from "react";
 
-import { useDispatch, useSelector } from 'react-redux';
-import { authActions } from '../../../store/auth';
+import {useSelector} from 'react-redux';
 
 function ChatTalkRoom({ userId, chatRoomId, onMessageSend, messages }) {
   const [msg, setMsg] = useState('');

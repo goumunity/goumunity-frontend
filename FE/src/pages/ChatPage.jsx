@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import background from '@/assets/images/background.png';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import ChatMySection from '../components/chatPage/chatMySection/ChatMySection';
 import ChatTalkSection from '../components/chatPage/chatTalkSection/ChatTalkSection';
 import ChatRecommendedSection from '../components/chatPage/chatRecommendedSection/ChatRecommendedSection';
@@ -148,10 +147,12 @@ function ChatPage() {
               />
             ) : (
               <ChatTalkSection
-                id={chatRoomId}
-                onMessageSend={onMessageSend}
-                messages={messages}
-                myChatRooms={myChatRooms}
+                  id={chatRoomId}
+                  onMessageSend={onMessageSend}
+                  messages={messages}
+                  setIsSearchMode={setIsSearchMode}
+                  setMyChatRooms={setMyChatRooms}
+                  myChatRooms={myChatRooms}
               />
             )}
           </div>
@@ -159,42 +160,6 @@ function ChatPage() {
       </div>
     </div>
   );
-    return (
-        <div className='flex w-full h-full'>
-            <div className='w-1/6 bg-yellow'>
-                <ChatMySection
-                    refCallback={lastChatRoomRef}
-                    myChatRooms={myChatRooms}
-                    setMyChatRooms={setMyChatRooms}
-                    handleJoinChatRoom={onJoinedRoomClicked}
-                    handleClickMySection={handleClickMySection}
-                    handleSearchMode={handleSearchMode}
-                    isLoaded={isSearchMode}
-                />
-            </div>
-            <div
-                className='w-5/6'
-            >
-                <div className=' divide-x divide-entrance'>
-                    <span></span>
-                    <div>
-                        {isSearchMode ? (
-                            <ChatRecommendedSection
-                                myChatRooms={myChatRooms}
-                                setMyChatRooms={setMyChatRooms}
-                            />
-                        ) : (
-                            <ChatTalkSection id={chatRoomId}
-                                             onMessageSend={onMessageSend}
-                                             messages={messages}
-                                             setIsSearchMode={setIsSearchMode}
-                            />
-                        )}
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
 }
 
 export default ChatPage;

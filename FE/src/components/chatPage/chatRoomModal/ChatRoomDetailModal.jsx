@@ -13,7 +13,7 @@ import MembersList from "@/components/chatPage/chatRoomModal/MembersList.jsx";
 import Swal from "sweetalert2";
 import handleError from "@/utils/error.js";
 
-function ChatRoomDetailModal({selectedChatRoom, setSelectedChatRoom, setIsSearchMode}) {
+function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSelectedChatRoom, setIsSearchMode}) {
     const [profileImage, setProfileImage] = useState('');
     const [resultImage, setResultImage] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
@@ -107,6 +107,7 @@ function ChatRoomDetailModal({selectedChatRoom, setSelectedChatRoom, setIsSearch
         const fetchData = async () => {
             try {
                 const res = await instance.patch(`/api/chat-rooms/${selectedChatRoom?.chatRoomId}`, formData);
+                // 이미지가 바뀔 수 있어서
             } catch (error) {
                 console.error('api 요청 중 오류 발생 : ', error);
                 if (error.response.status === 409) {
@@ -117,6 +118,18 @@ function ChatRoomDetailModal({selectedChatRoom, setSelectedChatRoom, setIsSearch
         };
 
         await fetchData();
+        // 원래 값을 바꿔줘야 해
+
+        try {
+            const result = await instance.get(`/api/chat-rooms/${currentChatRoom?.chatRoomId}`);
+            let index = myChatRooms.findIndex(c => c.chatRoomId === currentChatRoom?.chatRoomId);
+            const newChatRooms = [...myChatRooms];
+            newChatRooms[index] = result.data;
+            setMyChatRooms(newChatRooms);
+        } catch (e){
+            console.error(e)
+            handleError(e);
+        }
         dispatch(modalActions.closeModal());
     };
 
@@ -242,6 +255,7 @@ function ChatRoomDetailModal({selectedChatRoom, setSelectedChatRoom, setIsSearch
 
     return (
         <>
+            <div className='scroll overflow-y-scroll  max-h-full '>
             <h1 className='font-daeam text-2xl'>채팅방 정보</h1>
             <form>
                 <div className='text-start font-her text-2xl'>*채팅방 제목</div>
@@ -345,6 +359,7 @@ function ChatRoomDetailModal({selectedChatRoom, setSelectedChatRoom, setIsSearch
                     <Button text='탈퇴하기' type='button' onClick={onExitButtonClicked}/>
                 </div>
             </form>
+            </div>
         </>
     );
 }
