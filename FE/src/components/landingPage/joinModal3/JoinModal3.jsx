@@ -3,12 +3,10 @@ import UserInput from '../../common/UserInput';
 import Button from '../../common/Button';
 import { useSelector } from 'react-redux';
 import CheckBox from '../../common/CheckBox';
-import SelectBox from '../../common/SelectBox';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import ProfileImage from '../../common/ProfileImage';
 import { imageUpload } from '../../../utils/upload';
-import instance from "@/utils/instance.js";
+import instance from '@/utils/instance.js';
 
 const USER_CATEGORY_OPTIONS = [
   { id: 1, title: 'COLLEGE_STUDENT', name: '대학생' },
@@ -43,14 +41,6 @@ function JoinModal3() {
 
   const monthBudgetIsInvalid =
     isEdited.monthBudget && isNaN(userInputs.monthBudget.replace(/,/g, ''));
-
-  // useEffect(() => {
-  //   if (joinData.nickname === undefined || joinData.birthDate === undefined || joinData.gender === undefined) {
-  //     navigate('/landing/join/2');
-  //   } else if (joinData.email === undefined || joinData.password === undefined) {
-  //     navigate('/landing/join/1');
-  //   }
-  // }, []);
 
   // 모달 창 이동을 위해
   const navigate = useNavigate();
@@ -97,15 +87,11 @@ function JoinModal3() {
     formData.append('data', blob);
 
     try {
-      const res = await instance.post(
-        'https://i10a408.p.ssafy.io/temp/api/users/join',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
+      const res = await instance.post('api/users/join', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
     } catch (error) {
       console.error('api 요청 중 오류 발생 : ', error);
     }

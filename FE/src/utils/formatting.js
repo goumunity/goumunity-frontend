@@ -83,7 +83,6 @@ export function calculateDate(inputDate) {
 export function addCommas(number) {
   // 숫자를 문자열로 변환
   let numberString = number.toString();
-  console.log(numberString);
   // 정규표현식을 사용하여 세 자리마다 쉼표 추가
   numberString = numberString.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 

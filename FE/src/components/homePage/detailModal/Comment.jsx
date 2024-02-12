@@ -165,6 +165,8 @@ function Comment({
             setOption={setOption}
             setReplyId={setReplyId}
             setCommentReplyCount={setCommentReplyCount}
+            replyList={replyList}
+            setReplyList={setReplyList}
           />
         )}
       </div>

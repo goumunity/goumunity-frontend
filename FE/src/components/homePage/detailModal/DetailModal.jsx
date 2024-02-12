@@ -8,7 +8,7 @@ import Slider from 'react-slick';
 import Loading from '../../common/Loading';
 import NicknameBox from '../../common/NicknameBox';
 import ModalBackground from '../../common/ModalBackground';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function DetailModal({ feedId }) {
   const [feed, isLoading, errorMessage] = useAxiosGet(`/api/feeds/${feedId}`);
@@ -28,12 +28,33 @@ function DetailModal({ feedId }) {
     user,
     isScrapped,
   } = feed;
+  console.log('gdgd', feed);
+
+  const modalRef = useRef();
+
+  const navigate = useNavigate();
 
   // region 객체
   // const { createdAt, gungu, regionId, si, updatedAt } = region
 
   // user 객체
   // const { age, email, gender, id, imgSrc, monthBudget, nickname, regionId, userCategory } = user
+
+  useEffect(() => {
+    // component가 생성 시 mousedown 이벤트에 clickOutside 함수 추가
+    document.addEventListener('mousedown', closeModalWithClickOutside);
+
+    return () => {
+      // component가 해제 시 mousedown 이벤트에서 clickOutside 함수 제거
+      document.removeEventListener('mousedown', closeModalWithClickOutside);
+    };
+  });
+
+  const closeModalWithClickOutside = (e) => {
+    if (!modalRef.current.contains(e.target)) {
+      navigate('/');
+    }
+  };
 
   const [commentCnt, setCommentCnt] = useState(commentCount);
   const daysAgo = updatedAt
@@ -58,54 +79,52 @@ function DetailModal({ feedId }) {
             // onClick={handleClickGoHome}
           />
         </Link> */}
-        <div className='z-50 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-4/5 w-128 bg-bright border border-gray'>
-          {feed ? (
-            <div className='h-full flex'>
-              <div className='flex flex-col w-3/5 px-10 py-8 scroll-auto'>
-                <div className='flex items-center gap-3'>
-                  <ProfileImage
-                    size='8'
-                    profileImage={user.imgSrc ? user.imgSrc : ''}
-                  />
-                  <NicknameBox
-                    nickname={user.nickname}
-                    daysAgo={daysAgo}
-                    fontSize='md'
-                  />
-                </div>
-                <p className='my-4 px-3'>{content}</p>
-                {images.length !== 0 && (
-                  <Slider
-                    className='flex justify-center items-center w-full h-full bg-wheat'
-                    {...settings}
-                  >
-                    {images.map((image, idx) => (
-                      <img
-                        key={idx}
-                        className='h-64'
-                        src={image.imgSrc}
-                        alt=''
-                      />
-                    ))}
-                  </Slider>
-                )}
+      <div
+        className='z-50 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-4/5 w-128 bg-bright border border-gray'
+        ref={modalRef}
+      >
+        {feed ? (
+          <div className='h-full flex'>
+            <div className='flex flex-col w-3/5 px-10 py-8 scroll-auto'>
+              <div className='flex items-center gap-3'>
+                <ProfileImage
+                  size='8'
+                  profileImage={user.imgSrc ? user.imgSrc : ''}
+                />
+                <NicknameBox
+                  nickname={user.nickname}
+                  daysAgo={daysAgo}
+                  fontSize='md'
+                />
               </div>
-              <CommentSection
-                feedId={feedId}
-                createdAt={createdAt}
-                updatedAt={updatedAt}
-                likeCount={likeCount}
-                ilikeThat={ilikeThat}
-                commentCnt={commentCnt}
-                setCommentCnt={setCommentCnt}
-                isScrapped={isScrapped}
-              />
+              <p className='my-4 px-3'>{content}</p>
+              {images.length !== 0 && (
+                <Slider
+                  className='flex justify-center items-center w-full h-full bg-wheat'
+                  {...settings}
+                >
+                  {images.map((image, idx) => (
+                    <img key={idx} className='h-64' src={image.imgSrc} alt='' />
+                  ))}
+                </Slider>
+              )}
             </div>
-          ) : (
-            <Loading />
-          )}
-        </div>
-        <ModalBackground />
+            <CommentSection
+              feedId={feedId}
+              createdAt={createdAt}
+              updatedAt={updatedAt}
+              likeCount={likeCount}
+              ilikeThat={ilikeThat}
+              commentCnt={commentCnt}
+              setCommentCnt={setCommentCnt}
+              isScrapped={isScrapped}
+            />
+          </div>
+        ) : (
+          <Loading />
+        )}
+      </div>
+      <ModalBackground />
       {/* </div> */}
     </>
   );
