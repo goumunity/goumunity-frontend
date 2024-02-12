@@ -40,8 +40,8 @@ function ChatPage() {
     }
     const connect = () => {
         client.current = new StompJs.Client({
-            // brokerURL: 'wss://i10a408.p.ssafy.io/api/goumunity-chat',
-            brokerURL: 'ws://localhost:8080/goumunity-chat',
+            brokerURL: 'wss://i10a408.p.ssafy.io/api/goumunity-chat',
+            // brokerURL: 'ws://localhost:8080/goumunity-chat',
             onConnect : resubscribe
         });
         client.current.activate();
@@ -96,7 +96,6 @@ function ChatPage() {
       if (isLoading) return;
       if (observerRef.current) observerRef.current.disconnect();
       observerRef.current = new IntersectionObserver((entries) => {
-        console.log('entries[0].isIntersecting : ', entries[0].isIntersecting);
         if (entries[0].isIntersecting && hasNext) {
           setPageNum((prevPageNumber) => prevPageNumber + 1);
         }
