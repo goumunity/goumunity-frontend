@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {modalActions} from '../../../store/modal';
 import ChatMyItem from './ChatMyItem';
-import ChatRoomModal from '@/components/chatPage/chatRoomModal/ChatRoomModal';
+import ChatRoomCreateModal from '@/components/chatPage/chatRoomModal/ChatRoomCreateModal.jsx';
 import CustomModal from '../../common/CustomModal';
 import axios from 'axios';
 import instance from "@/utils/instance.js";
@@ -56,7 +56,7 @@ function ChatMySection(props) {
             </button>
             {isModalOpen && modalOption === 'createChat' && (
               <CustomModal>
-                <ChatRoomModal setMyChatRooms={setMyChatRooms} myChatRooms={myChatRooms} />
+                <ChatRoomCreateModal setMyChatRooms={setMyChatRooms} myChatRooms={myChatRooms} />
               </CustomModal>
             )}
           </div>

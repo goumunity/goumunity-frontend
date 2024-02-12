@@ -13,12 +13,16 @@ function ChatPage() {
     const [myChatRooms, setMyChatRooms] = useState([]);
     const [pageNum, setPageNum] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
-    const observerRef = useRef();
     const [searchTime, setSearchTime] = useState(new Date().getTime());
+    const observerRef = useRef();
 
     const handleClickMySection = () => {
         setIsSearchMode(false);
     };
+
+    const handleSearchMode = () => {
+        setIsSearchMode(true)
+    }
 
     const client = useRef({});
     const room = useRef(null);
@@ -117,6 +121,7 @@ function ChatPage() {
                     setMyChatRooms={setMyChatRooms}
                     handleJoinChatRoom={onJoinedRoomClicked}
                     handleClickMySection={handleClickMySection}
+                    handleSearchMode={handleSearchMode}
                     isLoaded={isSearchMode}
                 />
             </div>

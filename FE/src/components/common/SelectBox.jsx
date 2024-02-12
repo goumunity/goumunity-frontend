@@ -3,18 +3,26 @@ import instance from '@/utils/instance'
 
 function SelectBox({ widthSize, color, defaultValue, ...props }) {
   const [regionList, setRegionList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true)
       try {
         const res = await instance.get('/api/regions');
         setRegionList(res.data)
       } catch (error) {
         console.log('지역 받는 중 에러 발생:', error);
       }
+      setIsLoading(false)
     };
     fetchData();
   }, []);
+
+  if (isLoading) {
+    return <>Loading..</>
+  }
+
 
   return (
     <select
