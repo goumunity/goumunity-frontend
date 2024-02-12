@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 
 import {useSelector} from 'react-redux';
+import ChatMessage from "@/components/chatPage/chatTalkSection/ChatMessage.jsx";
 
 function ChatTalkRoom({ userId, chatRoomId, onMessageSend, messages }) {
   const [msg, setMsg] = useState('');
@@ -31,30 +32,17 @@ function ChatTalkRoom({ userId, chatRoomId, onMessageSend, messages }) {
     }
   };
   const handleSendButtonClicked = () => {
+    if(msg === '') return;
     onMessageSend(msg);
     setMsg('');
   }
 
-  //현재시각
-  const formatCurrentTime = () => {
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const ampm = hours >= 12 ? 'pm' : 'am';
 
-    // 시간을 12시간 형식으로 변경
-    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-
-    // 분을 두 자리로 표시
-    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-
-    return `${formattedHours}:${formattedMinutes}${ampm}`;
-  };
 
   return (
     <>
-      <h1 className='text-3xl font-bold mb-4'>응 여긴 로비야{chatRoomId}</h1>
-      <div className='flex space-x-5'></div>
+      <div className={'h-screen'}>
+      <div className='flex space-x-5 '></div>
       <div className='flex flex-col h-96'>
         <div
           ref={messagesContainerRef}
@@ -63,57 +51,36 @@ function ChatTalkRoom({ userId, chatRoomId, onMessageSend, messages }) {
           <div className='w-full flex flex-col'>
             {messages?.map((m, index) => {
               return (
-                <div key={index}>
-                  {m.userId === currentUser.id ? (
-                    // <div className='flex justify-end border rounded-2xl bg-blue-200 p-1'>
-                    <div className='flex justify-end pr-2'>
-                      <span className='text-xs text-gray-500 ml-2 pt-3 pr-2'>
-                        {formatCurrentTime()}
-                      </span>
-                      <span className='flex justify-end border rounded-2xl bg-blue-200 p-1 pl-2 pr-3 w-1/5  text-neutral-800 text-sm'>
-                        {m.content}
-                      </span>
+                  <>
+                    <div className='mt-3'>
+                      <ChatMessage message={m} index={index} currentUser={currentUser} />
                     </div>
-                  ) : (
-                    <div className='pl-2'>
-                      <div className='flex justify-start flex-col text-sm'>
-                        {m.nickname.replace(/#.*/, '')}
-                        <div className='flex items-center'>
-                          <span className=' bg-gray-200 border rounded-3xl p-1 pr-2 pl-3 w-1/5 text-neutral-800'>
-                            {m.content}
-                          </span>
-                          <span className='text-xs text-gray-500 ml-2'>
-                            {formatCurrentTime()}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                  </>
               );
             })}
           </div>
         </div>
       </div>
       <div className='border pb-0'>
-        <i class='fa-solid fa-circle-plus'></i>
+        <i className='fa-solid fa-circle-plus'></i>
         <input
-          className='w-4/5  font-her p-4 border-entrance border-r border'
-          placeholder='메세지를 입력해주세요...'
-          type={'text'}
-          value={msg}
-          onChange={(e) => onMessageChanged(e)}
-          onKeyDown={handleOnKeyPress}
+            className='w-4/5  font-her p-4 border-entrance border-r border'
+            placeholder='메세지를 입력해주세요...'
+            type={'text'}
+            value={msg}
+            onChange={(e) => onMessageChanged(e)}
+            onKeyDown={handleOnKeyPress}
         />
         <span className='w-full'>
           <button
-            type={'button'}
-            onClick={handleSendButtonClicked}
-            className='p-4'
+              type={'button'}
+              onClick={handleSendButtonClicked}
+              className='p-4'
           >
             입력
           </button>
         </span>
+      </div>
       </div>
     </>
   );

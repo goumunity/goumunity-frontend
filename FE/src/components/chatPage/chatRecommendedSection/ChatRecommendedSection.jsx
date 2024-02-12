@@ -14,7 +14,7 @@ function ChatRecommendedSection({ setMyChatRooms, myChatRooms }) {
   const [isLoading, setIsLoading] = useState(false);
   const [items, setItems] = useState([]);
   const [searchTime, setSearchTime] = useState(new Date().getTime());
-  const size = 3;
+  const size = 12;
 
   const onSearchItem = async () => {
     console.log(pageNum)
