@@ -9,7 +9,8 @@ import CloseButton from '../../common/CloseButton';
 
 function ImageSection({ isSlide, fileList, setFileList }) {
   const [imageList, setImageList] = useState([]);
-  const categorySectionClassName = isSlide ? 'visible w-96' : 'hidden w-0';
+  // const categorySectionClassName = isSlide ? 'visible w-96' : 'hidden w-0';
+  const categorySectionClassName = isSlide ? 'w-96' : 'hidden w-0';
   const [isDetailImageOpen, setIsDetailImageOpen] = useState(false);
 
   const handleChangeUploadImageList = (e) => {
@@ -75,7 +76,8 @@ function ImageSection({ isSlide, fileList, setFileList }) {
   };
   return (
     <div
-      className={`flex justify-center items-center bg-bright border-gray border-l min-h-96 max-h-128 transition-width delay-700 duration-300  ${categorySectionClassName}`}
+      // className={`flex justify-center items-center bg-bright border-gray border-l min-h-96 max-h-128 transition-width delay-300 duration-700  ${categorySectionClassName}`}
+      className={`flex justify-center items-center bg-bright border-gray border-l min-h-96 max-h-128 duration-700 delay-300 ${categorySectionClassName}`}
     >
       {imageList.length ? (
         <Slider

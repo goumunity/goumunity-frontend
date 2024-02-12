@@ -9,8 +9,10 @@ import Loading from '../../common/Loading';
 import NicknameBox from '../../common/NicknameBox';
 import ModalBackground from '../../common/ModalBackground';
 import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import instance from '../../../utils/instance';
 
-function DetailModal({ feedId }) {
+function DetailModal({ feedId, feedList, setFeedList }) {
   const [feed, isLoading, errorMessage] = useAxiosGet(`/api/feeds/${feedId}`);
 
   const {
@@ -31,6 +33,7 @@ function DetailModal({ feedId }) {
   console.log('gdgd', feed);
 
   const modalRef = useRef();
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   const navigate = useNavigate();
 
@@ -70,23 +73,34 @@ function DetailModal({ feedId }) {
     arrows: true,
   };
 
+  const className = isLoading ? 'pointer-events-none opacity-75' : undefined;
+  const profit = price - afterPrice;
+
+  const handleClickDeleteFeed = async () => {
+    const isConfirm = window.confirm('정말로 삭제하시겠습니까?');
+    if (!isConfirm) return;
+
+    try {
+      const res = await instance.delete(`/api/feeds/${feedId}`);
+      // feed.feedId와 feedId는 타입이 다르므로 !== 를 하면 안됨
+      const newFeedList = feedList.filter((feed) => feed.feedId != feedId);
+      setFeedList(newFeedList);
+      navigate('/');
+    } catch (error) {
+      console.log('피드 삭제 중 에러 발생 : ', error);
+    }
+  };
+
   return (
     <>
-      {/* <div className='fixed top-0 left-0 bg-back right-0 bottom-0'>
-        <Link to='/'>
-          <CloseButton
-            className='absolute top-5 right-5'
-            // onClick={handleClickGoHome}
-          />
-        </Link> */}
       <div
         className='z-50 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-4/5 w-128 bg-bright border border-gray'
         ref={modalRef}
       >
         {feed ? (
           <div className='h-full flex'>
-            <div className='flex flex-col w-3/5 px-10 py-8 scroll-auto'>
-              <div className='flex items-center gap-3'>
+            <div className='flex flex-col w-3/5 scroll-auto'>
+              <div className='relative flex items-center gap-3 px-8 py-5 border-b'>
                 <ProfileImage
                   size='8'
                   profileImage={user.imgSrc ? user.imgSrc : ''}
@@ -94,13 +108,27 @@ function DetailModal({ feedId }) {
                 <NicknameBox
                   nickname={user.nickname}
                   daysAgo={daysAgo}
+                  gungu={region.gungu}
                   fontSize='md'
                 />
+                {user.nickname === currentUser.nickname && (
+                  <div className='flex font-daeam absolute right-1 gap-3'>
+                    <Link to={`/patch/${feedId}`}>
+                      <button className={`${className}`}>수정</button>
+                    </Link>
+                    <button
+                      className={`${className}`}
+                      onClick={handleClickDeleteFeed}
+                    >
+                      삭제
+                    </button>
+                  </div>
+                )}
               </div>
-              <p className='my-4 px-3'>{content}</p>
+              <p className='my-4 px-10 min-h-40'>{content}</p>
               {images.length !== 0 && (
                 <Slider
-                  className='flex justify-center items-center w-full h-full bg-wheat'
+                  className='flex justify-center items-center w-full h-full px-8 bg-wheat'
                   {...settings}
                 >
                   {images.map((image, idx) => (
@@ -131,14 +159,3 @@ function DetailModal({ feedId }) {
 }
 
 export default DetailModal;
-
-// export async function loader(feedId) {
-//     console.log('gdg')
-//     const res = await instance.get(`/api/feeds${feedId}`);
-
-//     if (res.statusText !== 'OK') {
-//       throw json({ message: '에러 발생' }, { status: 500 });
-//     } else {
-//       return res.data;
-//     }
-//   }

@@ -49,7 +49,7 @@ function HomePage() {
   }, [page]);
 
   return (
-    <div className='flex flex-col items-center h-full bg-bright'>
+    <div className='flex flex-col items-center h-full bg-bright' ref={pageRef}>
       {feedList.map((feed, idx) => (
         <Feed
           feed={feed}
@@ -59,7 +59,7 @@ function HomePage() {
         />
       ))}
 
-      {params.feedId && <DetailModal feedId={params.feedId} />}
+      {params.feedId && <DetailModal setFeedList={setFeedList} feedList={feedList} feedId={params.feedId} />}
       {params.id && <CreateFeedModal setFeedList={setFeedList} />}
       {params.patchId && <PatchFeedModal feedList={feedList} setFeedList={setFeedList} />}
 

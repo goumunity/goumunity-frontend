@@ -1,13 +1,12 @@
-import {useState} from "react";
-import UserInput from "../../common/UserInput";
-import {isEmail, validatePassword} from "../../../utils/validation";
-import {useDispatch, useSelector} from "react-redux";
-import {authActions} from "../../../store/auth";
-import Button from "../../common/Button";
-import {useNavigate} from "react-router-dom";
-import {loginActions} from "../../../store/login";
-import instance from "@/utils/instance.js";
-
+import { useState } from 'react';
+import UserInput from '../../common/UserInput';
+import { isEmail, validatePassword } from '../../../utils/validation';
+import { useDispatch, useSelector } from 'react-redux';
+import { authActions } from '../../../store/auth';
+import Button from '../../common/Button';
+import { useNavigate } from 'react-router-dom';
+import { loginActions } from '../../../store/login';
+import instance from '@/utils/instance.js';
 
 function LoginModal() {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,11 +15,11 @@ function LoginModal() {
   //-----------------store 사용
   const loginStore = useSelector((state) => state.login);
 
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
 
   const [userInputs, setUserInputs] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const [isEdited, setIsEdited] = useState({
@@ -50,13 +49,13 @@ function LoginModal() {
   // 로그인
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
-    setErrorMessage("");
-    if (userInputs.email === "") {
-      setErrorMessage("이메일을 입력해주세요.");
+    setErrorMessage('');
+    if (userInputs.email === '') {
+      setErrorMessage('이메일을 입력해주세요.');
       return;
     }
-    if (userInputs.password === "") {
-      setErrorMessage("비밀번호를 입력해주세요.");
+    if (userInputs.password === '') {
+      setErrorMessage('비밀번호를 입력해주세요.');
       return;
     }
     if (emailIsInvalid || passwordIsInvalid) {
@@ -68,7 +67,6 @@ function LoginModal() {
       console.log('gggggggg', import.meta.env.VITE_API_DEV);
       // const res = await instance.post('/api/users/login', {
       const res = await instance.post(
-
         '/api/users/login',
         {
           id: userInputs.email,
@@ -82,12 +80,7 @@ function LoginModal() {
       // login store 사용
       dispatch(loginActions.IsLogin());
       try {
-        // const res = await instance.get(`/api/users/${userInputs.email}`);
-        // const res = await instance.get(
-        //   `http://localhost:8080/api/users/my/chat-rooms?page=0&size=12&time=${new Date().getTime()}`
-        // );
-
-      navigate("/");
+        navigate('/');
         const res = await instance.get(`/api/users/${userInputs.email}`);
         console.log('로그인 결과:', res);
 
@@ -98,15 +91,15 @@ function LoginModal() {
 
       navigate('/');
     } catch (error) {
-      console.log("에러 발생 : ", error);
-      setErrorMessage("이메일과 비밀번호를 다시 확인해주세요.");
+      console.log('에러 발생 : ', error);
+      setErrorMessage('이메일과 비밀번호를 다시 확인해주세요.');
     }
     setIsLoading(false);
   };
 
   // 사용자의 입력 감지
   const handleChangeInputs = (id, value) => {
-    setErrorMessage("");
+    setErrorMessage('');
     setUserInputs((prev) => ({
       ...prev,
       [id]: value,
@@ -131,9 +124,9 @@ function LoginModal() {
           type='email'
           value={userInputs.email}
           onBlur={() => {
-            handleBlurFocusOffInput("email");
+            handleBlurFocusOffInput('email');
           }}
-          onChange={(e) => handleChangeInputs("email", e.target.value)}
+          onChange={(e) => handleChangeInputs('email', e.target.value)}
           error={emailIsInvalid && '이메일에 "@" 기호가 포함되어야 합니다.'}
         />
         <UserInput
@@ -142,16 +135,16 @@ function LoginModal() {
           type='password'
           value={userInputs.password}
           onBlur={() => {
-            handleBlurFocusOffInput("password");
+            handleBlurFocusOffInput('password');
           }}
-          onChange={(e) => handleChangeInputs("password", e.target.value)}
+          onChange={(e) => handleChangeInputs('password', e.target.value)}
           error={
             passwordIsInvalid &&
-            "비밀번호는 8~20자 · 최소 1개의 소문자, 대문자, 숫자, 특수문자를 포함해야 합니다."
+            '비밀번호는 8~20자 · 최소 1개의 소문자, 대문자, 숫자, 특수문자를 포함해야 합니다.'
           }
         />
         <Button
-          text={isLoading ? "로그인 중" : "로그인"}
+          text={isLoading ? '로그인 중' : '로그인'}
           isActive={!isLoading}
         />
       </form>

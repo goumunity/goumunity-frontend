@@ -38,6 +38,7 @@ function CommentSection({
   );
   const inputRef = useRef();
   const observerRef = useRef();
+  console.log('여긴있나:', commentCnt)
 
   const lastCommentRef = useCallback(
     (node) => {

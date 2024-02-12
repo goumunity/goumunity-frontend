@@ -43,7 +43,6 @@ function EmailConfirmButton({
       console.log('에러 발생 : ', error);
     }
     setIsLoading(false);
-    setErrorMessage('인증코드가 발송되었습니다.');
   };
 
   // 인증번호 확인

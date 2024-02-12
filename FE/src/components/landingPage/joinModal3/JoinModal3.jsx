@@ -20,12 +20,10 @@ function JoinModal3() {
   const [profileImage, setProfileImage] = useState('');
   const [resultImage, setResultImage] = useState(null);
 
-  // 이미지 업로드
   const handleChangeUploadProfileImg = (e) => {
     const uploadFile = imageUpload(e.target, setProfileImage);
     setResultImage(uploadFile);
   };
-  const file = useSelector((state) => state.auth.file);
 
   const [userInputs, setUserInputs] = useState({
     userCategory: '',
@@ -42,7 +40,6 @@ function JoinModal3() {
   const monthBudgetIsInvalid =
     isEdited.monthBudget && isNaN(userInputs.monthBudget.replace(/,/g, ''));
 
-  // 모달 창 이동을 위해
   const navigate = useNavigate();
 
   // input에서 focus를 다른 곳에 두었을 때 수정되었음을 표시
@@ -53,7 +50,6 @@ function JoinModal3() {
     }));
   };
 
-  // 회원가입
   const handleSubmitJoin = async (e) => {
     e.preventDefault();
     setErrorMessage('');
@@ -127,31 +123,6 @@ function JoinModal3() {
       }));
     }
   };
-
-  // const displayMonthBudget = userInputs.monthBudget ? `${userInputs.monthBudget}원` : '';
-
-  // 유저 입력 감지
-  // const handleChangeInputs = (id, value) => {
-  //   // if (id === 'monthBudget' && isNaN(value)) {
-  //   //   return;
-  //   // }
-  //   if (id === 'monthBudget') {
-  //     // value = Number(value.replaceAll(',', ''))
-  //     // value = value.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
-  //     // const removedCommaValue = Number(value.replaceAll(',', ''))
-  //     // value = value.replace(/[^\d,]/g, '');
-  //     // value = Number(value.replaceAll(',', ''));
-  //     value = value.toLocaleString();
-  //   }
-  //   setUserInputs((prev) => ({
-  //     ...prev,
-  //     [id]: value,
-  //   }));
-  //   setIsEdited((prev) => ({
-  //     ...prev,
-  //     [id]: false,
-  //   }));
-  // };
 
   return (
     <>
@@ -235,7 +206,7 @@ function JoinModal3() {
         <div className='text-center font-dove text-red-600 text-xl h-2 mb-3 w-full'>
           {errorMessage}
         </div>
-        <div className='flex gap-5 justify-center absolute bottom-7 w-full'>
+        <div className='flex gap-5 justify-center absolute bottom-7 right-1 w-full'>
           <Link to='/landing/join/2'>
             <Button text='이전단계' />
           </Link>

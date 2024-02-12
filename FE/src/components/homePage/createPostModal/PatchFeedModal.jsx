@@ -17,6 +17,7 @@ import { imageUpload } from '../../../utils/upload';
 import Slider from 'react-slick';
 import CloseButton from '../../common/CloseButton';
 import instance from '@/utils/instance.js';
+import SavingCategorySelectBox from '../../common/SavingCategorySelectBox';
 
 const FEED_CATEGORY_OPTIONS = [
   { id: 1, name: 'INFO' },
@@ -55,8 +56,9 @@ function PatchFeedModal({ feedList, setFeedList }) {
     region,
     updatedAt,
     user,
+    savingCategory,
   } = feed;
-  console.log(feed);
+
   const currentUser = useSelector((state) => state.auth.currentUser);
   const [newPrice, handleChangeNewPrice, setNewPrice] = useNumInput('');
   const [newAfterPrice, handleChangeNewAfterPrice, setNewAfterPrice] =
@@ -73,6 +75,11 @@ function PatchFeedModal({ feedList, setFeedList }) {
     '',
     setErrorMessage
   );
+  const [
+    newSavingCategory,
+    handleChangeNewSavingCategory,
+    setNewSavingCategory,
+  ] = useInput('', setErrorMessage);
   const [imageList, setImageList] = useState([]);
 
   // const className = isSlide ? '-translate-x-3/4' : '-translate-x-1/2';
@@ -85,8 +92,9 @@ function PatchFeedModal({ feedList, setFeedList }) {
     setNewAfterPrice(afterPrice);
     setNewPrice(price);
     setImageList(images);
+    setNewSavingCategory(savingCategory);
     // console.log('region:',region)
-    setNewRegion(region?.regionId)
+    setNewRegion(region?.regionId);
 
     if (images?.length > 0) {
       setIsSlide(true);
@@ -130,14 +138,12 @@ function PatchFeedModal({ feedList, setFeedList }) {
       setErrorMessage('내용을 입력해주세요.');
       return;
     }
-
-    if (newRegion === '') {
+    if (newRegion === '' || newRegion === 'none') {
       setErrorMessage('지역을 선택해주세요.');
       return;
     }
-
-    if (newFeedCategory === '') {
-      setErrorMessage('카테고리를 선택해주세요.');
+    if (newSavingCategory === '' || newSavingCategory === 'none') {
+      setErrorMessage('절약항목을 선택해주세요.');
       return;
     }
 
@@ -148,6 +154,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
       price: newPrice,
       afterPrice: newAfterPrice,
       regionId: newRegion,
+      savingCategory: newSavingCategory,
       feedImages: [],
     };
 
@@ -185,9 +192,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
         const res = await instance.get(`/api/feeds/${feedId}`);
         console.log('단일 조회 : ', res);
         // setFeedList((prev) => [res.data, ...prev]);
-        const newFeedList = feedList.filter(
-          (feed) => feed.id !== feedId
-        );
+        const newFeedList = feedList.filter((feed) => feed.id !== feedId);
         // setFeedList([res.data, ...newFeedList]);
         setFeedList([
           {
@@ -208,10 +213,12 @@ function PatchFeedModal({ feedList, setFeedList }) {
             si: res.data.region.si,
             updatedAt: res.data.updatedAt,
             isScrapped: false,
+            savingCategory: res.data.savingCategory,
           },
-          ...newFeedList
+          ...newFeedList,
         ]);
         console.log('게시글 단일 조회 결과 : ', res.data);
+        window.scrollTo(0,0)
       } catch (error) {
         console.log('게시글 단일 조회 중 에러 발생 : ', error);
       }
@@ -237,10 +244,10 @@ function PatchFeedModal({ feedList, setFeedList }) {
   return (
     <div className=''>
       <div
-        className={`fixed top-1/2 left-1/2 flex transition-width duration-700 delay-300 ${modalClassName} -translate-x-1/2 -translate-y-1/2 z-10 `}
+        className={`fixed top-1/2 left-1/2 flex transition-width duration-700 ${modalClassName} -translate-x-1/2 -translate-y-1/2 z-10 `}
       >
         <div
-          className={`flex h-128 bg-bright rounded-xl shadow-2xl  overflow-hidden`}
+          className={`flex h-128 pt-2 bg-bright rounded-lg shadow-2xl  overflow-hidden`}
         >
           <div className={`relative ${mainSectionClassName}`}>
             <div className='flex justify-center'>
@@ -283,46 +290,75 @@ function PatchFeedModal({ feedList, setFeedList }) {
               </div>
               {/* <SelectBox onChange={(e) => handleChangeRegion(e.target.value)} /> */}
 
-              <SelectBox
+              {/* <SelectBox
                 color='bright'
                 onChange={(e) => handleChangeNewRegion(e)}
                 defaultValue={region?.gungu}
-              />
+              /> */}
             </div>
 
             <ContentBox
               content={newContent}
               handleChangeContent={handleChangeNewContent}
             />
-            <div className='h-2 text-center font-dove text-red-600'>
+            <div className='flex justify-center items-center h-8 font-dove text-red-600'>
               {errorMessage}
             </div>
-            <div className='flex gap-2 p-2'>
+            <div className='relative flex gap-2 px-1 pb-2'>
+              {/* <Option
+                  text='지역'
+                  size={5}
+                  src={mapIcon}
+                  onClick={handleClickToggleRegionSelectBox}
+                /> */}
+              <SelectBox
+                title='어디서 아꼈나요?'
+                color='bright'
+                onChange={(e) => handleChangeNewRegion(e)}
+              />
+              <SavingCategorySelectBox
+                title='절약항목'
+                color='bright'
+                onChange={(e) => handleChangeNewSavingCategory(e)}
+              />
               <Option
                 text='이미지'
                 size={5}
                 src={imageIcon}
                 onClick={handleClickOpenSlide}
               />
+              {/* <div className='absolute right-5'>
+                {isRegionSelectBoxOpen && <SelectBox />}
+                {isSavingCategorySelectBoxOpen && <SavingCategorySelectBox />}
+              </div> */}
             </div>
-            {/* </div> */}
 
             {feedCategory === FEED_CATEGORY_OPTIONS[0].name ? (
-              <div className='flex justify-center'>
-                <input
-                  className='border border-gray w-1/2 text-center font-her bg-bright outline-none'
-                  type='text'
-                  placeholder='정가'
-                  value={addCommas(Number(newPrice))}
-                  onChange={handleChangeNewPrice}
-                />
-                <input
-                  className='border border-gray w-1/2 text-center font-her bg-bright outline-none'
-                  type='text'
-                  placeholder='할인가'
-                  value={addCommas(Number(newAfterPrice))}
-                  onChange={handleChangeNewAfterPrice}
-                />
+              <div className='flex h-12'>
+                <div className='flex '>
+                  <span className='flex justify-center items-center w-12 p-1 bg-button text-white font-dove text-sm'>
+                    정가
+                  </span>
+                  <input
+                    className='w-4/5 border border-gray text-center font-her bg-bright outline-none'
+                    type='text'
+                    placeholder='할인 받기 전 가격'
+                    value={addCommas(Number(newPrice))}
+                    onChange={handleChangeNewPrice}
+                  />
+                </div>
+                <div className='flex '>
+                  <span className='flex justify-center items-center w-12 p-1 bg-button text-white font-dove text-center text-xs'>
+                    할인가
+                  </span>
+                  <input
+                    className='border border-gray w-4/5 text-center font-her bg-bright outline-none'
+                    type='text'
+                    placeholder='할인 받은 후 가격'
+                    value={addCommas(Number(newAfterPrice))}
+                    onChange={handleChangeNewAfterPrice}
+                  />
+                </div>
               </div>
             ) : null}
           </div>
