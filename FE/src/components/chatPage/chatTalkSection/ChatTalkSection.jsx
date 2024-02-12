@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import ChatTalkRoom from './ChatTalkRoom';
 import instance from '@/utils/instance.js';
 import {useDispatch, useSelector} from "react-redux";
@@ -6,8 +6,7 @@ import CustomModal from "@/components/common/CustomModal.jsx";
 import {modalActions} from "@/store/modal.js";
 import ChatRoomDetailModal from "@/components/chatPage/chatRoomModal/ChatRoomDetailModal.jsx";
 
-function ChatTalkSection({id, onMessageSend, messages,myChatRooms, setIsSearchMode, setMyChatRooms}) {
-    // const [initSize, setInitSize] = useState({widthSize: 467, heigthSize: 800});
+function ChatTalkSection({id, onMessageSend,setMessages, messages, myChatRooms, setIsSearchMode, setMyChatRooms}) {
 
     const isModalOpen = useSelector((state) => state.modal.isModalOpen);
     const modalOption = useSelector((state) => state.modal.modalOption);
@@ -41,31 +40,32 @@ function ChatTalkSection({id, onMessageSend, messages,myChatRooms, setIsSearchMo
         dispatch(modalActions.openChatRoomDetailModal());
     }
 
+
     return (
         <div>
-                <div className='flex items-center justify-between p-3 border-b-2 relative'>
-                    <div>
-                        {selectedChatRoom?.title}
-                    </div>
-                    <div className='flex justify-between items-center  pr-3 '>
-                        <i className="fa-solid fa-gear pr-3 hover:cursor-pointer" onClick={onSettingButtonClicked}/>
-                        <i className='fa-solid fa-xmark pr-3 hover:cursor-pointer' onClick={onCloseButtonClicked}/>
-                    </div>
+            <div className='flex items-center justify-between p-3 border-b-2 relative'>
+                <div>
+                    {selectedChatRoom?.title}
                 </div>
-
+                <div className='flex justify-between items-center  pr-3 '>
+                    <i className="fa-solid fa-gear pr-3 hover:cursor-pointer" onClick={onSettingButtonClicked}/>
+                    <i className='fa-solid fa-xmark pr-3 hover:cursor-pointer' onClick={onCloseButtonClicked}/>
+                </div>
+            </div>
             <ChatTalkRoom
+                setMessages={setMessages}
                 chatRoomId={id}
                 onMessageSend={onMessageSend}
                 messages={messages}
             />
             {isModalOpen && modalOption === 'detailChat' && (
-                <CustomModal >
+                <CustomModal>
                     <ChatRoomDetailModal
                         myChatRooms={myChatRooms}
                         setMyChatRooms={setMyChatRooms}
                         setIsSearchMode={setIsSearchMode}
-                                         selectedChatRoom={selectedChatRoom}
-                                         setSelectedChatRoom={setSelectedChatRoom}/>
+                        selectedChatRoom={selectedChatRoom}
+                        setSelectedChatRoom={setSelectedChatRoom}/>
                 </CustomModal>
             )}
         </div>

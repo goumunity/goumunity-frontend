@@ -40,8 +40,8 @@ function ChatPage() {
     }
     const connect = () => {
         client.current = new StompJs.Client({
-            brokerURL: 'wss://i10a408.p.ssafy.io/api/goumunity-chat',
-            // brokerURL: 'ws://localhost:8080/goumunity-chat',
+            // brokerURL: 'wss://i10a408.p.ssafy.io/api/goumunity-chat',
+            brokerURL: 'ws://localhost:8080/goumunity-chat',
             onConnect : resubscribe
         });
         client.current.activate();
@@ -72,10 +72,10 @@ function ChatPage() {
     });
   };
 
-  const onMessageSend = (message) => {
+  const onMessageSend = (message, chatType) => {
     client.current.publish({
       destination: `/ws/messages/${chatRoomId}`,
-      body: JSON.stringify({ content: message, chatType: 'MESSAGE' }),
+      body: JSON.stringify({ content: message, chatType: chatType }),
     });
   };
   const onJoinedRoomClicked = (id) => {
@@ -148,6 +148,7 @@ function ChatPage() {
               <ChatTalkSection
                   id={chatRoomId}
                   onMessageSend={onMessageSend}
+                  setMessages={setMessages}
                   messages={messages}
                   setIsSearchMode={setIsSearchMode}
                   setMyChatRooms={setMyChatRooms}
