@@ -1,17 +1,17 @@
-import { useState } from "react";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import login, { loginActions } from "../../store/login";
+import { useState } from 'react';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import login, { loginActions } from '../../store/login';
 
 export default function Login() {
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
 
   const onLoginButtonClicked = () => {
     axios
       .post(
-        "/temp/api/users/login",
+        '/temp/api/users/login',
         // '/api/users/login',
         {
           id,
@@ -39,7 +39,7 @@ export default function Login() {
   };
 
   const handleOnKeyPress = (e) => {
-    if (e.key === "Enter") onLoginButtonClicked();
+    if (e.key === 'Enter') onLoginButtonClicked();
   };
 
   return (

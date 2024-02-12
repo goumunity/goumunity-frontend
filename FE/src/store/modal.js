@@ -66,6 +66,14 @@ const modalSlice = createSlice({
     closeCreatePostModal(state) {
       state.isCreatePostModalOpen = false;
     },
+    openChatRoomDetailModal(state) {
+      state.isModalOpen = true;
+      state.modalOption = 'detailChat';
+    },
+    closeChatRoomDetailModal(state) {
+      state.isModalOpen = false;
+      state.modalOption = '';
+    }
   },
 });
 

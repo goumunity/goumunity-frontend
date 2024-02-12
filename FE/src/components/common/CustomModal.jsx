@@ -1,10 +1,11 @@
-import { useEffect, useRef } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import CloseButton from './CloseButton';
 import { useDispatch } from 'react-redux';
 import { modalActions } from '../../store/modal';
 import { authActions } from '../../store/auth';
 
-function CustomModal({ children, onClick }) {
+function CustomModal({ children, onClick , initSize}) {
+  const [initialSize, setInitialSize] = useState( { widthSize: 467, heightSize: 575 });
   const modalRef = useRef();
 
   // 전역 modal state의 close함수, joinData의 초기화를 위해
@@ -38,7 +39,16 @@ function CustomModal({ children, onClick }) {
     onClick();
   };
 
-  const initailSize = { widthSize: 467, heigthSize: 575 };
+  // const initialSize = initSize ? initSize :  { widthSize: 467, heigthSize: 575 };
+
+
+  useEffect(() => {
+    if (initSize) {
+      setInitialSize(initSize)
+    }
+    console.log(initSize)
+  }, [initSize]);
+
   const widthSize = '800';
   const heigthSize = '575';
   const widthSize2 = '800';
@@ -48,16 +58,16 @@ function CustomModal({ children, onClick }) {
     <div className='fixed top-0 left-0 bg-back right-0 bottom-0 z-20'>
       <svg
         className='z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-bg transition duration-300'
-        width={`${initailSize.widthSize}px`}
-        height={`${initailSize.heigthSize}px`}
-        viewBox={`0 0 ${initailSize.widthSize} ${initailSize.heigthSize}`}
+        width={`${initialSize.widthSize}px`}
+        height={`${initialSize.heightSize}px`}
+        viewBox={`0 0 ${initialSize.widthSize} ${initialSize.heightSize}`}
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
         ref={modalRef}
       >
         <rect
           width={`${widthSize}`}
-          height={`${heigthSize}`}
+          height={`${initialSize.heightSize}`}
           transform='translate(1 1)'
           fill='url(#paint0_linear_216_378)'
         />
@@ -72,7 +82,8 @@ function CustomModal({ children, onClick }) {
             x1='232.5'
             y1='0'
             x2='232.5'
-            y2='574'
+            // y2='574'
+            y2={`${initialSize.heightSize}`}
             gradientUnits='userSpaceOnUse'
           >
             <stop stopColor='#FFFBF0' />

@@ -1,16 +1,16 @@
-import {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import SelectBox from '../../common/SelectBox';
 import HashTag from '../../common/HashTag';
 import ProfileImage from '../../common/ProfileImage';
 import CloseButton from '../../common/CloseButton';
-import {imageUpload} from '../../../utils/upload';
+import { imageUpload } from '../../../utils/upload';
 import Button from '../../common/Button';
-import instance from "@/utils/instance.js";
-import {modalActions} from "@/store/modal.js";
+import instance from '@/utils/instance.js';
+import { modalActions } from '@/store/modal.js';
 
-function ChatRoomModal({setMyChatRooms, myChatRooms}) {
+function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
   const [profileImage, setProfileImage] = useState('');
   const [resultImage, setResultImage] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -66,7 +66,7 @@ function ChatRoomModal({setMyChatRooms, myChatRooms}) {
     }
     const data = {
       title: userInputs.title,
-      hashtags: arr.map(data => data.value),
+      hashtags: arr.map((data) => data.value),
       capability: userInputs.capability,
       regionId: userInputs.regionId,
     };
@@ -88,7 +88,7 @@ function ChatRoomModal({setMyChatRooms, myChatRooms}) {
       try {
         const res = await instance.post('/api/chat-rooms', formData);
         const newChatRoom = await instance.get(`/api/chat-rooms/${res.data}`);
-        console.log(newChatRoom)
+        console.log(newChatRoom);
         await setMyChatRooms([newChatRoom.data, ...myChatRooms]);
       } catch (error) {
         console.error('api 요청 중 오류 발생 : ', error);
@@ -190,9 +190,8 @@ function ChatRoomModal({setMyChatRooms, myChatRooms}) {
   }
 
   return (
-    <>
+    <div className='scroll overflow-y-scroll max-h-full '>
       <h1 className='font-daeam text-2xl'>채팅방 개설하기</h1>
-      {/*<form onSubmit={handleSubmitChatCreate}>*/}
       <form >
         <div className='text-start font-her text-2xl'>*채팅방 제목 </div>
         <div className='content-start pb-3'>
@@ -202,44 +201,8 @@ function ChatRoomModal({setMyChatRooms, myChatRooms}) {
             onChange={(e) => handleChangeInputs('title', e.target.value)}
           />
         </div>
-        {/* <UserInput
-          label='채팅방 이름'
-          id='title'
-          type='title'
-          value={userInputs.title}
-          onBlur={() => {
-            handleBlurFoucusOffInput('title');
-          }}
-          onChange={(e) => handleChangeInputs('title', e.target.value)}
-        /> */}
         <div className='font-her text-left text-2xl'>*해시태그 설정하기</div>
         <div className='flex'>
-          {/* {hashtag.map((value, index) => {
-            return (
-              <>
-                <HashTag>
-                  {value}
-                  <span
-                    className='w-20 bg-transparent'
-                    type='text'
-                    value={newHashtag}
-                  />
-                </HashTag>
-              </>
-            );
-          })} */}
-          {/* <HashTag>
-            <input
-              className='w-20 bg-transparent'
-              placeholder='#입력'
-              id='hashtag'
-              type='text'
-              value={userInputs.hashtag}
-              // onChange={(e) => setNewHashtag(e.target.value)}
-              onChange={(e) => handleChangeInputs('hashtag', e.target.value)}
-            />
-          </HashTag> */}
-
           {tagArr}
           <HashTag>
             <div className='flex flex-row'>
@@ -308,11 +271,15 @@ function ChatRoomModal({setMyChatRooms, myChatRooms}) {
           </div>
         </div>
         <div className='pt-2'>
-          <Button text='추가하기' type='button' onClick={handleSubmitChatCreate}/>
+          <Button
+            text='추가하기'
+            type='button'
+            onClick={handleSubmitChatCreate}
+          />
         </div>
       </form>
-    </>
+    </div>
   );
 }
 
-export default ChatRoomModal;
+export default ChatRoomCreateModal;
