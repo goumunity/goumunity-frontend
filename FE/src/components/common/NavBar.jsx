@@ -131,6 +131,7 @@ function NavBar() {
         <NavBarItem imgSrc='comments' link='/' text='거지글'/>
         {/* <NavBarItem imgSrc={homeIcon} link='/chat' text='거지방' /> */}
         <NavBarItem imgSrc='house' link='/chat' text='거지방' />
+        <li><Link to='/test'>hi/</Link></li>
         {/*isAuth && (*/
           // <li>
           //   {/* Link는 어딘가로 빠짐, NavLink는 클릭 시 css를 주기 위해 하는 것인데,  */}

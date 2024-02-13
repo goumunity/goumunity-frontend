@@ -66,7 +66,7 @@ const RankingBar = ( ranks ) => {
 
     return(
         <>
-            <div className="font-daeam flex flex-col items-center rankbar ms-1 overflow-x-auto"> 
+            <div className="font-daeam flex flex-col items-center rankbar ms-1 overflow-x-auto w-full"> 
 
                 <div className="m-5" style={dynamicFontSizeStyle}> <i className="fa-solid fa-ranking-star me-2"></i>거지 탈출 </div> 
                 

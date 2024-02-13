@@ -11,7 +11,7 @@ const BUTTON_OPTIONS = [
   { id: 4, name: 'patchReply', text: '답글 수정 중...' },
 ];
 
-function CreateCommentBox({
+function MobileCreateCommentBox({
   setCommentList,
   inputRef,
   feedId,
@@ -25,15 +25,15 @@ function CreateCommentBox({
   placeholderText,
   setPlaceholderText,
 }) {
-  const [CommentErrorMessage, setCommentErrorMessage] = useState('');
-  const [input, handleChangeInput, setInput] = useInput('', setCommentErrorMessage);
-  const [isCommentLoading, setisCommentLoading] = useState(false);
+  const [CreateCommentErrorMessage, setCreateCommentErrorMessage] = useState('');
+  const [input, handleChangeInput, setInput] = useInput('', setCreateCommentErrorMessage);
+  const [isCreateLoading, setisCreateLoading] = useState(false);
 
   const handleSubmitCreateComment = async (e) => {
     e.preventDefault();
 
     try {
-      setisCommentLoading(true);
+      setisCreateLoading(true);
       if (option === BUTTON_OPTIONS[0].name) {
         const res = await instance.post(`/api/feeds/${feedId}/comments`, {
           content: input,
@@ -70,7 +70,7 @@ function CreateCommentBox({
     } catch (error) {
       console.log('댓글 답글 에러 발생 : ', error);
     }
-    setisCommentLoading(false);
+    setisCreateLoading(false);
     setOption(BUTTON_OPTIONS[0].name);
     setInput('');
     setPlaceholderText(BUTTON_OPTIONS[0].text);
@@ -88,26 +88,26 @@ function CreateCommentBox({
 
   return (
     <form
-      onSubmit={handleSubmitCreateComment}
-      className='flex justify-between items-center px-1'
+    //   onSubmit={handleSubmitCreateComment}
+      className='flex justify-between p-1'
     >
       <input
         ref={inputRef}
-        onChange={handleChangeInput}
+        // onChange={handleChangeInput}
         value={input}
         // value={inputRef.current.value || input}
-        className='p-2 bg-bright w-4/5 focus:outline-none text-lg placeholder:font-her font-dove'
+        className='bg-bright w-4/5 focus:outline-none text-lg placeholder:font-her font-dove'
         type='text'
         placeholder={placeholderText}
         // placeholder='댓글 좀 달아줘...'
       />
       <Button
         text='등록'
-        isActive={!isCommentLoading && input.length !== 0}
-        className=''
+        isActive={!isCreateLoading && input.length !== 0}
+        className='w-1/5'
       />
     </form>
   );
 }
 
-export default CreateCommentBox;
+export default MobileCreateCommentBox;

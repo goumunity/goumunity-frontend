@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import commentIcon from '@/assets/svgs/commentIcon.svg';
 import Option from '../common/Option';
 import {Link} from 'react-router-dom';
@@ -56,9 +56,24 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
     setIsLoading(false);
   };
 
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1280);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // console.log('width ', window.innerWidth);
+      setIsLargeScreen(window.innerWidth > 880);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     // <div className='flex flex-col w-twitter border border-gray-300 px-4 py-3'>
-    <div className='flex flex-col w-twitter border border-grey px-4 py-3 hover:bg-gray-50'>
+    <div className={`flex flex-col border border-grey px-4 py-3 hover:bg-gray-50 ${isLargeScreen ? '' : ''}`} style={{width: isLargeScreen ? '600px': '300px'}}>
       <div className='relative flex items-center gap-2'>
         <Link to={`/profile/${nickname}`}>
           <div
@@ -109,7 +124,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
 
         </div>
       )}
-      <p className='my-4 px-2'>{content}</p>
+      <p className={`my-4 px-2 overflow-x-hidden`} style={{width: isLargeScreen ? '560px': '280px'}}>{content}</p>
 
       <Link to={`/${feedId}`}>
         <img className='w-full max-h-96 rounded' src={images[0]?.imgSrc} alt='' />

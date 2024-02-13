@@ -89,7 +89,7 @@ const ProfileHeader = ( { info, isPrivate } ) => {
               {
                 isPrivate && <div className="w-2/5 flex flex-col text-xl ms-16 mt-4">
                 <div className="text-3xl">{currentUser.nickname}님 환영합니다!</div>
-                <div>{regionMapper[ info.regionId - 52 ] }</div> 
+                <div>{regionMapper[ currentUser.regionId - 52 ] }</div> 
                 <div>{currentUser.age}살</div>
                 
               </div>
