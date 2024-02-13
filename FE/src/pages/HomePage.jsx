@@ -49,7 +49,7 @@ function HomePage() {
   }, [page]);
 
   return (
-    <div className='flex flex-col items-center h-full bg-bright' ref={pageRef}>
+    <div className='flex flex-col items-center h-full bg-bright'>
       {feedList.map((feed, idx) => (
         <Feed
           feed={feed}
