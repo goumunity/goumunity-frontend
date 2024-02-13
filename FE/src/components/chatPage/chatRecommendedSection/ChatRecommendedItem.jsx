@@ -49,7 +49,7 @@ function ChatRecommendedItem(props) {
                     <h5 className='font-daeam cards__item__text'>
                         {item.title}
                     </h5>
-                    {item.hashtags.map((hashtag, hashIndex) => {
+                    {item.hashtags?.map((hashtag, hashIndex) => {
                         return (
                             <span
                                 key={hashIndex}

@@ -40,8 +40,7 @@ function ChatPage() {
     }
     const connect = () => {
         client.current = new StompJs.Client({
-            // brokerURL: 'wss://i10a408.p.ssafy.io/api/goumunity-chat',
-            brokerURL: 'ws://localhost:8080/goumunity-chat',
+            brokerURL: 'wss://i10a408.p.ssafy.io/api/goumunity-chat',
             onConnect : resubscribe
         });
         client.current.activate();
@@ -72,10 +71,10 @@ function ChatPage() {
     });
   };
 
-  const onMessageSend = (message) => {
+  const onMessageSend = (message, chatType) => {
     client.current.publish({
       destination: `/ws/messages/${chatRoomId}`,
-      body: JSON.stringify({ content: message, chatType: 'MESSAGE' }),
+      body: JSON.stringify({ content: message, chatType: chatType }),
     });
   };
   const onJoinedRoomClicked = (id) => {
@@ -96,7 +95,6 @@ function ChatPage() {
       if (isLoading) return;
       if (observerRef.current) observerRef.current.disconnect();
       observerRef.current = new IntersectionObserver((entries) => {
-        console.log('entries[0].isIntersecting : ', entries[0].isIntersecting);
         if (entries[0].isIntersecting && hasNext) {
           setPageNum((prevPageNumber) => prevPageNumber + 1);
         }
@@ -138,8 +136,6 @@ function ChatPage() {
       </div>
       <div className='w-5/6'>
         <div className=' divide-x divide-entrance'>
-          <span></span>
-          <div>
             {isSearchMode ? (
               <ChatRecommendedSection
                 myChatRooms={myChatRooms}
@@ -149,13 +145,13 @@ function ChatPage() {
               <ChatTalkSection
                   id={chatRoomId}
                   onMessageSend={onMessageSend}
+                  setMessages={setMessages}
                   messages={messages}
                   setIsSearchMode={setIsSearchMode}
                   setMyChatRooms={setMyChatRooms}
                   myChatRooms={myChatRooms}
               />
             )}
-          </div>
         </div>
       </div>
     </div>
