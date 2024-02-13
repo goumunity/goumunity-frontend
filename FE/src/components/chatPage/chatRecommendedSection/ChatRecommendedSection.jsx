@@ -1,9 +1,8 @@
 import ChatRecommendedItem from './ChatRecommendedItem';
-import './ChatRecommendedItem.css';
 import SearchIcon from '../../common/SearchIcon';
-import {useCallback, useEffect, useRef, useState} from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import instance from '@/utils/instance.js';
-import handleError from "@/utils/error.js";
+import handleError from '@/utils/error.js';
 
 function ChatRecommendedSection({ setMyChatRooms, myChatRooms }) {
   const [userInput, setUserInput] = useState('');
@@ -17,92 +16,85 @@ function ChatRecommendedSection({ setMyChatRooms, myChatRooms }) {
   const size = 12;
 
   const onSearchItem = async () => {
-    console.log(pageNum)
-    setIsLoading(true)
+    console.log(pageNum);
+    setIsLoading(true);
     try {
-      const res = await instance.get(`/api/chat-rooms/search?keyword=${userInput}&page=${pageNum}&size=${size}&time=${searchTime}`);
-      setItems(prev => [...prev, ...res.data.contents]);
-      setHasNext(res.data.hasNext)
-    } catch (err){
+      const res = await instance.get(
+        `/api/chat-rooms/search?keyword=${userInput}&page=${pageNum}&size=${size}&time=${searchTime}`
+      );
+      setItems((prev) => [...prev, ...res.data.contents]);
+      setHasNext(res.data.hasNext);
+    } catch (err) {
       handleError(err);
     }
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   const lastChatRoomRef = useCallback(
-      (node) => {
-        if (isLoading) return;
-        if (observerRef.current) observerRef.current.disconnect();
-        observerRef.current = new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting && hasNext) {
-            setPageNum((prevPageNumber) => prevPageNumber + 1);
-          }
-        });
-        if (node) observerRef.current.observe(node);
-      },
-      [isLoading, hasNext]
+    (node) => {
+      if (isLoading) return;
+      if (observerRef.current) observerRef.current.disconnect();
+      observerRef.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNext) {
+          setPageNum((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+      if (node) observerRef.current.observe(node);
+    },
+    [isLoading, hasNext]
   );
-
 
   useEffect(() => {
     onSearchItem();
   }, [pageNum]);
 
   const searchButtonClicked = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       setSearchTime(new Date().getTime());
       setPageNum(0);
-      const res = await instance.get(`/api/chat-rooms/search?keyword=${userInput}&page=0&size=${size}&time=${new Date().getTime()}`);
+      const res = await instance.get(
+        `/api/chat-rooms/search?keyword=${userInput}&page=0&size=${size}&time=${new Date().getTime()}`
+      );
       setItems(res.data.contents);
       setHasNext(res.data.hasNext);
-    } catch (err){
+    } catch (err) {
       handleError(err);
     }
     setIsLoading(false);
-  }
+  };
 
   return (
     <div className='scroll h-screen overflow-y-scroll scrollbar-thumb-gray-500 scrollbar-track-gray-300-y-scroll'>
-      <div className='cards'>
-        <div className='flex font-her justify-center  p-4'>
+      <div className='flex justify-center'>
+        <div className='flex font-her justify-center border border-gray-300 w-96 h-16 rounded-md overflow-hidden m-8'>
           <input
             type='text'
-            placeholder='검색어를 입력해봐~'
-            className='p-4 border border-t border-b border-l -mr-px border-gray-300 rounded-md focus:outline-none focus:border-gray-500 bg-transparent text-3xl w-1/3'
-            style={{
-              borderRadius: '1.3rem 0 0 1.3rem',
-              backgroundColor: 'rgba(0,0,0,0)',
-            }}
+            placeholder='원하는 채팅방을 찾아봐~'
+            className='border border-gray-300 p-2 bg-transparent focus:outline-none focus:border-gray-500 text-xl w-4/5'
             onChange={(e) => {
               setUserInput(e.target.value);
             }}
           />
           <div
-            className='p-4 border border-gray-300 rounded-md focus:outline-none focus:border-gray-500 bg-transparent text-gray-100 text-3xl w-20
-                    hover:cursor-pointer'
-            style={{
-              borderRadius: '0 1.3rem  1.3rem 0',
-              backgroundColor: 'rgba(0,0,0,0)',
-            }}
+            className='flex justify-center items-center w-1/5 p-4 border border-gray-300 focus:outline-none bg-button focus:border-gray-500 cursor-pointer'
             onClick={searchButtonClicked}
           >
             <SearchIcon />
           </div>
         </div>
-        <div className='grid grid-cols-3 gap-10 p-10'>
-          {items.map((item) => (
-            <>
-              <ChatRecommendedItem
-                item={item}
-                setMyChatRooms={setMyChatRooms}
-                myChatRooms={myChatRooms}
-              />
-            </>
-          ))}
-        </div>
-        <div ref={lastChatRoomRef}></div>
       </div>
+      <div className='flex flex-row flex-wrap justify-center gap-10 px-10 pb-10'>
+        {items.map((item, idx) => (
+          <ChatRecommendedItem
+            key={idx}
+            item={item}
+            setMyChatRooms={setMyChatRooms}
+            myChatRooms={myChatRooms}
+          />
+        ))}
+      </div>
+      <div ref={lastChatRoomRef}></div>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import DetailModal from '@/components/homePage/detailModal/DetailModal';
 import CreateFeedModal from '@/components/homePage/createPostModal/CreateFeedModal';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import PatchFeedModal from '../components/homePage/createPostModal/PatchFeedModal';
-import instance from "@/utils/instance.js";
+import instance from '@/utils/instance.js';
 import MemberRanking from '../components/homePage/Ranking/GoumunityRanking.jsx';
 import { useSelector } from 'react-redux';
 import FeedRanking from '../components/homePage/Ranking/FeedRanking';
@@ -19,7 +19,7 @@ function HomePage() {
   const [hasNext, setHasNext] = useState(false);
   const [page, setPage] = useState(0);
   const observerRef = useRef();
-  const [rankList, setRankList] = useState([]); 
+  const [rankList, setRankList] = useState([]);
   const currentUser = useSelector((state) => state.auth.currentUser);
 
   const lastFeedRef = useCallback(
@@ -40,12 +40,11 @@ function HomePage() {
   );
 
   useEffect(() => {
-
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const res = await instance.get('/api/feeds')
-        console.log( 'feeds:', res );
+        const res = await instance.get('/api/feeds');
+        console.log('feeds:', res);
         setFeedList((prev) => [...prev, ...res.data.feedRecommends]);
         setHasNext(res.data.hasNext);
       } catch (error) {
@@ -55,37 +54,25 @@ function HomePage() {
     };
     fetchData();
   }, [page]);
-  
+
   const getRanks = async () => {
     const res = await instance.get('/api/users/ranking');
 
-    
     const newRankList = res.data;
 
-    
-    setRankList( newRankList );
-}
+    setRankList(newRankList);
+  };
   useEffect(() => {
     getRanks();
-  },[])
-
-
-  useEffect(() => {
-    getRanks();
-  },[])
-  // if (params.id || params.feedId) {
-  //   document.body.style.overflow = 'hidden';
-  // } else {
-  //   document.body.style.overflow = 'auto';
-  // }
+  }, []);
 
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1200);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 775 );
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 775);
   useEffect(() => {
     const handleResize = () => {
       // console.log('width ', window.innerWidth);
       setIsLargeScreen(window.innerWidth > 1280);
-      setIsMobile( window.innerWidth <= 775 );
+      setIsMobile(window.innerWidth <= 775);
     };
 
     window.addEventListener('resize', handleResize);
@@ -97,44 +84,54 @@ function HomePage() {
   return (
     <div className='flex flex-row justify-center bg-bright'>
       <div className='flex flex-col items-center h-full'>
-      {feedList.map((feed, idx) => (
-        <Feed
-          feed={feed}
-          key={idx}
-          setFeedList={setFeedList}
-          feedList={feedList}
-        />
-      ))}
+        {feedList.map((feed, idx) => (
+          <Feed
+            feed={feed}
+            key={idx}
+            setFeedList={setFeedList}
+            feedList={feedList}
+          />
+        ))}
 
-      {params.feedId && (isMobile ? (<>
-        <MobileDetailModal setFeedList={setFeedList} feedList={feedList} feedId={params.feedId} />
-      </>):(
+        {params.feedId &&
+          (isMobile ? (
+            <>
+              <MobileDetailModal
+                setFeedList={setFeedList}
+                feedList={feedList}
+                feedId={params.feedId}
+              />
+            </>
+          ) : (
+            <>
+              <DetailModal
+                setFeedList={setFeedList}
+                feedList={feedList}
+                feedId={params.feedId}
+              />
+            </>
+          ))}
+        {params.id && <CreateFeedModal setFeedList={setFeedList} />}
+        {params.patchId && (
+          <PatchFeedModal feedList={feedList} setFeedList={setFeedList} />
+        )}
+
+        <div ref={lastFeedRef} style={{ height: '10px' }}></div>
+      </div>
+      {rankList.length === 0 ? (
+        <>{/* <div className='w-72 h-10'></div> */}</>
+      ) : (
         <>
-        <DetailModal setFeedList={setFeedList} feedList={feedList} feedId={params.feedId} />
+          {isLargeScreen && (
+            <div className={`rank-row flex-col w-1/3`}>
+              <MemberRanking ranks={rankList} />
+              <FeedRanking />
+            </div>
+          )}
         </>
-      ))}
-      {params.id && <CreateFeedModal setFeedList={setFeedList} />}
-      {params.patchId && <PatchFeedModal feedList={feedList} setFeedList={setFeedList} />}
-
-      <div ref={lastFeedRef} style={{ height: '10px' }}></div>
+      )}
+      {/* <Link to='/test'> <div>hi</div></Link> */}
     </div>
-    {rankList.length === 0 ?
-    (<>
-    {/* <div className='w-72 h-10'></div> */}
-    </>)
-    :
-    (<>
-    { isLargeScreen && <div className={`rank-row flex-col w-1/3`}>
-      <MemberRanking ranks ={rankList}/>
-      <FeedRanking/>
-    </div> }
-    
-    </>)
-    }
-    {/* <Link to='/test'> <div>hi</div></Link> */}
-    
-    </div>
-    
   );
 }
 
