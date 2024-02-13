@@ -27,6 +27,7 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
     useEffect(() => {
         setCurrentChatRoom(selectedChatRoom)
         setProfileImage(selectedChatRoom?.imgSrc);
+        console.log(selectedChatRoom?.isHost)
     }, [selectedChatRoom]);
 
     const navigate = useNavigate();
@@ -349,12 +350,12 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
                     </div>
                 </div>
                 <div className='flex justify-center gap-5 '>
-                    {isEditMode ? <>
+                    {currentChatRoom?.isHost ? isEditMode ? <>
                         <Button text='적용하기' type='button' onClick={onEditApplyButtonClicked}/>
                         <Button text='취소하기' type='button' onClick={onDetailModeButtonClicked}/>
                     </> : <>
                         <Button text='수정하기' type='button' onClick={onEditModeButtonClicked}/>
-                    </>}
+                    </> : ''}
 
                     <Button text='탈퇴하기' type='button' onClick={onExitButtonClicked}/>
                 </div>

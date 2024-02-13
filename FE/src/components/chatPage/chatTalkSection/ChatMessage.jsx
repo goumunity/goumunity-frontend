@@ -1,10 +1,11 @@
 import React from "react";
+import defaultIcon from '@/assets/svgs/defaultMaleIcon.svg'
 
 function ChatMessage({message, index, currentUser}) {
 
     //현재시각
     const formatCurrentTime = () => {
-        const now = new Date();
+        const now = message?.createdAt ? new Date(message?.createdAt) :   new Date();
         const hours = now.getHours();
         const minutes = now.getMinutes();
         const ampm = hours >= 12 ? 'pm' : 'am';
@@ -62,7 +63,7 @@ function ChatMessage({message, index, currentUser}) {
             <div className='flex justify-start flex-col text-sm'>
                 <div className={'flex items-center mb-3'}>
                 <img className={'rounded-full object-contain mr-1'} style={{width: 40, height: 40}}
-                         src={message?.profileImageSrc}/> <span>{message.nickname.replace(/#.*/, '')}</span>
+                         src={message?.profileImageSrc ? message?.profileImageSrc : defaultIcon}/> <span>{message.nickname.replace(/#.*/, '')}</span>
                 </div>
                 <div className='flex'>
                     {messageBody(false)}

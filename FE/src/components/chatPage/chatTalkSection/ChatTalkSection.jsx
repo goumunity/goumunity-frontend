@@ -6,7 +6,7 @@ import CustomModal from "@/components/common/CustomModal.jsx";
 import {modalActions} from "@/store/modal.js";
 import ChatRoomDetailModal from "@/components/chatPage/chatRoomModal/ChatRoomDetailModal.jsx";
 
-function ChatTalkSection({id, onMessageSend,setMessages, messages, myChatRooms, setIsSearchMode, setMyChatRooms}) {
+function ChatTalkSection({id, chatRoomTitle, onMessageSend,setMessages, messages, myChatRooms, setIsSearchMode, setMyChatRooms}) {
 
     const isModalOpen = useSelector((state) => state.modal.isModalOpen);
     const modalOption = useSelector((state) => state.modal.modalOption);
@@ -45,7 +45,8 @@ function ChatTalkSection({id, onMessageSend,setMessages, messages, myChatRooms, 
         <div>
             <div className='flex items-center justify-between p-3 border-b-2 relative'>
                 <div>
-                    {selectedChatRoom?.title}
+                    {/*{selectedChatRoom?.title}*/}
+                    {chatRoomTitle}
                 </div>
                 <div className='flex justify-between items-center  pr-3 '>
                     <i className="fa-solid fa-gear pr-3 hover:cursor-pointer" onClick={onSettingButtonClicked}/>
