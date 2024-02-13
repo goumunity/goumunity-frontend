@@ -6,7 +6,34 @@ import instance from "@/utils/instance.js";
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../../store/auth';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom/dist';
+
 const ProfileDetailUnder = ( {info} ) => {
+    const regionMapper = [ '강남구',
+    '강동구',
+    '강북구',
+    '강서구',
+    '관악구',
+    '광진구',
+    '구로구',
+    '금천구',
+    '노원구',
+    '도봉구',
+    '동대문구',
+    '동작구',
+    '마포구',
+    '서대문구',
+    '서초구',
+    '성동구',
+    '성북구',
+    '송파구',
+    '양천구',
+    '영등포구',
+    '용산구',
+    '은평구',
+    '종로구',
+    '중구',
+    '중랑구',];
     const [ userInfo, setUserInfo ] = useState({});
     const [gunguList,setGunguList] = useState([]);
     const [filtered, setFiltered ] = useState([]);
@@ -20,7 +47,7 @@ const ProfileDetailUnder = ( {info} ) => {
         setOriginPassWord( info.password );
         
     }, [])
-   
+    const navigate = useNavigate();
     // const {kakao} = window;
     useEffect( () => {
         
@@ -29,7 +56,7 @@ const ProfileDetailUnder = ( {info} ) => {
                 
                 return <li key = {el.regionId} id={el.regionId} text={el.gungu}>
                 <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                  <input id="checkbox-item-11" name='regionId' type="radio" value ={el.regionId} class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 /dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" onChange={ onChecked }/>
+                  <input id="checkbox-item-11" name='regionId' type="radio" value ={el.regionId} text={el.gungu} class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 /dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" onChange={ onChecked }/>
                   <label for="checkbox-item-11" class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">{el.gungu}</label>
                 </div>
               </li>
@@ -41,8 +68,9 @@ const ProfileDetailUnder = ( {info} ) => {
     const onChecked = ( e ) => {
         if( e.target.checked ){
             const nextUserInfo = {
-                ...userInfo,
-                [e.target.name]: e.target.value
+                ...currentUser,
+                [e.target.name]: e.target.value,
+                'gungu': regionMapper[e.target.value -52]
             }
 
             console.log( 'next : ' , nextUserInfo );
@@ -82,7 +110,7 @@ const ProfileDetailUnder = ( {info} ) => {
             ...userInfo,
             [e.target.name]: e.target.value
         }
-        console.log( 'now: ', nextUserInfo );
+        
         setUserInfo( nextUserInfo )
     }
 
@@ -98,7 +126,7 @@ const ProfileDetailUnder = ( {info} ) => {
             if( result.isConfirmed ){
                 
                 instance.patch('/api/users/my', userInfo ).then( res => {
-
+                    console.log('result: ', userInfo )
                     dispatch( authActions.updateCurrentUser(userInfo))
                     Swal.fire({
                         icon: "success",
@@ -106,7 +134,8 @@ const ProfileDetailUnder = ( {info} ) => {
                         showConfirmButton: false,
                         timer: 1500
                       });
-        
+                    
+                navigate('/myprofile')
                 }).catch( err => {
                     Swal.fire({
 

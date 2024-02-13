@@ -8,7 +8,7 @@ function ChatMessage({message, index, currentUser}) {
         const now = message?.createdAt ? new Date(message?.createdAt) :   new Date();
         const hours = now.getHours();
         const minutes = now.getMinutes();
-        const ampm = hours >= 12 ? 'pm' : 'am';
+        const ampm = hours >= 12 ? '오후 ' : '오전 ';
 
         // 시간을 12시간 형식으로 변경
         const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
@@ -16,7 +16,7 @@ function ChatMessage({message, index, currentUser}) {
         // 분을 두 자리로 표시
         const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
 
-        return `${formattedHours}:${formattedMinutes}${ampm}`;
+        return `${ampm}${formattedHours}:${formattedMinutes}`;
     };
 
     const isNotice = () => {

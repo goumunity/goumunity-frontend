@@ -4,79 +4,78 @@ import { modalActions } from '../../../store/modal';
 import ChatMyItem from './ChatMyItem';
 import ChatRoomCreateModal from '@/components/chatPage/chatRoomModal/ChatRoomCreateModal.jsx';
 import CustomModal from '../../common/CustomModal';
-import axios from 'axios';
-import instance from '@/utils/instance.js';
+import Button from '@/components/common/Button';
 
-function ChatMySection(props) {
+function ChatMySection({
+  refCallback,
+  handleClickMySection,
+  isLoaded,
+  handleJoinChatRoom,
+  myChatRooms,
+  setMyChatRooms,
+}) {
   const isModalOpen = useSelector((state) => state.modal.isModalOpen);
   const modalOption = useSelector((state) => state.modal.modalOption);
   const [chatRoomModal, setChatRoomModal] = useState(false);
-  const {
-    refCallback,
-    handleClickMySection,
-    isLoaded,
-    handleJoinChatRoom,
-    myChatRooms,
-    setMyChatRooms,
-  } = props;
+
   if (!myChatRooms) {
     return <div>Loading...</div>; // 데이터가 로딩 중일 때 표시할 내용
   }
-  //props 수지
+
   const dispatch = useDispatch();
   const handleClickCreateChatRoom = () => {
     dispatch(modalActions.openCreatChatModal());
   };
 
   return (
-    <div>
-      <span></span>
-      <div className='divide-y  divide-entrance'>
-        <div className='font-daeam text-4xl text-center mb-4 text-responsive'>
+    <div className='w-72'>
+      <div className='relative'>
+        <h1 className='font-daeam text-4xl text-start text-responsive p-5'>
           나의 거지챗
+        </h1>
+        <button
+          className='absolute right-3 top-7 font-daeam cursor-pointer'
+          onClick={handleClickCreateChatRoom}
+        >
+          채팅방 개설
+        </button>
+      </div>
+      <div className='w-72 scroll h-screen overflow-x-hidden overflow-y-scroll '>
+        <div className='w-72'>
+          {myChatRooms.map((myChatRoom, idx) => {
+            return (
+              <ChatMyItem
+                key={idx}
+                handleClickMySection={handleClickMySection}
+                isLoaded={isLoaded}
+                myChatRoom={myChatRoom}
+                handleJoinChatRoom={handleJoinChatRoom}
+              ></ChatMyItem>
+            );
+          })}
         </div>
-        <div className='scroll h-screen overflow-x-hidden overflow-y-scroll '>
-          <div className='divide-y divide-entrance'>
-            {myChatRooms.map((value, index) => {
-              return (
-                <div>
-                  <ChatMyItem
-                    handleClickMySection={handleClickMySection}
-                    isLoaded={isLoaded}
-                    value={value}
-                    index={index}
-                    handleJoinChatRoom={handleJoinChatRoom}
-                  ></ChatMyItem>
-                </div>
-              );
-            })}
-          </div>
-          <div>
-            <div className='flex flex-col items-center'>
-              <button
+
+        {/* <button
                 className='font-her text-2xl text-center text-white px-4 py-2 bg-transparent rounded-md'
                 onClick={handleClickCreateChatRoom}
-              >
-                <div
-                  ref={refCallback}
-                  className='mx-auto rounded-full bg-gray-500 text-black'
-                >
-                  ...
-                </div>
-                <span className='text-black'>+채팅방 개설하기</span>
-              </button>
-              {isModalOpen && modalOption === 'createChat' && (
-                <CustomModal>
-                  <ChatRoomCreateModal
-                    setMyChatRooms={setMyChatRooms}
-                    myChatRooms={myChatRooms}
-                  />
-                </CustomModal>
-              )}
-            </div>
-          </div>
+              > */}
+        {/* <span className='text-black'>+채팅방 개설하기</span> */}
+        <div
+          ref={refCallback}
+          className='rounded-full bg-gray-500 text-white text-center'
+        >
+          ...
         </div>
+        {/* </button> */}
       </div>
+      {isModalOpen && modalOption === 'createChat' && (
+        <CustomModal>
+          <ChatRoomCreateModal
+            setMyChatRooms={setMyChatRooms}
+            myChatRooms={myChatRooms}
+          />
+        </CustomModal>
+      )}
     </div>
   );
 }

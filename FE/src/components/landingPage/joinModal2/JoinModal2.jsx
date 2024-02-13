@@ -157,7 +157,7 @@ function JoinModal2() {
           )}
         </div>
         <UserInput
-          label='생년월일'
+          label='생년월일[8자]'
           id='birthDate'
           type='text'
           name='birthDate'
@@ -166,7 +166,8 @@ function JoinModal2() {
             handleBlurFocusOffInput('birthDate');
           }}
           onChange={(e) => handleChangeInputs('birthDate', e.target.value)}
-          error={birthDateIsInvalid && 'YYYYMMDD 형식으로 입력해주세요.'}
+          // error={birthDateIsInvalid && 'YYYYMMDD 형식으로 입력해주세요.'}
+          error={birthDateIsInvalid && '연월일(YYYYMMDD)로 입력해주세요.'}
         />
 
         <div className='flex flex-col mb-2'>
@@ -191,9 +192,10 @@ function JoinModal2() {
         <div className='flex items-center gap-16'>
 
           <div className='flex flex-col mb-5 '>
-            <label className='text-left text-xl font-her'>*관심소비내역</label>
+            <label className='text-left text-xl font-her'>*관심절약분야</label>
             <div className='flex gap-20 text-center justify-center'>
               <SavingCategorySelectBox
+              title='관심절약분야'
                 color='yellow'
                 onChange={(e) => handleChangeInputs('savingCategory', e.target.value)}
               />
