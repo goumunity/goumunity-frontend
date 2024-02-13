@@ -61,7 +61,7 @@ function NavBar() {
       return;
     }
     dispatch(authActions.logout());
-    navigate('/landing/join/4');
+    navigate('/landing');
   };
 
 
@@ -95,7 +95,7 @@ function NavBar() {
         
         <div className="text-lg hover:text-gray-500 cursor-pointer overflow-x-hidden flex w-full justify-center items-center">
           { currentUser.isAuthenticated && <PoorMarkBlack/> }
-          <div className='ms-2'>
+          <div className='ms-2 text-lg overflow-hidden h-6'>
           {currentUser.nickname}님
           </div>
           

@@ -4,12 +4,16 @@ import axios from "axios";
 import instance from "@/utils/instance.js";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import { useNavigate, useParams } from "react-router-dom/dist";
+import ProfileDetailModal from "./ProfileDetailModal";
 const ProfileBaseUnder = ({ info, written, saveChange, isPrivate }) => {
     const [ feeds, setFeeds ] = useState([]);
     const [ liList, setLiList ] = useState([]); 
     const [ isFeedsDone, setIsFeedDone ] = useState( false );
+    const { email } = useParams();
     const currentUser = useSelector((state) => state.auth.currentUser);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const deletePost = ( feedId ) => {
       Swal.fire({
         title: "정말 삭제하시나요?",
@@ -52,11 +56,15 @@ const ProfileBaseUnder = ({ info, written, saveChange, isPrivate }) => {
       
     }
 
-    const [ savingList, setSavingList ] = useState([]);
+  const [ savingList, setSavingList ] = useState([]);
+  const { feedId } = useParams();
+  const openFeed = ( id ) => {
+    navigate( isPrivate ? `/myprofile/feed/${id}`: `/profile/${email}/feed/${id}`);
+  }  
   const [ sum, setSum ] = useState(0);
 
     const initLi = () => {
-      const lis = written['result'].map( el => <li key={el.feedId}><MinimumFeed size="full" feedId={el.feedId} nickname={ isPrivate ? currentUser.nickname : info.nickname } createAt={ el.createdAt } content={ el.content} deletePost={deletePost} imgSrc={ isPrivate ? currentUser.imgSrc:info.imgSrc} isPrivate={isPrivate}/></li> )
+      const lis = written['result'].map( el => <li key={el.feedId}><MinimumFeed size="full" feedId={el.feedId} nickname={ isPrivate ? currentUser.nickname : info.nickname } createAt={ el.createdAt } content={ el.content} deletePost={openFeed} imgSrc={ isPrivate ? currentUser.imgSrc:info.imgSrc} isPrivate={isPrivate}/></li> )
       setLiList( lis ); 
       const saves = written['result'].filter( el => el.price != null ).map( el => 
         <li key= {el.feedId} className="flex justify-between rounded-lg">
@@ -86,7 +94,7 @@ const ProfileBaseUnder = ({ info, written, saveChange, isPrivate }) => {
     useEffect( () => {
       // console.log( info );
       console.log( 'info:>',info );
-      const lis = feeds.map( el => <li key={el.feedId}><MinimumFeed size="full" feedId={el.feedId} nickname={isPrivate ? currentUser.nickname : info.nickname} createAt={ el.createdAt } content={ el.content} deletePost={deletePost} imgSrc={ isPrivate ? currentUser.imgSrc : info.imgSrc} isPrivate={isPrivate}/></li> )
+      const lis = feeds.map( el => <li key={el.feedId}><MinimumFeed size="full" feedId={el.feedId} nickname={ isPrivate ? currentUser.nickname : info.nickname } createAt={ el.createdAt } content={ el.content} deletePost={openFeed} imgSrc={ isPrivate ? currentUser.imgSrc:info.imgSrc} isPrivate={isPrivate}/></li> )
       setLiList( lis ); 
       // console.log( feeds );
 
@@ -123,6 +131,7 @@ const ProfileBaseUnder = ({ info, written, saveChange, isPrivate }) => {
     return (
         <>
         <div className=" w-1/2 p-1">
+          {feedId && <ProfileDetailModal setFeedList={setFeeds} feedList={feeds} feedId={feedId} />}
           <ul className="scroll border-2 border-bg-600 w-full flex flex-col p-3 overflow-x-hidden overflow-y-scroll h-full">
             {/* <li><MinimumFeed size="full"/></li> */}
             {liList}
