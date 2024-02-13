@@ -11,12 +11,10 @@ function ChatTalkRoom({ userId, chatRoomId,setMessages, onMessageSend, messages 
   const [pageNum, setPageNum] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [hasNext, setHasNext] = useState(true);
-  const currentUser = useSelector((state) => state.auth.currentUser);
   const [searchTime, setSearchTime] = useState(new Date().getTime());
   const [profileImage, setProfileImage] = useState('');
-  const [resultImage, setResultImage] = useState(null);
 
-
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   const messagesContainerRef = useRef(null);
   const lastMessageRef = useRef();
@@ -29,8 +27,9 @@ function ChatTalkRoom({ userId, chatRoomId,setMessages, onMessageSend, messages 
     setMsg('');
     setMessages([]);
     setHasNext(true)
-    setPageNum(0);
+    setPageNum(-1);
     setSearchTime(new Date().getTime());
+    setProfileImage('');
   }, [chatRoomId]);
 
   //메세지 쌓이면 스크롤바가 가장 맨 아래에 오도록 함
