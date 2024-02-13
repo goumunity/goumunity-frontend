@@ -27,6 +27,10 @@ function ChatTalkRoom({ userId, chatRoomId,setMessages, onMessageSend, messages 
   };
   useEffect(() => {
     setMsg('');
+    setMessages([]);
+    setHasNext(true)
+    setPageNum(0);
+    setSearchTime(new Date().getTime());
   }, [chatRoomId]);
 
   //메세지 쌓이면 스크롤바가 가장 맨 아래에 오도록 함
