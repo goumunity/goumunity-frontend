@@ -3,21 +3,27 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Button2to1 from '../common/Button2to1';
 import instance from "@/utils/instance.js";
+import { useDispatch, useSelector } from 'react-redux';
+import { authActions } from '../../store/auth';
+import Swal from 'sweetalert2';
 const ProfileDetailUnder = ( {info} ) => {
     const [ userInfo, setUserInfo ] = useState({});
     const [gunguList,setGunguList] = useState([]);
     const [filtered, setFiltered ] = useState([]);
     const [filterStatus, setFilterStatus ] = useState(false);
     const [searchText, setSearchText ] = useState('');
-
+    const currentUser = useSelector((state) => state.auth.currentUser);
+    const dispatch = useDispatch();
     useEffect( () => {
         setUserInfo( info );
 
         setOriginPassWord( info.password );
+        
     }, [])
    
     // const {kakao} = window;
     useEffect( () => {
+        
         instance.get('/api/regions').then( (res) => {
             const val = res.data.map( el => {
                 
@@ -38,6 +44,8 @@ const ProfileDetailUnder = ( {info} ) => {
                 ...userInfo,
                 [e.target.name]: e.target.value
             }
+
+            console.log( 'next : ' , nextUserInfo );
             setUserInfo( nextUserInfo );
         }
         
@@ -74,20 +82,43 @@ const ProfileDetailUnder = ( {info} ) => {
             ...userInfo,
             [e.target.name]: e.target.value
         }
-
+        console.log( 'now: ', nextUserInfo );
         setUserInfo( nextUserInfo )
     }
 
 
     const putInfo = () => {
-        if( confirm("변경하시겠습니까?")){
-            instance.patch('/api/users/my', userInfo ).then( res => {
-                alert("변경에 성공하였습니다.");
-    
-            }).catch( err => {
-                console.log( err );
-            })
-        }    
+        Swal.fire({
+            text: "세부 정보들을 변경하시겠습니까?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#faedcd",
+            cancelButtonColor: "#d33",
+        }).then((result) => {
+            if( result.isConfirmed ){
+                
+                instance.patch('/api/users/my', userInfo ).then( res => {
+
+                    dispatch( authActions.updateCurrentUser(userInfo))
+                    Swal.fire({
+                        icon: "success",
+                        title: "성공적으로 변경되었습니다.",
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
+        
+                }).catch( err => {
+                    Swal.fire({
+
+                        icon: "error",
+                        title: "변경에 실패하였습니다",
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
+                })
+            }
+        })
+
         
     }
 
@@ -140,7 +171,7 @@ const ProfileDetailUnder = ( {info} ) => {
 
                 <label for="customInput" className="block text-sm font-medium text-gray-600">닉네임</label>
                     <div className="flex flex-row w-full">
-                        <input
+                        { info.isAuthenticated && <input
                             type="text"
                             id="customInput"
                             name="nickname"
@@ -148,7 +179,19 @@ const ProfileDetailUnder = ( {info} ) => {
                             placeholder="닉네임을 입력해주세요."
                             onChange={ onChange }
                             value={userInfo.nickname}
+                        />}
+                        {
+                            !info.isAuthenticated && <input
+                            type="text"
+                            id="customInput"
+                            name="nickname"
+                            className="w-5/6 me-3 mt-1 p-2 block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300"
+                            placeholder="닉네임을 입력해주세요."
+                            onChange={ onChange }
+                            value="인증 회원만 닉네임 변경이 가능합니다."
+                            disabled
                         />
+                        }
                 </div>
             </div>
             <div className="w-full ms-4">
@@ -211,7 +254,7 @@ const ProfileDetailUnder = ( {info} ) => {
             
             <div className="w-full ms-4 mt-4">
 
-                <button className="w-5/6 me-3 mt-1 p-2 bg-bg block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300" onClick={putInfo}> 수정 </button>
+                <button className="w-5/6 me-3 mt-1 p-2 bg-button block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300 hover:bg-orange-200 hover:text-gray-600 text-white" onClick={putInfo}> 수정 </button>
                             
 
             </div>
@@ -237,18 +280,7 @@ const ProfileDetailUnder = ( {info} ) => {
       
  
     </ul>
-
-</div>
-
-
-            {/* <Map width="100" height="96"/> */}
-            {/* <ul className="scroll list-none w-full p-5 overflow-y-scroll h-full">
-            
-                {gunguList}
-
-
-
-            </ul> */}
+    </div>
         
         </div>
         </>
