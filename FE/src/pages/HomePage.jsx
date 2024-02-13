@@ -9,6 +9,7 @@ import instance from "@/utils/instance.js";
 import MemberRanking from '../components/homePage/Ranking/GoumunityRanking.jsx';
 import { useSelector } from 'react-redux';
 import FeedRanking from '../components/homePage/Ranking/FeedRanking';
+import MobileDetailModal from '../components/homePage/detailModal/MobileDetailModal.jsx';
 
 function HomePage() {
   const [initialTime] = useState(new Date().getTime());
@@ -78,6 +79,21 @@ function HomePage() {
   //   document.body.style.overflow = 'auto';
   // }
 
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1200);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 775 );
+  useEffect(() => {
+    const handleResize = () => {
+      // console.log('width ', window.innerWidth);
+      setIsLargeScreen(window.innerWidth > 1280);
+      setIsMobile( window.innerWidth <= 775 );
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   return (
     <div className='flex flex-row justify-center bg-bright'>
       <div className='flex flex-col items-center h-full'>
@@ -90,7 +106,13 @@ function HomePage() {
         />
       ))}
 
-      {params.feedId && <DetailModal setFeedList={setFeedList} feedList={feedList} feedId={params.feedId} />}
+      {params.feedId && (isMobile ? (<>
+        <MobileDetailModal setFeedList={setFeedList} feedList={feedList} feedId={params.feedId} />
+      </>):(
+        <>
+        <DetailModal setFeedList={setFeedList} feedList={feedList} feedId={params.feedId} />
+        </>
+      ))}
       {params.id && <CreateFeedModal setFeedList={setFeedList} />}
       {params.patchId && <PatchFeedModal feedList={feedList} setFeedList={setFeedList} />}
 
@@ -102,10 +124,10 @@ function HomePage() {
     </>)
     :
     (<>
-    <div className='rank-row flex-col w-1/3'>
-    <MemberRanking ranks ={rankList}/>
-    <FeedRanking/>
-    </div>
+    { isLargeScreen && <div className={`rank-row flex-col w-1/3`}>
+      <MemberRanking ranks ={rankList}/>
+      <FeedRanking/>
+    </div> }
     
     </>)
     }

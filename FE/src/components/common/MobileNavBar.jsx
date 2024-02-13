@@ -18,9 +18,7 @@ import PoorMark from '../../utils/AuthenticatedPoor';
 import './NavHover.css';
 import instance from '@/utils/instance.js';
 import PoorMarkBlack from '../../utils/AuthenticatedPoorBlack';
-const MiniNavBar = () => {
-    // LandingPage에서는 NavBar를 렌더링하지 않음
-  
+const MobileNavBar = () => {
     const targetUrl = window.location.pathname;
     switch (targetUrl) {
       case '/landing':
@@ -84,13 +82,23 @@ const MiniNavBar = () => {
     const activeClass = 'underline';
   
     return (
-      <nav className={`flex flex-col fixed w-28 h-screen text-2xl font-daeam p-5 bg-yellow`} style={{ backgroundSize:'cover',backgroundImage: `url(${NavBarBackGround})`}}>
+      <nav className={`flex flex-row fixed bg-bg`} style={{ width: '100%', height: '75px', zIndex:'1'}}>
   
         
-        <img className='mt-10 mb-20 rounded-full border-black border-2' src={currentUser.imgSrc}  style={ {width: '100px'}}/>
-        
-        {/* <div onClick={handleClickToggleMenu}>로고</div> */}
-        <ul className='flex flex-col gap-3 ms-4 mt-20'>
+        <img className='m-2 rounded-full border-black border-2' src={currentUser.imgSrc}  style={ {width: '60px', height:'60px'}}/>
+        <div className='flex-col flex justify-center items-center ms-2'>
+        <div className='flex self-start text-lg font-daeam'>
+            {currentUser.nickname}님
+
+            {isAuth && 
+            
+            <button onClick={handleClickLogout}>
+              <div className='hover:text-gray-500'>
+              <i className="fa-solid fa-right-from-bracket ms-2"></i>
+              </div>
+              </button>}
+        </div>
+        <ul className='flex flex-row gap-3'>
           
           {/* <li>
             <NavLink
@@ -114,7 +122,6 @@ const MiniNavBar = () => {
           <NavBarItem imgSrc='comments' link='/' text=''/>
           {/* <NavBarItem imgSrc={homeIcon} link='/chat' text='거지방' /> */}
           <NavBarItem imgSrc='house' link='/chat' text='' />
-          <li><Link to='/test'>hi/</Link></li>
           {/*isAuth && (*/
             // <li>
             //   {/* Link는 어딘가로 빠짐, NavLink는 클릭 시 css를 주기 위해 하는 것인데,  */}
@@ -157,21 +164,16 @@ const MiniNavBar = () => {
               </NavLink>
             )}
           </li>
-          <li>
-            {isAuth && 
-            
-            <button onClick={handleClickLogout}>
-              <div className='hover:text-gray-500'>
-              <i className="fa-solid fa-right-from-bracket ms-1"></i>
-              </div>
-              </button>}
-          </li>
+          
           {/* <li>
             {isAuth && <button onClick={handleClickDeleteUser}>회원탈퇴</button>}
           </li> */}
         </ul>
+        </div>
+        {/* <div onClick={handleClickToggleMenu}>로고</div> */}
+        
       </nav>
     );
-  }
+}
 
-export default MiniNavBar;
+export default MobileNavBar;

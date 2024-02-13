@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UserInput from '@/components/common/UserInput';
 import { isEmail, validatePassword } from '@/utils/validation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -103,8 +103,29 @@ function RightSide() {
     }));
   };
 
+  const [ isMobile, setIsMobile ] = useState( window.innerWidth <= 600 );
+
+  useEffect(() => {
+    const handleResize = () => {
+      // console.log('width ', window.innerWidth);
+      // setIsLargeScreen(window.innerWidth > 1280);
+      setIsMobile( window.innerWidth <= 600 );
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [])
+  // 모달 닫기(랜딩 페이지로 이동)
+  const handleClickCloseModal = () => {
+    navigate('/landing');
+  };
+
+
   return (
-    <div className='flex flex-col justify-center items-center w-2/5 bg-bright'>
+    <div className='flex flex-col justify-center items-center w-2/5 bg-bright' style={{ width: isMobile ? '100%' :''}}>
       <div className='w-full h-full flex flex-col items-center justify-center'>
         <h1 className='font-daeam text-5xl my-5'>로그인</h1>
         <form

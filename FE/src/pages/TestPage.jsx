@@ -7,6 +7,9 @@ import ProfileImageSection from "../components/ProfilePage/ProfileImageSection";
 import LeftSide from "../components/NewLandingPage/LeftSide";
 import ChatRoom from "../components/chatPage/ChatRoom";
 import FeedRanking from "../components/homePage/Ranking/FeedRanking";
+import MiniNavBar from "../components/common/MiniNavBar";
+import MobileNavBar from "../components/common/MobileNavBar";
+import MobileDetailModal from "../components/homePage/detailModal/MobileDetailModal";
 const TestPage = () => {
   const person = {
     'imageUrl' : '123',
@@ -96,11 +99,11 @@ const TestPage = () => {
         </div>
       </div>
     </div> */}
-      <div className="w-full flex justify-center">
-        <FeedRanking/>
+      {/* <div className="w-full h-screen bg-bg flex justify-center">
+        content
       </div>
-      
-  
+       */}
+      <MobileDetailModal/>
     </>
   );
 };

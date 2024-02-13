@@ -66,6 +66,7 @@ const RankingBar = (ranks) => {
     fontSize: `${calculateFontSize()}px`,
   };
 
+
   return (
     <>
       <div className='font-daeam flex flex-col items-center rankbar ms-1 overflow-x-auto'>
