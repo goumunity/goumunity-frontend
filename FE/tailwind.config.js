@@ -39,6 +39,9 @@ export default {
       '128': '768px',
       'post': '390px',
       'twitter': '600px'
+    },
+    height: {
+      'chat': '620px',
     }
   }
     // spacing: {

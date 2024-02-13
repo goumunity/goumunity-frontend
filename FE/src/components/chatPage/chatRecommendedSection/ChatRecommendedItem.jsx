@@ -30,43 +30,36 @@ function ChatRecommendedItem({ item, setMyChatRooms, myChatRooms }) {
   };
 
   return (
-    <div className='relative w-72 h-80 flex flex-col items-center border-2 border-black rounded-3xl px-3 py-5 bg-bright'>
-      <div className='flex justify-center items-center w-24 h-32 rounded-sm overflow-hidden'>
+    <div className='relative w-64 h-96 flex flex-col items-center border-2 border-black rounded-3xl px-3 py-5 bg-bright hover:bg-gray-100'>
+      <div className='flex justify-center items-center w-full h-44 rounded-sm overflow-hidden'>
         <img
           src={item.imgSrc ? item.imgSrc : logo}
-          className='w-full h-full border-black border-2'
+          className='w-full h-full border-black border-2 rounded-3xl'
           alt=''
         />
       </div>
 
-      <div className='flex flex-col w-4/6 m-5'>
-        <div className='flex gap-2 items-center'>
+      <div className='flex flex-col w-full m-2'>
+        <div className='flex gap-2 items-center my-2'>
           <span
             className={`font-dove justify-start ${
-              item.title.length > 10 ? 'text-xl' : 'text-2xl'
+              item.title.length > 10 ? 'text-lg' : 'text-xl'
             }`}
           >
             {item.title}
           </span>
-          <span className='font-her'>{`👤${item.currentUserCount}`}</span>
+          <span className='font-her'>{`👤${item.currentUserCount}/${item.capability}`}</span>
         </div>
-        <div>
-          <ul className='flex font-her gap-2 flex-wrap'>
-            {/* {item.hashtags?.map((name, hashtagsIndex) => (
-              <li
-                className='pr-2'
-                key={hashtagsIndex}
-              >{`#${item.hashtags[hashtagsIndex].name}`}</li>
-            ))} */}
-            {item.hashtags?.map((hashtag, idx) => (
-              <li className='' key={idx}>{`#${hashtag.name}`}</li>
-            ))}
-          </ul>
-        </div>
+
+        <ul className='flex font-her gap-3 flex-wrap w-full'>
+          {item.hashtags?.map((hashtag, idx) => (
+            <li className='' key={idx}>{`#${hashtag.name}`}</li>
+          ))}
+        </ul>
       </div>
 
       <div
-        className='flex justify-center items-center absolute bottom-5 p-2 rounded-2xl border-2 border-black bg-entrance font-paci text-white'
+        className='flex justify-center items-center w-52 absolute bottom-5 p-1 rounded-2xl border-2 border-black bg-entrance font-dove text-white text-lg cursor-pointer'
         onClick={onEnterButtonClicked}
       >
         입장하기

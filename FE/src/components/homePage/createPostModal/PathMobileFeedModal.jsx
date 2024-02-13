@@ -251,8 +251,10 @@ function  PatchMobileFeedModal({ feedList, setFeedList }) {
         <div
           className={`flex-col w-full h-full pt-2 bg-bright rounded-lg shadow-2xl  overflow-scroll`}
         >
-          <div className={`relative w-full h-fit`}>
+          <div className={`relative flex flex-col w-full h-fit`}>
+          <CloseButton onClick={ () => { navigate('/')}}/>
             <div className='flex justify-center'>
+            
               <h1 className='font-daeam text-5xl my-2 text-center'>
                 게시글 수정
               </h1>
