@@ -70,7 +70,7 @@ function CreateFeedModal({ setFeedList }) {
       setErrorMessage('지역을 선택해주세요.');
       return;
     }
-    if (savingCategory === '' || savingCategory === 'none') {
+    if (feedCategory === 'INFO' && (savingCategory === '' || savingCategory === 'none')) {
       setErrorMessage('절약항목을 선택해주세요.');
       return;
     }
@@ -278,7 +278,7 @@ function CreateFeedModal({ setFeedList }) {
           />
         </div>
       </div>
-      <ModalBackground />
+      <ModalBackground size={20}/>
     </div>
   );
 }

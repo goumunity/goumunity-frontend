@@ -24,6 +24,9 @@ function OptionBox({ commentCnt, createdAt, updatedAt, likeCount, feedId, ilikeT
   const feedDate = updatedAt ? formatDate(updatedAt) : formatDate(createdAt)
   console.log('댓글 개수:', commentCnt)
 
+  useEffect(() => {
+    setCommentCount(commentCnt)
+  }, [updatedAt, createdAt])
   const handleClickCreateLike = async () => {
     try {
       const res = await instance.post(`/api/feeds/${feedId}/like`);

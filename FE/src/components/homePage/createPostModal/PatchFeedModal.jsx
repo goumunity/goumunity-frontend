@@ -142,11 +142,11 @@ function PatchFeedModal({ feedList, setFeedList }) {
       setErrorMessage('지역을 선택해주세요.');
       return;
     }
-    if (newSavingCategory === '' || newSavingCategory === 'none') {
+    if (newFeedCategory === 'INFO' && (newSavingCategory === '' || newSavingCategory === 'none')) {
       setErrorMessage('절약항목을 선택해주세요.');
       return;
     }
-
+  
     //
     const data = {
       content: newContent,
@@ -315,6 +315,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
                 title='어디서 아꼈나요?'
                 color='bright'
                 onChange={(e) => handleChangeNewRegion(e)}
+                defaultValue={region.gungu}
               />
               {newFeedCategory === 'INFO' && (
                 <SavingCategorySelectBox
@@ -452,7 +453,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
           </div>
         </div>
       </div>
-      <ModalBackground />
+      <ModalBackground size={20} />
     </div>
   );
 }

@@ -20,7 +20,7 @@ const ExternalProfilePage = () => {
     const isPrivate = false;
     const onLoad = () => {
 
-        instance.get(`/api/users/${email}`)
+        instance.get(`/api/users/email/${email}`)
         .then( res => {
           setInfo( res.data );
           setIsInfoLoaded( true );

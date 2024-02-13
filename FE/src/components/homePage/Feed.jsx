@@ -30,8 +30,9 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
     si,
     updatedAt,
     isScrapped,
+    email
   } = feed;
-  console.log(feed)
+  console.log('testtttttttt', feed)
 
   const [isLoading, setIsLoading] = useState(false);
   const currentUser = useSelector((state) => state.auth.currentUser);
@@ -60,7 +61,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
     // <div className='flex flex-col w-twitter border border-gray-300 px-4 py-3'>
     <div className='flex flex-col w-twitter border border-grey px-4 py-3 hover:bg-gray-50'>
       <div className='relative flex items-center gap-2'>
-        <Link to={`/profile/${nickname}`}>
+        <Link to={`/profile/${email}`}>
           <div
             className={`w-8 h-8 rounded-full border-2 border-black overflow-hidden cursor-pointer`}
           >
