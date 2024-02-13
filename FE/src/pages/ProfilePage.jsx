@@ -5,16 +5,17 @@ import ProfileHeader from "../components/ProfilePage/ProfileHeader";
 
 import './ProfileScroll.css'
 
-import { useParams } from "react-router-dom";
-import { useState,useCallback } from "react";
-import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState,useEffect } from "react";
 import axios from "axios";
 import Loading from "../components/common/Loading";
 import ProfileBaseUnder from "../components/ProfilePage/ProfileBaseUnder";
 import ProfileDetailUnder from "../components/ProfilePage/ProfileDetailUnder";
 import instance from "@/utils/instance.js";
+import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
 const ProfilePage = () => {
-  const { detail } = useParams();
+  const { detail,email } = useParams();
   const [info, setInfo]  = useState({}); 
   const h = detail !== 'detail' ? '' : 'h-fit'
   const h2 = detail !== 'detail' ? 'h-3/4' : 'h-full'
@@ -23,6 +24,8 @@ const ProfilePage = () => {
   const [ isInfoLoaded, setIsInfoLoaded ] = useState( false );
   const [ isWrittenLoaded, setIsWrittenLoaded ] = useState( false );
   const [ isSavingsLoaded, setIsSavingsLoaded ] = useState( false );
+  const navigate = useNavigate();
+
 
   /*
 "email":"ssafy@ssafy.com",
@@ -31,7 +34,7 @@ const ProfilePage = () => {
    "age":10,
    "userCategory":"JOB_SEEKER",
    "gender":1,
-   "nickname":"김싸피",
+   "email":"김싸피",
    "imgSrc":"/images/user-profile/20240117/23758814530500.jpg",
    "registerDate":"2024-01-17T05:38:00Z",
    "userStatus":"ACTIVE",
@@ -40,17 +43,15 @@ const ProfilePage = () => {
   */
    
    const [writtenFeeds,setWrittenFeeds] = useState([]);
-   const [, updateState ] = useState();
+
    const saveChange = ( price ) => {
     // const nextArr = savings.filter( el => el.id !== id );
     // setSavings( nextArr );
 
   }
-   useEffect( () => {
-    // console.log( savings );
-   },[savings])
+
   const containerClasses = `base border-2 border-bg-600 flex flex-row ${h}`;
-  const onLoad = () => { 
+  const onLoadMine = () => { 
 
     instance.get("/api/users/my",
     {withCredentials:true})
@@ -79,32 +80,50 @@ const ProfilePage = () => {
     })
       
 
+    }).catch( (err) => {
+      Swal.fire({
+        position: "top-end",
+        icon: "fail",
+        title: "데이터 로딩 간 에러가 발생하였습니다.",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      navigate('/');
     })
     
     
 
   }
 
+  
   useEffect( () => {
-    onLoad();
+    
+
+
+      onLoadMine();
+
+    
+    
     
 
   },[])
 
   
+
+  
   return (
-    <div className="font-dove" id="body">
+    <div className="font-dove bg-bright" id="body">
       
        <div className={`grid flex flex-col p-10 ${h2}`}>
         {
           isInfoLoaded ? (
             <>
-            <ProfileHeader info={info}/>      
+            <ProfileHeader info={info} isPrivate={true}/>      
        <div id="ProfileUnder" className={containerClasses}>
         { detail !== 'detail' ?(
           <>
             {
-              isWrittenLoaded ? (<><ProfileBaseUnder info={info} style={{height:'532px'}} written={written} saveChange={saveChange}/></>) : (<><Loading></Loading></>)
+              isWrittenLoaded ? (<><ProfileBaseUnder info={info} style={{height:'532px'}} written={written} saveChange={saveChange} isPrivate={true}/></>) : (<><Loading></Loading></>)
             }
             
             {/* {
