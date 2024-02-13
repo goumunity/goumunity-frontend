@@ -20,7 +20,9 @@ function OptionBox({ commentCnt, createdAt, updatedAt, likeCount, feedId, ilikeT
   const [isLike, setIsLike] = useState(ilikeThat);
   const [isScrap, setIsScrap] = useState(isScrapped);
   const [feedLikeCount, setFeedLikeCount] = useState(likeCount);
+  const [commentCount, setCommentCount] = useState(commentCnt);
   const feedDate = updatedAt ? formatDate(updatedAt) : formatDate(createdAt)
+  console.log('댓글 개수:', commentCnt)
 
   const handleClickCreateLike = async () => {
     try {
@@ -71,18 +73,24 @@ function OptionBox({ commentCnt, createdAt, updatedAt, likeCount, feedId, ilikeT
   return (
     <div className='border-y border-gray p-2'>
       <div className='flex'>
-        {isLike ? (
-          <Option src={unLikeIcon} size={5} onClick={handleClickDeleteLike} />
-        ) : (
-          <Option src={likeIcon} size={5} onClick={handleClickCreateLike} />
-        )}
+        <div className='w-1/3 flex justify-start'>
+          {isLike ? (
+            <Option text='거추 취소' src={unLikeIcon} size={5} onClick={handleClickDeleteLike} />
+          ) : (
+            <Option text='거추' src={likeIcon} size={5} onClick={handleClickCreateLike} />
+          )}
+        </div>
         {/* <FeedLikeBox likeCount={likeCount} feedId={feedId} ilikeThat={ilikeThat}/> */}
-        <Option text={commentCnt} src={commentIcon} size={5} onClick={handleClickChangeCreateComment}/>
-        {isScrap ? (
-          <Option src={scrapIcon} size={5} onClick={handleClickDeleteScrap} />
-        ) : (
-          <Option src={unScrapIcon} size={5} onClick={handleClickCreateScrap} />
-        )}
+        <div className='w-1/3 flex justify-start'>
+          <Option text={commentCount} src={commentIcon} size={5} onClick={handleClickChangeCreateComment}/>
+        </div>
+        <div className='w-1/3 flex justify-start'>
+          {isScrap ? (
+            <Option text='스크랩취소' src={scrapIcon} size={5} onClick={handleClickDeleteScrap} />
+          ) : (
+            <Option text='스크랩' src={unScrapIcon} size={5} onClick={handleClickCreateScrap} />
+          )}
+        </div>
       </div>
       <div className='flex items-center gap-2'>
         {/* <span className='font-daeam'>거추 {feedLikeCount}개</span> */}

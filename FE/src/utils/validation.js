@@ -14,6 +14,5 @@ export function validatePassword(value) {
 }
 
 export function isEqual(value, other) {
-    console.log(value, other)
     return value === other;
 }

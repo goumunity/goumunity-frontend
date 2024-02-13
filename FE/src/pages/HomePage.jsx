@@ -59,7 +59,7 @@ function HomePage() {
         />
       ))}
 
-      {params.feedId && <DetailModal feedId={params.feedId} />}
+      {params.feedId && <DetailModal setFeedList={setFeedList} feedList={feedList} feedId={params.feedId} />}
       {params.id && <CreateFeedModal setFeedList={setFeedList} />}
       {params.patchId && <PatchFeedModal feedList={feedList} setFeedList={setFeedList} />}
 

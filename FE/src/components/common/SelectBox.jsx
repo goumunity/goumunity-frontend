@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import instance from '@/utils/instance'
 
-function SelectBox({ widthSize, color, defaultValue, ...props }) {
+function SelectBox({ widthSize, color, defaultValue, title='지역을 선택해주세요', ...props }) {
   const [regionList, setRegionList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   
@@ -30,7 +30,7 @@ function SelectBox({ widthSize, color, defaultValue, ...props }) {
       // defaultValue={defaultValue}
       {...props}
     >
-      <option value='none'>지역을 선택해주세요.</option>
+      <option value='none'>{title}</option>
       {regionList.map((region) => {
         return (
           <option key={region.regionId} value={region.regionId} selected={defaultValue === region.gungu}>
