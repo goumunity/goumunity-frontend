@@ -41,8 +41,8 @@ function ChatPage() {
     }
     const connect = () => {
         client.current = new StompJs.Client({
-            // brokerURL: 'wss://i10a408.p.ssafy.io/api/goumunity-chat',
-            brokerURL: 'ws://localhost:8080/goumunity-chat',
+            brokerURL: 'wss://i10a408.p.ssafy.io/api/goumunity-chat',
+            // brokerURL: 'ws://localhost:8080/goumunity-chat',
             onConnect: resubscribe
         });
         client.current.activate();
