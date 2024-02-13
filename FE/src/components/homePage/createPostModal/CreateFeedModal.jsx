@@ -75,6 +75,12 @@ function CreateFeedModal({ setFeedList }) {
       return;
     }
 
+
+    if (feedCategory === 'INFO' && (Number.parseInt(price)  < Number.parseInt(afterPrice))) {
+      setErrorMessage('할인가가 더 높을 수 없습니다.');
+      return;
+    }
+
     const data = {
       content,
       feedCategory,
@@ -83,6 +89,12 @@ function CreateFeedModal({ setFeedList }) {
       regionId: region,
       savingCategory,
     };
+
+    if (feedCategory === 'FUN') {
+      data.price = null;
+      data.afterPrice = null;
+      data.savingCategory = null;
+    }
 
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
     const formData = new FormData();
