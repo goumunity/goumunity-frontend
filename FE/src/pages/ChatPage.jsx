@@ -137,8 +137,6 @@ function ChatPage() {
       </div>
       <div className='w-5/6'>
         <div className=' divide-x divide-entrance'>
-          <span></span>
-          <div>
             {isSearchMode ? (
               <ChatRecommendedSection
                 myChatRooms={myChatRooms}
@@ -155,7 +153,6 @@ function ChatPage() {
                   myChatRooms={myChatRooms}
               />
             )}
-          </div>
         </div>
       </div>
     </div>

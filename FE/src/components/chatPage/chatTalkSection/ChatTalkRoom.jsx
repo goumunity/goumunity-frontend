@@ -45,13 +45,12 @@ function ChatTalkRoom({ userId, chatRoomId,setMessages, onMessageSend, messages 
   };
   const handleSendButtonClicked = () => {
     if(msg === '' && profileImage==='') return;
-    console.log(profileImage)
     if (profileImage) {
       onMessageSend(profileImage, 'IMAGE');
+      setProfileImage('');
     } else {
       onMessageSend(msg, 'MESSAGE');
     }
-
     setMsg('');
   }
   const lastChatRoomRef = useCallback(
@@ -121,17 +120,17 @@ function ChatTalkRoom({ userId, chatRoomId,setMessages, onMessageSend, messages 
           </div>
         </div>
       </div>
-      <div className='border flex justify-between pb-0'>
+      <div className='border flex justify-between items-center pb-0 grow-0'>
         <input style={{display : "none"}}
                ref={fileUploader}
                type={"file"}
                accept={'image/**'}
                onChange={handleChangeUploadProfileImg}
         />
-        <i onClick={() => fileUploader.current.click()} className='fa-solid fa-circle-plus'></i>
+        <i onClick={() => fileUploader.current.click()} className='fa-solid fa-circle-plus fa-xl hover:cursor-pointer ml-10'></i>
         {profileImage ?
             <div className={'w-4/5   font-her p-4 border-entrance border-r border'}>
-              <img src={profileImage} className={'object-contain rounded'}/>
+              <img src={profileImage} className={'object-contain rounded w-1/5'}/>
             </div>
             :
             <input
@@ -143,17 +142,16 @@ function ChatTalkRoom({ userId, chatRoomId,setMessages, onMessageSend, messages 
                 onKeyDown={handleOnKeyPress}
             />
         }
-        <span className=' '>
+        <span className='mr-10'>
           <button
               type={'button'}
               onClick={handleSendButtonClicked}
-              className='p-4'
           >
-            입력
+            <i className="fa-solid fa-location-arrow fa-xl hover:cursor-pointer"></i>
+            {/*입력*/}
           </button>
         </span>
       </div>
-      {/*</div>*/}
     </>
   );
 }
