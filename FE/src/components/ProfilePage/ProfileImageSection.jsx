@@ -75,8 +75,8 @@ const ProfileImageSection = ({ size, src }) => {
   const customLabelStyle = {
     backgroundImage: `url("${imgSrc}")`,
     backgroundSize: 'cover',
-    width: '12rem',
-    height: '12rem',
+    width: `${size}rem`,
+    height: `${size}rem`,
     display: 'inline-block',
     cursor: 'pointer',
     border: '3px solid',

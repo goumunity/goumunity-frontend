@@ -72,6 +72,12 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
     };
   }, []);
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     // <div className='flex flex-col w-twitter border border-gray-300 px-4 py-3'>
     <div className={`flex flex-col border border-grey px-4 py-3 hover:bg-gray-50 ${isLargeScreen ? '' : ''}`} style={{width: isLargeScreen ? '600px': '300px'}}>
@@ -92,9 +98,10 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
         </Link>
         {/* <ProfileImage size='8' profileImage={imgSrc ? imgSrc : ''} /> */}
         <NicknameBox nickname={nickname} daysAgo={daysAgo} fontSize='md' />
-
+        
         {nickname === currentUser.nickname && (
-          <div className='flex font-daeam absolute right-1 gap-3'>
+          isLargeScreen ? <>
+            <div className='flex font-daeam absolute right-1 gap-3'>
             <Link to={`/patch/${feedId}`}>
               <button className={`${className}`}>수정</button>
             </Link>
@@ -102,6 +109,43 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
               삭제
             </button>
           </div>
+          </> : <>
+          <div className="relative">
+                      <button
+                        className="z-100 inline-flex items-center"
+                        onClick={toggleMenu}
+                      >
+                        <svg
+                          className="fill-current h-4 w-4 ml-2"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            d="M10 12l-6-6 1.41-1.41L10 9.17l4.59-4.58L16 6z"
+                          />
+                        </svg>
+                      </button>
+                      {isOpen && (
+                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl">
+                          <Link to={`/patch/${feedId}`}>
+                          <a
+                            href="#"
+                            className="z-101 block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
+                          >
+                            수정
+                          </a>
+                          </Link>
+                          <a
+                            onClick={handleClickDeleteFeed}
+                            className="z-101 block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
+                          >
+                            삭제
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                    </>
+          
         )}
       </div>
       {profit !== 0 && (

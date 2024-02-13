@@ -42,8 +42,8 @@ const ProfileDetailUnder = ( {info} ) => {
     const currentUser = useSelector((state) => state.auth.currentUser);
     const dispatch = useDispatch();
     useEffect( () => {
-        setUserInfo( info );
-
+        console.log( 'currentUser',currentUser );
+        setUserInfo( currentUser );
         setOriginPassWord( info.password );
         
     }, [])
@@ -168,15 +168,33 @@ const ProfileDetailUnder = ( {info} ) => {
     const onSearchTextChange = ( e ) => {
         setSearchText( e.target.value );
     }
+    const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1200);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 775 );
+    const [isMini, setIsMini] = useState(window.innerWidth <= 320 );
+    useEffect(() => {
+        const handleResize = () => {
+        // console.log('width ', window.innerWidth);
+        setIsLargeScreen(window.innerWidth > 1280);
+        setIsMobile( window.innerWidth <= 775 );
+        setIsMini( window.innerWidth <= 400 );
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+        window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  const bottomSize = isMini ? '368px' : '532px';
 
 
 
     return ( 
         <>
-        <div className=" w-1/2 p-1 mb-3">
+        <div className={ isMobile ? `ms-2 w-full p-1 h-full`:`w-1/2 p-1`}>
             <div className="w-full ms-4">
-                <label for="customInput" className="block text-sm font-medium text-gray-600">비밀번호</label>
-                    <div className="flex flex-row">
+            <label for="customInput" className="block text-sm font-medium text-gray-600">비밀번호</label>
+                    <div className={`flex ${isMobile ? 'flex-col': ''}`}>
                         <input
                             type="password"
                             id="customInput"
@@ -186,12 +204,15 @@ const ProfileDetailUnder = ( {info} ) => {
                             value={ userInfo.password }
                             onChange={ onChange }
                         />
+                        <div className={`mt-1 ${ isMobile ? 'w-5/6' : ''}`}>
                         <button
-                            className="border border-gray-300 rounded-md hover:bg-bg hover:text-white p-2 "
+                            className={`border border-gray-300 rounded-md hover:bg-bg hover:text-white p-2 ${ isMobile ? 'w-full':'w'}`}
                             onClick={ changePassword }
-                        >
-                    변경
-                    </button>
+                        >변경
+                        </button>
+                        </div>
+                        
+                    
                 </div>
             </div>
 
@@ -283,14 +304,13 @@ const ProfileDetailUnder = ( {info} ) => {
             
             <div className="w-full ms-4 mt-4">
 
-                <button className="w-5/6 me-3 mt-1 p-2 bg-button block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300 hover:bg-orange-200 hover:text-gray-600 text-white" onClick={putInfo}> 수정 </button>
+                { !isMobile && <button className="w-5/6 me-3 mt-1 p-2 bg-button block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300 hover:bg-orange-200 hover:text-gray-600 text-white" onClick={putInfo}> 수정 </button> }
                             
 
             </div>
         
         </div>
-        
-        <div className="w-3/5 ms-2 roudned-md">
+        <div className={ isMobile ? `w-full p-1 h-full`:`w-3/5 ms-2 roudned-md`}>
         <div id="dropdownSearch" className="z-10 bg-white rounded-lg shadow w-full h-96 dark:bg-gray-700">
     <div className="p-3">
       <label for="input-group-search" className="sr-only">Search</label>
@@ -310,8 +330,9 @@ const ProfileDetailUnder = ( {info} ) => {
  
     </ul>
     </div>
-        
+    { isMobile && <button className="w-full me-3 my-5 p-2 bg-button block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300 hover:bg-orange-200 hover:text-gray-600 text-white" onClick={putInfo}> 수정 </button> }
         </div>
+
         </>
 
     )

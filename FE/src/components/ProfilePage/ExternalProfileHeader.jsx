@@ -41,7 +41,6 @@ const ProfileHeader = ({ info, isPrivate }) => {
     '중구',
     '중랑구',
   ];
-  const currentUser = useSelector((state) => state.auth.currentUser);
 
   const dispatch = useDispatch();
 
@@ -116,10 +115,10 @@ const ProfileHeader = ({ info, isPrivate }) => {
             {isPrivate && (
               <div className={`flex flex-col mt-4 ${ isMobile ? 'overflow-x-hidden text-sm ms-9 w-1/4' : 'text-xl ms-16 w-2/5' }`}>
                 <div className={ isMobile ? 'text-sm' : ( isLargeScreen ? `text-2xl` : `text-xl` ) }>
-                  {currentUser.nickname}님
+                  {info.nickname}님
                 </div>
                 <div>{regionMapper[info.regionId - 52]}</div>
-                <div>{currentUser.age}살</div>
+                <div>{info.age}살</div>
               </div>
             )}
             {!isPrivate && (
