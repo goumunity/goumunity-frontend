@@ -74,7 +74,7 @@ const RankingBar = (ranks) => {
           <i className='fa-solid fa-ranking-star me-2'></i>거지 탈출{' '}
         </div>
 
-        <table className='m-5 table-fixed w-80 h-10 text-center bg-yellow'>
+        <table className='m-2 table-fixed w-80 h-10 text-center bg-yellow'>
           <thead className='w-80 h-10 font-dove flex border-2 rounded-lg flex justify-center items-center bg-bg '>
             <th
               className='ps-3 w-12 text-gray-600'
