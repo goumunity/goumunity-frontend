@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import instance from "../../../utils/instance";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom/dist";
 
-const FeedRanking = ({ranks}) => {
+const FeedRanking = () => {
     const [rankList, setRankList ] = useState([]);
     const [context, setContext ] = useState(0);
     const navigate = useNavigate();
@@ -48,14 +49,16 @@ const FeedRanking = ({ranks}) => {
     useEffect( () => {
     
         const nextLiList = rankList.slice(0,3).map( el => <tr key={el.feedId}>
-            <div className="group block font-dove max-w-xs mx-auto cursor-pointer rounded-lg p-6 bg-yellow ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-gray-300 hover:ring-gray-400">
-                <div className="flex items-center space-x-3">
-                    { el.category === 'INFO' && <i className="fa-solid fa-circle-info group-hover:text-white"></i> }
-                    { el.category === 'FUN' && <i className="fa-solid fa-face-laugh-beam"></i>  }
-                    <h3 className="text-slate-900 group-hover:text-white text-sm font-semibold" style={dynamicFontSizeStyle}>스크랩 수: {el.scrapCount}</h3>
+            <Link to={`/${el.feedId}`}>
+                <div className="group block font-dove max-w-xs mx-auto cursor-pointer rounded-lg p-6 bg-yellow ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-gray-300 hover:ring-gray-400">
+                    <div className="flex items-center space-x-3">
+                        { el.category === 'INFO' && <i className="fa-solid fa-circle-info group-hover:text-white"></i> }
+                        { el.category === 'FUN' && <i className="fa-solid fa-face-laugh-beam"></i>  }
+                        <h3 className="text-slate-900 group-hover:text-white text-sm font-semibold" style={dynamicFontSizeStyle}>스크랩 수: {el.scrapCount}</h3>
+                    </div>
+                    <div className="text-gray-600 group-hover:text-white overflow-hidden h-8 w-full" style={dynamicFontSizeStyle}>{el.content}</div>
                 </div>
-                <div className="text-gray-600 group-hover:text-white overflow-hidden h-8 w-full" style={dynamicFontSizeStyle}>{el.content}</div>
-            </div>
+            </Link>
         </tr>)
         setLilist(nextLiList)
     },[windowWidth])
@@ -68,6 +71,7 @@ const FeedRanking = ({ranks}) => {
             ...res.data
 
         ]
+        
         // console.log('axios!!:', nextRankList );
         setRankList( res.data );
         

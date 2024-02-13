@@ -1,12 +1,12 @@
-function CloseButton({ className, color='black', ...props }) {
+function CloseButton({ className, color='black', size=14, ...props }) {
 
   const buttonClassName = `flex justify-center items-center rounded-full w-5 h-5 hover:bg-gray cursor-pointer ${className}`;
 
   return (
     <div className={buttonClassName} {...props}>
       <svg
-        width='14'
-        height='14'
+        width={size}
+        height={size}
         viewBox='0 0 14 14'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'

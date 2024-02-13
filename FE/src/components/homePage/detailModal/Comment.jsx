@@ -4,13 +4,13 @@ import commentIcon from '@/assets/svgs/commentIcon.svg';
 import { useState } from 'react';
 import { calculateDate, formatDate } from '../../../utils/formatting';
 import ReplySection from './ReplySection';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import CommentLikeBox from './CommentLikeBox';
 import NicknameBox from '../../common/NicknameBox';
 import CreateReplyBox from './CreateReplyBox';
 import instance from '@/utils/instance.js';
+import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },

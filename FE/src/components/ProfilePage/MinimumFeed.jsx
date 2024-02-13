@@ -24,7 +24,7 @@ const MinimumFeed = ( {size, feedId, nickname,createAt, content, deletePost,imgS
           <span className='font-her'>{new Date( createAt).toLocaleDateString()}</span>
         </div>
 
-        { isPrivate && <Button2to1 text="삭제" size="6" onClick={ () => { deletePost( feedId ) } }></Button2to1> }
+        <Button2to1 text="보기" size="6" onClick={ () => { deletePost( feedId ) } }></Button2to1>
     </div>
         
 

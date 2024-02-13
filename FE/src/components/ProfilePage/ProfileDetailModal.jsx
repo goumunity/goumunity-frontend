@@ -1,18 +1,18 @@
-import CloseButton from '../../common/CloseButton';
-import ProfileImage from '../../common/ProfileImage';
-import CommentSection from './CommentSection';
+import CloseButton from '@/components/common/CloseButton';
+import ProfileImage from '@/components/common/ProfileImage';
+import CommentSection from '../../components/homePage/detailModal/CommentSection';
 import { Link, useNavigate } from 'react-router-dom';
-import { calculateDate } from '../../../utils/formatting';
-import useAxiosGet from '../../../hooks/useAxiosGet';
+import { calculateDate } from '../../utils/formatting';
+import useAxiosGet from '../../hooks/useAxiosGet';
 import Slider from 'react-slick';
-import Loading from '../../common/Loading';
-import NicknameBox from '../../common/NicknameBox';
-import ModalBackground from '../../common/ModalBackground';
+import Loading from '../common/Loading';
+import NicknameBox from '../common/NicknameBox';
+import ModalBackground from '../common/ModalBackground';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import instance from '../../../utils/instance';
+import instance from '../../utils/instance';
 
-function DetailModal({ feedId, feedList, setFeedList }) {
+function ProfileDetailModal({ feedId, feedList, setFeedList }) {
   const [feed, isLoading, errorMessage] = useAxiosGet(`/api/feeds/${feedId}`);
 
   const {
@@ -55,17 +55,11 @@ function DetailModal({ feedId, feedList, setFeedList }) {
 
   const closeModalWithClickOutside = (e) => {
     if (!modalRef.current.contains(e.target)) {
-      navigate('/');
+      navigate('/myprofile');
     }
   };
 
-  // const [commentCnt, setCommentCnt] = useState(commentCount);
-  const [commentCnt, setCommentCnt] = useState(0);
-
-  useEffect(() => {
-    setCommentCnt(commentCount)
-  }, [feed])
-
+  const [commentCnt, setCommentCnt] = useState(commentCount);
   const daysAgo = updatedAt
     ? calculateDate(updatedAt)
     : calculateDate(createdAt);
@@ -91,13 +85,11 @@ function DetailModal({ feedId, feedList, setFeedList }) {
       // feed.feedId와 feedId는 타입이 다르므로 !== 를 하면 안됨
       const newFeedList = feedList.filter((feed) => feed.feedId != feedId);
       setFeedList(newFeedList);
-      navigate('/');
+      navigate('/myprofile');
     } catch (error) {
       console.log('피드 삭제 중 에러 발생 : ', error);
     }
   };
-
-  // useEffect()
 
   return (
     <>
@@ -166,4 +158,4 @@ function DetailModal({ feedId, feedList, setFeedList }) {
   );
 }
 
-export default DetailModal;
+export default ProfileDetailModal;
