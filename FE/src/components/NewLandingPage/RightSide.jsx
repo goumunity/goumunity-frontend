@@ -80,7 +80,7 @@ function RightSide() {
         //   `http://localhost:8080/api/users/my/chat-rooms?page=0&size=12&time=${new Date().getTime()}`
         // );
 
-        const res = await instance.get(`/api/users/${userInputs.email}`);
+        const res = await instance.get(`/api/users/email/${userInputs.email}`);
         console.log('로그인 결과:', res);
 
         dispatch(authActions.createUser(res.data));

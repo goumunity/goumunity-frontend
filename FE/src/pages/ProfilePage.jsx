@@ -14,8 +14,9 @@ import ProfileDetailUnder from "../components/ProfilePage/ProfileDetailUnder";
 import instance from "@/utils/instance.js";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import ProfileDetailModal from "../components/ProfilePage/ProfileDetailModal";
 const ProfilePage = () => {
-  const { detail,email } = useParams();
+  const { detail,email, feedId } = useParams();
   const [info, setInfo]  = useState({}); 
   const h = detail !== 'detail' ? '' : 'h-fit'
   const h2 = detail !== 'detail' ? 'h-3/4' : 'h-full'
@@ -118,12 +119,13 @@ const ProfilePage = () => {
         {
           isInfoLoaded ? (
             <>
-            <ProfileHeader info={info} isPrivate={true}/>      
+            <ProfileHeader info={info} isPrivate={true}/>  
+            
        <div id="ProfileUnder" className={containerClasses}>
         { detail !== 'detail' ?(
           <>
             {
-              isWrittenLoaded ? (<><ProfileBaseUnder info={info} style={{height:'532px'}} written={written} saveChange={saveChange} isPrivate={true}/></>) : (<><Loading></Loading></>)
+              isWrittenLoaded ? (<><ProfileBaseUnder info={info} style={{height:'532px'}} written={written} saveChange={saveChange} isPrivate={true} feedId={feedId != undefined ? feedId : '' }/></>) : (<><Loading></Loading></>)
             }
             
             {/* {
