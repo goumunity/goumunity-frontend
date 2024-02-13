@@ -48,7 +48,7 @@ const router = createBrowserRouter([
       },
       { path: '/main', element: <Main /> },
       { path: '/myprofile/:detail?', element: <ProfilePage /> },
-      { path: '/myprofile', element: <ProfilePage /> },,
+      { path: '/myprofile', element: <ProfilePage /> },
       // 다른 사람 페이지로 바뀔 예정
       { path: '/profile/:email', element: <ExternalProfilePage /> },
       { path: '/test', element: <TestPage /> },

@@ -75,13 +75,7 @@ function RightSide() {
       dispatch(authActions.login());
 
       try {
-        // const res = await instance.get(`/api/users/${userInputs.email}`);
-        // const res = await instance.get(
-        //   `http://localhost:8080/api/users/my/chat-rooms?page=0&size=12&time=${new Date().getTime()}`
-        // );
-
-        const res = await instance.get(`/api/users/${userInputs.email}`);
-        console.log('로그인 결과:', res);
+        const res = await instance.get(`/api/users/email/${userInputs.email}`);
 
         dispatch(authActions.createUser(res.data));
       } catch (error) {

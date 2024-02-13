@@ -2,7 +2,7 @@ import Option from '../../common/Option';
 import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import commentIcon from '@/assets/svgs/commentIcon.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatDate } from '../../../utils/formatting';
 import FeedLikeBox from '../FeedLikeBox';
 import instance from "@/utils/instance.js";
@@ -70,6 +70,9 @@ function OptionBox({ commentCnt, createdAt, updatedAt, likeCount, feedId, ilikeT
     inputRef.current.focus();
   }
 
+  // useEffect(() => {
+  //   setCommentCount()
+  // }, [commentCount])
   return (
     <div className='border-y border-gray p-2'>
       <div className='flex'>

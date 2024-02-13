@@ -59,7 +59,13 @@ function DetailModal({ feedId, feedList, setFeedList }) {
     }
   };
 
-  const [commentCnt, setCommentCnt] = useState(commentCount);
+  // const [commentCnt, setCommentCnt] = useState(commentCount);
+  const [commentCnt, setCommentCnt] = useState(0);
+
+  useEffect(() => {
+    setCommentCnt(commentCount)
+  }, [feed])
+
   const daysAgo = updatedAt
     ? calculateDate(updatedAt)
     : calculateDate(createdAt);
@@ -90,6 +96,8 @@ function DetailModal({ feedId, feedList, setFeedList }) {
       console.log('피드 삭제 중 에러 발생 : ', error);
     }
   };
+
+  // useEffect()
 
   return (
     <>

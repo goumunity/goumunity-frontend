@@ -5,7 +5,6 @@ import LoginModal from '../components/landingPage/loginModal/LoginModal';
 import JoinModal2 from '../components/landingPage/joinModal2/JoinModal2';
 import JoinModal3 from '../components/landingPage/joinModal3/JoinModal3';
 import beggar from '@/assets/images/beggar.jpg';
-import geo from '@/assets/images/logo.png';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 function LandingPage() {

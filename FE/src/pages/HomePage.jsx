@@ -45,7 +45,7 @@ function HomePage() {
         setIsLoading(true);
         const res = await instance.get('/api/feeds')
         console.log( 'feeds:', res );
-        setFeedList((prev) => [...res.data.feedRecommends, ...prev]);
+        setFeedList((prev) => [...prev, ...res.data.feedRecommends]);
         setHasNext(res.data.hasNext);
       } catch (error) {
         console.log('feedList 요청 중 에러 발생 : ', error);

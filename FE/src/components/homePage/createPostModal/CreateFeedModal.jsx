@@ -126,12 +126,12 @@ function CreateFeedModal({ setFeedList }) {
             si: res.data.region.si,
             updatedAt: res.data.updatedAt,
             isScrapped: false,
-            savingCategory: res.data.savingCategory
+            savingCategory: res.data.savingCategory,
           },
           ...prev,
         ]);
         console.log('게시글 단일 조회 결과 : ', res.data);
-        window.scrollTo(0,0)
+        window.scrollTo(0, 0);
       } catch (error) {
         console.log('게시글 단일 조회 중 에러 발생 : ', error);
       }
@@ -203,6 +203,7 @@ function CreateFeedModal({ setFeedList }) {
             <div className='flex justify-center items-center h-8 font-dove text-red-600'>
               {errorMessage}
             </div>
+
             <div className='relative flex gap-2 px-1 pb-2'>
               {/* <Option
                   text='지역'
@@ -222,11 +223,13 @@ function CreateFeedModal({ setFeedList }) {
                   src={walletIcon}
                   onClick={handleClickToggleSavingCategorySelectBox}
                 /> */}
-              <SavingCategorySelectBox
-                title='절약항목'
-                color='bright'
-                onChange={(e) => handleChangeSavingCategory(e)}
-              />
+              {feedCategory === 'INFO' && (
+                <SavingCategorySelectBox
+                  title='절약항목'
+                  color='bright'
+                  onChange={(e) => handleChangeSavingCategory(e)}
+                />
+              )}
               <Option
                 text='이미지'
                 size={5}

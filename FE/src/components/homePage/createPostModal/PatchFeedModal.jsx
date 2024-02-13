@@ -218,7 +218,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
           ...newFeedList,
         ]);
         console.log('게시글 단일 조회 결과 : ', res.data);
-        window.scrollTo(0,0)
+        window.scrollTo(0, 0);
       } catch (error) {
         console.log('게시글 단일 조회 중 에러 발생 : ', error);
       }
@@ -316,11 +316,13 @@ function PatchFeedModal({ feedList, setFeedList }) {
                 color='bright'
                 onChange={(e) => handleChangeNewRegion(e)}
               />
-              <SavingCategorySelectBox
-                title='절약항목'
-                color='bright'
-                onChange={(e) => handleChangeNewSavingCategory(e)}
-              />
+              {newFeedCategory === 'INFO' && (
+                <SavingCategorySelectBox
+                  title='절약항목'
+                  color='bright'
+                  onChange={(e) => handleChangeNewSavingCategory(e)}
+                />
+              )}
               <Option
                 text='이미지'
                 size={5}
