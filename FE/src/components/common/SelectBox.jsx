@@ -1,20 +1,28 @@
 import { useEffect, useState } from 'react';
 import instance from '@/utils/instance'
 
-function SelectBox({ widthSize, color, defaultValue, ...props }) {
+function SelectBox({ widthSize, color, defaultValue, title='지역을 선택해주세요', ...props }) {
   const [regionList, setRegionList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true)
       try {
         const res = await instance.get('/api/regions');
         setRegionList(res.data)
       } catch (error) {
         console.log('지역 받는 중 에러 발생:', error);
       }
+      setIsLoading(false)
     };
     fetchData();
   }, []);
+
+  if (isLoading) {
+    return <>Loading..</>
+  }
+
 
   return (
     <select
@@ -22,7 +30,7 @@ function SelectBox({ widthSize, color, defaultValue, ...props }) {
       // defaultValue={defaultValue}
       {...props}
     >
-      <option value='none'>지역을 선택해주세요.</option>
+      <option value='none'>{title}</option>
       {regionList.map((region) => {
         return (
           <option key={region.regionId} value={region.regionId} selected={defaultValue === region.gungu}>

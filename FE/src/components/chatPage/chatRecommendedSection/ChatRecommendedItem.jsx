@@ -2,6 +2,7 @@ import instance from "@/utils/instance.js";
 import logo from '@/assets/images/logo.png'
 import Swal from "sweetalert2";
 import {useEffect} from "react";
+import handleError from "@/utils/error.js";
 
 
 function ChatRecommendedItem(props) {
@@ -28,10 +29,7 @@ function ChatRecommendedItem(props) {
                             })
                     })
                     .catch(error => {
-                        Swal.fire({
-                            icon: "error",
-                            text: `${error.response.data.errorMessage}`,
-                        })
+                        handleError(error)
                     })
             }
         })
@@ -51,7 +49,7 @@ function ChatRecommendedItem(props) {
                     <h5 className='font-daeam cards__item__text'>
                         {item.title}
                     </h5>
-                    {item.hashtags.map((hashtag, hashIndex) => {
+                    {item.hashtags?.map((hashtag, hashIndex) => {
                         return (
                             <span
                                 key={hashIndex}

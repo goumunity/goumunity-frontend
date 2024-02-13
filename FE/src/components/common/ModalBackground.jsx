@@ -14,7 +14,7 @@ function ModalBackground() {
   return (
     <div className='fixed top-0 left-0 bg-back w-full h-full'>
       <Link to='/'>
-        <CloseButton className='absolute top-5 right-5' />
+        <CloseButton className='absolute top-5 right-5' color='white'/>
       </Link>
     </div>
   );

@@ -33,6 +33,7 @@ export default {
       'width': 'width',
       'opacity': 'opacity',
       'spacing': 'margin, padding',
+      'display': 'display'
     },
     width: {
       '128': '768px',

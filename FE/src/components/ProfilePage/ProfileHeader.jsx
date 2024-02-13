@@ -55,7 +55,8 @@ const ProfileHeader = ( { info, isPrivate } ) => {
     // 여기에 실제 회원 탈퇴 처리 로직을 추가할 수 있음
 
     try {
-      const res = await axios.delete('/api/users/my');
+      const res = await instance.delete('/api/users/my');
+      console.log(res)
     } catch (error) {
       console.log('에러 발생 : ', error);
       return;
@@ -70,12 +71,11 @@ const ProfileHeader = ( { info, isPrivate } ) => {
       console.log( 'isPrivate Header ',isPrivate );
     },[])
 
-
-    return (
-        <>
-        <div className="justify-self-start font-daeam">
-          <div className="text-2xl">나의 정보</div>
-        </div>
+  return (
+    <>
+      <div className='justify-self-start font-daeam'>
+        <div className='text-2xl'>나의 정보</div>
+      </div>
         <hr className="border-1 border-gray-200"></hr>
        <div className="justify-center w-full flex flex-row p-20">
             <div className="">
@@ -108,6 +108,7 @@ const ProfileHeader = ( { info, isPrivate } ) => {
               <Button2to1 text="회원 탈퇴" size="8" onClick={handleClickDeleteUser} isNegative={true}></Button2to1>
             </div>
             }
+            
             </>)
             : ( <>
 

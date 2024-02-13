@@ -11,10 +11,7 @@ function ProfileImage({ size, profileImage, ...props }) {
           <label htmlFor='profileImg' className=''>
             <img
               // className={`w-${size} h-${size} cursor-pointer`}
-
               className={`w-full h-full cursor-pointer`}
-
-
               // src={profileImage}
               src={profileImage}
             />
@@ -24,8 +21,6 @@ function ProfileImage({ size, profileImage, ...props }) {
             <img
               // className={`w-${size} h-${size} cursor-pointer`}
               className={`w-full h-full cursor-pointer`}
-
-
               // src={profileImage}
               src={defaultMaleIcon}
             />

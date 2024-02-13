@@ -9,6 +9,7 @@ import { calculateAge } from '../../../utils/formatting';
 import { Link, useNavigate } from 'react-router-dom';
 import SelectBox from '../../common/SelectBox';
 import instance from "@/utils/instance.js";
+import SavingCategorySelectBox from '../../common/SavingCategorySelectBox';
 
 const GENDER_OPTIONS = [
   { id: 1, content: 'MALE' },
@@ -23,11 +24,13 @@ function JoinModal2() {
     birthDate: joinData?.birthDate || '',
     gender: joinData?.gender || '',
     region: joinData?.regionId || '',
+    savingCategory: joinData?.savingCategory || '',
   });
   const [isEdited, setIsEdited] = useState({
     birthDate: false,
     gender: false,
     region: false,
+    savingCategory: false,
   });
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -51,17 +54,8 @@ function JoinModal2() {
     fetchData();
   }, []);
 
-  
-
-
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (joinData.email === undefined || joinData.password === undefined) {
-  //     navigate('/landing/join/1');
-  //   }
-  // }, []);
-  // input에서 focus를 다른 곳에 두었을 때 수정되었음을 표시
   const handleBlurFocusOffInput = (id) => {
     setIsEdited((prev) => ({
       ...prev,
@@ -84,7 +78,6 @@ function JoinModal2() {
 
   const handleSubmitNext = (e) => {
     e.preventDefault();
-
     setErrorMessage('');
    
     if (userInputs.birthDate === '') {
@@ -95,10 +88,15 @@ function JoinModal2() {
       setErrorMessage('성별을 선택해주세요.');
       return;
     }
-    if (userInputs.region === '') {
+    if (userInputs.savingCategory === '' || userInputs.savingCategory === 'none') {
+      setErrorMessage('관심소비내역을 선택해주세요.');
+      return;
+    }
+    if (userInputs.region === '' || userInputs.region === 'none') {
       setErrorMessage('지역을 선택해주세요.');
       return;
     }
+    
     if (birthDateIsInvalid) {
       return;
     }
@@ -106,18 +104,20 @@ function JoinModal2() {
     const age = calculateAge(userInputs.birthDate);
     const updatedData = {
       ...joinData,
+      savingCategory: userInputs.savingCategory,
       nickname,
       age,
-      regionId: Number(userInputs.region),
+      regionId: userInputs.region,
       gender: userInputs.gender,
     };
-    dispatch(authActions.updateJoinData(updatedData));
 
+    dispatch(authActions.updateJoinData(updatedData));
     navigate('/landing/join/3');
   };
 
   // 사용자 입력 감지
   const handleChangeInputs = (id, value) => {
+    console.log(value)
     // 생년월일을 8자 넘게 못쓰게
     if (id === 'birthDate' && value.trim().length > 8) {
       return;
@@ -188,20 +188,33 @@ function JoinModal2() {
             />
           </div>
         </div>
-        <div className='flex flex-col mb-5 '>
-          <label className='text-left text-2xl font-her'>*지역</label>
-          <div className='flex gap-20 text-center justify-center'>
-            <SelectBox
-              color='yellow'
-              option='구'
-              onChange={(e) => handleChangeInputs('region', e.target.value)}
-            />
+        <div className='flex items-center gap-16'>
+
+          <div className='flex flex-col mb-5 '>
+            <label className='text-left text-xl font-her'>*관심소비내역</label>
+            <div className='flex gap-20 text-center justify-center'>
+              <SavingCategorySelectBox
+                color='yellow'
+                onChange={(e) => handleChangeInputs('savingCategory', e.target.value)}
+              />
+            </div>
           </div>
+
+          <div className='flex flex-col mb-5 '>
+            <label className='text-left text-2xl font-her'>*지역</label>
+            <div className='flex gap-20 text-center justify-center'>
+              <SelectBox
+                color='yellow'
+                onChange={(e) => handleChangeInputs('region', e.target.value)}
+              />
+            </div>
+          </div>
+
         </div>
         <div className='text-center font-dove text-red-600 text-xl h-2 mb-3'>
           {errorMessage}
         </div>
-        <div className='flex gap-5 justify-center absolute bottom-7 w-full'>
+        <div className='flex gap-5 justify-center absolute bottom-7 right-1 w-full'>
           <Link to='/landing/join/1'>
             <Button text='이전단계' type='button' />
           </Link>
