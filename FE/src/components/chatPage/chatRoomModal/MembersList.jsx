@@ -14,7 +14,6 @@ export default function MembersList({members, host, isEditMode, setCurrentChatRo
         setSelected(host);
     }, [host])
 
-    // TODO
     useEffect(() => {
         setCurrentChatRoom(prev => ({...prev, host:selected}))
     }, [selected])
