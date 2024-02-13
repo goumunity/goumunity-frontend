@@ -33,7 +33,7 @@ const FeedRanking = ({ranks}) => {
 
 
     useEffect( () => {
-        setContext(0);
+        setContext(2);
 
     },[]);
 
@@ -114,9 +114,9 @@ const FeedRanking = ({ranks}) => {
     fontSize: `${calculateFontSize()}px`,
   };
   const start = useRef( null );
-  useEffect(()=>{
-    start.current.focus();
-  },[])
+    useEffect(()=>{
+        start.current.focus();
+    },[])
 
     return(
         <>
@@ -127,19 +127,22 @@ const FeedRanking = ({ranks}) => {
                 <table className="m-5 mb-28 table-fixed w-80 h-10 text-center bg-yellow">
                     <thead className="h-10 font-dove flex border-2 rounded-lg">
                         <th className="w-1/3">
-                            <button ref={start} className="w-full h-full focus:outline-none focus:bg-bg focus:text-gray-600" onClick={() => handleContext(0)} >
-                                일간
+                            <button ref={start} className="w-full h-full focus:outline-none focus:bg-bg focus:text-gray-600" onClick={() => handleContext(2)}>
+                                월간
                             </button>
                         </th>
+                        
                         <th className="w-1/3">
                             <button className="w-full h-full focus:outline-none focus:bg-bg focus:text-gray-600" onClick={() => handleContext(1)}>
                                 주간
                             </button>
                         </th>
+                        
+
                         <th className="w-1/3">
-                        <button className="w-full h-full focus:outline-none focus:bg-bg focus:text-gray-600" onClick={() => handleContext(2)}>
-                            월간
-                        </button>
+                            <button  className="w-full h-full focus:outline-none focus:bg-bg focus:text-gray-600" onClick={() => handleContext(0)} >
+                                일간
+                            </button>
                         </th>
                         
                     </thead>
