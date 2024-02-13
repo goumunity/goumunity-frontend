@@ -64,7 +64,7 @@ function ChatMessage({message, index, currentUser}) {
                 <img className={'rounded-full object-contain mr-1'} style={{width: 40, height: 40}}
                          src={message?.profileImageSrc}/> <span>{message.nickname.replace(/#.*/, '')}</span>
                 </div>
-                <div className='flex items-center'>
+                <div className='flex'>
                     {messageBody(false)}
                     <span className='text-xs text-gray-500 ml-2 flex items-end '>{formatCurrentTime()}</span>
                 </div>
