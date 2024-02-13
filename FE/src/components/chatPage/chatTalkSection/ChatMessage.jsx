@@ -37,20 +37,21 @@ function ChatMessage({message, index, currentUser}) {
                       <span className='flex items-end text-xs text-gray-500 ml-2 pt-3 pr-2'>
                         {formatCurrentTime()}
                       </span>
-                {messageBody()}
+                {messageBody(true)}
             </div>
         </>
     }
 
-    const messageBody = () => {
+    const messageBody = (isYours) => {
+        const bgColor = isYours ? 'bg-blue-200' : 'bg-gray-200'
         if(message.chatType === 'MESSAGE') {
          return    <span
-                    className='flex justify-end border rounded-2xl bg-blue-200 p-1 pl-2 pr-3 w-1/5  text-neutral-800 text-sm'>
+                    className={`flex justify-end border rounded-2xl ${bgColor} p-1 pl-2 pr-3 w-1/5  text-neutral-800 text-sm`}>
                         {message.content}
                       </span>
         } else {
             return <span
-                className='flex justify-end border rounded-2xl bg-blue-200 p-1 pl-2 pr-3 w-1/5  text-neutral-800 text-sm'>
+                className={`flex justify-end border rounded-2xl ${bgColor} p-1 pl-2 pr-3 w-1/5  text-neutral-800 text-sm`}>
                         <img src={message.content}/>
                       </span>
         }
@@ -64,7 +65,7 @@ function ChatMessage({message, index, currentUser}) {
                          src={message?.profileImageSrc}/> <span>{message.nickname.replace(/#.*/, '')}</span>
                 </div>
                 <div className='flex items-center'>
-                    {messageBody()}
+                    {messageBody(false)}
                     <span className='text-xs text-gray-500 ml-2 flex items-end '>{formatCurrentTime()}</span>
                 </div>
             </div>
