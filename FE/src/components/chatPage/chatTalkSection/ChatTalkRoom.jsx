@@ -116,7 +116,7 @@ function ChatTalkRoom({
 
   return (
     <>
-      <div className='flex flex-col h-chat'>
+      <div className='flex flex-col' style={{ height:'82vh'}}>
         <div
             // ref={messagesContainerRef}
           className=' flex  flex-col scroll h-screen overflow-y-scroll scrollbar-thumb-gray-500 scrollbar-track-gray-300-y-scroll items-center  justify-center'
@@ -140,7 +140,7 @@ function ChatTalkRoom({
         </div>
       </div>
 
-      <div className={'border'}>
+      <div className={'border'} style={{height:'10vh'}}>
         {profileImage ? (
           <div className={'w-20 rounded p-1  flex'}>
             <img src={profileImage} className={'object-contain rounded'} />
@@ -168,7 +168,7 @@ function ChatTalkRoom({
           </div>
 
           <input
-            className='w-4/5  font-her p-4 border-entrance border-r border'
+            className='w-4/5  font-medium p-4 border-entrance border-r border'
             placeholder='메세지를 입력해주세요...'
             type={'text'}
             value={!profileImage ? msg : ''}

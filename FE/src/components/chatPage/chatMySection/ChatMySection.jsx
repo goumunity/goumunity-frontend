@@ -29,18 +29,21 @@ function ChatMySection({
 
   return (
     <div className='w-72'>
-      <div className='relative'>
+      <div className='relative flex'>
         <h1 className='font-daeam text-4xl text-start text-responsive p-5'>
           나의 거지챗
         </h1>
+        <div className='self-center'>
         <button
-          className='absolute right-3 top-7 font-daeam cursor-pointer'
+          className='font-daeam cursor-pointer bg-bg border-2 rounded-md hover:bg-gray-100 p-2'
           onClick={handleClickCreateChatRoom}
         >
-          채팅방 개설
+          <i class="fa-solid fa-plus aspect-square"></i>
         </button>
+        </div>
+        
       </div>
-      <div className='w-72 scroll h-screen overflow-x-hidden overflow-y-scroll '>
+      <div className='w-72 scroll h-screen overflow-x-hidden overflow-y-scroll pt-4'>
         <div className='w-72'>
           {myChatRooms.map((myChatRoom, idx) => {
             return (
@@ -60,12 +63,7 @@ function ChatMySection({
                 onClick={handleClickCreateChatRoom}
               > */}
         {/* <span className='text-black'>+채팅방 개설하기</span> */}
-        <div
-          ref={refCallback}
-          className='rounded-full bg-gray-500 text-white text-center'
-        >
-          ...
-        </div>
+
         {/* </button> */}
       </div>
       {isModalOpen && modalOption === 'createChat' && (

@@ -56,7 +56,7 @@ function ChatMyItem({
           <span className='font-her'>{`👤${myChatRoom.currentUserCount}`}</span>
         </div>
 
-        <ul className='flex font-her gap-2 flex-wrap'>
+        <ul className='flex h-5 font-her gap-2 overflow-hidden'>
           {myChatRoom.hashtags?.map((hashtag, idx) => (
             <li className='' key={idx}>{`#${hashtag.name}`}</li>
           ))}

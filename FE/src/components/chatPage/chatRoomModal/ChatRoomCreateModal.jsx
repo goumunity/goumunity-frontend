@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SelectBox from '../../common/SelectBox';
@@ -166,20 +166,23 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
     setArr(nextArr);
   };
   const tagArr = arr.map((elem) => (
-    <HashTag>
-      <CloseButton
-        className='absolute top-5 right-5'
-        onClick={() => onRemove(elem)}
-      />
+    <>
+      
       <div
         key={elem.idx}
-        className='p-1 m-1 text-2xl'
+        className={`flex text-sm justify-center items-center w-fit bg-bg`}
         onDoubleClick={() => onRemove(elem)}
         onChange={(e) => handleChangeInputs('hashtag', e.target.value)}
       >
-        {`#${elem.value}`}
+        <div className='h-5 overflow-hidden flex justify-center'>{`#${elem.value}`}</div>
+        
+        <CloseButton
+        size='8'
+        // className='absolute top-5 right-5'
+        onClick={() => onRemove(elem)}
+      />
       </div>
-    </HashTag>
+    </>
   ));
 
   //tagArr의 길이가 5 초과하는 경우, 5번째 인덱스 이후의 요소들을 제거
@@ -188,95 +191,138 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
     tagArr.splice(5);
     alert('해시태그는 5개까지만 입력 가능합니다.');
   }
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1200);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 775 );
+  const [isMini, setIsMini] = useState(window.innerWidth <= 320 );
+  useEffect(() => {
+    const handleResize = () => {
+      // console.log('width ', window.innerWidth);
+      setIsLargeScreen(window.innerWidth > 1200);
+      setIsMobile( window.innerWidth <= 775 );
+      setIsMini( window.innerWidth <= 500 );
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
-    <div className='scroll overflow-y-scroll max-h-full '>
-      <h1 className='font-daeam text-2xl'>채팅방 개설하기</h1>
-      <form >
-        <div className='text-start font-her text-2xl'>*채팅방 제목 </div>
-        <div className='content-start pb-3'>
-          <input
-            className='bg-transparent w-full border-b font-her'
-            placeholder='방제 입력하기'
-            onChange={(e) => handleChangeInputs('title', e.target.value)}
-          />
-        </div>
-        <div className='font-her text-left text-2xl'>*해시태그 설정하기</div>
-        <div className='flex'>
-          {tagArr}
-          <HashTag>
-            <div className='flex flex-row'>
-              <div>
+    <div className='flex flex-col font-daeam text-xl'>
+      <h1 className='text-3xl'>채팅방 개설하기</h1>
+      <form className='w-full h-fit'>
+        <div className='flex justify-start text-start'>
+          <div className="w-full">
+            <label for="customInput" className="block text-sm text-gray-600 ps-1">방 제목</label>
+              <div className={`flex justify-center`}>
                 <input
-                  className='bg-transparent w-20 border-2 text-center'
-                  onChange={handleOnChange}
-                  onKeyDown={handleOnKeyPress}
-                  placeholder='#키워드'
-                  value={val}
+                            type="text"
+                            id="customInput"
+                            // name="title"
+                            className="mt-1 p-2 block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring w-full focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300"
+                            placeholder="방 제목을 입력해주세요."
+                            onChange={(e) => handleChangeInputs('title', e.target.value)}
                 />
-              </div>
-            </div>{' '}
-          </HashTag>
-        </div>
-        {/* <button className='font-paci border border-dashed rounded-2xl pr-2 pl-2'></button> */}
-        <div className='flex font-her justify-center bg-gray-100 p-2 '>
-          <div
-            type='text'
-            className='p-2 border border-t border-b border-l -mr-px border-gray-300 rounded-md focus:outline-none focus:border-gray-500 bg-transparent text-gray-100 text-3xl'
-            style={{
-              borderRadius: '1.3rem 0 0 1.3rem',
-              backgroundColor: 'rgba(0,0,0,0)',
-            }}
-          >
-            지역
-          </div>
 
+                        
+                    
+              </div>
+            </div>
+        </div>
+        
+        <div className='flex justify-start text-start mt-5'>
+          <div className="w-full flex-col">
+            <label for="customInput" className="block text-sm font-medium text-gray-600 ps-1">해시 태그</label>
+              <div className={`flex justify-center`}>
+                <input
+
+                            id="customInput"
+                            className="mt-1 p-2 block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring w-full focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300"
+                            onChange={handleOnChange}
+                            onKeyDown={handleOnKeyPress}
+                            placeholder='#키워드'
+                            value={val}
+                            
+                />
+
+    
+                                      
+              </div>
+            </div>
+        </div>
+        <div className='w-full flex gap-1 mt-5 text-sm'>
+        {tagArr}    
+        </div>
+
+        {/* <button className='font-paci border border-dashed rounded-2xl pr-2 pl-2'></button> */}
+        <div className='flex flex-col justify-start text-start'>
+        <label for="regionSelection" className="block text-sm font-medium text-gray-600 ps-1">지역 및 제한 인원</label>
+          <div className='flex flex-row gap-2'>
           <SelectBox
-            className='px-2 py-1 bg-yellow rounded-md border-solid border-2 font-daeam text-lg text-center flex-grow'
-            widthSize={96}
+            id='regionSelection'
+            className='w-2/5 me-1 mt-1 p-2 text-gray-400 block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring w-full focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300'
             onChange={(e) => handleChangeInputs('regionId', e.target.value)}
           />
-        </div>
-        <div className='flex font-her justify-center bg-gray-100 p-2'>
-          <div
-            type='text'
-            className='p-2 border border-t border-b border-l -mr-px border-gray-300 rounded-md focus:outline-none focus:border-gray-500 bg-transparent text-gray-100 text-2xl w-1/3'
-            style={{
-              borderRadius: '1.3rem 0 0 1.3rem',
-              backgroundColor: 'rgba(0,0,0,0)',
-            }}
-          >
-            인원수
+
+          <input
+
+            id="customInput"
+            className="w-2/5 mt-1 p-2 text-end block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300"
+            type='number'
+            min='1'
+            placeholder='제한 인원'
+            onChange={(e) => handleChangeInputs('capability', e.target.value)}
+
+          />
+          
+      
+
+
+          <input type='text' disabled={true} value={'명'} className='w-1/5 mt-1 border-bg rounded-lg'/>
           </div>
-
-          <ul className=' px-2 py-1 bg-yellow rounded-md border-solid border-2 font-daeam text-lg text-center'>
-            <input
-              className='bg-transparent h-full text-center'
-              type='number'
-              min='1'
-              onChange={(e) => handleChangeInputs('capability', e.target.value)}
-            />
-            <span>명</span>
-          </ul>
+          
         </div>
 
-        <div className='border rounded-xl font-her pt-2 pb-2'>
-          채팅방 이미지 추가하기
-          <div className='flex justify-center relative text-center '>
+        <div className='flex justify-center text-start mt-5'>
+          <div className="w-full flex-col">
+            <label for="customInput" className="block text-sm font-medium text-gray-600 ps-1">배경 이미지</label>
+              <div className={`w-full flex flex-col items-center justify-center gap-1`}>
+                
             <ProfileImage
-              size='20'
+              size='32'
               profileImage={profileImage}
               onChange={handleChangeUploadProfileImg}
+              
             />
-          </div>
-        </div>
-        <div className='pt-2'>
-          <Button
+            <div className='w-full'>
+              
+            <Button
+            size='full'
+            className='mt-5'
             text='추가하기'
             type='button'
             onClick={handleSubmitChatCreate}
           />
+            </div>
+                  
+                                        
+              </div>
+
+
+           
+
+
+
         </div>
+
+          
+
+
+        </div>
+
+        
       </form>
     </div>
   );

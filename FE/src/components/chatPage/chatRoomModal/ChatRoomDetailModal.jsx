@@ -198,21 +198,19 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
         }))
     };
     const tagArr = currentChatRoom?.hashtags.map((elem) => (
-        <HashTag>
-            {isEditMode ? <CloseButton
-                className='absolute top-5 right-5'
-                onClick={() => onRemove(elem)}
-            /> : ''}
-
-            <div
-                key={elem.idx}
-                className='p-1 m-1 text-2xl'
-                onDoubleClick={() => onRemove(elem)}
-                onChange={(e) => handleChangeInputs('hashtag', e.target.value)}
-            >
-                {`#${elem.name}`}
-            </div>
-        </HashTag>
+         <div
+         key={elem.idx}
+         className={`flex text-sm justify-center items-center w-fit bg-bg`}
+         onDoubleClick={() => onRemove(elem)}
+         onChange={(e) => handleChangeInputs('hashtag', e.target.value)}
+       >
+         <div className='h-5 overflow-hidden flex justify-center'>{`#${elem.name}`}</div>
+         
+         <CloseButton
+         // className='absolute top-5 right-5'
+         onClick={() => onRemove(elem)}
+       />
+       </div>
     ));
 
     const onEditModeButtonClicked = () => {
@@ -246,6 +244,10 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
         });
     }
 
+    useEffect(() => {
+        console.log( selectedChatRoom );
+    },[])
+
 
     //tagArr의 길이가 5 초과하는 경우, 5번째 인덱스 이후의 요소들을 제거
 
@@ -256,100 +258,103 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
 
     return (
         <>
-            <div className='scroll overflow-y-scroll  max-h-full '>
-            <h1 className='font-daeam text-2xl'>채팅방 정보</h1>
-            <form>
-                <div className='text-start font-her text-2xl'>*채팅방 제목</div>
-                <div className='content-start pb-3'>
-                    <input
-                        className='bg-transparent w-full border-b font-her'
-                        placeholder='방제 입력하기'
+           <div className='flex flex-col font-daeam text-xl'>
+            <h1 className='text-3xl'>채팅방 수정하기</h1>
+            <form className='w-full h-full'>
+            <div className='flex justify-start text-start'>
+                <div className="w-full">
+                    <label for="customInput" className="block text-sm text-gray-600 ps-1">방 제목</label>
+                    <div className={`flex justify-center`}>
+                        <input
+                                    type="text"
+                                    id="customInput"
+                                    // name="title"
+                                    className="mt-1 p-2 block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring w-full focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300"
+                                    placeholder='방 제목 입력하기'
                         value={currentChatRoom?.title}
-                        readOnly={!isEditMode}
+
                         onChange={(e) => setCurrentChatRoom(prev => ({
                             ...prev, title: e.target.value
                         }))}
-                    />
-                </div>
-                <div className='font-her text-left text-2xl'>*해시태그</div>
-                <div className='flex'>
-                    {tagArr}
-                    {isEditMode ? <HashTag>
-                        <div className='flex flex-row'>
-                            <div>
-                                <input
-                                    className='bg-transparent w-20 border-2 text-center'
-                                    onChange={handleOnChange}
-                                    onKeyDown={handleOnKeyPress}
-                                    placeholder='#키워드'
-                                    value={val}
-                                    readOnly={!isEditMode}
-                                />
-                            </div>
-                        </div>
-                        {' '}
-                    </HashTag> : ''}
-                </div>
-                <div className='flex font-her justify-center bg-gray-100 p-2 '>
-                    <div
-                        className='p-2 border border-t border-b border-l -mr-px border-gray-300 rounded-md focus:outline-none focus:border-gray-500 bg-transparent text-gray-100 text-3xl'
-                        style={{
-                            borderRadius: '1.3rem 0 0 1.3rem',
-                            backgroundColor: 'rgba(0,0,0,0)',
-                        }}
-                    >
-                        지역
-                    </div>
-                    <SelectBox
-                        className='px-2 py-1 bg-yellow rounded-md border-solid border-2 font-daeam text-lg text-center flex-grow'
-                        widthSize={96}
-                        disabled={true}
-                        defaultValue={currentChatRoom?.region?.gungu}
-                    />
-                </div>
+                        />
 
-                <MembersList setCurrentChatRoom={setCurrentChatRoom} members={currentChatRoom?.members}
-                             host={currentChatRoom?.host} isEditMode={isEditMode}/>
-                <div className='flex font-her justify-center bg-gray-100 p-2'>
-                    <div
-                        type='text'
-                        className='p-2 border border-t border-b border-l -mr-px border-gray-300 rounded-md focus:outline-none focus:border-gray-500 bg-transparent text-gray-100 text-2xl w-1/3'
-                        style={{
-                            borderRadius: '1.3rem 0 0 1.3rem',
-                            backgroundColor: 'rgba(0,0,0,0)',
-                        }}
-                    >
-                        인원수
+                                
+                            
                     </div>
+                </div>
+            </div>
+            <div className='flex justify-start text-start mt-5'>
+          <div className="w-full flex-col">
+            <label for="customInput" className="block text-sm font-medium text-gray-600 ps-1">해시 태그</label>
+              <div className={`flex justify-center`}>
+                <input
 
-                    <div
-                        className=' px-2 py-1 bg-yellow rounded-md border-solid border-2 font-daeam text-lg text-center'>
-                        <input
-                            className='bg-transparent h-full text-center'
-                            type='number'
-                            min='1'
-                            value={currentChatRoom?.capability}
-                            readOnly={!isEditMode}
+                            id="customInput"
+                            className="mt-1 p-2 block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring w-full focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300"
+                            onChange={handleOnChange}
+                            onKeyDown={handleOnKeyPress}
+                            placeholder='#키워드'
+                            value={val}
+
+                            
+                />
+
+    
+                                      
+              </div>
+            </div>
+        </div>
+        <div className='w-full flex gap-1 mt-5 text-sm'>
+            {tagArr}    
+        </div>
+        <div className='flex flex-col justify-start text-start'>
+        <label for="regionSelection" className="block text-sm font-medium text-gray-600 ps-1">지역 및 제한 인원</label>
+          <div className='flex flex-row gap-2'>
+          <SelectBox
+            id='regionSelection'
+            className='w-2/5 me-1 mt-1 p-2 text-gray-400 block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring w-full focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300'
+            defaultValue={currentChatRoom?.region?.gungu}
+            disabled={true}
+          />
+
+          <input
+
+            id="customInput"
+            className="w-2/5 mt-1 p-2 text-end block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300"
+            type='number'
+            min='1'
+            placeholder='제한 인원'
+            value={currentChatRoom?.capability}
+
                             onChange={(e) => setCurrentChatRoom(prev => ({
                                 ...prev, capability: e.target.value
                             }))}
-                        />
-                        <span>명</span>
-                    </div>
-                </div>
 
-                <div className='border rounded-xl font-her pt-2 pb-2'>
-                    대표 이미지
-                    <div className='flex justify-center relative text-center '>
-                        <ProfileImage
-                            disabled={!isEditMode}
-                            size='20'
-                            profileImage={profileImage}
-                            onChange={handleChangeUploadProfileImg}
-                        />
-                    </div>
-                </div>
-                <div className='flex justify-center gap-5 '>
+          />
+          
+      
+
+
+          <input type='text' disabled={true} value={'명'} className='w-1/5 mt-1 border-bg rounded-lg'/>
+          </div>
+          
+        </div>
+
+        <MembersList setCurrentChatRoom={setCurrentChatRoom} members={currentChatRoom?.members}
+                             host={currentChatRoom?.host} isEditMode={true}/>
+        <div className='flex justify-center text-start mt-5'>
+          <div className="w-full flex-col">
+            <label for="customInput" className="block text-sm font-medium text-gray-600 ps-1">배경 이미지</label>
+              <div className={`w-full h-32 flex flex-col items-center justify-center gap-1`}>
+                
+            <ProfileImage
+               size='32'
+              profileImage={profileImage}
+              onChange={handleChangeUploadProfileImg}
+              
+            />
+            </div>
+            <div className='flex justify-center gap-5 '>
                     {currentChatRoom?.isHost ? isEditMode ? <>
                         <Button text='적용하기' type='button' onClick={onEditApplyButtonClicked}/>
                         <Button text='취소하기' type='button' onClick={onDetailModeButtonClicked}/>
@@ -359,6 +364,13 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
 
                     <Button text='탈퇴하기' type='button' onClick={onExitButtonClicked}/>
                 </div>
+          </div>
+            
+        </div>
+                
+
+            
+                
             </form>
             </div>
         </>

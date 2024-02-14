@@ -16,6 +16,7 @@ function ChatPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [searchTime, setSearchTime] = useState(new Date().getTime());
   const observerRef = useRef();
+  const [hashtags, setHashTags ] = useState([]);
 
   const handleClickMySection = () => {
     setIsSearchMode(false);
@@ -34,6 +35,7 @@ function ChatPage() {
       const res = await instance.get(
         `/api/users/my/chat-rooms?page=${pageNum}&size=100&time=${searchTime}`
       );
+      console.log( res.data );
       setHasNext(res.data.hasNext);
       setMyChatRooms((prev) => [...prev, ...res.data.contents]);
     } catch (error) {
@@ -89,10 +91,11 @@ function ChatPage() {
     if (logId.current === id) return;
     if (room.current !== null) room.current.unsubscribe();
     if (id !== logId.current) logLastAccessTime();
-
+    setHashTags(myChatRooms.find((room) => room.chatRoomId === id).hashtags );
     setChatRoomName(myChatRooms.find((room) => room.chatRoomId === id).title);
     setChatRoomId(id);
     subscribe(id);
+
     logId.current = id;
     setMessages([]);
   };
@@ -117,6 +120,7 @@ function ChatPage() {
   );
   useEffect(() => {
     fetchChatRoomData();
+
   }, [pageNum]);
 
   //외부 스크롤 막음
@@ -160,6 +164,7 @@ function ChatPage() {
               setIsSearchMode={setIsSearchMode}
               setMyChatRooms={setMyChatRooms}
               myChatRooms={myChatRooms}
+              hashTags={hashtags}
             />
           )}
         </div>

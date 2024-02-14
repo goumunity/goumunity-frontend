@@ -111,7 +111,7 @@ function MobileDetailModal({ feedId, feedList, setFeedList }) {
   return (
     <>
       <div
-        className='z-50 fixed h-screen w-full bg-bright border border-gray overflow-scroll'
+        className='z-50 fixed h-fit w-full bg-bright border border-gray overflow-scroll'
         ref={modalRef}
       >
         {feed ? (

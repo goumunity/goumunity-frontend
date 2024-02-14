@@ -6,7 +6,7 @@ import CustomModal from "@/components/common/CustomModal.jsx";
 import {modalActions} from "@/store/modal.js";
 import ChatRoomDetailModal from "@/components/chatPage/chatRoomModal/ChatRoomDetailModal.jsx";
 
-function ChatTalkSection({id, chatRoomTitle, onMessageSend,setMessages, messages, myChatRooms, setIsSearchMode, setMyChatRooms}) {
+function ChatTalkSection({id, chatRoomTitle, onMessageSend,setMessages, messages, myChatRooms, setIsSearchMode, setMyChatRooms, hashTags}) {
 
     const isModalOpen = useSelector((state) => state.modal.isModalOpen);
     const modalOption = useSelector((state) => state.modal.modalOption);
@@ -40,13 +40,18 @@ function ChatTalkSection({id, chatRoomTitle, onMessageSend,setMessages, messages
         dispatch(modalActions.openChatRoomDetailModal());
     }
 
+    const tags = hashTags.map( el => <div className='h-full text-center self-center m-1 text-lg bg-bg border-2 rounded-md p-1'>#{el.name}</div>)
+
 
     return (
         <div>
-            <div className='flex items-center justify-between p-3 border-b-2 relative'>
-                <div>
+            {/* <div className='flex items-center justify-between p-3 border-b-2 relative'> */}
+            <div className='flex items-center justify-between border-b-2 p-3 relative' style={{ height: '10vh'}}>
+                <div className='flex flex-row font-daeam'>
                     {/*{selectedChatRoom?.title}*/}
-                    {chatRoomTitle}
+                    <div className="text-3xl  text-center self-center m-1 me-2">{chatRoomTitle}</div>
+                    
+                    {tags}
                 </div>
                 <div className='flex justify-between items-center  pr-3 '>
                     <i className="fa-solid fa-gear pr-3 hover:cursor-pointer" onClick={onSettingButtonClicked}/>
