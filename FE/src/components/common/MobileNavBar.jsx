@@ -28,11 +28,11 @@ const MobileNavBar = () => {
       case '/landing/join/4':
         return;
     }
-  
+
+
     const isAuth = useSelector((state) => state.auth.isAuthenticated);
   
     const currentUser = useSelector((state) => state.auth.currentUser);
-    console.log(currentUser);
   
     const [isMenuOpen, setIsMenuOpen] = useState(true);
   
@@ -45,6 +45,7 @@ const MobileNavBar = () => {
     const handleClickToggleMenu = () => {
       setIsMenuOpen(!isMenuOpen);
     };
+
   
     // 로그아웃 후 로그인 모달로 이동
     const handleClickLogout = async () => {
@@ -86,19 +87,13 @@ const MobileNavBar = () => {
   
         
         <img className='m-2 rounded-full border-black border-2' src={currentUser.imgSrc}  style={ {width: '60px', height:'60px'}}/>
-        <div className='flex-col flex justify-center items-center ms-2'>
-        <div className='flex self-start text-lg font-daeam'>
+        <div className='mt-2 flex-col flex items-center ms-2'>
+        <div className='flex self-start text-lg font-daeam justify-between' style={{width:'100%'}}>
             {currentUser.nickname}님
 
-            {isAuth && 
             
-            <button onClick={handleClickLogout}>
-              <div className='hover:text-gray-500'>
-              <i className="fa-solid fa-right-from-bracket ms-2"></i>
-              </div>
-              </button>}
         </div>
-        <ul className='flex flex-row gap-3'>
+        <ul className='w-full flex flex-row justify-start'>
           
           {/* <li>
             <NavLink
@@ -166,6 +161,15 @@ const MobileNavBar = () => {
             {isAuth && <button onClick={handleClickDeleteUser}>회원탈퇴</button>}
           </li> */}
         </ul>
+        </div>
+        <div className='flex h-full ms-6'>
+        {isAuth && 
+            
+            <button onClick={handleClickLogout}>
+              <div className='self-center hover:text-gray-500 pe-10'>
+              <i className="fa-solid fa-right-from-bracket fa-xl"></i>
+              </div>
+              </button>}
         </div>
         {/* <div onClick={handleClickToggleMenu}>로고</div> */}
         

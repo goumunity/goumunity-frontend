@@ -12,6 +12,7 @@ function LoginModal() {
   const [isLoading, setIsLoading] = useState(false);
 
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
+  
   //-----------------store 사용
   const loginStore = useSelector((state) => state.login);
 
