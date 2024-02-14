@@ -16,7 +16,7 @@ function HashTag({ children }) {
         strokeLinecap='round'
         strokeLinejoin='round'
       />
-      <foreignObject className='flex w-full h-full items-center text-center content-center '>
+      <foreignObject className='flex w-full h-full items-center text-center content-center text-black'>
         <div className='flex justify-center w-full h-full items-center'>
           {children}
         </div>

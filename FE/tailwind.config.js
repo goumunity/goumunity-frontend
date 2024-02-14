@@ -41,7 +41,7 @@ export default {
       'twitter': '600px'
     },
     height: {
-      'chat': '620px',
+      'chat': '700px',
     }
   }
     // spacing: {

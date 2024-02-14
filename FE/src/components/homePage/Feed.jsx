@@ -253,12 +253,8 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
           </div>
         </div>
       )}
-      <p
-        className={`my-4 px-2 overflow-x-hidden`}
-        style={{ width: isLargeScreen ? '560px' : '280px' }}
-      >
-        {content}
-      </p>
+
+      <pre className={`my-4 px-2 text-pretty overflow font-daeam`} style={{width: isLargeScreen ? '560px': '280px', overflowWrap : 'break-word'}}>{content}</pre>
 
       <Link to={`/${feedId}`}>
         <img

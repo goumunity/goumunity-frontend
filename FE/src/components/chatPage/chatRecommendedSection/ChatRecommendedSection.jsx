@@ -84,7 +84,7 @@ function ChatRecommendedSection({ setMyChatRooms, myChatRooms }) {
           </div>
         </div>
       </div>
-      <div className='flex flex-row flex-wrap justify-center gap-10 px-10 pb-10'>
+      <div className='grid grid-cols-4 gap-10 px-10 pb-10'>
         {items.map((item, idx) => (
           <ChatRecommendedItem
             key={idx}

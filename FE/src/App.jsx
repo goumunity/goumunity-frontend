@@ -41,7 +41,8 @@ const router = createBrowserRouter([
       // { path: '/landing', element: <NewLandingPage /> },
       { path: '/landing/join/:joinId', element: <LandingPage /> },
       { path: '/:login', element: <LandingPage /> },
-
+      
+      
       {
         path: '/chat',
         element: <ChatPage />,

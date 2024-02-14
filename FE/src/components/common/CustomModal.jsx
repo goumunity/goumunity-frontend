@@ -46,7 +46,7 @@ function CustomModal({ children, onClick , initSize}) {
     if (initSize) {
       setInitialSize(initSize)
     }
-    console.log(initSize)
+    // console.log(initSize)
   }, [initSize]);
 
   const widthSize = '800';
@@ -54,13 +54,31 @@ function CustomModal({ children, onClick , initSize}) {
   const widthSize2 = '800';
   const heigthSize2 = '575';
 
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1200);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 775 );
+  const [isMini, setIsMini] = useState(window.innerWidth <= 468 );
+  useEffect(() => {
+    const handleResize = () => {
+      // console.log('width ', window.innerWidth);
+      setIsLargeScreen(window.innerWidth > 1200);
+      setIsMobile( window.innerWidth <= 775 );
+      setIsMini( window.innerWidth <= 468 );
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  const w = isMini ? '320px' : initialSize.widthSize;
   return (
     <div className='fixed top-0 left-0 bg-back right-0 bottom-0 z-20'>
       <svg
-        className='z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-bg transition duration-300'
-        width={`${initialSize.widthSize}px`}
+        className='z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-bg transition duration-300 '
+        width={ w }
         height={`${initialSize.heightSize}px`}
-        viewBox={`0 0 ${initialSize.widthSize} ${initialSize.heightSize}`}
+        viewBox={`0 0 ${w} ${initialSize.heightSize}`}
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
         ref={modalRef}
@@ -91,7 +109,7 @@ function CustomModal({ children, onClick , initSize}) {
             <stop offset='1' stopColor='#FFFBF0' stopOpacity='0' />
           </linearGradient>
         </defs>
-        <foreignObject className='w-full h-full px-8 py-10 flex flex-col justify-center items-center text-center'>
+        <foreignObject className={`${ isMini ? '': 'w-full' } h-full px-8 py-10 flex flex-col justify-center items-center text-center  overflow-scroll`} style={{width:isMini?'320px': ''}}>
           {/* <CloseButton onClick={closeJoinModal} /> */}
           <CloseButton onClick={handleClickCloseModal} className='absolute top-5 right-5'/>
           {children}

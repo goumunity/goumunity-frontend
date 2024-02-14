@@ -4,6 +4,8 @@ import ChatTalkSection from '../components/chatPage/chatTalkSection/ChatTalkSect
 import ChatRecommendedSection from '../components/chatPage/chatRecommendedSection/ChatRecommendedSection';
 import * as StompJs from '@stomp/stompjs';
 import instance from '@/utils/instance.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { chatActions } from '../store/chat';
 
 function ChatPage() {
   const [isSearchMode, setIsSearchMode] = useState(true);
@@ -16,6 +18,30 @@ function ChatPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [searchTime, setSearchTime] = useState(new Date().getTime());
   const observerRef = useRef();
+  const [hashtags, setHashTags ] = useState([]);
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1200);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 775 );
+  const [isMini, setIsMini] = useState(window.innerWidth <= 400);
+  const isVisible = useSelector((state) => state.chat.isVisible);
+  const dispatch = useDispatch();
+  useEffect( () => {
+    dispatch( chatActions.init() );
+  },[])
+  useEffect(() => {
+    const handleResize = () => {
+      // console.log('width ', window.innerWidth);
+      setIsLargeScreen(window.innerWidth > 1280);
+      setIsMobile( window.innerWidth <= 775 );
+      setIsMini(window.innerWidth <= 400);
+      
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const handleClickMySection = () => {
     setIsSearchMode(false);
@@ -34,6 +60,7 @@ function ChatPage() {
       const res = await instance.get(
         `/api/users/my/chat-rooms?page=${pageNum}&size=100&time=${searchTime}`
       );
+      console.log( res.data );
       setHasNext(res.data.hasNext);
       setMyChatRooms((prev) => [...prev, ...res.data.contents]);
     } catch (error) {
@@ -89,10 +116,11 @@ function ChatPage() {
     if (logId.current === id) return;
     if (room.current !== null) room.current.unsubscribe();
     if (id !== logId.current) logLastAccessTime();
-
+    setHashTags(myChatRooms.find((room) => room.chatRoomId === id).hashtags );
     setChatRoomName(myChatRooms.find((room) => room.chatRoomId === id).title);
     setChatRoomId(id);
     subscribe(id);
+
     logId.current = id;
     setMessages([]);
   };
@@ -117,6 +145,7 @@ function ChatPage() {
   );
   useEffect(() => {
     fetchChatRoomData();
+
   }, [pageNum]);
 
   //외부 스크롤 막음
@@ -133,8 +162,12 @@ function ChatPage() {
     };
   }, []);
 
+  
+
+  
+
   return (
-    <div className='flex w-full h-full pl-10'>
+    <div className={ isMobile ? `flex flex-col w-full h-full` : `flex w-full h-full pl-10`}>
       <ChatMySection
         refCallback={lastChatRoomRef}
         myChatRooms={myChatRooms}
@@ -143,7 +176,7 @@ function ChatPage() {
         handleClickMySection={handleClickMySection}
         isLoaded={isSearchMode}
       />
-      <div className='w-5/6'>
+      <div className={ isMobile ? `w-full`:`w-5/6`}>
         <div className=' divide-x divide-entrance'>
           {isSearchMode ? (
             <ChatRecommendedSection
@@ -160,6 +193,7 @@ function ChatPage() {
               setIsSearchMode={setIsSearchMode}
               setMyChatRooms={setMyChatRooms}
               myChatRooms={myChatRooms}
+              hashTags={hashtags}
             />
           )}
         </div>
