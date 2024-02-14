@@ -32,11 +32,12 @@ function CreateFeedModal({ setFeedList }) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [content, handleChangeContent] = useInput('', setErrorMessage);
-  const [region, handleChangeRegion] = useInput('', setErrorMessage);
+  const [region, handleChangeRegion, setRegion] = useInput('', setErrorMessage);
   const [savingCategory, handleChangeSavingCategory] = useInput(
     '',
     setErrorMessage
   );
+  const [initialUserGungu, setInitialUserGungu] = useState('');
   // const className = isSlide ? '-translate-x-3/4' : '-translate-x-1/2';
   const modalClassName = isSlide ? 'w-128' : 'w-96';
   const mainSectionClassName = isSlide ? 'w-96' : 'w-96';
@@ -49,6 +50,14 @@ function CreateFeedModal({ setFeedList }) {
     setIsSlide(!isSlide);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await instance.get(`/api/regions/${currentUser.regionId}`);
+      setInitialUserGungu(res.data.gungu)
+      setRegion(currentUser.regionId)
+    }
+    fetchData();
+  }, [])
   const handleClickToggleRegionSelectBox = () => {
     setIsSavingCategorySelectBoxOpen(false);
     setIsRegionSelectBoxOpen(!isRegionSelectBoxOpen);
@@ -220,6 +229,7 @@ function CreateFeedModal({ setFeedList }) {
                 title={feedCategory === 'INFO' ? '어디서 아꼈나요?' : '어디 출신이신가요?'}
                 color='bright'
                 onChange={(e) => handleChangeRegion(e)}
+                defaultValue={initialUserGungu}
               />
       
               {feedCategory === 'INFO' && (

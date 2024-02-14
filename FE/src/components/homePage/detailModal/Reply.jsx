@@ -26,7 +26,9 @@ function Reply({
   setReplyList,
   replyList,
   setReplyId,
-  setCommentReplyCount
+  setCommentReplyCount,
+  setCommentList,
+  commentList,
 }) {
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const currentUser = useSelector((state) => state.auth.currentUser);
@@ -53,6 +55,12 @@ function Reply({
       );
       setReplyList(newReplyList);
       setCommentReplyCount((prev) => prev - 1)
+      setCommentList(commentList.map(comment => {
+        if (comment.id === commentId) {
+          return { ...comment, replyCount: comment.replyCount - 1 };
+        }
+        return comment;
+      }));
     } catch (error) {
       console.log('답글 삭제 중 에러 발생 : ', error);
     }

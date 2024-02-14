@@ -8,6 +8,7 @@ import instance from "@/utils/instance.js";
 function ReplyLikeBox({ likeCount, replyId, ilikeThat }) {
   const [replyLikeCount, setReplyLikeCount] = useState(likeCount);
   const [isReplyLike, setIsReplyLike] = useState(ilikeThat);
+  console.log(`${replyId}번 reply의 isReplyLike: ${isReplyLike}, ilikeThat: ${ilikeThat}`)
 
   const handleClickCreateCommentLike = async () => {
     try {

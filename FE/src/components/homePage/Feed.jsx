@@ -9,6 +9,10 @@ import NicknameBox from '../common/NicknameBox';
 import defaultMaleIcon from '../../assets/svgs/defaultMaleIcon.svg';
 import instance from '@/utils/instance.js';
 import FeedScrapBox from './FeedScrapBox';
+import likeIcon from '@/assets/svgs/likeIcon.svg';
+import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
+import scrapIcon from '@/assets/svgs/scrapIcon.svg';
+import unScrapIcon from '@/assets/svgs/unScrapIcon.svg';
 
 // 댓글, 답글 200자
 function Feed({ feed, setFeedList, feedList, ...props }) {
@@ -38,7 +42,9 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
   const currentUser = useSelector((state) => state.auth.currentUser);
   const daysAgo = calculateDate(updatedAt);
   const className = isLoading ? 'pointer-events-none opacity-75' : undefined;
-  const [isLike, setIsLike] = useState(ilikeThat);
+  const [isFeedLiked, setIsFeedLiked] = useState(ilikeThat);
+  const [isFeedScrapped, setIsFeedScrapped] = useState(isScrapped);
+  const [feedLikeCount, setFeedLikeCount] = useState(likeCount);
   const profit = price - afterPrice;
 
   const handleClickDeleteFeed = async () => {
@@ -51,6 +57,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
       console.log('삭제 결과 : ', res);
       const newFeedList = feedList.filter((feed) => feed.feedId !== feedId);
       setFeedList(newFeedList);
+      console.log('뉴피리:',newFeedList)
     } catch (error) {
       console.log('피드 삭제 중 에러 발생 : ', error);
     }
@@ -79,8 +86,76 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
   };
 
   useEffect(() => {
-    setIsLike(ilikeThat);
-  }, [feed]);
+    console.log(`${feedId}번 피드의 ilikeThat: ${ilikeThat}, isScrapped: ${isScrapped}, likeCount: ${likeCount}`)
+    setIsFeedLiked(ilikeThat);
+    setIsFeedScrapped(isScrapped);
+    setFeedLikeCount(likeCount);
+  }, [feedId]);
+
+  const handleClickCreateFeedLike = async () => {
+    try {
+      const res = await instance.post(`/api/feeds/${feedId}/like`);
+
+      console.log(res)
+      setIsFeedLiked(true);
+      setFeedLikeCount((prev) => prev + 1);
+      setFeedList(feedList.map(feed => {
+        if (feed.feedId === feedId) {
+          return { ...feed, likeCount: feed.likeCount + 1, ilikeThat: true };
+        }
+        return feed;
+      }));
+    } catch (error) {
+      console.log('게시글 좋아요 중 에러 발생 : ', error);
+    }
+  };
+
+  const handleClickDeleteFeedLike = async () => {
+    try {
+      const res = await instance.delete(`/api/feeds/${feedId}/unlike`);
+      setIsFeedLiked(false);
+      setFeedLikeCount((prev) => prev - 1);
+      setFeedList(feedList.map(feed => {
+        if (feed.feedId === feedId) {
+          return { ...feed, likeCount: feed.likeCount - 1, ilikeThat: false };
+        }
+        return feed;
+      }));
+    } catch (error) {
+      console.log('게시글 좋아요 취소 했을 때 에러 발생 : ', error);
+    }
+  };
+
+  const handleClickCreateFeedScrap = async () => {
+    try {
+      const res = await instance.post(`/api/feeds/${feedId}/scrap`);
+      setIsFeedScrapped(true);
+      setFeedList(feedList.map(feed => {
+        if (feed.feedId === feedId) {
+          return { ...feed, isScrapped: true };
+        }
+        return feed;
+      }));
+    } catch (error) {
+      console.log('게시글 스크랩 중 에러 발생 : ', error);
+    }
+  };
+
+  const handleClickDeleteFeedScrap = async () => {
+    try {
+      const res = await instance.delete(`/api/feeds/${feedId}/unscrap`);
+      setIsFeedScrapped(false);
+      // setFeedLikeCount((prev) => prev - 1);
+      setFeedList(feedList.map(feed => {
+        if (feed.feedId === feedId) {
+          return { ...feed, isScrapped: false };
+        }
+        return feed;
+      }));
+    } catch (error) {
+      console.log('게시글 스크랩 취소 했을 때 에러 발생 : ', error);
+    }
+  };
 
   return (
     // <div className='flex flex-col w-twitter border border-gray-300 px-4 py-3'>
@@ -194,15 +269,52 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
       </Link>
 
       <div className='flex items-center my-1 gap-12'>
-        <FeedLikeBox
-          ilikeThat={ilikeThat}
-          likeCount={likeCount}
+        {/* <FeedLikeBox
+          ilikeThat={isFeedLiked}
+          likeCount={feedLikeCount}
           feedId={feedId}
+          feedList={feedList}
+          setFeedList={setFeedList}
+        /> */}
+        <div>
+      {isFeedLiked ? (
+        <Option
+          text={feedLikeCount}
+          size={5}
+          src={unLikeIcon}
+          onClick={handleClickDeleteFeedLike}
         />
+      ) : (
+        <Option
+          text={feedLikeCount}
+          size={5}
+          src={likeIcon}
+          onClick={handleClickCreateFeedLike}
+        />
+      )}
+    </div>
         <Link to={`/${feedId}`}>
           <Option text={commentCount} src={commentIcon} size={5} />
         </Link>
-        <FeedScrapBox isScrapped={isScrapped} feedId={feedId} />
+        {/* <FeedScrapBox isFeedScrapped={isFeedScrapped} feedId={feedId} feedList={feedList} setFeedList={setFeedList}/> */}
+        <div>
+      {isFeedScrapped ? (
+        <Option
+          text='스크랩 취소'
+          size={5}
+          src={scrapIcon}
+          onClick={handleClickDeleteFeedScrap}
+        />
+      ) : (
+        <Option
+          text='스크랩'
+          size={5}
+          src={unScrapIcon}
+          onClick={handleClickCreateFeedScrap}
+        />
+        // <FontAwesomeIcon icon={faMarker} onClick={handleClickCreateFeedScrap}/>
+      )}
+    </div>
       </div>
     </div>
   );

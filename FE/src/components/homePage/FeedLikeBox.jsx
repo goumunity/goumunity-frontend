@@ -5,7 +5,7 @@ import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import Option from '../common/Option';
 import instance from "@/utils/instance.js";
 
-function FeedLikeBox({ likeCount, feedId, ilikeThat }) {
+function FeedLikeBox({ likeCount, feedId, ilikeThat, setFeedList, feedList }) {
   const [feedLikeCount, setFeedLikeCount] = useState(likeCount);
   const [isFeedLike, setIsFeedLike] = useState(ilikeThat);
   
@@ -16,6 +16,12 @@ function FeedLikeBox({ likeCount, feedId, ilikeThat }) {
       console.log(res)
       setIsFeedLike(true);
       setFeedLikeCount((prev) => prev + 1);
+      setFeedList(feedList.map(feed => {
+        if (feed.feedId === feedId) {
+          return { ...feed, likeCount: feed.likeCount + 1, ilikeThat: true };
+        }
+        return feed;
+      }));
     } catch (error) {
       console.log('게시글 좋아요 중 에러 발생 : ', error);
     }
@@ -26,15 +32,21 @@ function FeedLikeBox({ likeCount, feedId, ilikeThat }) {
       const res = await instance.delete(`/api/feeds/${feedId}/unlike`);
       setIsFeedLike(false);
       setFeedLikeCount((prev) => prev - 1);
+      setFeedList(feedList.map(feed => {
+        if (feed.feedId === feedId) {
+          return { ...feed, likeCount: feed.likeCount - 1, ilikeThat: false };
+        }
+        return feed;
+      }));
     } catch (error) {
       console.log('게시글 좋아요 취소 했을 때 에러 발생 : ', error);
     }
   };
 
-  useEffect(() => {
-    setFeedLikeCount(likeCount)
-    setIsFeedLike(ilikeThat)
-  }, [feedId])
+  // useEffect(() => {
+  //   setFeedLikeCount(likeCount)
+  //   setIsFeedLike(ilikeThat)
+  // }, [feedId])
 
   return (
     <div>

@@ -4,7 +4,7 @@ import Reply from './Reply.jsx';
 import LoadingImage from '../../common/LoadingImage.jsx';
 import instance from "@/utils/instance.js";
 
-function ReplySection({ commentId, setOption, setReplyId, setCommentReplyCount, replyList, setReplyList }) {
+function ReplySection({ commentId, setOption, setReplyId, setCommentReplyCount, replyList, setReplyList, commentList, setCommentList }) {
   // const [replyList, setReplyList] = useState([]);
   const [initialTime] = useState(new Date().getTime());
   const [isLoading, setIsLoading] = useState(false);
@@ -61,7 +61,7 @@ function ReplySection({ commentId, setOption, setReplyId, setCommentReplyCount, 
     {isLoading ? <LoadingImage /> :
       <div className='overflow-y-auto non-scroll'>
         {replyList.map((reply) => {
-          return <Reply key={reply.replyId} reply={reply} replyList={replyList} setReplyList={setReplyList} setReplyId={setReplyId} setOption={setOption} setCommentReplyCount={setCommentReplyCount} />;
+          return <Reply key={reply.replyId} reply={reply} replyList={replyList} setReplyList={setReplyList} setReplyId={setReplyId} setOption={setOption} setCommentReplyCount={setCommentReplyCount} setCommentList={setCommentList} commentList={commentList}/>;
         })}
       </div>
       }

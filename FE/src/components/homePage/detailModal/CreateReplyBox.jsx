@@ -18,6 +18,8 @@ function CreateReplyBox({
   commentId,
   setIsCreateReplyOpen,
   setCommentReplyCount,
+  setCommentList,
+  commentList,
 }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [reply, handleChangeReply, setReply] = useInput('', setErrorMessage);
@@ -41,6 +43,12 @@ function CreateReplyBox({
         setIsCreateReplyOpen(false);
         setCommentReplyCount((prev) => prev + 1);
         setReplyList((prev) => [res.data, ...prev]);
+        setCommentList(commentList.map(comment => {
+          if (comment.id === commentId) {
+            return { ...comment, replyCount: comment.replyCount + 1 };
+          }
+          return comment;
+        }));
       } catch (error) {
         console.log('답글 생성 중 에러 발생 : ', error);
       }

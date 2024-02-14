@@ -7,17 +7,19 @@ import instance from "@/utils/instance.js";
 import scrapIcon from '@/assets/svgs/scrapIcon.svg';
 import unScrapIcon from '@/assets/svgs/unScrapIcon.svg';
 
-function FeedScrapBox({ feedId, isScrapped }) {
-  // const [feedScrapCount, setFeedScrapCount] = useState(likeCount);
-  const [isFeedScrap, setIsFeedScrap] = useState(isScrapped);
+function FeedScrapBox({ feedId, isFeedScrapped, setFeedList, feedList }) {
+  const [isFeedScrap, setIsFeedScrap] = useState(isFeedScrapped);
   
   const handleClickCreateFeedScrap = async () => {
     try {
       const res = await instance.post(`/api/feeds/${feedId}/scrap`);
-
-      console.log(res)
       setIsFeedScrap(true);
-      // setFeedLikeCount((prev) => prev + 1);
+      setFeedList(feedList.map(feed => {
+        if (feed.feedId === feedId) {
+          return { ...feed, isScrapped: true };
+        }
+        return feed;
+      }));
     } catch (error) {
       console.log('게시글 스크랩 중 에러 발생 : ', error);
     }
@@ -28,6 +30,12 @@ function FeedScrapBox({ feedId, isScrapped }) {
       const res = await instance.delete(`/api/feeds/${feedId}/unscrap`);
       setIsFeedScrap(false);
       // setFeedLikeCount((prev) => prev - 1);
+      setFeedList(feedList.map(feed => {
+        if (feed.feedId === feedId) {
+          return { ...feed, isScrapped: false };
+        }
+        return feed;
+      }));
     } catch (error) {
       console.log('게시글 스크랩 취소 했을 때 에러 발생 : ', error);
     }
