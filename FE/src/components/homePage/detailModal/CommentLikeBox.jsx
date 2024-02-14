@@ -1,5 +1,5 @@
 import instance from '@/utils/instance';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import Option from '../../common/Option';
@@ -27,6 +27,11 @@ function CommentLikeBox({ likeCount, commentId, ilikeThat }) {
       console.log('에러 발생 : ', error);
     }
   };
+
+  useEffect(() => {
+    setCommentLikeCount(likeCount)
+    setIsCommentLike(ilikeThat)
+  }, [commentId])
   return (
     <div>
       {isCommentLike ? (

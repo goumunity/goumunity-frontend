@@ -1,7 +1,7 @@
 import Option from '../../common/Option';
 import ProfileImage from '../../common/ProfileImage';
 import commentIcon from '@/assets/svgs/commentIcon.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { calculateDate, formatDate } from '../../../utils/formatting';
 import ReplySection from './ReplySection';
 import { Link } from 'react-router-dom';
@@ -48,8 +48,14 @@ function Comment({
     updatedAt,
     user,
   } = comment;
-  const [commentReplyCount, setCommentReplyCount] = useState(replyCount);
+  
 
+  console.log('comment 개별 출력:',comment)
+  const [commentReplyCount, setCommentReplyCount] = useState(replyCount);
+  
+  // useEffect(() => {
+  //   setCommentReplyCount(replyCount)
+  // }, [comment])
   // user 객체
   // const { age, email, gender, id, imgSrc, monthBudget, nickname, regionId, userCategory } = user
 
@@ -76,6 +82,7 @@ function Comment({
     try {
       const res = await instance.delete(`/api/feeds/${feedId}/comments/${id}`);
       const newCommentList = commentList.filter((comment) => comment.id !== id);
+      console.log('삭제 후 commentList:',newCommentList)
       setCommentList(newCommentList);
       setCommentCnt((prev) => prev - 1);
     } catch (error) {
@@ -90,6 +97,7 @@ function Comment({
     setCommentId(id);
     setPlaceholderText(BUTTON_OPTIONS[2].text);
   };
+
 
   return (
     <div className='flex py-1 gap-2 w-full'>

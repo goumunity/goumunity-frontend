@@ -1,13 +1,13 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import commentIcon from '@/assets/svgs/commentIcon.svg';
 import Option from '../common/Option';
-import {Link} from 'react-router-dom';
-import {calculateDate} from '../../utils/formatting';
-import {useSelector} from 'react-redux';
+import { Link } from 'react-router-dom';
+import { calculateDate } from '../../utils/formatting';
+import { useSelector } from 'react-redux';
 import FeedLikeBox from './FeedLikeBox';
 import NicknameBox from '../common/NicknameBox';
 import defaultMaleIcon from '../../assets/svgs/defaultMaleIcon.svg';
-import instance from "@/utils/instance.js";
+import instance from '@/utils/instance.js';
 import FeedScrapBox from './FeedScrapBox';
 
 // 댓글, 답글 200자
@@ -30,9 +30,9 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
     si,
     updatedAt,
     isScrapped,
-    email
+    email,
   } = feed;
-  console.log('testtttttttt', feed)
+  // console.log('testtttttttt', feed)
 
   const [isLoading, setIsLoading] = useState(false);
   const currentUser = useSelector((state) => state.auth.currentUser);
@@ -78,9 +78,18 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
     setIsOpen(!isOpen);
   };
 
+  useEffect(() => {
+    setIsLike(ilikeThat);
+  }, [feed]);
+
   return (
     // <div className='flex flex-col w-twitter border border-gray-300 px-4 py-3'>
-    <div className={`flex flex-col border border-grey px-4 py-3 hover:bg-gray-50 ${isLargeScreen ? '' : ''}`} style={{width: isLargeScreen ? '600px': '300px'}}>
+    <div
+      className={`flex flex-col border border-grey px-4 py-3 hover:bg-gray-50 ${
+        isLargeScreen ? '' : ''
+      }`}
+      style={{ width: isLargeScreen ? '600px' : '300px' }}
+    >
       <div className='relative flex items-center gap-2'>
         <Link to={`/profile/${email}`}>
           <div
@@ -98,62 +107,63 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
         </Link>
         {/* <ProfileImage size='8' profileImage={imgSrc ? imgSrc : ''} /> */}
         <NicknameBox nickname={nickname} daysAgo={daysAgo} fontSize='md' />
-        
-        {nickname === currentUser.nickname && (
-          isLargeScreen ? <>
-            <div className='flex font-daeam absolute right-1 gap-3'>
-            <Link to={`/patch/${feedId}`}>
-              <button className={`${className}`}>수정</button>
-            </Link>
-            <button className={`${className}`} onClick={handleClickDeleteFeed}>
-              삭제
-            </button>
-          </div>
-          </> : <>
-          <div className="relative">
-                      <button
-                        className="z-100 inline-flex items-center"
-                        onClick={toggleMenu}
+
+        {nickname === currentUser.nickname &&
+          (isLargeScreen ? (
+            <>
+              <div className='flex font-daeam absolute right-1 gap-3'>
+                <Link to={`/patch/${feedId}`}>
+                  <button className={`${className}`}>수정</button>
+                </Link>
+                <button
+                  className={`${className}`}
+                  onClick={handleClickDeleteFeed}
+                >
+                  삭제
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className='relative'>
+                <button
+                  className='z-100 inline-flex items-center'
+                  onClick={toggleMenu}
+                >
+                  <svg
+                    className='fill-current h-4 w-4 ml-2'
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 20 20'
+                  >
+                    <path d='M10 12l-6-6 1.41-1.41L10 9.17l4.59-4.58L16 6z' />
+                  </svg>
+                </button>
+                {isOpen && (
+                  <div className='absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl'>
+                    <Link to={`/patch/${feedId}`}>
+                      <a
+                        href='#'
+                        className='z-101 block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white'
                       >
-                        <svg
-                          className="fill-current h-4 w-4 ml-2"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            d="M10 12l-6-6 1.41-1.41L10 9.17l4.59-4.58L16 6z"
-                          />
-                        </svg>
-                      </button>
-                      {isOpen && (
-                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl">
-                          <Link to={`/patch/${feedId}`}>
-                          <a
-                            href="#"
-                            className="z-101 block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
-                          >
-                            수정
-                          </a>
-                          </Link>
-                          <a
-                            onClick={handleClickDeleteFeed}
-                            className="z-101 block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
-                          >
-                            삭제
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                    </>
-          
-        )}
+                        수정
+                      </a>
+                    </Link>
+                    <a
+                      onClick={handleClickDeleteFeed}
+                      className='z-101 block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white'
+                    >
+                      삭제
+                    </a>
+                  </div>
+                )}
+              </div>
+            </>
+          ))}
       </div>
       {profit !== 0 && (
         <div className='mt-2 flex items-center gap-2'>
           <div className='flex items-center gap-1'>
-            <div className='font-dove text-entrance'>
-              원가
-            </div>
+            <div className='font-dove text-entrance'>원가</div>
             <span className='font-her'>{price}원</span>
           </div>
 
@@ -161,18 +171,26 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
             <div className='font-dove text-entrance'>할인가</div>
             <span className='font-her'>{afterPrice}원</span>
           </div>
-          
+
           <div className='flex items-center gap-1'>
             <div className='font-dove text-red-400'>절약내역</div>
             <span className='font-her'>{profit}원</span>
           </div>
-
         </div>
       )}
-      <p className={`my-4 px-2 overflow-x-hidden`} style={{width: isLargeScreen ? '560px': '280px'}}>{content}</p>
+      <p
+        className={`my-4 px-2 overflow-x-hidden`}
+        style={{ width: isLargeScreen ? '560px' : '280px' }}
+      >
+        {content}
+      </p>
 
       <Link to={`/${feedId}`}>
-        <img className='w-full max-h-96 rounded' src={images[0]?.imgSrc} alt='' />
+        <img
+          className='w-full max-h-96 rounded'
+          src={images[0]?.imgSrc}
+          alt=''
+        />
       </Link>
 
       <div className='flex items-center my-1 gap-12'>
@@ -184,10 +202,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
         <Link to={`/${feedId}`}>
           <Option text={commentCount} src={commentIcon} size={5} />
         </Link>
-        <FeedScrapBox
-          isScrapped={isScrapped}
-          feedId={feedId}
-        />
+        <FeedScrapBox isScrapped={isScrapped} feedId={feedId} />
       </div>
     </div>
   );

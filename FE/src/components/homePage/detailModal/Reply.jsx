@@ -32,6 +32,7 @@ function Reply({
   const currentUser = useSelector((state) => state.auth.currentUser);
   const { commentId, content, createdAt, ilikeThat, likeCount, replyId, user, updatedAt } =
     reply;
+    console.log('reply 개별 출력:',reply)
   // user 객체
   // const { age, email, gender, id, imgSrc, monthBudget, nickname, regionId, userCategory } = user
   const [isPatchReplyOpen, setIsPatchReplyOpen] = useState(false);

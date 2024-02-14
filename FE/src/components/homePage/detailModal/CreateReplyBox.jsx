@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useInput from '../../../hooks/useInput';
 import axios from 'axios';
-import instance from "@/utils/instance.js";
+import instance from '@/utils/instance.js';
 import Button from '../../common/Button';
 
 const BUTTON_OPTIONS = [
@@ -17,7 +17,7 @@ function CreateReplyBox({
   replyList,
   commentId,
   setIsCreateReplyOpen,
-  setCommentReplyCount
+  setCommentReplyCount,
 }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [reply, handleChangeReply, setReply] = useInput('', setErrorMessage);
@@ -29,32 +29,34 @@ function CreateReplyBox({
 
     setIsLoading(true);
     try {
-    const res = await instance.post(`/api/comments/${commentId}/replies`, {
-      content: reply,
-    });
-    const replyId = res.data;
-    try {
-      const res = await instance.get(
-        `/api/comments/${commentId}/replies/${replyId}`
-      );
-      console.log('방금 생성된 답글:', res)
-      setIsReplyOpen(true);
-      setIsCreateReplyOpen(false)
-      setCommentReplyCount((prev) => prev + 1)
-      setReplyList((prev) => [res.data, ...prev]);
+      const res = await instance.post(`/api/comments/${commentId}/replies`, {
+        content: reply,
+      });
+      const replyId = res.data;
+      try {
+        const res = await instance.get(
+          `/api/comments/${commentId}/replies/${replyId}`
+        );
+        // setIsReplyOpen(true);
+        setIsCreateReplyOpen(false);
+        setCommentReplyCount((prev) => prev + 1);
+        setReplyList((prev) => [res.data, ...prev]);
+      } catch (error) {
+        console.log('답글 생성 중 에러 발생 : ', error);
+      }
     } catch (error) {
-      console.log('답글 생성 중 에러 발생 : ', error);
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error)
-  }
 
     setIsLoading(false);
     setReply('');
   };
 
   return (
-    <form className='flex items-center border border-gray gap-3 p-1 rounded-md' onSubmit={handleSubmitCreateReply}>
+    <form
+      className='flex items-center border border-gray gap-3 p-1 rounded-md'
+      onSubmit={handleSubmitCreateReply}
+    >
       <input
         className='border-gray-100 bg-bright placeholder:font-her outline-none'
         type='text'
@@ -63,7 +65,7 @@ function CreateReplyBox({
         value={reply}
       />
       {/* <button className='font-daeam text-xs'>등록</button> */}
-      <Button text='등록' size={12}/>
+      <Button text='등록' size={12} />
     </form>
   );
 }

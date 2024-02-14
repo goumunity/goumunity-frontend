@@ -8,7 +8,7 @@ import useNumInput from '../../../hooks/useNumInput';
 import ContentBox from './ContentBox';
 import SelectBox from '../../common/SelectBox';
 import { useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useHref, useNavigate, useParams } from 'react-router-dom';
 import ModalBackground from '../../common/ModalBackground';
 import CategoryBox from './CategoryBox';
 import useAxiosGet from '../../../hooks/useAxiosGet';
@@ -75,6 +75,12 @@ function PatchFeedModal({ feedList, setFeedList }) {
     '',
     setErrorMessage
   );
+  const [imageIndex, setImageIndex] = useState(0);
+
+  useEffect(() => {
+    setImageIndex(images?.length)
+  }, [feed])
+
   const [
     newSavingCategory,
     handleChangeNewSavingCategory,
@@ -85,7 +91,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
   // const className = isSlide ? '-translate-x-3/4' : '-translate-x-1/2';
   const modalClassName = isSlide ? 'w-128' : 'w-96';
   const mainSectionClassName = isSlide ? 'w-96' : 'w-96';
-  const [newFileList, setnewFileList] = useState([]);
+  // const [newFileList, setnewFileList] = useState([]);
   useEffect(() => {
     setNewFeedCategory(feedCategory);
     setNewContent(content);
@@ -103,6 +109,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
 
   const handleChangeUploadImageList = (e) => {
     const files = e.target.files;
+    console.log('변화 후 files', files)
     setFileList((prev) => [...prev, ...files]);
     if (files.length === 0) return;
     for (let i = 0; i < files.length; i++) {
@@ -112,12 +119,15 @@ function PatchFeedModal({ feedList, setFeedList }) {
   };
 
   const handleClickDeleteImage = (targetIdx) => {
-    const newImageList = imageList.filter((_, idx) => {
+    console.log(targetIdx)
+    console.log('기존 이미지 길이:', imageIndex)
+    const newImageList = imageList.filter((image, idx) => {
+      if (image.sequence !== undefined) setImageIndex((prev) => prev - 1)
       return idx !== targetIdx;
     });
 
     const newFileList = fileList.filter((_, idx) => {
-      return idx !== targetIdx;
+      return idx + imageIndex !== targetIdx;
     });
     setImageList(newImageList);
     setFileList(newFileList);
@@ -157,9 +167,9 @@ function PatchFeedModal({ feedList, setFeedList }) {
       savingCategory: newSavingCategory,
       feedImages: [],
     };
-
+    
     for (let i = 0; i < imageList.length; i++) {
-      // console.log(`${i}번째 결과는? ${imageList[i].sequence}`);
+      console.log(`${i}번째 결과는? ${imageList[i]}`);
 
       if (imageList[i].sequence === undefined) {
         // console.log(`${i}번째 결과는?`);
@@ -173,7 +183,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
     const formData = new FormData();
     if (fileList.length > 0) {
       for (const image of fileList) {
-        // console.log('파일 찍히나 테스트:', image);
+        console.log('파일 찍히나 테스트:', image);
         formData.append('images', image);
       }
     }
@@ -190,9 +200,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
       // console.log('수정 결과:', res)
       try {
         const res = await instance.get(`/api/feeds/${feedId}`);
-        console.log('단일 조회 : ', res);
-        // setFeedList((prev) => [res.data, ...prev]);
-        const newFeedList = feedList.filter((feed) => feed.id !== feedId);
+        const newFeedList = feedList.filter((feed) => feed.feedId != feedId);
         // setFeedList([res.data, ...newFeedList]);
         setFeedList([
           {
@@ -312,10 +320,10 @@ function PatchFeedModal({ feedList, setFeedList }) {
                   onClick={handleClickToggleRegionSelectBox}
                 /> */}
               <SelectBox
-                title='어디서 아꼈나요?'
+                title={newFeedCategory === 'INFO' ? '어디서 아꼈나요?' : '어디 출신이신가요?'}
                 color='bright'
                 onChange={(e) => handleChangeNewRegion(e)}
-                // defaultValue={region.gungu}
+                defaultValue={region?.gungu}
               />
               {newFeedCategory === 'INFO' && (
                 <SavingCategorySelectBox

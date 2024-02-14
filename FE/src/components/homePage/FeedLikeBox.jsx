@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import Option from '../common/Option';
@@ -30,6 +30,12 @@ function FeedLikeBox({ likeCount, feedId, ilikeThat }) {
       console.log('게시글 좋아요 취소 했을 때 에러 발생 : ', error);
     }
   };
+
+  useEffect(() => {
+    setFeedLikeCount(likeCount)
+    setIsFeedLike(ilikeThat)
+  }, [feedId])
+
   return (
     <div>
       {isFeedLike ? (
