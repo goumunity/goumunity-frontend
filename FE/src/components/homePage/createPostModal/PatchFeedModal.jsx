@@ -154,12 +154,18 @@ function PatchFeedModal({ feedList, setFeedList }) {
     const data = {
       content: newContent,
       feedCategory: newFeedCategory,
-      price: Number.parseInt(newPrice),
-      afterPrice: Number.parseInt(newAfterPrice),
+      price : newPrice === '' ? 0 : Number.parseInt(newPrice),
+      afterPrice : newAfterPrice==='' ? 0 : Number.parseInt(newAfterPrice),
       regionId: newRegion,
       savingCategory: newSavingCategory,
       feedImages: [],
     };
+
+    if (feedCategory === 'FUN') {
+      data.price = null;
+      data.afterPrice = null;
+      data.savingCategory = null;
+    }
 
     for (let i = 0; i < imageList.length; i++) {
       // console.log(`${i}번째 결과는? ${imageList[i].sequence}`);
