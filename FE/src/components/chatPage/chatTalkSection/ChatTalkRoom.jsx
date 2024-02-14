@@ -20,6 +20,14 @@ function ChatTalkRoom({
   const [searchTime, setSearchTime] = useState(new Date().getTime());
   const [profileImage, setProfileImage] = useState('');
   const [tempImage, setTempImage] = useState('');
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1200);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 775 );
+  const [isMini, setIsMini] = useState(window.innerWidth <= 400);
+  const toggleVisible = () => {
+    setIsVisible( !isVisible );
+    console.log( 'isVisible', isVisible );
+  }
+
 
   const currentUser = useSelector((state) => state.auth.currentUser);
 
@@ -116,10 +124,10 @@ function ChatTalkRoom({
 
   return (
     <>
-      <div className='flex flex-col h-chat'>
+      <div className='flex flex-col' style={{ height: isMobile ? '' : '82vh'}}>
         <div
             // ref={messagesContainerRef}
-          className=' flex  flex-col scroll h-screen overflow-y-scroll scrollbar-thumb-gray-500 scrollbar-track-gray-300-y-scroll items-center  justify-center'
+          className={` flex  flex-col scroll h-screen overflow-y-scroll scrollbar-thumb-gray-500 scrollbar-track-gray-300-y-scroll items-center  justify-center}`} style={{ height: isMobile ? '600px' : '' }}
         >
           {/*<div className='w-full flex flex-col'>*/}
            <div className='w-full flex flex-col overflow-y-scroll'
@@ -140,7 +148,7 @@ function ChatTalkRoom({
         </div>
       </div>
 
-      <div className={'border'}>
+      <div className={'border'} style={{height: isMobile ? '' : '10vh'}}>
         {profileImage ? (
           <div className={'w-20 rounded p-1  flex'}>
             <img src={profileImage} className={'object-contain rounded'} />
@@ -168,7 +176,7 @@ function ChatTalkRoom({
           </div>
 
           <input
-            className='w-4/5  font-her p-4 border-entrance border-r border'
+            className='w-4/5  font-medium p-4 border-entrance border-r border'
             placeholder='메세지를 입력해주세요...'
             type={'text'}
             value={!profileImage ? msg : ''}
