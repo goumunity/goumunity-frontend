@@ -18,6 +18,7 @@ import Slider from 'react-slick';
 import CloseButton from '../../common/CloseButton';
 import instance from '@/utils/instance.js';
 import SavingCategorySelectBox from '../../common/SavingCategorySelectBox';
+import {parseInt} from "@/utils/numbers.js";
 
 const FEED_CATEGORY_OPTIONS = [
   { id: 1, name: 'INFO' },
@@ -148,13 +149,21 @@ function  PatchMobileFeedModal({ feedList, setFeedList }) {
       setErrorMessage('절약항목을 선택해주세요.');
       return;
     }
+
+    const parsedPrice = parseInt(newPrice)
+    const parsedAfterPrice = parseInt(newAfterPrice);
+
+    if (feedCategory === 'INFO' && (Number.parseInt(parsedPrice)  < Number.parseInt(parsedAfterPrice))) {
+      setErrorMessage('할인가가 더 높을 수 없습니다.');
+      return;
+    }
   
     //
     const data = {
       content: newContent,
       feedCategory: newFeedCategory,
-      price: newPrice,
-      afterPrice: newAfterPrice,
+      price : parsedPrice,
+      afterPrice : parsedAfterPrice,
       regionId: newRegion,
       savingCategory: newSavingCategory,
       feedImages: [],
