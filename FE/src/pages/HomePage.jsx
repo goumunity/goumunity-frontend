@@ -10,7 +10,8 @@ import MemberRanking from '../components/homePage/Ranking/GoumunityRanking.jsx';
 import { useSelector } from 'react-redux';
 import FeedRanking from '../components/homePage/Ranking/FeedRanking';
 import MobileDetailModal from '../components/homePage/detailModal/MobileDetailModal.jsx';
-
+import PatchMobileFeedModal from '../components/homePage/createPostModal/PathMobileFeedModal';
+import CreateMobileFeedModal from '../components/homePage/createPostModal/CreateMobileFeedModal';
 function HomePage() {
   const [initialTime] = useState(new Date().getTime());
   const params = useParams();
@@ -111,10 +112,22 @@ function HomePage() {
               />
             </>
           ))}
-        {params.id && <CreateFeedModal setFeedList={setFeedList} />}
-        {params.patchId && (
+          
+          
+          {
+        params.id && (isMobile ? (<>
+          <CreateMobileFeedModal setFeedList={setFeedList} />
+        </>) : (<>
+          <CreateFeedModal setFeedList={setFeedList} />
+        </>) )
+      }
+        {
+        params.patchId && (isMobile ? (<>
+          <PatchMobileFeedModal feedList={feedList} setFeedList={setFeedList} />
+        </>) : (<>
           <PatchFeedModal feedList={feedList} setFeedList={setFeedList} />
-        )}
+        </>) )
+      }
 
         <div ref={lastFeedRef} style={{ height: '10px' }}></div>
       </div>
@@ -129,8 +142,7 @@ function HomePage() {
             </div>
           )}
         </>
-      )}
-      {/* <Link to='/test'> <div>hi</div></Link> */}
+    )}
     </div>
   );
 }

@@ -17,6 +17,7 @@ import CategoryBox from './CategoryBox';
 import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
 import instance from '@/utils/instance.js';
 import SavingCategorySelectBox from '../../common/SavingCategorySelectBox';
+import MobileImageSection from './MobileImageSection.jsx';
 
 const FEED_CATEGORY_OPTIONS = [
   { id: 1, name: 'INFO' },
@@ -157,12 +158,12 @@ function CreateFeedModal({ setFeedList }) {
   return (
     <div className=''>
       <div
-        className={`fixed top-1/2 left-1/2 flex duration-700 ${modalClassName} -translate-x-1/2 -translate-y-1/2 z-10 `}
+        className={`fixed top-20 left-0 flex duration-700 w-full z-50 h-full`}
       >
         <div
-          className={`flex h-128 pt-2 bg-bright rounded-lg shadow-2xl overflow-hidden`}
+          className={`flex-col w-full h-full pt-2 bg-bright rounded-lg shadow-2xl  overflow-scroll`}
         >
-          <div className={`relative ${mainSectionClassName}`}>
+          <div className={`relative flex flex-col w-full h-fit`}>
             <div className='flex justify-center'>
               <h1 className='font-daeam text-5xl my-2 text-center'>
                 새 게시글
@@ -216,7 +217,7 @@ function CreateFeedModal({ setFeedList }) {
               {errorMessage}
             </div>
 
-            <div className='relative flex gap-2 px-1 pb-2'>
+            <div className='w-full relative flex justify-center gap-1 mb-2'>
               {/* <Option
                   text='지역'
                   size={5}
@@ -227,6 +228,7 @@ function CreateFeedModal({ setFeedList }) {
                 title='어디서 아꼈나요?'
                 color='bright'
                 onChange={(e) => handleChangeRegion(e)}
+                widthSize={'1/2'}
               />
               {/*          
                 <Option
@@ -240,6 +242,8 @@ function CreateFeedModal({ setFeedList }) {
                   title='절약항목'
                   color='bright'
                   onChange={(e) => handleChangeSavingCategory(e)}
+                  widthSize={'1/3'}
+
                 />
               )}
               <Option
@@ -255,25 +259,25 @@ function CreateFeedModal({ setFeedList }) {
             </div>
 
             {feedCategory === FEED_CATEGORY_OPTIONS[0].name ? (
-              <div className='flex h-12'>
-                <div className='flex '>
+              <div className='w-full flex h-12 justify-around'>
+                <div className='flex w-2/5'>
                   <span className='flex justify-center items-center w-12 p-1 bg-button text-white font-dove text-sm'>
                     정가
                   </span>
                   <input
-                    className='w-4/5 border border-gray text-center font-her bg-bright outline-none'
+                    className='w-full border border-gray text-center font-her bg-bright outline-none'
                     type='text'
                     placeholder='할인 받기 전 가격'
                     value={addCommas(price)}
                     onChange={handleChangePrice}
                   />
                 </div>
-                <div className='flex '>
+                <div className='flex w-2/5'>
                   <span className='flex justify-center items-center w-12 p-1 bg-button text-white font-dove text-center text-xs'>
                     할인가
                   </span>
                   <input
-                    className='border border-gray w-4/5 text-center font-her bg-bright outline-none'
+                    className='border border-gray w-full text-center font-her bg-bright outline-none'
                     type='text'
                     placeholder='할인 받은 후 가격'
                     value={addCommas(afterPrice)}
@@ -283,7 +287,7 @@ function CreateFeedModal({ setFeedList }) {
               </div>
             ) : null}
           </div>
-          <ImageSection
+          <MobileImageSection
             isSlide={isSlide}
             setFileList={setFileList}
             fileList={fileList}

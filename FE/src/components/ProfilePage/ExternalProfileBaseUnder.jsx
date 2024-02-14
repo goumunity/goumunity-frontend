@@ -8,8 +8,8 @@ import { useNavigate, useParams } from "react-router-dom/dist";
 import ProfileDetailModal from "./ProfileDetailModal";
 import ProfileMobileDetailModal from "./ProfileMobileDetailModal";
 import ExternalProfileDetailModal from "./ExternalProfileDetailModal";
-import ExternalProfileMobileDetailModal from "./ExternalProfileDetailModal";
-const ProfileBaseUnder = ({ info, written, saveChange, isPrivate }) => {
+import ExternalProfileMobileDetailModal from "./ExternalProfileMobileDetailModal";
+const ExternalProfileBaseUnder = ({ info, written, saveChange, isPrivate }) => {
     const [ feeds, setFeeds ] = useState([]);
     const [ liList, setLiList ] = useState([]); 
     const [ isFeedsDone, setIsFeedDone ] = useState( false );
@@ -63,7 +63,7 @@ const ProfileBaseUnder = ({ info, written, saveChange, isPrivate }) => {
   const [ savingList, setSavingList ] = useState([]);
   const openFeed = ( id ) => {
     
-    navigate( isPrivate ? `/myprofile/feed/${id}`: `/profile/${email}/feed/${id}`);
+    navigate( `/profile/${email}/feed/${id}`);
   }  
   const [ sum, setSum ] = useState(0);
 
@@ -131,7 +131,7 @@ const ProfileBaseUnder = ({ info, written, saveChange, isPrivate }) => {
       // console.log('baseunder info, ', info )
      initLi();
      initFe(); 
-     console.log('isPrivate', isPrivate );                                                                
+                                                           
     },[])
     const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1200);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 775 );
@@ -154,19 +154,18 @@ const ProfileBaseUnder = ({ info, written, saveChange, isPrivate }) => {
 
     return (
         <>
-        <div className={ isMobile ? `w-full h-full`:`w-1/2 p-1`} style={{ height: bottomSize}}>
+        <div className={ isMobile ? `w-full h-full`:`w-1/2 p-1`} style={{height:bottomSize}}>
 
 
         {
           feedId && (isMobile ? (<>
-            <ProfileMobileDetailModal setFeedList={setFeeds} feedList={feeds} feedId={feedId} isPrivate={isPrivate} />
+            <ExternalProfileMobileDetailModal setFeedList={setFeeds} feedList={feeds} feedId={feedId} isPrivate={isPrivate} />
           </>):(
             <>
-             <ProfileDetailModal setFeedList={setFeeds} feedList={feeds} feedId={feedId} isPrivate={isPrivate}/>
+             <ExternalProfileDetailModal setFeedList={setFeeds} feedList={feeds} feedId={feedId} isPrivate={isPrivate}/>
             </>
           ))
-        }
-      
+          }
           
           <ul className="scroll border-2 border-bg-600 w-full flex flex-col p-3 overflow-x-hidden overflow-y-scroll h-full">
             {/* <li><MinimumFeed size="full"/></li> */}
@@ -211,4 +210,4 @@ const ProfileBaseUnder = ({ info, written, saveChange, isPrivate }) => {
 }
 
 
-export default ProfileBaseUnder;
+export default ExternalProfileBaseUnder;

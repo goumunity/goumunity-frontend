@@ -114,11 +114,8 @@ const MobileNavBar = () => {
           </li> */}
   
           {/* <NavBarItem imgSrc={chat} link='/' text='거지글'/> */}
-          <li>
-          <Link to="/myprofile">
-                <i className="fa-solid fa-user ms-1 me-2 hover:text-gray-500"></i>
-              </Link>
-          </li>
+  
+          <NavBarItem imgSrc='user' link='/myprofile' text=''/>
           <NavBarItem imgSrc='comments' link='/' text=''/>
           {/* <NavBarItem imgSrc={homeIcon} link='/chat' text='거지방' /> */}
           <NavBarItem imgSrc='house' link='/chat' text='' />
@@ -157,7 +154,7 @@ const MobileNavBar = () => {
                 to='/create/1'
                 className={({ isActive }) => (isActive ? activeClass : undefined)}
               >
-                <div className='hover:text-gray-500'>
+                <div className='flex justify-center items-center w-8 h-8 hover:text-gray-500'>
                   <i className='fa-solid fa-comment fa-sm ms-1 me-2'></i>
                 </div>
                 

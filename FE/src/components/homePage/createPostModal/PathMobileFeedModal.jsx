@@ -24,7 +24,7 @@ const FEED_CATEGORY_OPTIONS = [
   { id: 2, name: 'FUN' },
 ];
 
-function PatchFeedModal({ feedList, setFeedList }) {
+function  PatchMobileFeedModal({ feedList, setFeedList }) {
   const params = useParams();
   const [feed, isFeedLoading] = useAxiosGet(`/api/feeds/${params.patchId}`);
   const [errorMessage, setErrorMessage] = useState('');
@@ -83,8 +83,8 @@ function PatchFeedModal({ feedList, setFeedList }) {
   const [imageList, setImageList] = useState([]);
 
   // const className = isSlide ? '-translate-x-3/4' : '-translate-x-1/2';
-  const modalClassName = isSlide ? 'w-128' : 'w-96';
-  const mainSectionClassName = isSlide ? 'w-96' : 'w-96';
+//   const modalClassName = isSlide ? 'w-128' : 'w-96';
+//   const mainSectionClassName = isSlide ? 'w-96' : 'w-96';
   const [newFileList, setnewFileList] = useState([]);
   useEffect(() => {
     setNewFeedCategory(feedCategory);
@@ -100,7 +100,9 @@ function PatchFeedModal({ feedList, setFeedList }) {
       setIsSlide(true);
     }
   }, [feed]);
-
+  useEffect(() =>{
+    console.log('hi i\'m mobile');
+  },[])
   const handleChangeUploadImageList = (e) => {
     const files = e.target.files;
     setFileList((prev) => [...prev, ...files]);
@@ -244,13 +246,15 @@ function PatchFeedModal({ feedList, setFeedList }) {
   return (
     <div className=''>
       <div
-        className={`fixed top-1/2 left-1/2 flex transition-width duration-700 ${modalClassName} -translate-x-1/2 -translate-y-1/2 z-10 `}
+        className={`fixed top-20 left-0 flex duration-700 w-full z-50 h-full`}
       >
         <div
-          className={`flex h-128 pt-2 bg-bright rounded-lg shadow-2xl  overflow-hidden`}
+          className={`flex-col w-full h-full pt-2 bg-bright rounded-lg shadow-2xl  overflow-scroll`}
         >
-          <div className={`relative ${mainSectionClassName}`}>
+          <div className={`relative flex flex-col w-full h-fit`}>
+          <CloseButton onClick={ () => { navigate('/')}}/>
             <div className='flex justify-center'>
+            
               <h1 className='font-daeam text-5xl my-2 text-center'>
                 게시글 수정
               </h1>
@@ -304,7 +308,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
             <div className='flex justify-center items-center h-8 font-dove text-red-600'>
               {errorMessage}
             </div>
-            <div className='relative flex gap-2 px-1 pb-2'>
+            <div className='relative flex gap-2 px-1 pb-2 justify-center mb-5' >
               {/* <Option
                   text='지역'
                   size={5}
@@ -315,6 +319,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
                 title='어디서 아꼈나요?'
                 color='bright'
                 onChange={(e) => handleChangeNewRegion(e)}
+                widthSize={'5/6'}
                 // defaultValue={region.gungu}
               />
               {newFeedCategory === 'INFO' && (
@@ -326,7 +331,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
               )}
               <Option
                 text='이미지'
-                size={5}
+                size={'5'}
                 src={imageIcon}
                 onClick={handleClickOpenSlide}
               />
@@ -339,7 +344,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
             {feedCategory === FEED_CATEGORY_OPTIONS[0].name ? (
               <div className='flex h-12'>
                 <div className='flex '>
-                  <span className='flex justify-center items-center w-12 p-1 bg-button text-white font-dove text-sm'>
+                  <span className='flex justify-center items-center w-12 p-1 bg-button text-white font-dove text-sm w-fykk'>
                     정가
                   </span>
                   <input
@@ -366,7 +371,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
             ) : null}
           </div>
           <div
-            className={`flex justify-center items-center bg-bright border-gray border-l transition-width delay-700 duration-300  ${categorySectionClassName}`}
+            className={`flex justify-center items-center bg-bright border-gray border-l transition-width delay-700 duration-300 w-full  ${categorySectionClassName}`}
           >
             {imageList?.length ? (
               // <div>gdgd</div>
@@ -381,7 +386,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
                       className='relative flex items-center justify-center w-full h-96'
                     >
                       <img
-                        className='w-full h-96'
+                        className='w-full aspect-square'
                         src={image.imgSrc || image}
                         alt=''
                       />
@@ -390,7 +395,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
                         onClick={() => handleClickDeleteImage(idx)}
                       />
                       <label className='cursor-pointer' htmlFor='image'>
-                        <div className='absolute right-5 bottom-5 border border-black font-daeam cursor-pointer text-white rounded-xl bg-button px-2 py-1'>
+                        <div className='border border-black font-daeam cursor-pointer text-white rounded-xl text-center bg-button px-2 py-1'>
                           추가
                         </div>
                         <input
@@ -412,7 +417,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
                   aria-label='이미지나 동영상과 같은 미디어를 나타내는 아이콘'
                   className='x1lliihq x1n2onr6 x5n08af'
                   fill='currentColor'
-                  height='77'
+                  height='60'
                   role='img'
                   viewBox='0 0 97.6 77.3'
                   width='96'
@@ -458,4 +463,4 @@ function PatchFeedModal({ feedList, setFeedList }) {
   );
 }
 
-export default PatchFeedModal;
+export default PatchMobileFeedModal;

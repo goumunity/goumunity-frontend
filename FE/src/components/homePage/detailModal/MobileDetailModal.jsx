@@ -178,7 +178,7 @@ function MobileDetailModal({ feedId, feedList, setFeedList }) {
                   {...settings}
                 >
                   {images.map((image, idx) => (
-                    <img key={idx} className='h-64' src={image.imgSrc} alt='' />
+                    <img key={idx} className='w-full aspect-square' src={image.imgSrc} alt='' />
                   ))}
                 </Slider>
               )} 

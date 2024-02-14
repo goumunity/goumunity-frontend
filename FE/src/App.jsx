@@ -34,7 +34,7 @@ const router = createBrowserRouter([
             element: <ChatPage />,
             children: [{ path: 'talk/:talkId', element: <ChatTalkSection /> }],
           },
-          { path: '/profile', element: <ProfilePage /> },
+          { path: '/profile', element: <ExternalProfilePage /> },
         ],
       },
       // { path: '/landing', element: <LandingPage /> },
@@ -50,7 +50,7 @@ const router = createBrowserRouter([
       { path: '/main', element: <Main /> },
       { path: '/myprofile/:detail?', element: <ProfilePage /> },
       { path: '/myprofile', element: <ProfilePage /> },
-      { path: '/profile/:email/feed/:feedId', element: <ProfilePage/> },
+      { path: '/profile/:email/feed/:feedId', element: <ExternalProfilePage/> },
       
       // 다른 사람 페이지로 바뀔 예정
       { path: '/profile/:email', element: <ExternalProfilePage /> },

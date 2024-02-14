@@ -88,12 +88,12 @@ function MobileCreateCommentBox({
 
   return (
     <form
-    //   onSubmit={handleSubmitCreateComment}
+      onSubmit={handleSubmitCreateComment}
       className='flex justify-between p-1'
     >
       <input
         ref={inputRef}
-        // onChange={handleChangeInput}
+        onChange={handleChangeInput}
         value={input}
         // value={inputRef.current.value || input}
         className='bg-bright w-4/5 focus:outline-none text-lg placeholder:font-her font-dove'

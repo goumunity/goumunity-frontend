@@ -49,7 +49,7 @@ const ProfilePage = () => {
     // setSavings( nextArr );
   };
 
-  const containerClasses = `base border-2 border-bg-600 flex flex-row ${h}`;
+  
   const onLoadMine = () => {
     instance
       .get('/api/users/my', { withCredentials: true })
@@ -96,13 +96,35 @@ const ProfilePage = () => {
   useEffect(() => {
     onLoadMine();
   }, []);
+  
+  
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1200);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 775 );
+  const [isMini, setIsMini] = useState(window.innerWidth <= 400);
+  useEffect(() => {
+    const handleResize = () => {
+      // console.log('width ', window.innerWidth);
+      setIsLargeScreen(window.innerWidth > 1280);
+      setIsMobile( window.innerWidth <= 775 );
+      setIsMini(window.innerWidth <= 400);
+      
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  const containerClasses = `flex ${ isMobile ? 'flex-col': 'base flex-row border-2 border-bg-600'} ${h}`;
+
 
   return (
-    <div className='font-dove bg-bright' id='body'>
-      <div className={`grid flex flex-col p-10 ${h2}`}>
+    <div className='font-dove bg-bright w-full' id='body'>
+      <div className={`grid flex flex-col ${ isMobile ? '' : 'p-10'} ${h2}`}>
         {isInfoLoaded ? (
           <>
-            <ProfileHeader info={info} isPrivate={true} />
+            { !feedId && <ProfileHeader info={info} isPrivate={true} /> }
 
             <div id='ProfileUnder' className={containerClasses}>
               {detail !== 'detail' ? (
