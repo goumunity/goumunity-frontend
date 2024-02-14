@@ -135,7 +135,8 @@ function DetailModal({ feedId, feedList, setFeedList }) {
                   </div>
                 )}
               </div>
-              <pre className={`my-4 px-10 min-h-40 text-balance font-daeam ${imgaeStyle}`}>{content}</pre>
+              <pre className={`my-4 px-10 min-h-40 text-balance font-daeam ${imgaeStyle}`}
+              style={{overflowWrap:"break-word"}}>{content}</pre>
               {images.length !== 0 && (
                 <Slider
                   className='flex justify-center items-center w-full h-full px-8 bg-wheat'
