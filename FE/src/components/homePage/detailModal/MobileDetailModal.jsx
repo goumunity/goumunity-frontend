@@ -174,7 +174,7 @@ function MobileDetailModal({ feedId, feedList, setFeedList }) {
               </div>
 
               {/*<pre className={`my-4 px-10 min-h-40 text-balance font-daeam ${imgaeStyle}`}>{content}</pre>*/}
-              <pre className='min-h-20 p-2 text-balance font-daeam'>{content}</pre>
+              <pre className='min-h-20 p-2 text-balance font-daeam' style={{overflowWrap : "break-word"}}>{content}</pre>
               {images.length !== 0 && (
                   <Slider
                       className='flex justify-center items-center w-full h-full bg-wheat'
