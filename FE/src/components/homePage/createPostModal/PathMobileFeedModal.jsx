@@ -169,6 +169,12 @@ function  PatchMobileFeedModal({ feedList, setFeedList }) {
       feedImages: [],
     };
 
+    if (feedCategory === 'FUN') {
+      data.price = null;
+      data.afterPrice = null;
+      data.savingCategory = null;
+    }
+
     for (let i = 0; i < imageList.length; i++) {
       // console.log(`${i}번째 결과는? ${imageList[i].sequence}`);
 
@@ -350,7 +356,7 @@ function  PatchMobileFeedModal({ feedList, setFeedList }) {
               </div> */}
             </div>
 
-            {feedCategory === FEED_CATEGORY_OPTIONS[0].name ? (
+            {newFeedCategory === FEED_CATEGORY_OPTIONS[0].name ? (
               <div className='flex h-12'>
                 <div className='flex '>
                   <span className='flex justify-center items-center w-12 p-1 bg-button text-white font-dove text-sm w-fykk'>
