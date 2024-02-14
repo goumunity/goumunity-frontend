@@ -84,8 +84,8 @@ function CreateFeedModal({ setFeedList }) {
     const data = {
       content,
       feedCategory,
-      price,
-      afterPrice,
+      price : Number.parseInt(price),
+      afterPrice : Number.parseInt(afterPrice),
       regionId: region,
       savingCategory,
     };

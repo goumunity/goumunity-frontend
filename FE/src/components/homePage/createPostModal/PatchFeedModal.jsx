@@ -146,13 +146,16 @@ function PatchFeedModal({ feedList, setFeedList }) {
       setErrorMessage('절약항목을 선택해주세요.');
       return;
     }
-  
-    //
+    if (feedCategory === 'INFO' && (Number.parseInt(newPrice)  < Number.parseInt(newAfterPrice))) {
+      setErrorMessage('할인가가 더 높을 수 없습니다.');
+      return;
+    }
+
     const data = {
       content: newContent,
       feedCategory: newFeedCategory,
-      price: newPrice,
-      afterPrice: newAfterPrice,
+      price: Number.parseInt(newPrice),
+      afterPrice: Number.parseInt(newAfterPrice),
       regionId: newRegion,
       savingCategory: newSavingCategory,
       feedImages: [],
@@ -183,7 +186,6 @@ function PatchFeedModal({ feedList, setFeedList }) {
       const res = await instance.patch(`/api/feeds/${feedId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          // 'Content-Type': 'application/json'
         },
       });
       // const feedId = res.data;
