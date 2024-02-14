@@ -118,12 +118,13 @@ function ChatTalkRoom({
     <>
       <div className='flex flex-col h-chat'>
         <div
-          ref={messagesContainerRef}
+            // ref={messagesContainerRef}
           className=' flex  flex-col scroll h-screen overflow-y-scroll scrollbar-thumb-gray-500 scrollbar-track-gray-300-y-scroll items-center  justify-center'
         >
-          <div className='w-full flex flex-col'>
-          {/* <div className='w-full flex flex-col overflow-y-scroll'> */}
-            <div ref={lastChatRoomRef} className='h-10 bg-black'>gdgd</div>
+          {/*<div className='w-full flex flex-col'>*/}
+           <div className='w-full flex flex-col overflow-y-scroll'
+                ref={messagesContainerRef}>
+            <div ref={lastChatRoomRef} className='h-10'></div>
             {messages?.map((m, index) => {
               return (
                 <div className='mt-3 mb-3'>

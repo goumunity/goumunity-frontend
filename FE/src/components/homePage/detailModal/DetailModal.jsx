@@ -37,6 +37,8 @@ function DetailModal({ feedId, feedList, setFeedList }) {
 
   const navigate = useNavigate();
 
+  const imgaeStyle = images?.length===0 ? `` :  `max-h-96 overflow-y-scroll scroll`;
+
   // region 객체
   // const { createdAt, gungu, regionId, si, updatedAt } = region
 
@@ -133,7 +135,8 @@ function DetailModal({ feedId, feedList, setFeedList }) {
                   </div>
                 )}
               </div>
-              <p className='my-4 px-10 min-h-40'>{content}</p>
+              <pre className={`my-4 px-10 min-h-40 text-balance font-daeam ${imgaeStyle}`}
+              style={{overflowWrap:"break-word"}}>{content}</pre>
               {images.length !== 0 && (
                 <Slider
                   className='flex justify-center items-center w-full h-full px-8 bg-wheat'

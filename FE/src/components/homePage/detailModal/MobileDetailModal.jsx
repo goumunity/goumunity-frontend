@@ -119,73 +119,76 @@ function MobileDetailModal({ feedId, feedList, setFeedList }) {
             <div className='flex flex-col w-full mb-10'>
               <div className='flex items-center justify-between gap-1 p-5 border-b'>
                 <div className='flex'>
-                <ProfileImage
-                  size='8'
-                  profileImage={user.imgSrc ? user.imgSrc : ''}
-                />
+                  <ProfileImage
+                      size='8'
+                      profileImage={user.imgSrc ? user.imgSrc : ''}
+                  />
 
-                <div className={`flex flex-row items-center gap-2 mx-1 text-sm`}>
+                  <div className={`flex flex-row items-center gap-2 mx-1 text-sm`}>
                     <span className='font-daeam'>{user.nickname}</span>
-                    <span className='font-her' style={{fontSize:'10px'}}>{daysAgo}</span>
-                    <span className='font-her' style={{fontSize:'10px'}}>{region.gungu}</span>
+                    <span className='font-her' style={{fontSize: '10px'}}>{daysAgo}</span>
+                    <span className='font-her' style={{fontSize: '10px'}}>{region.gungu}</span>
+                  </div>
+
+                  {user.nickname === currentUser.nickname && (
+                      <div className="relative">
+                        <button
+                            className="z-100 inline-flex items-center"
+                            onClick={toggleMenu}
+                        >
+                          <svg
+                              className="fill-current h-4 w-4 ml-2"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                          >
+                            <path
+                                d="M10 12l-6-6 1.41-1.41L10 9.17l4.59-4.58L16 6z"
+                            />
+                          </svg>
+                        </button>
+                        {isOpen && (
+                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl">
+                              <Link to={`/patch/${feedId}`}>
+                                <a
+                                    href="#"
+                                    className="z-101 block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
+                                >
+                                  수정
+                                </a>
+                              </Link>
+                              <a
+                                  onClick={handleClickDeleteFeed}
+                                  className="z-101 block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
+                              >
+                                삭제
+                              </a>
+                            </div>
+                        )}
+                      </div>
+                  )}
                 </div>
 
-                {user.nickname === currentUser.nickname && (
-                    <div className="relative">
-                    <button
-                      className="z-100 inline-flex items-center"
-                      onClick={toggleMenu}
-                    >
-                      <svg
-                        className="fill-current h-4 w-4 ml-2"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          d="M10 12l-6-6 1.41-1.41L10 9.17l4.59-4.58L16 6z"
-                        />
-                      </svg>
-                    </button>
-                    {isOpen && (
-                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl">
-                        <Link to={`/patch/${feedId}`}>
-                        <a
-                          href="#"
-                          className="z-101 block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
-                        >
-                          수정
-                        </a>
-                        </Link>
-                        <a
-                          onClick={handleClickDeleteFeed}
-                          className="z-101 block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
-                        >
-                          삭제
-                        </a>
-                      </div>
-                    )}
-                  </div>
-                )}
-                </div>
-                
-                <CloseButton onClick={ () => { navigate('/')}}/>
+                <CloseButton onClick={() => {
+                  navigate('/')
+                }}/>
               </div>
-              
-              <p className='min-h-20 p-2'>{content}</p>
+
+              {/*<pre className={`my-4 px-10 min-h-40 text-balance font-daeam ${imgaeStyle}`}>{content}</pre>*/}
+              <pre className='min-h-20 p-2 text-balance font-daeam' style={{overflowWrap : "break-word"}}>{content}</pre>
               {images.length !== 0 && (
-                <Slider
-                  className='flex justify-center items-center w-full h-full bg-wheat'
-                  {...settings}
-                >
-                  {images.map((image, idx) => (
-                    <img key={idx} className='w-full aspect-square' src={image.imgSrc} alt='' />
-                  ))}
-                </Slider>
-              )} 
+                  <Slider
+                      className='flex justify-center items-center w-full h-full bg-wheat'
+                      {...settings}
+                  >
+                    {images.map((image, idx) => (
+                        <img key={idx} className='w-full aspect-square' src={image.imgSrc} alt=''/>
+                    ))}
+                  </Slider>
+              )}
             </div>
             <MobileCommentSection
-              feedId={feedId}
-              createdAt={createdAt}
+                feedId={feedId}
+                createdAt={createdAt}
               updatedAt={updatedAt}
               likeCount={likeCount}
               ilikeThat={ilikeThat}
