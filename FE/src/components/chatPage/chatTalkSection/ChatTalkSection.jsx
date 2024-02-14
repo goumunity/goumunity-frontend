@@ -87,7 +87,9 @@ function ChatTalkSection({id, chatRoomTitle, onMessageSend,setMessages, messages
                     {/*{selectedChatRoom?.title}*/}
                     <div className="text-3xl  text-center self-center m-1 me-2">{chatRoomTitle}</div>
                     
-                    {tags}
+                    {
+                        isMobile ? undefined : tags
+                    }
                 </div>
                 <div className='flex justify-between items-center  pr-3 '>
                     <i className="fa-solid fa-gear pr-3 hover:cursor-pointer" onClick={onSettingButtonClicked}/>
