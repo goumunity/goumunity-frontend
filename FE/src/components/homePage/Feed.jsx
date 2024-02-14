@@ -169,7 +169,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
 
         </div>
       )}
-      <p className={`my-4 px-2 overflow-x-hidden`} style={{width: isLargeScreen ? '560px': '280px'}}>{content}</p>
+      <pre className={`my-4 px-2 text-balance font-daeam`} style={{width: isLargeScreen ? '560px': '280px'}}>{content}</pre>
 
       <Link to={`/${feedId}`}>
         <img className='w-full max-h-96 rounded' src={images[0]?.imgSrc} alt='' />
