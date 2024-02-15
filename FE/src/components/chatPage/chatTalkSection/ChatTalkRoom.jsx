@@ -125,7 +125,7 @@ function ChatTalkRoom({
     <>
       <div
         className='flex flex-col'
-        style={{ height: isMobile ? '520px' : '82vh' }}
+        style={{ height: isMobile ? '600px' : '82vh' }}
       >
         <div
           className={` flex  flex-col scroll h-screen overflow-y-scroll scrollbar-thumb-gray-500 scrollbar-track-gray-300-y-scroll items-center  justify-center}`}

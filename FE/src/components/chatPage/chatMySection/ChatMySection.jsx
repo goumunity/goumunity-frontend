@@ -23,35 +23,31 @@ function ChatMySection({
   if (!myChatRooms) {
     return <div>Loading...</div>; // 데이터가 로딩 중일 때 표시할 내용
   }
-  
+
   const dispatch = useDispatch();
   const handleClickCreateChatRoom = () => {
     dispatch(modalActions.openCreatChatModal());
   };
   // const [ isVisible, setIsVisible ] = useState( true );
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1200);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 775 );
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 775);
   const [isMini, setIsMini] = useState(window.innerWidth <= 400);
   const toggleVisible = () => {
-    setIsVisible( !isVisible );
-    console.log( 'isVisible', isVisible );
-  }
+    setIsVisible(!isVisible);
+    console.log('isVisible', isVisible);
+  };
 
   useEffect(() => {
-    console.log( isVisible );
+    console.log(isVisible);
     document.getElementById('pos').style.display = isVisible ? '' : 'none';
-
-  },[isVisible])
+  }, [isVisible]);
   useEffect(() => {
     const handleResize = () => {
       // console.log('width ', window.innerWidth);
       setIsLargeScreen(window.innerWidth > 1280);
-      setIsMobile( window.innerWidth <= 775 );
+      setIsMobile(window.innerWidth <= 775);
       setIsMini(window.innerWidth <= 400);
-      
     };
-
-    
 
     window.addEventListener('resize', handleResize);
 
@@ -60,26 +56,32 @@ function ChatMySection({
     };
   }, []);
 
-
   return (
-    
-    <div className={isMobile ? `w-full` : `w-72`} >
-      <div className={`relative flex ${ isMobile ? 'justify-center':""}`}>
-        <h1 className={`font-daeam text-4xl text-start text-responsive p-5`}>
-          나의 거지챗
-        </h1>
-        <div className='self-center'>
-        <button
-          className='font-daeam cursor-pointer bg-bg border-2 rounded-md hover:bg-gray-100 p-2'
-          onClick={handleClickCreateChatRoom}
-        >
-          <i class="fa-solid fa-plus aspect-square"></i>
-        </button>
+    <div className={isMobile ? `w-full` : `w-72`}>
+      {!isMobile && (
+        <div className={`relative flex ${isMobile ? 'justify-center' : ''}`}>
+          <h1 className={`font-daeam text-4xl text-start text-responsive p-5`}>
+            나의 거지챗
+          </h1>
+          <div className='self-center'>
+            <button
+              className='font-daeam cursor-pointer bg-bg border-2 rounded-md hover:bg-gray-100 p-2'
+              onClick={handleClickCreateChatRoom}
+            >
+              <i class='fa-solid fa-plus aspect-square'></i>
+            </button>
+          </div>
         </div>
-        
-      </div>
+      )}
 
-      <div id='pos' className={ isMobile ? `w-full scroll h-screen overflow-x-hidden overflow-y-scroll pt-4` : `w-72 scroll h-screen overflow-x-hidden overflow-y-scroll pt-4`}>
+      <div
+        id='pos'
+        className={
+          isMobile
+            ? `w-full scroll h-screen overflow-x-hidden overflow-y-scroll pt-4`
+            : `w-72 scroll h-screen overflow-x-hidden overflow-y-scroll pt-4`
+        }
+      >
         <div className={isMobile ? `w-full` : `w-72`}>
           {myChatRooms.map((myChatRoom, idx) => {
             return (
