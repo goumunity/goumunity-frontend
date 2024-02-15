@@ -18,6 +18,7 @@ import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
 import instance from '@/utils/instance.js';
 import SavingCategorySelectBox from '../../common/SavingCategorySelectBox';
 import MobileImageSection from './MobileImageSection.jsx';
+import {parseInt} from "@/utils/numbers.js";
 
 const FEED_CATEGORY_OPTIONS = [
   { id: 1, name: 'INFO' },
@@ -77,7 +78,10 @@ function CreateFeedModal({ setFeedList }) {
     }
 
 
-    if (feedCategory === 'INFO' && (Number.parseInt(price)  < Number.parseInt(afterPrice))) {
+    const parsedPrice = parseInt(price)
+    const parsedAfterPrice = parseInt(afterPrice);
+
+    if (feedCategory === 'INFO' && (Number.parseInt(parsedPrice)  < Number.parseInt(parsedAfterPrice))) {
       setErrorMessage('할인가가 더 높을 수 없습니다.');
       return;
     }
@@ -85,8 +89,8 @@ function CreateFeedModal({ setFeedList }) {
     const data = {
       content,
       feedCategory,
-      price,
-      afterPrice,
+      price : parsedPrice,
+      afterPrice : parsedAfterPrice,
       regionId: region,
       savingCategory,
     };
