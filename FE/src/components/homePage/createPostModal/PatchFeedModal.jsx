@@ -18,6 +18,7 @@ import Slider from 'react-slick';
 import CloseButton from '../../common/CloseButton';
 import instance from '@/utils/instance.js';
 import SavingCategorySelectBox from '../../common/SavingCategorySelectBox';
+import {parseInt} from "@/utils/numbers.js";
 
 const FEED_CATEGORY_OPTIONS = [
   { id: 1, name: 'INFO' },
@@ -93,8 +94,11 @@ function PatchFeedModal({ feedList, setFeedList }) {
   const mainSectionClassName = isSlide ? 'w-96' : 'w-96';
   // const [newFileList, setnewFileList] = useState([]);
   useEffect(() => {
+    console.log('?????????')
     setNewFeedCategory(feedCategory);
     setNewContent(content);
+    // setNewAfterPrice(afterPrice? '' : afterPrice);
+    // setNewPrice(price? '' : price);
     setNewAfterPrice(afterPrice);
     setNewPrice(price);
     setImageList(images);
@@ -156,18 +160,36 @@ function PatchFeedModal({ feedList, setFeedList }) {
       setErrorMessage('절약항목을 선택해주세요.');
       return;
     }
-  
-    //
+
+
+    const parsedPrice = parseInt(newPrice)
+    const parsedAfterPrice = parseInt(newAfterPrice);
+
+    if (feedCategory === 'INFO' && (Number.parseInt(parsedPrice)  < Number.parseInt(parsedAfterPrice))) {
+      setErrorMessage('할인가가 더 높을 수 없습니다.');
+      return;
+    }
+
     const data = {
       content: newContent,
       feedCategory: newFeedCategory,
-      price: newPrice,
-      afterPrice: newAfterPrice,
+      price : parsedPrice,
+      afterPrice : parsedAfterPrice,
       regionId: newRegion,
       savingCategory: newSavingCategory,
       feedImages: [],
     };
-    
+
+
+    if (feedCategory === 'FUN') {
+      data.price = null;
+      data.afterPrice = null;
+      data.savingCategory = null;
+    }
+
+    console.log(data)
+
+
     for (let i = 0; i < imageList.length; i++) {
       console.log(`${i}번째 결과는? ${imageList[i]}`);
 
@@ -193,7 +215,6 @@ function PatchFeedModal({ feedList, setFeedList }) {
       const res = await instance.patch(`/api/feeds/${feedId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          // 'Content-Type': 'application/json'
         },
       });
       // const feedId = res.data;
@@ -344,7 +365,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
               </div> */}
             </div>
 
-            {feedCategory === FEED_CATEGORY_OPTIONS[0].name ? (
+            {newFeedCategory === FEED_CATEGORY_OPTIONS[0].name ? (
               <div className='flex h-12'>
                 <div className='flex '>
                   <span className='flex justify-center items-center w-12 p-1 bg-button text-white font-dove text-sm'>

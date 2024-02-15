@@ -1,22 +1,21 @@
-import { useEffect, useState } from 'react';
+import {useState} from 'react';
 import Option from '../../common/Option';
 import imageIcon from '@/assets/svgs/image.svg';
-import mapIcon from '@/assets/svgs/mapIcon.svg';
-import walletIcon from '@/assets/svgs/walletIcon.svg';
 import useInput from '../../../hooks/useInput';
 import '@/styles.css';
-import { addCommas } from '../../../utils/formatting';
+import {addCommas} from '../../../utils/formatting';
 import useNumInput from '../../../hooks/useNumInput';
 import ContentBox from './ContentBox';
 import SelectBox from '../../common/SelectBox';
 import ImageSection from './ImageSection';
-import { useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import {Link, useNavigate} from 'react-router-dom';
 import ModalBackground from '../../common/ModalBackground';
 import CategoryBox from './CategoryBox';
 import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
 import instance from '@/utils/instance.js';
 import SavingCategorySelectBox from '../../common/SavingCategorySelectBox';
+import {parseInt} from "@/utils/numbers.js";
 
 const FEED_CATEGORY_OPTIONS = [
   { id: 1, name: 'INFO' },
@@ -83,7 +82,13 @@ function CreateFeedModal({ setFeedList }) {
       setErrorMessage('절약항목을 선택해주세요.');
       return;
     }
-    if (feedCategory === 'INFO' && (Number.parseInt(price)  < Number.parseInt(afterPrice))) {
+
+
+    const parsedPrice = parseInt(price)
+    const parsedAfterPrice = parseInt(afterPrice);
+
+    if (feedCategory === 'INFO' && (Number.parseInt(parsedPrice)  < Number.parseInt(parsedAfterPrice))) {
+
       setErrorMessage('할인가가 더 높을 수 없습니다.');
       return;
     }
@@ -91,8 +96,8 @@ function CreateFeedModal({ setFeedList }) {
     const data = {
       content,
       feedCategory,
-      price,
-      afterPrice,
+      price : parsedPrice,
+      afterPrice : parsedAfterPrice,
       regionId: region,
       savingCategory,
     };
