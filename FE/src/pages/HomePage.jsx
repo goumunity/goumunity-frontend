@@ -66,7 +66,7 @@ function HomePage() {
   useEffect(() => {
     getRanks();
   }, []);
-
+  console.log('feedList 확인:', feedList)
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1200);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 775);
   useEffect(() => {
@@ -84,6 +84,7 @@ function HomePage() {
   }, []);
   return (
     <div className='flex flex-row justify-center bg-bright'>
+      
       <div className='flex flex-col items-center h-full'>
         {feedList.map((feed, idx) => (
           <Feed

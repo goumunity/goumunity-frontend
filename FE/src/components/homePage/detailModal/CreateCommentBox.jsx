@@ -45,7 +45,8 @@ function CreateCommentBox({
             `/api/feeds/${feedId}/comments/${commentId}`
           );
           console.log('단일 조회 : ', res);
-          setCommentList((prev) => [res.data, ...prev]);
+          setCommentList((prev) => [ ...prev, res.data]);
+          console.log('새로운 commentList:', commentList)
         } catch (error) {
           console.log('댓글 단일 조회 중 에러 발생 : ', error);
         }
@@ -63,6 +64,7 @@ function CreateCommentBox({
             (comment) => comment.id !== commentId
           );
           setCommentList([res.data, ...newCommentList]);
+          
         } catch (error) {
           console.log('댓글 단일 조회 중 에러 발생 : ', error);
         }

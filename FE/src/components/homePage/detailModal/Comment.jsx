@@ -1,7 +1,7 @@
 import Option from '../../common/Option';
 import ProfileImage from '../../common/ProfileImage';
 import commentIcon from '@/assets/svgs/commentIcon.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { calculateDate, formatDate } from '../../../utils/formatting';
 import ReplySection from './ReplySection';
 import { Link } from 'react-router-dom';
@@ -11,6 +11,8 @@ import NicknameBox from '../../common/NicknameBox';
 import CreateReplyBox from './CreateReplyBox';
 import instance from '@/utils/instance.js';
 import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
+import likeIcon from '@/assets/svgs/likeIcon.svg';
+import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
@@ -36,7 +38,7 @@ function Comment({
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [isCreateReplyOpen, setIsCreateReplyOpen] = useState(false);
   const [replyList, setReplyList] = useState([]);
-
+  
   const {
     content,
     createdAt,
@@ -48,9 +50,17 @@ function Comment({
     updatedAt,
     user,
   } = comment;
+  
+  const [commentLikeCount, setCommentLikeCount] = useState(likeCount);
+  const [isCommentLiked, setIsCommentLiked] = useState(ilikeThat);
   const [commentReplyCount, setCommentReplyCount] = useState(replyCount);
-
-  // user 객체
+  
+  useEffect(() => {
+    setCommentLikeCount(likeCount)
+    setIsCommentLiked(ilikeThat)
+    setCommentReplyCount(replyCount)
+  }, [id])
+  
   // const { age, email, gender, id, imgSrc, monthBudget, nickname, regionId, userCategory } = user
 
   const daysAgo = updatedAt
@@ -76,6 +86,7 @@ function Comment({
     try {
       const res = await instance.delete(`/api/feeds/${feedId}/comments/${id}`);
       const newCommentList = commentList.filter((comment) => comment.id !== id);
+      console.log('삭제 후 commentList:',newCommentList)
       setCommentList(newCommentList);
       setCommentCnt((prev) => prev - 1);
     } catch (error) {
@@ -90,6 +101,42 @@ function Comment({
     setCommentId(id);
     setPlaceholderText(BUTTON_OPTIONS[2].text);
   };
+
+  const handleClickCreateCommentLike = async () => {
+    try {
+      const res = await instance.post(`/api/comments/${id}/like`);
+      setIsCommentLiked(true);
+      setCommentLikeCount((prev) => prev + 1);
+
+      setCommentList(commentList.map(comment => {
+        if (comment.id === id) {
+          return { ...comment, likeCount: comment.likeCount + 1, ilikeThat: true };
+        }
+        return comment;
+      }));
+    } catch (error) {
+      console.log('댓글 좋아요 중 에러 발생 : ', error);
+    }
+  };
+
+  const handleClickDeleteCommentLike = async () => {
+    try {
+      const res = await instance.delete(`/api/comments/${id}/unlike`);
+      setIsCommentLiked(false);
+      // setIsLiked(false);
+      setCommentLikeCount((prev) => prev - 1);
+
+      setCommentList(commentList.map(comment => {
+        if (comment.id === id) {
+          return { ...comment, likeCount: comment.likeCount -1 , ilikeThat: false };
+        }
+        return comment;
+      }));
+    } catch (error) {
+      console.log('에러 발생 : ', error);
+    }
+  };
+
 
   return (
     <div className='flex py-1 gap-2 w-full'>
@@ -111,11 +158,37 @@ function Comment({
         <NicknameBox nickname={user.nickname} daysAgo={daysAgo} fontSize='sm' />
         <p className='text-md leading-4 my-1'>{content}</p>
         <div className='flex gap-2 items-center my-1 font-daeam text-xs'>
-          <CommentLikeBox
+        <div>
+      {isCommentLiked ? (
+      // {ilikeThat ? (
+        <Option
+          text={commentLikeCount}
+          // text={likeCount}
+          size={3}
+          src={unLikeIcon}
+          onClick={handleClickDeleteCommentLike}
+        />
+      ) : (
+        <Option
+          text={commentLikeCount}
+          // text={likeCount}
+          size={3}
+          src={likeIcon}
+          onClick={handleClickCreateCommentLike}
+        />
+      )}
+    </div>
+          {/* <CommentLikeBox
+            // likeCount={likeCount}
             likeCount={likeCount}
             commentId={id}
+            // setCommentLikeCount={setCommentLikeCount}
+            // ilikeThat={ilikeThat}
+            // setIsLiked={setIsLiked}
             ilikeThat={ilikeThat}
-          />
+            // comment={comment}
+            // setComment={setComment}
+          /> */}
           <Option
             text={commentReplyCount}
             size={3}
@@ -149,6 +222,8 @@ function Comment({
             replyList={replyList}
             setReplyList={setReplyList}
             commentId={id}
+            commentList={commentList}
+            setCommentList={setCommentList}
           />
         )}
         {commentReplyCount !== 0 && (
@@ -167,6 +242,8 @@ function Comment({
             setCommentReplyCount={setCommentReplyCount}
             replyList={replyList}
             setReplyList={setReplyList}
+            commentList={commentList}
+            setCommentList={setCommentList}
           />
         )}
       </div>

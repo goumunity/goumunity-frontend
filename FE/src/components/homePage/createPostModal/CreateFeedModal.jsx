@@ -31,11 +31,12 @@ function CreateFeedModal({ setFeedList }) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [content, handleChangeContent] = useInput('', setErrorMessage);
-  const [region, handleChangeRegion] = useInput('', setErrorMessage);
+  const [region, handleChangeRegion, setRegion] = useInput('', setErrorMessage);
   const [savingCategory, handleChangeSavingCategory] = useInput(
     '',
     setErrorMessage
   );
+  const [initialUserGungu, setInitialUserGungu] = useState('');
   // const className = isSlide ? '-translate-x-3/4' : '-translate-x-1/2';
   const modalClassName = isSlide ? 'w-128' : 'w-96';
   const mainSectionClassName = isSlide ? 'w-96' : 'w-96';
@@ -48,6 +49,14 @@ function CreateFeedModal({ setFeedList }) {
     setIsSlide(!isSlide);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await instance.get(`/api/regions/${currentUser.regionId}`);
+      setInitialUserGungu(res.data.gungu)
+      setRegion(currentUser.regionId)
+    }
+    fetchData();
+  }, [])
   const handleClickToggleRegionSelectBox = () => {
     setIsSavingCategorySelectBoxOpen(false);
     setIsRegionSelectBoxOpen(!isRegionSelectBoxOpen);
@@ -74,10 +83,12 @@ function CreateFeedModal({ setFeedList }) {
       return;
     }
 
+
     const parsedPrice = parseInt(price)
     const parsedAfterPrice = parseInt(afterPrice);
 
     if (feedCategory === 'INFO' && (Number.parseInt(parsedPrice)  < Number.parseInt(parsedAfterPrice))) {
+
       setErrorMessage('할인가가 더 높을 수 없습니다.');
       return;
     }
@@ -97,6 +108,8 @@ function CreateFeedModal({ setFeedList }) {
       data.savingCategory = null;
     }
 
+    console.log('data:', data)
+
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
     const formData = new FormData();
     if (fileList.length > 0) {
@@ -104,11 +117,7 @@ function CreateFeedModal({ setFeedList }) {
         formData.append('images', image);
       }
     }
-
-    // for (const image of imageSrcList) {
-    //   formData.append('images', image);
-    // }
-
+  
     formData.append('data', blob);
     try {
       setIsLoading(true);
@@ -118,7 +127,9 @@ function CreateFeedModal({ setFeedList }) {
         },
       });
       const feedId = res.data;
+      
       try {
+
         const res = await instance.get(`/api/feeds/${feedId}`);
         setFeedList((prev) => [
           {
@@ -144,6 +155,7 @@ function CreateFeedModal({ setFeedList }) {
           ...prev,
         ]);
         console.log('게시글 단일 조회 결과 : ', res.data);
+        
         window.scrollTo(0, 0);
       } catch (error) {
         console.log('게시글 단일 조회 중 에러 발생 : ', error);
@@ -218,24 +230,13 @@ function CreateFeedModal({ setFeedList }) {
             </div>
 
             <div className='relative flex gap-2 px-1 pb-2'>
-              {/* <Option
-                  text='지역'
-                  size={5}
-                  src={mapIcon}
-                  onClick={handleClickToggleRegionSelectBox}
-                /> */}
               <SelectBox
-                title='어디서 아꼈나요?'
+                title={feedCategory === 'INFO' ? '어디서 아꼈나요?' : '어디 출신이신가요?'}
                 color='bright'
                 onChange={(e) => handleChangeRegion(e)}
+                defaultValue={initialUserGungu}
               />
-              {/*          
-                <Option
-                  text='관심소비내역'
-                  size={5}
-                  src={walletIcon}
-                  onClick={handleClickToggleSavingCategorySelectBox}
-                /> */}
+      
               {feedCategory === 'INFO' && (
                 <SavingCategorySelectBox
                   title='절약항목'

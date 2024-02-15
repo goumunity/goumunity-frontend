@@ -163,7 +163,7 @@ function DetailModal({ feedId, feedList, setFeedList }) {
           <Loading />
         )}
       </div>
-      <ModalBackground />
+      <ModalBackground size={20}/>
       {/* </div> */}
     </>
   );
