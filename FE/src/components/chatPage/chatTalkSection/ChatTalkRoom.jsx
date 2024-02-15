@@ -34,31 +34,53 @@ function ChatTalkRoom({
   const lastMessageRef = useRef();
   const fileUploader = useRef();
 
+
+  const [userSend, setUserSend] = useState(false);
+  const [lastScrollHeight, setLastScrollHeight] = useState();
+
   const onMessageChanged = (e) => {
     setMsg(e.target.value);
   };
+
+
+
   useEffect(() => {
-    if(pageNum === 0) return;
-    setMsg('');
-    setMessages([]);
-    setHasNext(true);
-    setPageNum(-1);
-    setSearchTime(new Date().getTime());
-    setProfileImage('');
+    const changeValue = async () => {
+      await setMsg('');
+      await setMessages([]);
+      await setHasNext(true);
+      await setSearchTime(new Date().getTime());
+      await setProfileImage('');
+      await setUserSend(false)
+      await setLastScrollHeight(0);
+      if(pageNum === 0) return;
+      await setPageNum(0);
+    }
+
+    changeValue();
   }, [chatRoomId]);
 
   //메세지 쌓이면 스크롤바가 가장 맨 아래에 오도록 함
   useEffect(() => {
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop =
-        messagesContainerRef.current.scrollHeight;
-    }
-  }, [messages]);
 
+      if (messagesContainerRef.current) {
+        console.log(messagesContainerRef.current.scrollTop, messagesContainerRef.current.scrollHeight)
+        setLastScrollHeight(messagesContainerRef.current.scrollHeight);
+        if (userSend) {
+          messagesContainerRef.current.scrollTop =
+              messagesContainerRef.current.scrollHeight;
+          setUserSend(false)
+        }else{
+          messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight - lastScrollHeight;
+        }
+      }
+
+  }, [messages]);
   const handleOnKeyPress = (e) => {
     if (e.key === 'Enter') {
       if (msg === '') return;
       onMessageSend(e.target.value, 'MESSAGE');
+      setUserSend(true)
       setMsg('');
     }
   };
@@ -69,6 +91,7 @@ function ChatTalkRoom({
     } else {
       onMessageSend(msg, 'MESSAGE');
     }
+    setUserSend(true)
     setProfileImage('');
     setMsg('');
   };
@@ -92,7 +115,6 @@ function ChatTalkRoom({
       const res = await instance.get(
         `/api/chat-room/${chatRoomId}/messages?page=${pageNum}&size=10&time=${searchTime}`
       );
-      console.log(res);
       setHasNext(res.data.hasNext);
       setMessages((prev) => [...res.data.contents.reverse(), ...prev]);
     } catch (error) {
