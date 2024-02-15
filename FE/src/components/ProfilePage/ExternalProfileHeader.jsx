@@ -10,10 +10,11 @@ import instance from '../../utils/instance';
 import defaultMaleIcon from '../../assets/svgs/defaultMaleIcon.svg';
 import Button from '../common/Button';
 
-const ProfileHeader = ({ info, isPrivate }) => {
+const ExternalProfileHeader = ({ info, isPrivate, userId }) => {
   // const tempimgSrc = useSelector(state => state.auth.currentUser.imgSrc);
   const [imgSrc, setImgSrc] = useState('');
   const { detail } = useParams();
+  console.log('info:',info)
   const regionMapper = [
     '강남구',
     '강동구',
@@ -105,7 +106,7 @@ const ProfileHeader = ({ info, isPrivate }) => {
           <ProfileImageSection
             size= { isMobile ? '5':(isLargeScreen ? '12' : '8' ) }   
             src={info.imgSrc || defaultMaleIcon}
-            isPrivate={isPrivate}
+            info={info}
           />
         
         </div>
@@ -148,4 +149,4 @@ const ProfileHeader = ({ info, isPrivate }) => {
     </>
   );
 };
-export default ProfileHeader;
+export default ExternalProfileHeader;

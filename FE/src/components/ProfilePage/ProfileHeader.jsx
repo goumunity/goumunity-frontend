@@ -106,7 +106,7 @@ const ProfileHeader = ({ info, isPrivate }) => {
           <ProfileImageSection
             size= { isMobile ? '5':(isLargeScreen ? '12' : '8' ) }   
             src={info.imgSrc || defaultMaleIcon}
-            isPrivate={isPrivate}
+            userId={info.id}
           />
         
         </div>

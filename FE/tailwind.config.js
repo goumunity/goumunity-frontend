@@ -42,15 +42,13 @@ export default {
     },
     height: {
       'chat': '700px',
-    }
+    },
+    screens: {
+      'chat2': '1100px',
+      'chat3': '1400px',
+      'chat4': '1650px',
+    },
   }
-    // spacing: {
-    //   '128': '768px',
-    // }
-  //   extend: {
-  //     backgroundColor: {
-        
-  //     },
   },
   plugins: [],
 };

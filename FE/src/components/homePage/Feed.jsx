@@ -54,10 +54,8 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
     try {
       setIsLoading(true);
       const res = await instance.delete(`/api/feeds/${feedId}`);
-      console.log('삭제 결과 : ', res);
       const newFeedList = feedList.filter((feed) => feed.feedId !== feedId);
       setFeedList(newFeedList);
-      console.log('뉴피리:',newFeedList)
     } catch (error) {
       console.log('피드 삭제 중 에러 발생 : ', error);
     }
@@ -86,7 +84,6 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
   };
 
   useEffect(() => {
-    console.log(`${feedId}번 피드의 ilikeThat: ${ilikeThat}, isScrapped: ${isScrapped}, likeCount: ${likeCount}`)
     setIsFeedLiked(ilikeThat);
     setIsFeedScrapped(isScrapped);
     setFeedLikeCount(likeCount);

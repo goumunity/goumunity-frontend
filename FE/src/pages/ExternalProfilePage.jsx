@@ -55,6 +55,7 @@ const ExternalProfilePage = () => {
           });
           useNavigate('/');
         })
+        // setIsInfoLoaded(false)
     }
 
     useEffect( () => {
@@ -88,7 +89,7 @@ const ExternalProfilePage = () => {
         {
           isInfoLoaded ? (
             <>
-            { !feedId && <ExternalProfileHeader info={info} isPrivate={isPrivate} /> }      
+            { !feedId && <ExternalProfileHeader userId={info.id} isPrivate={isPrivate} info={info}/> }      
               <div id="ProfileUnder" className={containerClasses}>
 
           <>

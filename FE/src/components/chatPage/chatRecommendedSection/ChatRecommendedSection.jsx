@@ -3,6 +3,7 @@ import SearchIcon from '../../common/SearchIcon';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import instance from '@/utils/instance.js';
 import handleError from '@/utils/error.js';
+import { useHref } from 'react-router-dom';
 
 function ChatRecommendedSection({ setMyChatRooms, myChatRooms }) {
   const [userInput, setUserInput] = useState('');
@@ -63,6 +64,27 @@ function ChatRecommendedSection({ setMyChatRooms, myChatRooms }) {
     }
     setIsLoading(false);
   };
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1600);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 775 );
+  const [isMini, setIsMini] = useState(window.innerWidth <= 400);
+  // const [chatRecommendClassName, setChatRecommendClassName] = useState(4);
+  useEffect(() => {
+    const handleResize = () => {
+      // console.log('width ', window.innerWidth);
+      setIsLargeScreen(window.innerWidth > 1280);
+      setIsMobile( window.innerWidth <= 775 );
+      setIsMini(window.innerWidth <= 400);
+      
+    };
+
+    
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <div className='scroll h-screen overflow-y-scroll scrollbar-thumb-gray-500 scrollbar-track-gray-300-y-scroll'>
@@ -84,7 +106,8 @@ function ChatRecommendedSection({ setMyChatRooms, myChatRooms }) {
           </div>
         </div>
       </div>
-      <div className='grid grid-cols-4 gap-10 px-10 pb-10'>
+      <div className='grid chat4:grid-cols-4 chat3:grid-cols-3 chat2:grid-cols-2 place-content-center gap-10 px-10 pb-10'>
+      {/* <div className='flex flex-wrap justify-center text-left gap-10 px-10 pb-10'> */}
         {items.map((item, idx) => (
           <ChatRecommendedItem
             key={idx}

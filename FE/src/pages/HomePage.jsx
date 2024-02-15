@@ -29,7 +29,6 @@ function HomePage() {
       if (observerRef.current) observerRef.current.disconnect();
 
       observerRef.current = new IntersectionObserver((entries) => {
-        console.log('entries[0].isIntersecting : ', entries[0].isIntersecting);
         if (entries[0].isIntersecting && hasNext) {
           setPage((prevPageNumber) => prevPageNumber + 1);
         }
@@ -45,7 +44,6 @@ function HomePage() {
       try {
         setIsLoading(true);
         const res = await instance.get('/api/feeds');
-        console.log('feeds:', res);
         setFeedList((prev) => [...prev, ...res.data.feedRecommends]);
         setHasNext(res.data.hasNext);
       } catch (error) {
@@ -66,7 +64,6 @@ function HomePage() {
   useEffect(() => {
     getRanks();
   }, []);
-  console.log('feedList 확인:', feedList)
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1200);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 775);
   useEffect(() => {
@@ -84,7 +81,6 @@ function HomePage() {
   }, []);
   return (
     <div className='flex flex-row justify-center bg-bright'>
-      
       <div className='flex flex-col items-center h-full'>
         {feedList.map((feed, idx) => (
           <Feed
@@ -113,22 +109,30 @@ function HomePage() {
               />
             </>
           ))}
-          
-          
-          {
-        params.id && (isMobile ? (<>
-          <CreateMobileFeedModal setFeedList={setFeedList} />
-        </>) : (<>
-          <CreateFeedModal setFeedList={setFeedList} />
-        </>) )
-      }
-        {
-        params.patchId && (isMobile ? (<>
-          <PatchMobileFeedModal feedList={feedList} setFeedList={setFeedList} />
-        </>) : (<>
-          <PatchFeedModal feedList={feedList} setFeedList={setFeedList} />
-        </>) )
-      }
+
+        {params.id &&
+          (isMobile ? (
+            <>
+              <CreateMobileFeedModal setFeedList={setFeedList} />
+            </>
+          ) : (
+            <>
+              <CreateFeedModal setFeedList={setFeedList} />
+            </>
+          ))}
+        {params.patchId &&
+          (isMobile ? (
+            <>
+              <PatchMobileFeedModal
+                feedList={feedList}
+                setFeedList={setFeedList}
+              />
+            </>
+          ) : (
+            <>
+              <PatchFeedModal feedList={feedList} setFeedList={setFeedList} />
+            </>
+          ))}
 
         <div ref={lastFeedRef} style={{ height: '10px' }}></div>
       </div>
@@ -143,7 +147,7 @@ function HomePage() {
             </div>
           )}
         </>
-    )}
+      )}
     </div>
   );
 }

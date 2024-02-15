@@ -5,12 +5,12 @@ import instance from '@/utils/instance.js';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { authActions } from '../../store/auth';
-const ProfileImageSection = ({ size, src }) => {
+const ProfileImageSection = ({ size, src, userId }) => {
   const [img, setImg] = useState(null);
   const [imgSrc, setImgSrc] = useState('');
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.currentUser);
-
+  console.log('gggggggg', userId, currentUser);
   useEffect(() => {
     setImgSrc(src);
   }, []);
@@ -82,22 +82,22 @@ const ProfileImageSection = ({ size, src }) => {
     border: '3px solid',
   };
 
-  
   return (
     <>
       <div className='w-fit cursor-pointer flex'>
-        <input
-          type='file'
-          id='fileInput'
-          style={customInputStyle}
-          onChange={onImgChange}
-        />
+        {currentUser.id === userId && (
+          <input
+            type='file'
+            id='fileInput'
+            style={customInputStyle}
+            onChange={onImgChange}
+          />
+        )}
         <label
           htmlFor='fileInput'
           style={customLabelStyle}
           className='rounded-full'
         ></label>
-       
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Option from '../../common/Option';
 import imageIcon from '@/assets/svgs/image.svg';
 import useInput from '../../../hooks/useInput';
