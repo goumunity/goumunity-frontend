@@ -82,7 +82,7 @@ function ChatMessage({ message, index, currentUser }) {
           }
         />
         <div className='flex flex-col gap-0'>
-          <span>{message?.nickname?.replace(/#.*/, '')}</span>
+          <span>{message?.nickname === null ? '알 수 없음' :message?.nickname?.replace(/#.*/, '')}</span>
           <div className='flex gap-2'>
             <span className=''>{messageBody(false)}</span>
             <span className='text-xs text-gray-500 self-end '>

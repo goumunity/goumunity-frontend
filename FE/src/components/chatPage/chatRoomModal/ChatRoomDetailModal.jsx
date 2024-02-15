@@ -27,7 +27,6 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
     useEffect(() => {
         setCurrentChatRoom(selectedChatRoom)
         setProfileImage(selectedChatRoom?.imgSrc);
-        console.log(selectedChatRoom?.isHost)
     }, [selectedChatRoom]);
 
     const navigate = useNavigate();
@@ -152,12 +151,9 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
     // --------------------------------------------
     const [val, setVal] = useState('');
     const handleOnKeyPress = (e) => {
-        console.log(e);
         if (e.key === 'Enter') {
-            console.log(val);
             changeArr(val);
             emptyInput();
-            console.log(val);
         }
     };
 
@@ -232,21 +228,16 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
             if (result.isConfirmed) {
                 instance.delete(`/api/chat-rooms/${currentChatRoom?.chatRoomId}`)
                     .then(() => {
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "Your file has been deleted.",
-                            icon: "success"
-                        });
                         setIsSearchMode(true);
+                        setMyChatRooms(
+                            myChatRooms?.filter(chatRoom =>
+                                chatRoom.chatRoomId !== currentChatRoom?.chatRoomId))
                         dispatch(modalActions.closeModal());
                     }).catch(err => handleError(err));
             }
         });
     }
 
-    useEffect(() => {
-        console.log( selectedChatRoom );
-    },[])
 
 
     //tagArr의 길이가 5 초과하는 경우, 5번째 인덱스 이후의 요소들을 제거
