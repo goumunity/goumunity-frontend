@@ -5,7 +5,8 @@ import modalReducer from "./modal";
 import feedReducer from "./feed";
 import chatReducer from "./chat";
 
-import storage from "redux-persist/lib/storage";
+
+import storageSession from 'redux-persist/lib/storage/session'
 import { persistReducer } from "redux-persist";
 import authSlice from './auth'
 import chatSlice from './chat'
@@ -15,7 +16,7 @@ import modalSlice from './modal'
 
 const persistConfig = {
   key: "root",
-  storage, // 로컬 스토리지에 저장
+    storage : storageSession, // 로컬 스토리지에 저장
   whitelist: ['auth', 'chat', 'feed', 'login', 'modal'],
 };
 
