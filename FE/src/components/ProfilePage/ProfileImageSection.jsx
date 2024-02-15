@@ -10,7 +10,6 @@ const ProfileImageSection = ({ size, src, userId }) => {
   const [imgSrc, setImgSrc] = useState('');
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.currentUser);
-  console.log('gggggggg', userId, currentUser);
   useEffect(() => {
     setImgSrc(src);
   }, []);
@@ -43,11 +42,11 @@ const ProfileImageSection = ({ size, src, userId }) => {
               dispatch(authActions.updateCurrentUser(nextUser));
             })
             .catch((err) => {
-              console.log(err);
+             
             });
         })
         .catch((err) => {
-          console.log(err);
+          Swal.fire("잠시 후 다시 시도해주세요.");
         });
 
       setImgSrc(URL.createObjectURL(img));

@@ -60,11 +60,9 @@ function ChatPage() {
       const res = await instance.get(
         `/api/users/my/chat-rooms?page=${pageNum}&size=100&time=${searchTime}`
       );
-      console.log( res.data );
       setHasNext(res.data.hasNext);
       setMyChatRooms((prev) => [...prev, ...res.data.contents]);
     } catch (error) {
-      console.error(error);
     }
     setIsLoading(false);
   };
@@ -77,7 +75,6 @@ function ChatPage() {
     client.current.activate();
   };
   const disconnect = async () => {
-    console.log('disconnect!', chatRoomId);
     await logLastAccessTime();
     client.current.deactivate();
   };

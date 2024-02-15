@@ -11,6 +11,7 @@ import ModalBackground from '../common/ModalBackground';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import instance from '../../utils/instance';
+import Swal from 'sweetalert2';
 
 function ExternalProfileDetailModal({ feedId, feedList, setFeedList }) {
   const [feed, isLoading, errorMessage] = useAxiosGet(`/api/feeds/${feedId}`);
@@ -30,7 +31,6 @@ function ExternalProfileDetailModal({ feedId, feedList, setFeedList }) {
     user,
     isScrapped,
   } = feed;
-  console.log('gdgd', feed);
 
   const modalRef = useRef();
   const currentUser = useSelector((state) => state.auth.currentUser);
@@ -72,6 +72,7 @@ function ExternalProfileDetailModal({ feedId, feedList, setFeedList }) {
     slidesToScroll: 1,
     arrows: true,
   };
+  const imgaeStyle = images?.length===0 ? `` :  `max-h-96 overflow-y-scroll scroll`;
 
   const className = isLoading ? 'pointer-events-none opacity-75' : undefined;
   const profit = price - afterPrice;
@@ -87,7 +88,7 @@ function ExternalProfileDetailModal({ feedId, feedList, setFeedList }) {
       setFeedList(newFeedList);
       navigate(`/profile/${email}`);
     } catch (error) {
-      console.log('피드 삭제 중 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -125,7 +126,8 @@ function ExternalProfileDetailModal({ feedId, feedList, setFeedList }) {
                   </div>
                 )}
               </div>
-              <p className='my-4 px-10 min-h-40'>{content}</p>
+              <pre className={`my-4 px-10 min-h-40 text-balance font-daeam ${imgaeStyle}`}
+              style={{overflowWrap:"break-word"}}>{content}</pre>
               {images.length !== 0 && (
                 <Slider
                   className='flex justify-center items-center w-full h-full px-8 bg-wheat'

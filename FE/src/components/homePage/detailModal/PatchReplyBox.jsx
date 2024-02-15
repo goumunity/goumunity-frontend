@@ -3,6 +3,7 @@ import useInput from '../../../hooks/useInput';
 import axios from 'axios';
 import instance from "@/utils/instance.js";
 import Button from '../../common/Button';
+import Swal from 'sweetalert2';
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
@@ -33,7 +34,6 @@ function PatchReplyBox({
         `/api/comments/${commentId}/replies/${replyId}`,
         { content: reply }
       );
-      console.log('답글 수정 결과 : ', res);
       try {
         const res = await instance.get(
           `/api/comments/${commentId}/replies/${replyId}`
@@ -45,10 +45,10 @@ function PatchReplyBox({
         setReply('');
         setIsPatchReplyOpen(false);
       } catch (error) {
-        console.log('답글 수정 중 에러 발생 : ', error);
+        
       }
     } catch (error) {
-      console.log(error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
     setIsLoading(false);
   };

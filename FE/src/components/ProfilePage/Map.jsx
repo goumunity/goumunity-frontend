@@ -14,7 +14,6 @@ function Map( { width, height, func }) {
 
   const Search = () => {
 
-    console.log( address );
     // 장소 검색 객체 생성
     const geocoder = new kakao.maps.services.Geocoder();
 
@@ -33,12 +32,9 @@ function Map( { width, height, func }) {
             const y = result[0].y;
             const latlng = new kakao.maps.LatLng( x, y );
             
-            console.log(`[${address}]의 중심 지점 좌표: ${latlng.getLat()}, ${latlng.getLng()}`);
           } else {
-            console.error(`[${address}]에 대한 결과가 없습니다.`);
           }
         } else {
-          console.error(`지오코딩 서비스 오류: ${status}`);
         }
       }, { bounds: defaultBounds });
 }

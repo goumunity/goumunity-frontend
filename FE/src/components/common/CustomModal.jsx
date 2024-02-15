@@ -24,7 +24,6 @@ function CustomModal({ children, onClick , initSize}) {
     if (initSize) {
       setInitialSize(initSize)
     }
-    // console.log(initSize)
   }, [initSize]);
 
   const widthSize = '800';
@@ -37,7 +36,6 @@ function CustomModal({ children, onClick , initSize}) {
   const [isMini, setIsMini] = useState(window.innerWidth <= 468 );
   useEffect(() => {
     const handleResize = () => {
-      // console.log('width ', window.innerWidth);
       setIsLargeScreen(window.innerWidth > 1200);
       setIsMobile( window.innerWidth <= 775 );
       setIsMini( window.innerWidth <= 468 );

@@ -15,6 +15,7 @@ import unScrapIcon from '@/assets/svgs/unScrapIcon.svg';
 import { formatDate } from '../../../utils/formatting';
 import Option from '../../common/Option';
 import MobileCreateCommentBox from './MobileCreateCommentBox';
+import Swal from 'sweetalert2';
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
   { id: 2, name: 'createReply', text: '답글 쓰는 중...' },
@@ -46,14 +47,12 @@ function MobileCommentSection({
   );
   const inputRef = useRef();
   const observerRef = useRef();
-  console.log('여긴있나:', commentCnt)
 
   const lastCommentRef = useCallback(
     (node) => {
       if (isLoading) return;
       if (observerRef.current) observerRef.current.disconnect();
       observerRef.current = new IntersectionObserver((entries) => {
-        console.log('entries[0].isIntersecting : ', entries[0].isIntersecting);
         if (entries[0].isIntersecting && hasNext) {
           setPage((prevPageNumber) => prevPageNumber + 1);
         }
@@ -78,12 +77,11 @@ function MobileCommentSection({
             time: initialTime,
           },
         });
-        console.log(res.data);
         setCommentList((prev) => [...res.data.contents, ...prev]);
         setHasNext(res.data.hasNext);
         // setHasNext(true);
       } catch (error) {
-        console.log('commentList 요청 중 에러 발생 : ', error);
+        
       }
       setIsLoading(false);
     };
@@ -102,7 +100,7 @@ function MobileCommentSection({
       setIsLike(true);
       setFeedLikeCount((prev) => prev + 1);
     } catch (error) {
-      console.log('게시물 좋아요 할 때 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -112,7 +110,7 @@ function MobileCommentSection({
       setIsLike(false);
       setFeedLikeCount((prev) => prev - 1);
     } catch (error) {
-      console.log('게시물 좋아요 취소할 때에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -122,7 +120,7 @@ function MobileCommentSection({
       setIsScrap(true);
       // setFeedLikeCount((prev) => prev + 1);
     } catch (error) {
-      console.log('게시물 스크랩 할 때 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -132,7 +130,7 @@ function MobileCommentSection({
       setIsScrap(false);
       // setFeedLikeCount((prev) => prev - 1);
     } catch (error) {
-      console.log('게시물 스크랩 취소할 때에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 

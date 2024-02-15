@@ -47,7 +47,6 @@ const ProfileBaseUnder = ({ info, written, saveChange, isPrivate }) => {
             
             
           }).catch( error => {
-            console.log( error );
             Swal.fire({
               title: "삭제에 실패하였습니다!",
               text: "잠시후 다시 시도해주세요",
@@ -130,7 +129,6 @@ const ProfileBaseUnder = ({ info, written, saveChange, isPrivate }) => {
       // console.log('baseunder info, ', info )
      initLi();
      initFe(); 
-     console.log('isPrivate', isPrivate );                                                                
     },[])
     const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1200);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 775 );

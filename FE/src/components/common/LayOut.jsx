@@ -10,7 +10,6 @@ function LayOut() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 775 );
   useEffect(() => {
     const handleResize = () => {
-      // console.log('width ', window.innerWidth);
       setIsLargeScreen(window.innerWidth > 1280);
       setIsMobile( window.innerWidth <= 775 );
     };

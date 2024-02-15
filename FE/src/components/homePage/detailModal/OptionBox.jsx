@@ -8,6 +8,7 @@ import FeedLikeBox from '../FeedLikeBox';
 import instance from "@/utils/instance.js";
 import scrapIcon from '@/assets/svgs/scrapIcon.svg';
 import unScrapIcon from '@/assets/svgs/unScrapIcon.svg';
+import Swal from 'sweetalert2';
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
@@ -22,7 +23,6 @@ function OptionBox({ commentCnt, createdAt, updatedAt, likeCount, feedId, ilikeT
   const [feedLikeCount, setFeedLikeCount] = useState(likeCount);
   const [commentCount, setCommentCount] = useState(commentCnt);
   const feedDate = updatedAt ? formatDate(updatedAt) : formatDate(createdAt)
-  console.log('댓글 개수:', commentCnt)
 
   useEffect(() => {
     setCommentCount(commentCnt)
@@ -33,7 +33,7 @@ function OptionBox({ commentCnt, createdAt, updatedAt, likeCount, feedId, ilikeT
       setIsLike(true);
       setFeedLikeCount((prev) => prev + 1);
     } catch (error) {
-      console.log('게시물 좋아요 할 때 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -43,7 +43,7 @@ function OptionBox({ commentCnt, createdAt, updatedAt, likeCount, feedId, ilikeT
       setIsLike(false);
       setFeedLikeCount((prev) => prev - 1);
     } catch (error) {
-      console.log('게시물 좋아요 취소할 때에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -53,7 +53,7 @@ function OptionBox({ commentCnt, createdAt, updatedAt, likeCount, feedId, ilikeT
       setIsScrap(true);
       // setFeedLikeCount((prev) => prev + 1);
     } catch (error) {
-      console.log('게시물 스크랩 할 때 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -63,7 +63,7 @@ function OptionBox({ commentCnt, createdAt, updatedAt, likeCount, feedId, ilikeT
       setIsScrap(false);
       // setFeedLikeCount((prev) => prev - 1);
     } catch (error) {
-      console.log('게시물 스크랩 취소할 때에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 

@@ -12,6 +12,7 @@ import FeedRanking from '../components/homePage/Ranking/FeedRanking';
 import MobileDetailModal from '../components/homePage/detailModal/MobileDetailModal.jsx';
 import PatchMobileFeedModal from '../components/homePage/createPostModal/PathMobileFeedModal';
 import CreateMobileFeedModal from '../components/homePage/createPostModal/CreateMobileFeedModal';
+import Swal from 'sweetalert2';
 function HomePage() {
   const [initialTime] = useState(new Date().getTime());
   const params = useParams();
@@ -47,7 +48,7 @@ function HomePage() {
         setFeedList((prev) => [...prev, ...res.data.feedRecommends]);
         setHasNext(res.data.hasNext);
       } catch (error) {
-        console.log('feedList 요청 중 에러 발생 : ', error);
+        Swal.fire('데이터를 불러오는데 실패하였습니다.');
       }
       setIsLoading(false);
     };

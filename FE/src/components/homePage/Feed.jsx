@@ -13,6 +13,7 @@ import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import scrapIcon from '@/assets/svgs/scrapIcon.svg';
 import unScrapIcon from '@/assets/svgs/unScrapIcon.svg';
+import Swal from 'sweetalert2';
 
 // 댓글, 답글 200자
 function Feed({ feed, setFeedList, feedList, ...props }) {
@@ -57,7 +58,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
       const newFeedList = feedList.filter((feed) => feed.feedId !== feedId);
       setFeedList(newFeedList);
     } catch (error) {
-      console.log('피드 삭제 중 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
     setIsLoading(false);
   };
@@ -93,7 +94,6 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
     try {
       const res = await instance.post(`/api/feeds/${feedId}/like`);
 
-      console.log(res)
       setIsFeedLiked(true);
       setFeedLikeCount((prev) => prev + 1);
       setFeedList(feedList.map(feed => {
@@ -103,7 +103,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
         return feed;
       }));
     } catch (error) {
-      console.log('게시글 좋아요 중 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -119,7 +119,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
         return feed;
       }));
     } catch (error) {
-      console.log('게시글 좋아요 취소 했을 때 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -134,7 +134,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
         return feed;
       }));
     } catch (error) {
-      console.log('게시글 스크랩 중 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -150,7 +150,7 @@ function Feed({ feed, setFeedList, feedList, ...props }) {
         return feed;
       }));
     } catch (error) {
-      console.log('게시글 스크랩 취소 했을 때 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 

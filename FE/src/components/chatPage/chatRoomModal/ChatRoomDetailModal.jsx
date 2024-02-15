@@ -47,7 +47,6 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
     // 이미지 업로드
     const handleChangeUploadProfileImg = (e) => {
         const uploadFile = imageUpload(e.target, setProfileImage);
-        console.log(uploadFile);
         setResultImage(uploadFile);
         setCurrentChatRoom(prev => ({
             ...prev, imgSrc: null
@@ -96,7 +95,6 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
             leaderId: currentChatRoom?.host?.userId,
             regionId: currentChatRoom?.region?.regionId
         }
-        console.log(data)
 
         const blob = new Blob([JSON.stringify(data)], {
             type: 'application/json',
@@ -109,7 +107,6 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
                 const res = await instance.patch(`/api/chat-rooms/${selectedChatRoom?.chatRoomId}`, formData);
                 // 이미지가 바뀔 수 있어서
             } catch (error) {
-                console.error('api 요청 중 오류 발생 : ', error);
                 if (error.response.status === 409) {
                     setErrorMessage('이미 존재하는 채팅방입니다.');
                 }
@@ -127,7 +124,6 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
             newChatRooms[index] = result.data;
             setMyChatRooms(newChatRooms);
         } catch (e){
-            console.error(e)
             handleError(e);
         }
         dispatch(modalActions.closeModal());

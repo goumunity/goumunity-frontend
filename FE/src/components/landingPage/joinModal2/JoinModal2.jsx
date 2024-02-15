@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import SelectBox from '../../common/SelectBox';
 import instance from "@/utils/instance.js";
 import SavingCategorySelectBox from '../../common/SavingCategorySelectBox';
+import Swal from 'sweetalert2';
 
 const GENDER_OPTIONS = [
   { id: 1, content: 'MALE' },
@@ -47,7 +48,7 @@ function JoinModal2() {
         const res = await instance.get('/api/nicknames');
         setNickname(res.data);
       } catch (error) {
-        console.log('닉네임 받는 중 에러 발생:', error);
+        Swal.fire("잠시 후 다시 시도해주세요.");
       }
       setIsLoading(false);
     };
@@ -69,7 +70,7 @@ function JoinModal2() {
       const res = await instance.get('/api/nicknames');
       setNickname(res.data);
     } catch (error) {
-      console.log('닉네임 받는 중 에러 발생:', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
     setIsLoading(false)
   };
@@ -117,7 +118,6 @@ function JoinModal2() {
 
   // 사용자 입력 감지
   const handleChangeInputs = (id, value) => {
-    console.log(value)
     // 생년월일을 8자 넘게 못쓰게
     if (id === 'birthDate' && value.trim().length > 8) {
       return;

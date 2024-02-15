@@ -13,6 +13,7 @@ import instance from '@/utils/instance.js';
 import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
 import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
+import Swal from 'sweetalert2';
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
@@ -86,11 +87,10 @@ function Comment({
     try {
       const res = await instance.delete(`/api/feeds/${feedId}/comments/${id}`);
       const newCommentList = commentList.filter((comment) => comment.id !== id);
-      console.log('삭제 후 commentList:',newCommentList)
       setCommentList(newCommentList);
       setCommentCnt((prev) => prev - 1);
     } catch (error) {
-      console.log('에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -115,7 +115,7 @@ function Comment({
         return comment;
       }));
     } catch (error) {
-      console.log('댓글 좋아요 중 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -133,7 +133,7 @@ function Comment({
         return comment;
       }));
     } catch (error) {
-      console.log('에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 

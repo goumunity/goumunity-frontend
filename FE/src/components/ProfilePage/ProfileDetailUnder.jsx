@@ -42,7 +42,6 @@ const ProfileDetailUnder = ( {info} ) => {
     const currentUser = useSelector((state) => state.auth.currentUser);
     const dispatch = useDispatch();
     useEffect( () => {
-        console.log( 'currentUser',currentUser );
         setUserInfo( currentUser );
         setOriginPassWord( info.password );
         
@@ -73,7 +72,6 @@ const ProfileDetailUnder = ( {info} ) => {
                 'gungu': regionMapper[e.target.value -52]
             }
 
-            console.log( 'next : ' , nextUserInfo );
             setUserInfo( nextUserInfo );
         }
         
@@ -126,7 +124,6 @@ const ProfileDetailUnder = ( {info} ) => {
             if( result.isConfirmed ){
                 
                 instance.patch('/api/users/my', userInfo ).then( res => {
-                    console.log('result: ', userInfo )
                     dispatch( authActions.updateCurrentUser(userInfo))
                     Swal.fire({
                         icon: "success",
@@ -155,7 +152,6 @@ const ProfileDetailUnder = ( {info} ) => {
         const nextFilter = gunguList.filter( el => { 
 
             return el.props.text.includes( searchText ) } );
-        console.log('next', nextFilter );
         setFiltered( nextFilter );
     }
 

@@ -16,6 +16,7 @@ import defaultMaleIcon from '@/assets/svgs/defaultMaleIcon.svg';
 import instance from '@/utils/instance.js';
 import SavingCategorySelectBox from '../../common/SavingCategorySelectBox';
 import {parsePrice, setFunData} from "@/utils/feeds.js";
+import Swal from 'sweetalert2';
 
 const FEED_CATEGORY_OPTIONS = [
   { id: 1, name: 'INFO' },
@@ -104,8 +105,6 @@ function CreateFeedModal({ setFeedList }) {
 
     setFunData(feedCategory, data)
 
-    console.log('data:', data)
-
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
     const formData = new FormData();
     if (fileList.length > 0) {
@@ -150,14 +149,13 @@ function CreateFeedModal({ setFeedList }) {
           },
           ...prev,
         ]);
-        console.log('게시글 단일 조회 결과 : ', res.data);
         
         window.scrollTo(0, 0);
       } catch (error) {
-        console.log('게시글 단일 조회 중 에러 발생 : ', error);
+        
       }
     } catch (error) {
-      console.error('게시글 생성 중 오류 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
     setIsLoading(false);
     navigate('/');

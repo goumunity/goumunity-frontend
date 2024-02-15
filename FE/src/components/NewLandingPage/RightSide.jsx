@@ -8,6 +8,7 @@ import axios from 'axios';
 
 import { Link, useNavigate } from 'react-router-dom';
 import instance from "@/utils/instance.js";
+import Swal from 'sweetalert2';
 
 
 function RightSide() {
@@ -79,12 +80,12 @@ function RightSide() {
 
         dispatch(authActions.createUser(res.data));
       } catch (error) {
-        console.log(error);
+        
       }
 
       navigate('/');
     } catch (error) {
-      console.log('에러 발생 : ', error);
+      
       setErrorMessage('이메일과 비밀번호를 다시 확인해주세요.');
     }
     setIsLoading(false);

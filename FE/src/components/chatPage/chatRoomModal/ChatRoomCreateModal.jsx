@@ -9,6 +9,7 @@ import { imageUpload } from '../../../utils/upload';
 import Button from '../../common/Button';
 import instance from '@/utils/instance.js';
 import { modalActions } from '@/store/modal.js';
+import Swal from 'sweetalert2';
 
 function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
   const [profileImage, setProfileImage] = useState('');
@@ -35,7 +36,6 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
   // 이미지 업로드
   const handleChangeUploadProfileImg = (e) => {
     const uploadFile = imageUpload(e.target, setProfileImage);
-    console.log(uploadFile);
     setResultImage(uploadFile);
   };
   const file = useSelector((state) => state.auth.file);
@@ -88,10 +88,9 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
       try {
         const res = await instance.post('/api/chat-rooms', formData);
         const newChatRoom = await instance.get(`/api/chat-rooms/${res.data}`);
-        console.log(newChatRoom);
         await setMyChatRooms([newChatRoom.data, ...myChatRooms]);
       } catch (error) {
-        console.error('api 요청 중 오류 발생 : ', error);
+        
         if (error.response.status === 409) {
           setErrorMessage('이미 존재하는 채팅방입니다.');
         }
@@ -121,12 +120,9 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
   // --------------------------------------------
   const [val, setVal] = useState('');
   const handleOnKeyPress = (e) => {
-    console.log(e);
     if (e.key === 'Enter') {
-      console.log(val);
       changeArr(val);
       emptyInput();
-      console.log(val);
     }
   };
 
@@ -148,20 +144,16 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
   const [arr, setArr] = useState([]);
 
   const changeArr = (nextTag) => {
-    console.log('nextTag: ' + nextTag);
     const nextValue = {
       idx: index,
       value: nextTag,
     };
     IncreaseIndex();
     const nextArr = arr.concat(nextValue);
-    console.log(nextArr);
     setArr(nextArr);
-    console.log('now: ' + arr);
   };
 
   const onRemove = (target) => {
-    console.log(target);
     const nextArr = arr.filter((elem) => elem.idx !== target.idx);
     setArr(nextArr);
   };
