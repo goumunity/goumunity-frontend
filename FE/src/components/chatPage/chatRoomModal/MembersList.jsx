@@ -20,7 +20,7 @@ export default function MembersList({members, host, isEditMode, setCurrentChatRo
 
     return (
         <>
-            <div className='font-her text-left text-2xl'>*방장</div>
+            <div className='font-daeam text-left text-sm px-2'>방장</div>
             <Listbox value={selected} onChange={setSelected} disabled={!isEditMode}>
                 {({open}) => (
                     <>

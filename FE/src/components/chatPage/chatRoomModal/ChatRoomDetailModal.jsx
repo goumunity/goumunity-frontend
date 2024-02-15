@@ -250,12 +250,12 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
     return (
         <>
            <div className='flex flex-col font-daeam text-xl'>
-            <h1 className='text-3xl'>채팅방 수정하기</h1>
+            <h1 className='text-xl'>채팅방 수정하기</h1>
             <form className='w-full h-full'>
             <div className='flex justify-start text-start'>
                 <div className="w-full">
                     <label for="customInput" className="block text-sm text-gray-600 ps-1">방 제목</label>
-                    <div className={`flex justify-center`}>
+                    <div className={`flex justify-center text-lg`}>
                         <input
                                     type="text"
                                     id="customInput"
@@ -274,10 +274,10 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
                     </div>
                 </div>
             </div>
-            <div className='flex justify-start text-start mt-5'>
+            <div className='flex justify-start text-start mt-2'>
           <div className="w-full flex-col">
             <label for="customInput" className="block text-sm font-medium text-gray-600 ps-1">해시 태그</label>
-              <div className={`flex justify-center`}>
+              <div className={`flex justify-center text-lg`}>
                 <input
 
                             id="customInput"
@@ -295,12 +295,12 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
               </div>
             </div>
         </div>
-        <div className='w-full flex gap-1 mt-5 text-sm'>
+        <div className='w-full flex gap-1 mt-2 text-sm'>
             {tagArr}    
         </div>
         <div className='flex flex-col justify-start text-start'>
         <label for="regionSelection" className="block text-sm font-medium text-gray-600 ps-1">지역 및 제한 인원</label>
-          <div className='flex flex-row gap-2'>
+          <div className='flex flex-row gap-2 text-lg'>
           <SelectBox
             id='regionSelection'
             className='w-2/5 me-1 mt-1 p-2 text-gray-400 block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring w-full focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300'
@@ -333,7 +333,7 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
 
         <MembersList setCurrentChatRoom={setCurrentChatRoom} members={currentChatRoom?.members}
                              host={currentChatRoom?.host} isEditMode={true}/>
-        <div className='flex justify-center text-start mt-5'>
+        <div className='flex justify-center text-start'>
           <div className="w-full flex-col">
             <label for="customInput" className="block text-sm font-medium text-gray-600 ps-1">배경 이미지</label>
               <div className={`w-full h-32 flex flex-col items-center justify-center gap-1`}>
