@@ -257,6 +257,7 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
                     <label for="customInput" className="block text-sm text-gray-600 ps-1">방 제목</label>
                     <div className={`flex justify-center text-lg`}>
                         <input
+                            disabled={!isEditMode}
                                     type="text"
                                     id="customInput"
                                     // name="title"
@@ -280,6 +281,7 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
               <div className={`flex justify-center text-lg`}>
                 <input
 
+                    disabled={!isEditMode}
                             id="customInput"
                             className="mt-1 p-2 block border border-gray-300 rounded-md bg-faedcd focus:outline-none focus:ring w-full focus:border-blue-300 transition-colors duration-300 ease-in-out focus:bg-yellow-300"
                             onChange={handleOnChange}
@@ -315,6 +317,7 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
             type='number'
             min='1'
             placeholder='제한 인원'
+            disabled={!isEditMode}
             value={currentChatRoom?.capability}
 
                             onChange={(e) => setCurrentChatRoom(prev => ({
@@ -332,7 +335,7 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
         </div>
 
         <MembersList setCurrentChatRoom={setCurrentChatRoom} members={currentChatRoom?.members}
-                             host={currentChatRoom?.host} isEditMode={true}/>
+                             host={currentChatRoom?.host} isEditMode={isEditMode}/>
         <div className='flex justify-center text-start'>
           <div className="w-full flex-col">
             <label for="customInput" className="block text-sm font-medium text-gray-600 ps-1">배경 이미지</label>
@@ -342,7 +345,7 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
                size='32'
               profileImage={profileImage}
               onChange={handleChangeUploadProfileImg}
-              
+               disabled={!isEditMode}
             />
             </div>
             <div className='flex justify-center gap-5 '>
