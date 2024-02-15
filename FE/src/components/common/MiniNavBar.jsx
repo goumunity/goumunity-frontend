@@ -34,7 +34,6 @@ const MiniNavBar = () => {
     const isAuth = useSelector((state) => state.auth.isAuthenticated);
   
     const currentUser = useSelector((state) => state.auth.currentUser);
-    console.log(currentUser);
   
     const [isMenuOpen, setIsMenuOpen] = useState(true);
   

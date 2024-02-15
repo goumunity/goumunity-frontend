@@ -97,7 +97,6 @@ const ProfileBaseUnder = ({ info, written, saveChange, isPrivate }) => {
 
     useEffect( () => {
       // console.log( info );
-      console.log( 'info:>',info );
       const lis = feeds.map( el => <li key={el.feedId}><MinimumFeed size="full" feedId={el.feedId} nickname={ isPrivate ? currentUser.nickname : info.nickname } createAt={ el.createdAt } content={ el.content} deletePost={openFeed} imgSrc={ isPrivate ? currentUser.imgSrc:info.imgSrc} isPrivate={isPrivate}/></li> )
       setLiList( lis ); 
       // console.log( feeds );
