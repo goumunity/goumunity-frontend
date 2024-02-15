@@ -18,7 +18,8 @@ import Slider from 'react-slick';
 import CloseButton from '../../common/CloseButton';
 import instance from '@/utils/instance.js';
 import SavingCategorySelectBox from '../../common/SavingCategorySelectBox';
-import { parseInt } from '@/utils/numbers.js';
+import {parsePrice, setFunData} from "@/utils/feeds.js";
+
 
 const FEED_CATEGORY_OPTIONS = [
   { id: 1, name: 'INFO' },
@@ -147,9 +148,8 @@ function PatchFeedModal({ feedList, setFeedList }) {
       setErrorMessage('절약항목을 선택해주세요.');
       return;
     }
-
-    const parsedPrice = parseInt(newPrice);
-    const parsedAfterPrice = parseInt(newAfterPrice);
+    const parsedPrice = parsePrice(newPrice)
+    const parsedAfterPrice = parsePrice(newAfterPrice);
 
     if (
       feedCategory === 'INFO' &&
@@ -169,13 +169,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
       feedImages: [],
     };
 
-    if (newFeedCategory === 'FUN') {
-      data.price = null;
-      data.afterPrice = null;
-      data.savingCategory = null;
-    }
-
-    console.log('data:', data);
+    setFunData(newFeedCategory, data);
 
     for (let i = 0; i < imageList.length; i++) {
       if (imageList[i].sequence === undefined) {

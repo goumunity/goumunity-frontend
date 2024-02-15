@@ -18,7 +18,7 @@ import Slider from 'react-slick';
 import CloseButton from '../../common/CloseButton';
 import instance from '@/utils/instance.js';
 import SavingCategorySelectBox from '../../common/SavingCategorySelectBox';
-import {parseInt} from "@/utils/numbers.js";
+import {parsePrice, setFunData} from "@/utils/feeds.js";
 
 const FEED_CATEGORY_OPTIONS = [
   { id: 1, name: 'INFO' },
@@ -150,8 +150,8 @@ function  PatchMobileFeedModal({ feedList, setFeedList }) {
       return;
     }
 
-    const parsedPrice = parseInt(newPrice)
-    const parsedAfterPrice = parseInt(newAfterPrice);
+    const parsedPrice = parsePrice(newPrice)
+    const parsedAfterPrice = parsePrice(newAfterPrice);
 
     if (feedCategory === 'INFO' && (Number.parseInt(parsedPrice)  < Number.parseInt(parsedAfterPrice))) {
       setErrorMessage('할인가가 더 높을 수 없습니다.');
@@ -169,12 +169,7 @@ function  PatchMobileFeedModal({ feedList, setFeedList }) {
       feedImages: [],
     };
 
-    if (feedCategory === 'FUN') {
-      data.price = null;
-      data.afterPrice = null;
-      data.savingCategory = null;
-    }
-
+    setFunData(feedCategory, data);
     for (let i = 0; i < imageList.length; i++) {
       // console.log(`${i}번째 결과는? ${imageList[i].sequence}`);
 
