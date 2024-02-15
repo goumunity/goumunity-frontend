@@ -1,5 +1,5 @@
 import instance from '@/utils/instance.js';
-import logo from '@/assets/images/logo.png';
+import logo from '@/assets/images/browser-logo.png';
 import Swal from 'sweetalert2';
 import handleError from '@/utils/error.js';
 

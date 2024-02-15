@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from '@/assets/images/logo.png';
+import logo from '@/assets/images/browser-logo.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { chatActions } from '../../../store/chat';
 
@@ -85,11 +85,13 @@ function ChatMyItem({
           <span className='font-her'>{`👤${myChatRoom.currentUserCount}`}</span>
         </div>
 
-        <ul className='flex h-5 font-her gap-2 overflow-hidden'>
+
+        <ul className='flex h-5 font-her gap-2 flex-wrap overflow-hidden'>
           {myChatRoom.hashtags?.map((hashtag, idx) => (
             <li className='' key={idx}>{`#${hashtag.name}`}</li>
           ))}
         </ul>
+
       </div>
 
       <div className='w-1/6 '>
