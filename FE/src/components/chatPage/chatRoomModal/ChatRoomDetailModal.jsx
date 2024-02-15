@@ -232,11 +232,6 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
             if (result.isConfirmed) {
                 instance.delete(`/api/chat-rooms/${currentChatRoom?.chatRoomId}`)
                     .then(() => {
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "Your file has been deleted.",
-                            icon: "success"
-                        });
                         setIsSearchMode(true);
                         dispatch(modalActions.closeModal());
                     }).catch(err => handleError(err));
