@@ -18,7 +18,7 @@ import Slider from 'react-slick';
 import CloseButton from '../../common/CloseButton';
 import instance from '@/utils/instance.js';
 import SavingCategorySelectBox from '../../common/SavingCategorySelectBox';
-import {parseInt} from "@/utils/numbers.js";
+import { parseInt } from '@/utils/numbers.js';
 
 const FEED_CATEGORY_OPTIONS = [
   { id: 1, name: 'INFO' },
@@ -31,20 +31,6 @@ function PatchFeedModal({ feedList, setFeedList }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       setIsLoading(true);
-  //       const res = await instance.get(`/api/feeds/${params.patchId}`);
-  //       console.log('res결과:',res);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //     setIsLoading(false);
-  //   };
-  //   fetchData();
-  // }, []);
 
   const {
     feedId,
@@ -79,8 +65,8 @@ function PatchFeedModal({ feedList, setFeedList }) {
   const [imageIndex, setImageIndex] = useState(0);
 
   useEffect(() => {
-    setImageIndex(images?.length)
-  }, [feed])
+    setImageIndex(images?.length);
+  }, [feed]);
 
   const [
     newSavingCategory,
@@ -94,7 +80,6 @@ function PatchFeedModal({ feedList, setFeedList }) {
   const mainSectionClassName = isSlide ? 'w-96' : 'w-96';
   // const [newFileList, setnewFileList] = useState([]);
   useEffect(() => {
-    console.log('?????????')
     setNewFeedCategory(feedCategory);
     setNewContent(content);
     // setNewAfterPrice(afterPrice? '' : afterPrice);
@@ -113,7 +98,6 @@ function PatchFeedModal({ feedList, setFeedList }) {
 
   const handleChangeUploadImageList = (e) => {
     const files = e.target.files;
-    console.log('변화 후 files', files)
     setFileList((prev) => [...prev, ...files]);
     if (files.length === 0) return;
     for (let i = 0; i < files.length; i++) {
@@ -123,10 +107,8 @@ function PatchFeedModal({ feedList, setFeedList }) {
   };
 
   const handleClickDeleteImage = (targetIdx) => {
-    console.log(targetIdx)
-    console.log('기존 이미지 길이:', imageIndex)
     const newImageList = imageList.filter((image, idx) => {
-      if (image.sequence !== undefined) setImageIndex((prev) => prev - 1)
+      if (image.sequence !== undefined) setImageIndex((prev) => prev - 1);
       return idx !== targetIdx;
     });
 
@@ -148,6 +130,8 @@ function PatchFeedModal({ feedList, setFeedList }) {
   const navigate = useNavigate();
 
   const handleClickPatchFeed = async () => {
+    console.log('ddddd', newSavingCategory);
+
     if (newContent === '') {
       setErrorMessage('내용을 입력해주세요.');
       return;
@@ -156,16 +140,21 @@ function PatchFeedModal({ feedList, setFeedList }) {
       setErrorMessage('지역을 선택해주세요.');
       return;
     }
-    if (newFeedCategory === 'INFO' && (newSavingCategory === '' || newSavingCategory === 'none')) {
+    if (
+      newFeedCategory === 'INFO' &&
+      (newSavingCategory === '' || newSavingCategory === 'none')
+    ) {
       setErrorMessage('절약항목을 선택해주세요.');
       return;
     }
 
-
-    const parsedPrice = parseInt(newPrice)
+    const parsedPrice = parseInt(newPrice);
     const parsedAfterPrice = parseInt(newAfterPrice);
 
-    if (feedCategory === 'INFO' && (Number.parseInt(parsedPrice)  < Number.parseInt(parsedAfterPrice))) {
+    if (
+      feedCategory === 'INFO' &&
+      Number.parseInt(parsedPrice) < Number.parseInt(parsedAfterPrice)
+    ) {
       setErrorMessage('할인가가 더 높을 수 없습니다.');
       return;
     }
@@ -173,39 +162,32 @@ function PatchFeedModal({ feedList, setFeedList }) {
     const data = {
       content: newContent,
       feedCategory: newFeedCategory,
-      price : parsedPrice,
-      afterPrice : parsedAfterPrice,
+      price: parsedPrice,
+      afterPrice: parsedAfterPrice,
       regionId: newRegion,
       savingCategory: newSavingCategory,
       feedImages: [],
     };
 
-
-    if (feedCategory === 'FUN') {
+    if (newFeedCategory === 'FUN') {
       data.price = null;
       data.afterPrice = null;
       data.savingCategory = null;
     }
 
-    console.log(data)
-
+    console.log('data:', data);
 
     for (let i = 0; i < imageList.length; i++) {
-      console.log(`${i}번째 결과는? ${imageList[i]}`);
-
       if (imageList[i].sequence === undefined) {
-        // console.log(`${i}번째 결과는?`);
         continue;
       }
       data.feedImages.push({ sequence: i + 1, imgSrc: imageList[i].imgSrc });
-      // console.log(`${i}번째 결과:`, data);
     }
 
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
     const formData = new FormData();
     if (fileList.length > 0) {
       for (const image of fileList) {
-        console.log('파일 찍히나 테스트:', image);
         formData.append('images', image);
       }
     }
@@ -246,7 +228,6 @@ function PatchFeedModal({ feedList, setFeedList }) {
           },
           ...newFeedList,
         ]);
-        console.log('게시글 단일 조회 결과 : ', res.data);
         window.scrollTo(0, 0);
       } catch (error) {
         console.log('게시글 단일 조회 중 에러 발생 : ', error);
@@ -341,7 +322,11 @@ function PatchFeedModal({ feedList, setFeedList }) {
                   onClick={handleClickToggleRegionSelectBox}
                 /> */}
               <SelectBox
-                title={newFeedCategory === 'INFO' ? '어디서 아꼈나요?' : '어디 출신이신가요?'}
+                title={
+                  newFeedCategory === 'INFO'
+                    ? '어디서 아꼈나요?'
+                    : '어디 출신이신가요?'
+                }
                 color='bright'
                 onChange={(e) => handleChangeNewRegion(e)}
                 defaultValue={region?.gungu}
