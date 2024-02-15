@@ -11,6 +11,7 @@ import ModalBackground from '../common/ModalBackground';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import instance from '../../utils/instance';
+import Swal from 'sweetalert2';
 
 function ProfileDetailModal({ feedId, feedList, setFeedList }) {
   const [feed, isLoading, errorMessage] = useAxiosGet(`/api/feeds/${feedId}`);
@@ -30,7 +31,6 @@ function ProfileDetailModal({ feedId, feedList, setFeedList }) {
     user,
     isScrapped,
   } = feed;
-  console.log('gdgd', feed);
 
   const modalRef = useRef();
   const currentUser = useSelector((state) => state.auth.currentUser);
@@ -87,7 +87,7 @@ function ProfileDetailModal({ feedId, feedList, setFeedList }) {
       setFeedList(newFeedList);
       navigate('/myprofile');
     } catch (error) {
-      console.log('피드 삭제 중 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 

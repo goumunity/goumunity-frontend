@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import instance from '@/utils/instance'
+import Swal from 'sweetalert2';
 
 function SelectBox({ widthSize, color, defaultValue, title='지역을 선택해주세요', ...props }) {
   const [regionList, setRegionList] = useState([]);
@@ -12,7 +13,7 @@ function SelectBox({ widthSize, color, defaultValue, title='지역을 선택해�
         const res = await instance.get('/api/regions');
         setRegionList(res.data)
       } catch (error) {
-        console.log('지역 받는 중 에러 발생:', error);
+        Swal.fire("잠시 후 다시 시도해주세요.");
       }
       setIsLoading(false)
     };

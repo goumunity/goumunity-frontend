@@ -4,11 +4,11 @@ import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import Option from '../../common/Option';
 import instance from "@/utils/instance.js";
+import Swal from 'sweetalert2';
 
 function ReplyLikeBox({ likeCount, replyId, ilikeThat }) {
   const [replyLikeCount, setReplyLikeCount] = useState(likeCount);
   const [isReplyLike, setIsReplyLike] = useState(ilikeThat);
-  console.log(`${replyId}번 reply의 isReplyLike: ${isReplyLike}, ilikeThat: ${ilikeThat}`)
 
   const handleClickCreateCommentLike = async () => {
     try {
@@ -16,7 +16,7 @@ function ReplyLikeBox({ likeCount, replyId, ilikeThat }) {
       setIsReplyLike(true);
       setReplyLikeCount((prev) => prev + 1);
     } catch (error) {
-      console.log('답글 좋아요 중 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -26,7 +26,7 @@ function ReplyLikeBox({ likeCount, replyId, ilikeThat }) {
       setIsReplyLike(false);
       setReplyLikeCount((prev) => prev - 1);
     } catch (error) {
-      console.log('답글 좋아요 취소 중 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
   return (

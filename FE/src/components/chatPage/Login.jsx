@@ -30,7 +30,6 @@ export default function Login() {
             { withCredentials: true }
           )
           .then((res) => {
-            console.log(res.data);
             // setChatRooms(res.data);
             dispatch(loginActions.setChatRooms(res.data));
           });

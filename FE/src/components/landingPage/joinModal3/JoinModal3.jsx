@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ProfileImage from '../../common/ProfileImage';
 import { imageUpload } from '../../../utils/upload';
 import instance from '@/utils/instance.js';
+import Swal from 'sweetalert2';
 
 const USER_CATEGORY_OPTIONS = [
   { id: 1, title: 'COLLEGE_STUDENT', name: '대학생' },
@@ -89,7 +90,7 @@ function JoinModal3() {
         },
       });
     } catch (error) {
-      console.error('api 요청 중 오류 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
     navigate('/landing/join/4');
   };

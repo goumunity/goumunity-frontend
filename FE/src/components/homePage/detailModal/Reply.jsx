@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import ReplyLikeBox from './ReplyLikeBox';
 import PatchReplyBox from './PatchReplyBox';
 import instance from "@/utils/instance.js";
+import Swal from 'sweetalert2';
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment' },
@@ -34,7 +35,6 @@ function Reply({
   const currentUser = useSelector((state) => state.auth.currentUser);
   const { commentId, content, createdAt, ilikeThat, likeCount, replyId, user, updatedAt } =
     reply;
-    console.log('reply 개별 출력:',reply)
   // user 객체
   // const { age, email, gender, id, imgSrc, monthBudget, nickname, regionId, userCategory } = user
   const [isPatchReplyOpen, setIsPatchReplyOpen] = useState(false);
@@ -62,7 +62,7 @@ function Reply({
         return comment;
       }));
     } catch (error) {
-      console.log('답글 삭제 중 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 

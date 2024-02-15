@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import Option from '../../common/Option';
+import Swal from 'sweetalert2';
 
 function CommentLikeBox({ likeCount, commentId, ilikeThat }) {
   const [commentLikeCount, setCommentLikeCount] = useState(likeCount);
   const [isCommentLike, setIsCommentLike] = useState(ilikeThat);
-  console.log(`${commentId}번 comment의 isCommentLike: ${isCommentLike}, ilikeThat: ${ilikeThat}`)
 
   const handleClickCreateCommentLike = async () => {
     try {
@@ -18,7 +18,7 @@ function CommentLikeBox({ likeCount, commentId, ilikeThat }) {
       // setComment((prev) => ({...prev, ilikeThat: ilikeThat}))
       setCommentLikeCount((prev) => prev + 1);
     } catch (error) {
-      console.log('댓글 좋아요 중 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -29,7 +29,7 @@ function CommentLikeBox({ likeCount, commentId, ilikeThat }) {
       // setIsLiked(false);
       setCommentLikeCount((prev) => prev - 1);
     } catch (error) {
-      console.log('에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 

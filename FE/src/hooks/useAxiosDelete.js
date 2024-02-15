@@ -14,9 +14,7 @@ async function useAxiosDelete(url, category, currentUserId, userId) {
   try {
     setIsLoading(true);
     const res = await instance.get(url);
-    console.log(`${category} 삭제 결과 : ${res}`);
   } catch (error) {
-    console.log(`${category} 삭제 중 에러 발생 : ${error}`);
   }
   setIsLoading(false);
 

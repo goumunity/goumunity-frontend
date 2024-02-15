@@ -19,6 +19,7 @@ import CloseButton from '../../common/CloseButton';
 import instance from '@/utils/instance.js';
 import SavingCategorySelectBox from '../../common/SavingCategorySelectBox';
 import {parsePrice, setFunData} from "@/utils/feeds.js";
+import Swal from 'sweetalert2';
 
 
 const FEED_CATEGORY_OPTIONS = [
@@ -131,7 +132,6 @@ function PatchFeedModal({ feedList, setFeedList }) {
   const navigate = useNavigate();
 
   const handleClickPatchFeed = async () => {
-    console.log('ddddd', newSavingCategory);
 
     if (newContent === '') {
       setErrorMessage('내용을 입력해주세요.');
@@ -143,7 +143,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
     }
     if (
       newFeedCategory === 'INFO' &&
-      (newSavingCategory === '' || newSavingCategory === 'none')
+      (newSavingCategory === '' || newSavingCategory === 'none' || newSavingCategory === null)
     ) {
       setErrorMessage('절약항목을 선택해주세요.');
       return;
@@ -194,7 +194,6 @@ function PatchFeedModal({ feedList, setFeedList }) {
         },
       });
       // const feedId = res.data;
-      // console.log('수정 결과:', res)
       try {
         const res = await instance.get(`/api/feeds/${feedId}`);
         const newFeedList = feedList.filter((feed) => feed.feedId != feedId);
@@ -224,10 +223,10 @@ function PatchFeedModal({ feedList, setFeedList }) {
         ]);
         window.scrollTo(0, 0);
       } catch (error) {
-        console.log('게시글 단일 조회 중 에러 발생 : ', error);
+      
       }
     } catch (error) {
-      console.error('게시글 생성 중 오류 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
     setIsLoading(false);
     navigate('/');
@@ -330,6 +329,7 @@ function PatchFeedModal({ feedList, setFeedList }) {
                   title='절약항목'
                   color='bright'
                   onChange={(e) => handleChangeNewSavingCategory(e)}
+                  defaultValue={savingCategory}
                 />
               )}
               <Option

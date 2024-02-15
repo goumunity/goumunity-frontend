@@ -6,6 +6,7 @@ import axios from 'axios';
 import OptionBox from './OptionBox';
 import LoadingImage from '../../common/LoadingImage';
 import instance from "@/utils/instance.js";
+import Swal from 'sweetalert2';
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
@@ -38,14 +39,12 @@ function CommentSection({
   );
   const inputRef = useRef();
   const observerRef = useRef();
-  console.log('여긴있나:', commentCnt)
 
   const lastCommentRef = useCallback(
     (node) => {
       if (isLoading) return;
       if (observerRef.current) observerRef.current.disconnect();
       observerRef.current = new IntersectionObserver((entries) => {
-        console.log('entries[0].isIntersecting : ', entries[0].isIntersecting);
         if (entries[0].isIntersecting && hasNext) {
           setPage((prevPageNumber) => prevPageNumber + 1);
         }
@@ -69,12 +68,11 @@ function CommentSection({
             time: initialTime,
           },
         });
-        console.log(res.data);
         setCommentList((prev) => [...res.data.contents, ...prev]);
         setHasNext(res.data.hasNext);
         // setHasNext(true);
       } catch (error) {
-        console.log('commentList 요청 중 에러 발생 : ', error);
+        Swal.fire("잠시 후 다시 시도해주세요.");
       }
       setIsLoading(false);
     };

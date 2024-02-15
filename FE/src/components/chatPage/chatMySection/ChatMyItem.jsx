@@ -36,7 +36,6 @@ function ChatMyItem({
   const [isMini, setIsMini] = useState(window.innerWidth <= 400);
   useEffect(() => {
     const handleResize = () => {
-      // console.log('width ', window.innerWidth);
       setIsLargeScreen(window.innerWidth > 1280);
       setIsMobile( window.innerWidth <= 775 );
       setIsMini(window.innerWidth <= 400);

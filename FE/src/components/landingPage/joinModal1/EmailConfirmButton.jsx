@@ -3,6 +3,7 @@ import Button from '../../common/Button';
 import axios from 'axios';
 import client from '../../../utils/instance';
 import instance from "../../../utils/instance";
+import Swal from 'sweetalert2';
 
 function EmailConfirmButton({
   emailConfirm,
@@ -32,7 +33,6 @@ function EmailConfirmButton({
       const res = await instance.get('/api/users/email/verification', {
         params: { email },
       });
-      console.log(res);
 
       setIsEmailConfirmSended(true);
       setErrorMessage('인증코드가 발송되었습니다.');
@@ -40,7 +40,6 @@ function EmailConfirmButton({
       if (error.response.status === 409) {
         setErrorMessage('이미 가입한 이메일입니다.');
       }
-      console.log('에러 발생 : ', error);
     }
     setIsLoading(false);
   };
@@ -62,16 +61,14 @@ function EmailConfirmButton({
         code: emailConfirm,
         email: email,
       });
-      console.log('res1: ' + res);
   
-      console.log('인증번호 확인 결과 : ', res.data);
       if (res.data === false) {
         setErrorMessage('인증번호가 일치하지 않습니다.');
       } else {
         setIsEmailConfirmValid(true);
       }
     } catch (error) {
-      console.error('api 요청 중 오류 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
     setIsLoading(false);
   };

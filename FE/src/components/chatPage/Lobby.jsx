@@ -27,7 +27,6 @@ export default function Lobby({ userId, chatRooms }) {
 
   const subscribe = (value) => {
     room.current = client.current.subscribe(`/topic/${value}`, (chat) => {
-      console.log(chat.body);
       setMessages((prev) => [...prev, JSON.parse(chat.body)]);
     });
   };
@@ -44,11 +43,11 @@ export default function Lobby({ userId, chatRooms }) {
     return () => disconnect();
   }, []);
 
-  const onNewRoomClicked = (id) => {
-    axios
-      .post(`http://localhost:8080/join/${id}`, null, { withCredentials: true })
-      .then((res) => console.log(res));
-  };
+  // const onNewRoomClicked = (id) => {
+  //   axios
+  //     .post(`http://localhost:8080/join/${id}`, null, { withCredentials: true })
+  //     .then((res) => console.log(res));
+  // };
 
   const onJoinedRoomClicked = (id) => {
     if (room.current !== null) room.current.unsubscribe();

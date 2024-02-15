@@ -11,6 +11,7 @@ import ModalBackground from '../common/ModalBackground';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import instance from '../../utils/instance';
+import Swal from 'sweetalert2';
 
 function ExternalProfileDetailModal({ feedId, feedList, setFeedList }) {
   const [feed, isLoading, errorMessage] = useAxiosGet(`/api/feeds/${feedId}`);
@@ -87,7 +88,7 @@ function ExternalProfileDetailModal({ feedId, feedList, setFeedList }) {
       setFeedList(newFeedList);
       navigate(`/profile/${email}`);
     } catch (error) {
-      console.log('피드 삭제 중 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 

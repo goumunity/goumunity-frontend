@@ -6,6 +6,7 @@ import CustomModal from "@/components/common/CustomModal.jsx";
 import {modalActions} from "@/store/modal.js";
 import ChatRoomDetailModal from "@/components/chatPage/chatRoomModal/ChatRoomDetailModal.jsx";
 import { chatActions } from '../../../store/chat';
+import Swal from 'sweetalert2';
 
 function ChatTalkSection({id, chatRoomTitle, onMessageSend,setMessages, messages, myChatRooms, setIsSearchMode, setMyChatRooms, hashTags}) {
 
@@ -19,7 +20,6 @@ function ChatTalkSection({id, chatRoomTitle, onMessageSend,setMessages, messages
   const [isMini, setIsMini] = useState(window.innerWidth <= 400);
   const toggleVisible = () => {
     setIsVisible( !isVisible );
-    console.log( 'isVisible', isVisible );
   }
 
   useEffect(() => {
@@ -30,7 +30,6 @@ function ChatTalkSection({id, chatRoomTitle, onMessageSend,setMessages, messages
   
   useEffect(() => {
     const handleResize = () => {
-      // console.log('width ', window.innerWidth);
       setIsLargeScreen(window.innerWidth > 1280);
       setIsMobile( window.innerWidth <= 775 );
       setIsMini(window.innerWidth <= 400);
@@ -52,10 +51,9 @@ function ChatTalkSection({id, chatRoomTitle, onMessageSend,setMessages, messages
     const fetchChatRoomDetails = async () => {
         try {
             const res = await instance.get(`/api/chat-rooms/${id}/detail`);
-            console.log(res.data)
             setSelectedChatRoom(res.data);
         } catch (e) {
-            console.error(e)
+            Swal.fire("잠시 후 다시 시도해주세요.");
         }
     }
 

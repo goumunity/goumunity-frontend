@@ -47,7 +47,7 @@ const ExternalProfileBaseUnder = ({ info, written, saveChange, isPrivate }) => {
             
             
           }).catch( error => {
-            console.log( error );
+       
             Swal.fire({
               title: "삭제에 실패하였습니다!",
               text: "잠시후 다시 시도해주세요",
@@ -97,7 +97,6 @@ const ExternalProfileBaseUnder = ({ info, written, saveChange, isPrivate }) => {
 
     useEffect( () => {
       // console.log( info );
-      console.log( 'info:>',info );
       const lis = feeds.map( el => <li key={el.feedId}><MinimumFeed size="full" feedId={el.feedId} nickname={ isPrivate ? currentUser.nickname : info.nickname } createAt={ el.createdAt } content={ el.content} deletePost={openFeed} imgSrc={ isPrivate ? currentUser.imgSrc:info.imgSrc} isPrivate={isPrivate}/></li> )
       setLiList( lis ); 
       // console.log( feeds );

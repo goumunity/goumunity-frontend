@@ -3,6 +3,7 @@ import useInput from '../../../hooks/useInput';
 import Button from '../../common/Button';
 import { useEffect, useRef, useState } from 'react';
 import instance from "@/utils/instance.js";
+import Swal from 'sweetalert2';
 
 const BUTTON_OPTIONS = [
   { id: 1, name: 'createComment', text: '댓글 좀 달아줘...' },
@@ -38,24 +39,21 @@ function CreateCommentBox({
         const res = await instance.post(`/api/feeds/${feedId}/comments`, {
           content: input,
         });
-        console.log('댓글 생성 결과 : ', res);
         const commentId = res.data;
         try {
           const res = await instance.get(
             `/api/feeds/${feedId}/comments/${commentId}`
           );
-          console.log('단일 조회 : ', res);
           setCommentList((prev) => [ ...prev, res.data]);
-          console.log('새로운 commentList:', commentList)
         } catch (error) {
-          console.log('댓글 단일 조회 중 에러 발생 : ', error);
+          
         }
       } else if (option === BUTTON_OPTIONS[2].name) {
         const res = await instance.patch(
           `/api/feeds/${feedId}/comments/${commentId}`,
           { content: input }
         );
-        console.log('댓글 수정 결과 : ', res);
+        
         try {
           const res = await instance.get(
             `/api/feeds/${feedId}/comments/${commentId}`
@@ -66,11 +64,11 @@ function CreateCommentBox({
           setCommentList([res.data, ...newCommentList]);
           
         } catch (error) {
-          console.log('댓글 단일 조회 중 에러 발생 : ', error);
+          
         }
       }
     } catch (error) {
-      console.log('댓글 답글 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
     setisCommentLoading(false);
     setOption(BUTTON_OPTIONS[0].name);

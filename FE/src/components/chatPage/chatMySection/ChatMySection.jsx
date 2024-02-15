@@ -34,16 +34,13 @@ function ChatMySection({
   const [isMini, setIsMini] = useState(window.innerWidth <= 400);
   const toggleVisible = () => {
     setIsVisible(!isVisible);
-    console.log('isVisible', isVisible);
   };
 
   useEffect(() => {
-    console.log(isVisible);
     document.getElementById('pos').style.display = isVisible ? '' : 'none';
   }, [isVisible]);
   useEffect(() => {
     const handleResize = () => {
-      // console.log('width ', window.innerWidth);
       setIsLargeScreen(window.innerWidth > 1280);
       setIsMobile(window.innerWidth <= 775);
       setIsMini(window.innerWidth <= 400);

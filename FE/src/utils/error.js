@@ -1,7 +1,6 @@
 import Swal from "sweetalert2";
 
 const handleError = (error) => {
-    console.error(error)
     if (error.response) {
         Swal.fire({
             icon: "error",

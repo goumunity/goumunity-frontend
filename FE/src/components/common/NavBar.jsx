@@ -18,6 +18,7 @@ import PoorMark from '../../utils/AuthenticatedPoor';
 import './NavHover.css';
 import instance from '@/utils/instance.js';
 import PoorMarkBlack from '../../utils/AuthenticatedPoorBlack';
+import Swal from 'sweetalert2';
 
 function NavBar() {
   // LandingPage에서는 NavBar를 렌더링하지 않음
@@ -35,7 +36,6 @@ function NavBar() {
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
 
   const currentUser = useSelector((state) => state.auth.currentUser);
-  console.log(currentUser);
 
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
@@ -57,27 +57,11 @@ function NavBar() {
     try {
       const res = await instance.get('/api/users/logout');
     } catch (error) {
-      console.log('에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
       return;
     }
     dispatch(authActions.logout());
     navigate('/landing');
-  };
-
-  const handleClickDeleteUser = async () => {
-    // 사용자가 확인을 누르면 알림창을 띄우고, 그렇지 않으면 아무 동작도 하지 않음
-    if (!isConfirm) return;
-    // 여기에 실제 회원 탈퇴 처리 로직을 추가할 수 있음
-
-    try {
-      const res = await instance.delete('/api/users/my');
-    } catch (error) {
-      console.log('에러 발생 : ', error);
-      return;
-    }
-    dispatch(authActions.logout());
-    alert('회원 탈퇴가 완료되었습니다.');
-    navigate('/landing/join/1');
   };
 
   const activeClass = 'underline';

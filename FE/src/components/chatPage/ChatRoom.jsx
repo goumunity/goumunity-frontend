@@ -8,15 +8,12 @@ export default function ChatRoom({
 }) {
   const createMessage = (m) => {
     if (userId.index === userId) {
-      console.log(userId);
       return (
         <>
           <div className='bg-black'>{messageBody(m)}</div>
         </>
       );
     } else {
-      console.log(userId.index);
-      console.log(userId);
       return (
         <>
           <div className='text-gray-600 '>

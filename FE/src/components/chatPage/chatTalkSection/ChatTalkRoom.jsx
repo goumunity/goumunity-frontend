@@ -5,6 +5,7 @@ import ChatMessage from '@/components/chatPage/chatTalkSection/ChatMessage.jsx';
 import instance from '@/utils/instance.js';
 import { imageUpload } from '@/utils/upload.js';
 import handleError from '@/utils/error.js';
+import Swal from 'sweetalert2';
 
 function ChatTalkRoom({
   userId,
@@ -25,7 +26,6 @@ function ChatTalkRoom({
   const [isMini, setIsMini] = useState(window.innerWidth <= 400);
   const toggleVisible = () => {
     setIsVisible(!isVisible);
-    console.log('isVisible', isVisible);
   };
 
   const currentUser = useSelector((state) => state.auth.currentUser);
@@ -76,7 +76,6 @@ function ChatTalkRoom({
       if (isLoading) return;
       if (lastMessageRef.current) lastMessageRef.current.disconnect();
       lastMessageRef.current = new IntersectionObserver((entries) => {
-        console.log('entries[0].isIntersecting : ', entries[0].isIntersecting);
         if (entries[0].isIntersecting && hasNext) {
           setPageNum((prevPageNumber) => prevPageNumber + 1);
         }
@@ -91,11 +90,10 @@ function ChatTalkRoom({
       const res = await instance.get(
         `/api/chat-room/${chatRoomId}/messages?page=${pageNum}&size=10&time=${searchTime}`
       );
-      console.log(res);
       setHasNext(res.data.hasNext);
       setMessages((prev) => [...res.data.contents.reverse(), ...prev]);
     } catch (error) {
-      console.error(error);
+    
     }
     setIsLoading(false);
   };

@@ -13,7 +13,6 @@ function ChatRecommendedItem({ item, setMyChatRooms, myChatRooms }) {
       showCancelButton: true,
       cancelButtonText: '아니요',
     }).then((result) => {
-      console.log(result);
       if (result.isConfirmed) {
         instance
           .post(`/api/chat-rooms/${item.chatRoomId}`)

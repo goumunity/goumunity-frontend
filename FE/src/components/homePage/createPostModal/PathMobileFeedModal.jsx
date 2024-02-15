@@ -19,6 +19,7 @@ import CloseButton from '../../common/CloseButton';
 import instance from '@/utils/instance.js';
 import SavingCategorySelectBox from '../../common/SavingCategorySelectBox';
 import {parsePrice, setFunData} from "@/utils/feeds.js";
+import Swal from 'sweetalert2';
 
 const FEED_CATEGORY_OPTIONS = [
   { id: 1, name: 'INFO' },
@@ -31,20 +32,6 @@ function  PatchMobileFeedModal({ feedList, setFeedList }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       setIsLoading(true);
-  //       const res = await instance.get(`/api/feeds/${params.patchId}`);
-  //       console.log('res결과:',res);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //     setIsLoading(false);
-  //   };
-  //   fetchData();
-  // }, []);
 
   const {
     feedId,
@@ -101,9 +88,7 @@ function  PatchMobileFeedModal({ feedList, setFeedList }) {
       setIsSlide(true);
     }
   }, [feed]);
-  useEffect(() =>{
-    console.log('hi i\'m mobile');
-  },[])
+  
   const handleChangeUploadImageList = (e) => {
     const files = e.target.files;
     setFileList((prev) => [...prev, ...files]);
@@ -171,14 +156,11 @@ function  PatchMobileFeedModal({ feedList, setFeedList }) {
 
     setFunData(feedCategory, data);
     for (let i = 0; i < imageList.length; i++) {
-      // console.log(`${i}번째 결과는? ${imageList[i].sequence}`);
 
       if (imageList[i].sequence === undefined) {
-        // console.log(`${i}번째 결과는?`);
         continue;
       }
       data.feedImages.push({ sequence: i + 1, imgSrc: imageList[i].imgSrc });
-      // console.log(`${i}번째 결과:`, data);
     }
 
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
@@ -202,7 +184,6 @@ function  PatchMobileFeedModal({ feedList, setFeedList }) {
       // console.log('수정 결과:', res)
       try {
         const res = await instance.get(`/api/feeds/${feedId}`);
-        console.log('단일 조회 : ', res);
         // setFeedList((prev) => [res.data, ...prev]);
         const newFeedList = feedList.filter((feed) => feed.id !== feedId);
         // setFeedList([res.data, ...newFeedList]);
@@ -229,13 +210,12 @@ function  PatchMobileFeedModal({ feedList, setFeedList }) {
           },
           ...newFeedList,
         ]);
-        console.log('게시글 단일 조회 결과 : ', res.data);
         window.scrollTo(0, 0);
       } catch (error) {
-        console.log('게시글 단일 조회 중 에러 발생 : ', error);
+        
       }
     } catch (error) {
-      console.error('게시글 생성 중 오류 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
     setIsLoading(false);
     navigate('/');

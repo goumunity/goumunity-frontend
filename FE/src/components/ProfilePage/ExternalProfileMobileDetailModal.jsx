@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import instance from '../../utils/instance';
 import MobileCommentSection from '../homePage/detailModal/MobileCommentSection';
+import Swal from 'sweetalert2';
 
 
 
@@ -95,7 +96,7 @@ function ExternalProfileMobileDetailModal({ feedId, feedList, setFeedList }) {
         setFeedList(newFeedList);
         navigate(`/profile/${email}`);
       } catch (error) {
-        console.log('피드 삭제 중 에러 발생 : ', error);
+        Swal.fire("잠시 후 다시 시도해주세요.");
       }
     };
     const [isOpen, setIsOpen] = useState(false);
@@ -103,10 +104,6 @@ function ExternalProfileMobileDetailModal({ feedId, feedList, setFeedList }) {
     const toggleMenu = () => {
       setIsOpen(!isOpen);
     };
-  
-    useEffect(()=>{
-        console.log('hi im external')
-    },[])
 
     const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1200);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 775 );

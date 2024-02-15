@@ -19,7 +19,6 @@ function ReplySection({ commentId, setOption, setReplyId, setCommentReplyCount, 
       if (observerRef.current) observerRef.current.disconnect();
 
       observerRef.current = new IntersectionObserver((entries) => {
-        console.log('entries[0].isIntersecting : ', entries[0].isIntersecting);
         if (entries[0].isIntersecting && hasNext) {
           setPage((prevPageNumber) => prevPageNumber + 1);
         }
@@ -36,7 +35,6 @@ function ReplySection({ commentId, setOption, setReplyId, setCommentReplyCount, 
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        console.log(commentId)
         const res = await instance.get(`/api/comments/${commentId}/replies`, {
           params: {
             page,
@@ -44,11 +42,10 @@ function ReplySection({ commentId, setOption, setReplyId, setCommentReplyCount, 
             time: initialTime,
           },
         });
-        console.log('답글 조회 결과 : ', res);
         setReplyList(res.data.contents);
         setHasNext(res.data.hasNext);
       } catch (error) {
-        console.log('replyList 요청 중 에러 발생 : ', error);
+        
       }
       setIsLoading(false);
 

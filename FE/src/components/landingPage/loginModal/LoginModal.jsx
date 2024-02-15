@@ -65,7 +65,6 @@ function LoginModal() {
     try {
       setIsLoading(true);
 
-      console.log('gggggggg', import.meta.env.VITE_API_DEV);
       // const res = await instance.post('/api/users/login', {
       const res = await instance.post(
         '/api/users/login',
@@ -83,16 +82,15 @@ function LoginModal() {
       try {
         navigate('/');
         const res = await instance.get(`/api/users/${userInputs.email}`);
-        console.log('로그인 결과:', res);
 
         dispatch(authActions.createUser(res.data));
       } catch (error) {
-        console.log(error);
+        
       }
 
       navigate('/');
     } catch (error) {
-      console.log('에러 발생 : ', error);
+      
       setErrorMessage('이메일과 비밀번호를 다시 확인해주세요.');
     }
     setIsLoading(false);

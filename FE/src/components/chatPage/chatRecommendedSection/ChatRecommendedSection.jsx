@@ -17,7 +17,6 @@ function ChatRecommendedSection({ setMyChatRooms, myChatRooms }) {
   const size = 12;
 
   const onSearchItem = async () => {
-    console.log(pageNum);
     setIsLoading(true);
     try {
       const res = await instance.get(
@@ -70,7 +69,6 @@ function ChatRecommendedSection({ setMyChatRooms, myChatRooms }) {
   // const [chatRecommendClassName, setChatRecommendClassName] = useState(4);
   useEffect(() => {
     const handleResize = () => {
-      // console.log('width ', window.innerWidth);
       setIsLargeScreen(window.innerWidth > 1280);
       setIsMobile( window.innerWidth <= 775 );
       setIsMini(window.innerWidth <= 400);

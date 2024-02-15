@@ -11,12 +11,10 @@
 
 export function imageUpload(source, setImage) {
   const { files } = source;
-  console.log('얘가 아마 긴 애들 : ', files)
   const uploadedImages = [];
 
   const uploadImage = (index) => {
     if (index < files.length) {
-      console.log('체크 : ', files)
       const uploadFile = files[index];
       const reader = new FileReader();
       reader.readAsDataURL(uploadFile);
@@ -29,7 +27,6 @@ export function imageUpload(source, setImage) {
     } else {
       // 모든 이미지 업로드가 완료되면 setImage 호출
       setImage(uploadedImages);
-      console.log('이미지 src로 사용되는 : ', uploadedImages)
     }
   };
 

@@ -4,6 +4,7 @@ import likeIcon from '@/assets/svgs/likeIcon.svg';
 import unLikeIcon from '@/assets/svgs/unLikeIcon.svg';
 import Option from '../common/Option';
 import instance from "@/utils/instance.js";
+import Swal from 'sweetalert2';
 
 function FeedLikeBox({ likeCount, feedId, ilikeThat, setFeedList, feedList }) {
   const [feedLikeCount, setFeedLikeCount] = useState(likeCount);
@@ -13,7 +14,6 @@ function FeedLikeBox({ likeCount, feedId, ilikeThat, setFeedList, feedList }) {
     try {
       const res = await instance.post(`/api/feeds/${feedId}/like`);
 
-      console.log(res)
       setIsFeedLike(true);
       setFeedLikeCount((prev) => prev + 1);
       setFeedList(feedList.map(feed => {
@@ -23,7 +23,7 @@ function FeedLikeBox({ likeCount, feedId, ilikeThat, setFeedList, feedList }) {
         return feed;
       }));
     } catch (error) {
-      console.log('게시글 좋아요 중 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -39,7 +39,7 @@ function FeedLikeBox({ likeCount, feedId, ilikeThat, setFeedList, feedList }) {
         return feed;
       }));
     } catch (error) {
-      console.log('게시글 좋아요 취소 했을 때 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 

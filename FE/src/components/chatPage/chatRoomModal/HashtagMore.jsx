@@ -3,12 +3,9 @@ import React from 'react';
 function HashtagMore() {
   const [val, setVal] = useState('');
   const handleOnKeyPress = (e) => {
-    console.log(e);
     if (e.key === 'Enter') {
-      console.log(val);
       changeArr(val);
       emptyInput();
-      console.log(val);
     }
   };
 
@@ -30,20 +27,16 @@ function HashtagMore() {
   const [arr, setArr] = useState([]);
 
   const changeArr = (nextTag) => {
-    console.log('nextTag: ' + nextTag);
     const nextValue = {
       idx: index,
       value: nextTag,
     };
     IncreaseIndex();
     const nextArr = arr.concat(nextValue);
-    console.log(nextArr);
     setArr(nextArr);
-    console.log('now: ' + arr);
   };
 
   const onRemove = (target) => {
-    console.log(target);
     const nextArr = arr.filter((elem) => elem.idx !== target.idx);
     setArr(nextArr);
   };

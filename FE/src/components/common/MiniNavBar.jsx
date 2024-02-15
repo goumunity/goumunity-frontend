@@ -18,6 +18,7 @@ import PoorMark from '../../utils/AuthenticatedPoor';
 import './NavHover.css';
 import instance from '@/utils/instance.js';
 import PoorMarkBlack from '../../utils/AuthenticatedPoorBlack';
+import Swal from 'sweetalert2';
 const MiniNavBar = () => {
     // LandingPage에서는 NavBar를 렌더링하지 않음
   
@@ -55,7 +56,7 @@ const MiniNavBar = () => {
       try {
         const res = await instance.get('/api/users/logout');
       } catch (error) {
-        console.log('에러 발생 : ', error);
+        Swal.fire("잠시 후 다시 시도해주세요.");
         return;
       }
       dispatch(authActions.logout());
@@ -71,7 +72,7 @@ const MiniNavBar = () => {
           try {
               const res = await instance.delete('/api/users/my');
           } catch (error) {
-              console.log('에러 발생 : ', error);
+            Swal.fire("잠시 후 다시 시도해주세요.");
               return;
           }
           dispatch(authActions.logout());

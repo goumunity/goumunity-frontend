@@ -9,6 +9,7 @@ import { authActions } from '../../store/auth';
 import instance from '../../utils/instance';
 import defaultMaleIcon from '../../assets/svgs/defaultMaleIcon.svg';
 import Button from '../common/Button';
+import Swal from 'sweetalert2';
 
 const ProfileHeader = ({ info, isPrivate }) => {
   // const tempimgSrc = useSelector(state => state.auth.currentUser.imgSrc);
@@ -61,12 +62,11 @@ const ProfileHeader = ({ info, isPrivate }) => {
 
     try {
       const res = await instance.delete('/api/users/my');
-      console.log(res);
       dispatch(authActions.logout());
       alert('회원 탈퇴가 완료되었습니다.');
       navigate('/landing');
     } catch (error) {
-      console.log('에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
       return;
     }
   };

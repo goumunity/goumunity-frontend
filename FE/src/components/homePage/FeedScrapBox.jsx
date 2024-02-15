@@ -6,6 +6,7 @@ import Option from '../common/Option';
 import instance from "@/utils/instance.js";
 import scrapIcon from '@/assets/svgs/scrapIcon.svg';
 import unScrapIcon from '@/assets/svgs/unScrapIcon.svg';
+import Swal from 'sweetalert2';
 
 function FeedScrapBox({ feedId, isFeedScrapped, setFeedList, feedList }) {
   const [isFeedScrap, setIsFeedScrap] = useState(isFeedScrapped);
@@ -21,7 +22,7 @@ function FeedScrapBox({ feedId, isFeedScrapped, setFeedList, feedList }) {
         return feed;
       }));
     } catch (error) {
-      console.log('게시글 스크랩 중 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
 
@@ -37,7 +38,7 @@ function FeedScrapBox({ feedId, isFeedScrapped, setFeedList, feedList }) {
         return feed;
       }));
     } catch (error) {
-      console.log('게시글 스크랩 취소 했을 때 에러 발생 : ', error);
+      Swal.fire("잠시 후 다시 시도해주세요.");
     }
   };
   return (
