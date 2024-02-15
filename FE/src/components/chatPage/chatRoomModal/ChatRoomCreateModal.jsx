@@ -10,6 +10,7 @@ import Button from '../../common/Button';
 import instance from '@/utils/instance.js';
 import { modalActions } from '@/store/modal.js';
 import Swal from 'sweetalert2';
+import {showErrorToast, Toast} from "@/utils/toast.js";
 
 function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
   const [profileImage, setProfileImage] = useState('');
@@ -53,15 +54,20 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
     e.preventDefault();
     setErrorMessage('');
     if (userInputs.title === '') {
-      setErrorMessage('방 제목을 입력해줏세요');
+      showErrorToast('방 제목을 입력해주세요')
       return;
     }
-    if (userInputs.capability === '') {
-      setErrorMessage('방 최대 인원 수를 입력해주세요');
+    if (userInputs.capability === null) {
+      showErrorToast('방 최대 인원 수를 입력해주세요')
       return;
     }
-    if (userInputs.regionId === '') {
-      setErrorMessage('방 지역을 선택해주세요');
+      if (userInputs.capability <= 0) {
+        showErrorToast('방 최대 인원 수를 자연수로 입력해주세요')
+          return;
+      }
+    
+    if (userInputs.regionId === null) {
+      showErrorToast('지역을 선택해주세요')
       return;
     }
     const data = {
@@ -90,7 +96,7 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
         const newChatRoom = await instance.get(`/api/chat-rooms/${res.data}`);
         await setMyChatRooms([newChatRoom.data, ...myChatRooms]);
       } catch (error) {
-        
+
         if (error.response.status === 409) {
           setErrorMessage('이미 존재하는 채팅방입니다.');
         }
@@ -121,6 +127,10 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
   const [val, setVal] = useState('');
   const handleOnKeyPress = (e) => {
     if (e.key === 'Enter') {
+      if (val.length > 10) {
+        showErrorToast('해시태그는 10글자 이하로 입력해주세요.')
+        return;
+      }
       changeArr(val);
       emptyInput();
     }
@@ -159,7 +169,7 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
   };
   const tagArr = arr.map((elem) => (
     <>
-      
+
       <div
         key={elem.idx}
         className={`flex text-sm justify-center items-center w-fit bg-bg`}
@@ -167,7 +177,7 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
         onChange={(e) => handleChangeInputs('hashtag', e.target.value)}
       >
         <div className='h-5 overflow-hidden flex justify-center'>{`#${elem.value}`}</div>
-        
+
         <CloseButton
         size='8'
         // className='absolute top-5 right-5'
@@ -218,12 +228,12 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
                             onChange={(e) => handleChangeInputs('title', e.target.value)}
                 />
 
-                        
-                    
+
+
               </div>
             </div>
         </div>
-        
+
         <div className='flex justify-start text-start mt-5'>
           <div className="w-full flex-col">
             <label for="customInput" className="block text-sm font-medium text-gray-600 ps-1">해시 태그</label>
@@ -236,16 +246,16 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
                             onKeyDown={handleOnKeyPress}
                             placeholder='#키워드'
                             value={val}
-                            
+
                 />
 
-    
-                                      
+
+
               </div>
             </div>
         </div>
         <div className='w-full flex gap-1 mt-5 text-sm'>
-        {tagArr}    
+        {tagArr}
         </div>
 
         {/* <button className='font-paci border border-dashed rounded-2xl pr-2 pl-2'></button> */}
@@ -268,28 +278,27 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
             onChange={(e) => handleChangeInputs('capability', e.target.value)}
 
           />
-          
-      
+
+
 
 
           <input type='text' disabled={true} value={'명'} className='w-1/5 mt-1 border-bg rounded-lg'/>
           </div>
-          
+
         </div>
 
         <div className='flex justify-center text-start mt-5'>
           <div className="w-full flex-col">
             <label for="customInput" className="block text-sm font-medium text-gray-600 ps-1">배경 이미지</label>
               <div className={`w-full flex flex-col items-center justify-center gap-1`}>
-                
+
             <ProfileImage
               size='32'
               profileImage={profileImage}
               onChange={handleChangeUploadProfileImg}
-              
+
             />
             <div className='w-full'>
-              
             <Button
             size='full'
             className='mt-5'
@@ -298,23 +307,23 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
             onClick={handleSubmitChatCreate}
           />
             </div>
-                  
-                                        
+
+
               </div>
 
 
-           
+
+
+
+
+        </div>
+
 
 
 
         </div>
 
-          
 
-
-        </div>
-
-        
       </form>
     </div>
   );

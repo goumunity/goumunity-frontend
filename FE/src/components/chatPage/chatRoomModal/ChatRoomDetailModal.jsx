@@ -12,6 +12,7 @@ import {modalActions} from "@/store/modal.js";
 import MembersList from "@/components/chatPage/chatRoomModal/MembersList.jsx";
 import Swal from "sweetalert2";
 import handleError from "@/utils/error.js";
+import {showErrorToast} from "@/utils/toast.js";
 
 function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSelectedChatRoom, setIsSearchMode}) {
     const [profileImage, setProfileImage] = useState('');
@@ -67,15 +68,21 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
         e.preventDefault();
         setErrorMessage('');
         if (currentChatRoom?.title === '') {
-            setErrorMessage('방 제목을 입력해줏세요');
+            showErrorToast('방 제목을 입력해주세요');
             return;
         }
         if (currentChatRoom?.capability === '') {
-            setErrorMessage('방 최대 인원 수를 입력해주세요');
+            showErrorToast('방 최대 인원 수를 입력해주세요');
             return;
         }
+
+        if (currentChatRoom?.capability <= 0) {
+            showErrorToast('방 최대 인원 수를 자연수로 입력해주세요');
+            return;
+        }
+
         if (currentChatRoom?.regionId === '') {
-            setErrorMessage('방 지역을 선택해주세요');
+            showErrorToast('방 지역을 선택해주세요');
             return;
         }
 
@@ -148,6 +155,10 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
     const [val, setVal] = useState('');
     const handleOnKeyPress = (e) => {
         if (e.key === 'Enter') {
+            if (val.length > 10) {
+                showErrorToast('해시태그는 10글자 이하로 입력해주세요.');
+                return;
+            }
             changeArr(val);
             emptyInput();
         }
@@ -268,8 +279,8 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
                         }))}
                         />
 
-                                
-                            
+
+
                     </div>
                 </div>
             </div>
@@ -287,16 +298,16 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
                             placeholder='#키워드'
                             value={val}
 
-                            
+
                 />
 
-    
-                                      
+
+
               </div>
             </div>
         </div>
         <div className='w-full flex gap-1 mt-2 text-sm'>
-            {tagArr}    
+            {tagArr}
         </div>
         <div className='flex flex-col justify-start text-start'>
         <label for="regionSelection" className="block text-sm font-medium text-gray-600 ps-1">지역 및 제한 인원</label>
@@ -317,36 +328,31 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
             placeholder='제한 인원'
             disabled={!isEditMode}
             value={currentChatRoom?.capability}
-
                             onChange={(e) => setCurrentChatRoom(prev => ({
                                 ...prev, capability: e.target.value
                             }))}
-
           />
-          
-      
-
-
           <input type='text' disabled={true} value={'명'} className='w-1/5 mt-1 border-bg rounded-lg'/>
           </div>
-          
+
         </div>
 
         <MembersList setCurrentChatRoom={setCurrentChatRoom} members={currentChatRoom?.members}
                              host={currentChatRoom?.host} isEditMode={isEditMode}/>
         <div className='flex justify-center text-start'>
-          <div className="w-full flex-col">
-            <label for="customInput" className="block text-sm font-medium text-gray-600 ps-1">배경 이미지</label>
-              <div className={`w-full h-32 flex flex-col items-center justify-center gap-1`}>
-                
-            <ProfileImage
-               size='32'
-              profileImage={profileImage}
-              onChange={handleChangeUploadProfileImg}
-               disabled={!isEditMode}
-            />
-            </div>
-            <div className='flex justify-center gap-5 '>
+            <div className="w-full flex-col">
+                <label for="customInput" className="block text-sm font-medium text-gray-600 ps-1">배경 이미지</label>
+                <div className={`w-full h-32 flex flex-col items-center justify-center gap-1`}>
+
+                    <ProfileImage
+                        size='32'
+                        profileImage={profileImage}
+                        onChange={handleChangeUploadProfileImg}
+                        disabled={!isEditMode}
+                    />
+                </div>
+                <div className='flex justify-center gap-5 '>
+
                     {currentChatRoom?.isHost ? isEditMode ? <>
                         <Button text='적용하기' type='button' onClick={onEditApplyButtonClicked}/>
                         <Button text='취소하기' type='button' onClick={onDetailModeButtonClicked}/>
@@ -356,15 +362,13 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
 
                     <Button text='탈퇴하기' type='button' onClick={onExitButtonClicked}/>
                 </div>
-          </div>
-            
-        </div>
-                
-
-            
-                
-            </form>
             </div>
+
+        </div>
+
+
+            </form>
+           </div>
         </>
     );
 }
