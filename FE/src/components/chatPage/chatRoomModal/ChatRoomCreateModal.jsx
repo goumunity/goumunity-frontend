@@ -131,6 +131,11 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
         showErrorToast('해시태그는 10글자 이하로 입력해주세요.')
         return;
       }
+      if (arr.length > 5) {
+        showErrorToast('해시태그는 5개까지만 입력 가능합니다.')
+        emptyInput();
+        return;
+      }
       changeArr(val);
       emptyInput();
     }
@@ -191,7 +196,6 @@ function ChatRoomCreateModal({setMyChatRooms, myChatRooms}) {
 
   if (tagArr.length > 5) {
     tagArr.splice(5);
-    alert('해시태그는 5개까지만 입력 가능합니다.');
   }
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 1200);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 775 );

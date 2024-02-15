@@ -159,6 +159,11 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
                 showErrorToast('해시태그는 10글자 이하로 입력해주세요.');
                 return;
             }
+            if (currentChatRoom?.hashtags?.length >= 5) {
+                showErrorToast('해시태그는 5개까지만 입력 가능합니다.')
+                emptyInput();
+                return;
+            }
             changeArr(val);
             emptyInput();
         }
@@ -253,7 +258,7 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
 
     if (tagArr?.length > 5) {
         tagArr.splice(5);
-        alert('해시태그는 5개까지만 입력 가능합니다.');
+
     }
 
     return (
