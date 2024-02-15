@@ -183,6 +183,7 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
     };
 
     const onRemove = (target) => {
+        if(!isEditMode) return;
         const nextArr = currentChatRoom?.hashtags.filter((elem) => elem.sequence !== target.sequence);
         setCurrentChatRoom(prev => ({
             ...prev,
@@ -197,11 +198,12 @@ function ChatRoomDetailModal({myChatRooms,selectedChatRoom,setMyChatRooms, setSe
          onChange={(e) => handleChangeInputs('hashtag', e.target.value)}
        >
          <div className='h-5 overflow-hidden flex justify-center'>{`#${elem.name}`}</div>
-         
-         <CloseButton
-         // className='absolute top-5 right-5'
-         onClick={() => onRemove(elem)}
-       />
+
+             {isEditMode ? <CloseButton
+                 // className='absolute top-5 right-5'
+                 onClick={() => onRemove(elem)}
+             /> : ''}
+
        </div>
     ));
 
