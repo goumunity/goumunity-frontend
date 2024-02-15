@@ -38,6 +38,7 @@ function ChatTalkRoom({
     setMsg(e.target.value);
   };
   useEffect(() => {
+    if(pageNum === 0) return;
     setMsg('');
     setMessages([]);
     setHasNext(true);
