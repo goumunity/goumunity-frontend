@@ -33,7 +33,7 @@ function EmailConfirmButton({
       const res = await instance.get('/api/users/email/verification', {
         params: { email },
       });
-
+      
       setIsEmailConfirmSended(true);
       setErrorMessage('인증코드가 발송되었습니다.');
     } catch (error) {

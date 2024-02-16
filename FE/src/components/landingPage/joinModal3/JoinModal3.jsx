@@ -92,7 +92,7 @@ function JoinModal3() {
     } catch (error) {
       Swal.fire("잠시 후 다시 시도해주세요.");
     }
-    navigate('/landing/join/4');
+    navigate('/landing');
   };
 
   const handleChangeInputs = (id, value) => {
