@@ -58,4 +58,6 @@ sketch
 Jenkinsfile
 .gitlab-ci.yml
 
+vite.config.js
+
 # End of https://www.toptal.com/developers/gitignore/api/react
